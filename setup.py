@@ -1,33 +1,29 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from setuptools import setup, find_packages
-import os
 
-__name__ = 'Weighted ERM'
+VERSION = '0.0.1' 
+DESCRIPTION = 'Weighted ERM'
+LONG_DESCRIPTION = 'Weighted ERM'
 
-release_info = {}
-infopath = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                           __name__, 'info.py'))
-with open(infopath) as open_file:
-    exec(open_file.read(), release_info)
-
-this_directory = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
-
+# Setting up
 setup(
-    name=__name__,
-    author=release_info['__author__'],
-    author_email=release_info['__email__'],
-    version=release_info['__version__'],
-    url=release_info['__url__'],
-    packages=find_packages(),
-    install_requires=release_info['__requires__'],
-    license=release_info['__license__'],
-    description=release_info['__about__'],
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    setup_requires=release_info['__setup_requires__'],
-    tests_require=release_info['__tests_require__']
+       # the name must match the folder name 'verysimplemodule'
+        name="WERM", 
+        version=VERSION,
+        author="Gabriel Arpino",
+        author_email="ga442@cam.ac.uk",
+        description=DESCRIPTION,
+        long_description=LONG_DESCRIPTION,
+        packages=find_packages(),
+        install_requires=[], # add any additional packages that 
+        # needs to be installed along with your package. Eg: 'caer'
+        
+        keywords=['python', 'first package'],
+        classifiers= [
+            "Development Status :: 3 - Alpha",
+            "Intended Audience :: Education",
+            "Programming Language :: Python :: 2",
+            "Programming Language :: Python :: 3",
+            "Operating System :: MacOS :: MacOS X",
+            "Operating System :: Microsoft :: Windows",
+        ]
 )
