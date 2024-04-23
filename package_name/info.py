@@ -11,11 +11,11 @@ version_info = (0, 0, 0)
 __version__ = '.'.join(str(c) for c in version_info)
 
 # Set the package details
-__author__ = 'configure_author'
-__email__ = 'configure_email'
-__year__ = 'configure_year'
-__url__ = 'configure_url'
-__description__ = 'configure_description'
+__author__ = 'Gabriel Arpino'
+__email__ = 'ga442@cam.ac.uk'
+__year__ = '2024'
+__url__ = ''
+__description__ = ''
 __requires__ = []  # Your package dependencies
 
 # Default package properties
