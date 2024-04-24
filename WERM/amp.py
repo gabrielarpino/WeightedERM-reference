@@ -17,27 +17,38 @@ def ḟ(w, c):
     return -1/c
 ḟ_mapped = jax.vmap(ḟ, in_axes=(0, None))
 
-def ḡ(u, v, b, ℓ):
+def obj_(z, args): 
+    """ Proximal objective of g. ℓ_fixed must be globally defined through the AMP function for this to be well defined. """
+    u, v, b, π_i = args
+    return (π_i * ℓ_fixed(z, v) + (1/(2*b)) * jnp.linalg.norm(z - u)**2)[0] # Have to index at zero because jaxopt.minimize expects a scalar but passes in an array initializer
+def ḡ(u, v, b, π_i):
     """ Proximal Operator of f"""
 
-    def obj_(z, u, v, b): return ℓ(z, v) + (1/(2*b)) * jnp.linalg.norm(z - u)**2
     # Solve using jaxopt, so that we can differentiate through the solution
-    gd = jaxopt.GradientDescent(fun=obj_, maxiter=500, implicit_diff=True)
-    init_params = u
-    return gd.run(init_params, args = (u, v, b)).params # Keep getting batch tracer is not callable. 
 
+    # gd = jaxopt.GradientDescent(fun=obj_, maxiter=500, implicit_diff=True)
+    # init_params = 0.5*u
+    # args = (u, v, b, π_i)
+    
+    # test_grad = jax.grad(obj_)(1., (1.5, 1.5, 1.5, 1.5))
+    # jax.debug.print("test_grad: {x}", x = test_grad)
+    # return gd.run(init_params, args).params 
     # solve using scipy
-    # return jso.minimize(obj_, u, args = (u, v, b, ℓ), method="BFGS").x
+    args = (u, v, b, π_i)
+    res = jso.minimize(obj_, 0.5*jnp.array([u]), (args, ), method="BFGS")
+    # jax.debug.print("res: {x}", x =res.status)
+    # jax.debug.print("res success: {x}", x =res.success)
+    return res.x[0] # was giving nans
 ḡ_mapped = jax.vmap(ḡ, in_axes=(0, 0, None, 0))
 
-def g(u, v, b, ℓ):
-    return (ḡ(u, v, b, ℓ) - u) / b
+def g(u, v, b, π_i):
+    return (ḡ(u, v, b, π_i) - u) / b
 g_mapped = jax.vmap(g, in_axes=(0, 0, None, 0))
 
-def ġ(u, v, b, ℓ):
+def ġ(u, v, b, π_i):
     """ To be tested """
-    ℓ_double_prime = jax.grad(jax.grad(ℓᵢ))
-    return (b * ℓ_double_prime(u, v) + 1) ** -1
+    ℓ_double_prime = jax.grad(jax.grad(ℓ_fixed))
+    return (b * π_i * ℓ_double_prime(u, v) + 1) ** -1
 ġ_mapped = jax.vmap(ġ, in_axes=(0, 0, None, 0))
 
 def dgdz(u, v, b, ℓ):
@@ -47,21 +58,27 @@ def dgdz(u, v, b, ℓ):
 
 # Can already try running the regular AMP. 
 
-def amp(X, y, n, p, ℓ_list, max_iter=100):
-    """ AMP Algorithm """
+def amp(X, y, n, p, π, ℓ, max_iter=10):
+    """ AMP Algorithm, π is the marginal probability of each signal being present, ℓ is the loss function (same for every i). 
+    Works, but iterates blow up to nan eventually, possibly due to numerics. 
+    """
+
+    # Define the global loss ℓ_fixed once ℓ is passed in, as functions are not valid JAX types to vmap over
+    global ℓ_fixed
+    ℓ_fixed = ℓ
 
     ŝ = jnp.zeros(n)
-    b = jnp.ones(n) * 0.1 # initial value of b must be greater than zero
-    β̂ = np.random.normal(size=p) # initial value of β must be greater than zero
+    b = 0.5 # initial value of b must be greater than zero
+    β̂ = 0.5*np.random.normal(size=p) # initial value of β must be greater than zero
     for _ in tqdm(range(max_iter)):
-
         # θ update steps
         θ = X @ β̂ - b * ŝ
-        print("θ.shape: ", θ.shape)
-        print("y.shape: ", y.shape)
-        θ̂ = ḡ_mapped(θ.reshape(-1, 1), y, b, ℓ_list)
-        ŝ = g_mapped(θ, y, b, ℓ_list)
-        c = jnp.mean(ġ_mapped(θ, y, b, ℓ_list), axis=0)
+        θ_test = ḡ(θ[0], y[0], b, π[0])
+        print("θ_test args: ", θ[0], y[0], b, π[0])
+        print("θ_test: ", θ_test)
+        θ̂ = ḡ_mapped(θ, y, b, π).flatten()
+        ŝ = g_mapped(θ, y, b, π).flatten()
+        c = jnp.mean(ġ_mapped(θ, y, b, π), axis=0)
 
         # β update steps
         β = X.T @ ŝ - c * β̂
