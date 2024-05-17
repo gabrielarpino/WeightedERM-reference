@@ -24,7 +24,7 @@ def h_linear(θ, ε):
     ε = jax.random.normal(jax.random.PRNGKey(seed), shape=θ.shape)
     return θ + ε
 
-def LR_j_sample(Θ, c_j, L):
+def LR_j_sample(Θ, c_j, η_j, L):
     """Logistic regression with a changepoint, output at index j. Sample output yj according to signal index cj. θ=XB.
     Tested."""
     if Θ.ndim == 1:
@@ -32,7 +32,9 @@ def LR_j_sample(Θ, c_j, L):
     num_samples = Θ.shape[0]
     # η = jnp.array(nprandom.normal(loc=0, scale=σ, size=(num_samples, 1))) # noise
     # Sample uniform noise from 0 to 1
-    η = jnp.array(nprandom.uniform(size=(num_samples, 1)))
+    # η = jnp.array(nprandom.uniform(size=(num_samples, 1)))
+    
+    η = jnp.array(η_j.reshape((num_samples, 1)))
     Ψ = jnp.zeros((num_samples, L))
     Ψ = Ψ.at[:, c_j].set(1)
 
@@ -48,8 +50,9 @@ def LR(Θ, C):
     Needs to be differentiable to go into SE_fixed_C.  """
 
     L = Θ.shape[1]
-    return jax.vmap(LR_j_sample, in_axes=(0, 0, None), \
-                    out_axes=0)(Θ, C, L).reshape((Θ.shape[0], 1))
+    η = jnp.array(nprandom.uniform(size=(Θ.shape[0], 1)))
+    return jax.vmap(LR_j_sample, in_axes=(0, 0, 0, None), \
+                    out_axes=0)(Θ, C, η, L).reshape((Θ.shape[0], 1))
 
 def h_i(Z_i, c_i, h, L):
 

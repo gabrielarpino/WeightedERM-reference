@@ -35,20 +35,24 @@ def ḡ(u, v, b, π_i):
     # return gd.run(init_params, args).params 
     # solve using scipy
     args = (u, v, b, π_i)
-    res = jso.minimize(obj_, 0.5*jnp.array([u]), (args, ), method="BFGS")
-    # jax.debug.print("res: {x}", x =res.status)
-    # jax.debug.print("res success: {x}", x =res.success)
+    res = jso.minimize(obj_, 0.5*jnp.array([u]), (args, ), method="BFGS", options={"maxiter": 10000}) # Currently, this optimization is not always successful, even after increasing maxiter.
+    # jax.debug.print("res status: {x}, success: {y}", x =res.status, y = res.success)
+    # jax.debug.print("res success: {x}", x =res.success) # The optimization is not always successful, that might cause problems. 
     return res.x[0] # was giving nans
 ḡ_mapped = jax.vmap(ḡ, in_axes=(0, 0, None, 0))
+
+def ḡ̇(u, v, b, π_i):
+    """ To be tested """
+    ℓ_double_prime = jax.grad(jax.grad(ℓ_fixed))
+    return (b * π_i * ℓ_double_prime(u, v) + 1) ** -1
+ḡ̇_mapped = jax.vmap(ḡ̇, in_axes=(0, 0, None, 0))
 
 def g(u, v, b, π_i):
     return (ḡ(u, v, b, π_i) - u) / b
 g_mapped = jax.vmap(g, in_axes=(0, 0, None, 0))
 
 def ġ(u, v, b, π_i):
-    """ To be tested """
-    ℓ_double_prime = jax.grad(jax.grad(ℓ_fixed))
-    return (b * π_i * ℓ_double_prime(u, v) + 1) ** -1
+    return (ḡ̇(u, v, b, π_i) - 1) / b
 ġ_mapped = jax.vmap(ġ, in_axes=(0, 0, None, 0))
 
 def dgdz(u, v, b, ℓ):
@@ -79,6 +83,8 @@ def amp(X, y, n, p, π, ℓ, max_iter=10):
         θ̂ = ḡ_mapped(θ, y, b, π).flatten()
         ŝ = g_mapped(θ, y, b, π).flatten()
         c = jnp.mean(ġ_mapped(θ, y, b, π), axis=0)
+        print("c: ", c)
+        print("c is negative: ", c < 0)
 
         # β update steps
         β = X.T @ ŝ - c * β̂
