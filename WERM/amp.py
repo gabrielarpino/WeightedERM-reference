@@ -7,6 +7,13 @@ from tqdm.auto import tqdm
 import numpy as np
 import jax.scipy.optimize as jso
 
+def norm_sq_corr(x1, x2):
+  if np.all(x1 == 0) or np.all(x2 == 0): return 0
+  return np.square(np.dot(x1, x2)) / (np.square(np.linalg.norm(x1)) * np.square(np.linalg.norm(x2)))
+
+def MSE(beta, beta_hat):
+  return np.mean(np.square(beta - beta_hat))
+
 """ Non-separable AMP to simulate Weighted ERM. Takes in a sequence of loss functions ℓᵢ, assumes no penalty on the signal for now """
 
 def f(w, c):
@@ -21,35 +28,48 @@ def obj_(z, args):
     """ Proximal objective of g. ℓ_fixed must be globally defined through the AMP function for this to be well defined. """
     u, v, b, π_i = args
     return (π_i * ℓ_fixed(z, v) + (1/(2*b)) * jnp.linalg.norm(z - u)**2)[0] # Have to index at zero because jaxopt.minimize expects a scalar but passes in an array initializer
+
+def obj_no_idx(z, args):
+    u, v, b, π_i = args
+    return (π_i * ℓ_fixed(z, v) + (1/(2*b)) * jnp.linalg.norm(z - u)**2)
+
 def ḡ(u, v, b, π_i):
     """ Proximal Operator of f"""
 
     # Solve using jaxopt, so that we can differentiate through the solution
 
-    # gd = jaxopt.GradientDescent(fun=obj_, maxiter=500, implicit_diff=True)
-    # init_params = 0.5*u
+    # gd = jaxopt.GradientDescent(fun=obj_no_idx, maxiter=10000, implicit_diff=True)
+    # init_params = 1.0
     # args = (u, v, b, π_i)
     
-    # test_grad = jax.grad(obj_)(1., (1.5, 1.5, 1.5, 1.5))
-    # jax.debug.print("test_grad: {x}", x = test_grad)
-    # return gd.run(init_params, args).params 
-    # solve using scipy
+    # # test_grad = jax.grad(obj_no_idx, 0)
+    # # test_res = test_grad(13., (1.5, 1.5, 1.5, 1.5))
+    # # test_grad = jax.grad(lambda x: obj_(x, args), 0)(13.0)
+    # # jax.debug.print("test_grad: {x}", x = test_res)
+    # return gd.run(init_params, args).params # Works, runs slightly faster than scipy opt, and is differentiable. 
+
+    # solve using scipy, is a bit slower but more reliable. 
     args = (u, v, b, π_i)
-    res = jso.minimize(obj_, 0.5*jnp.array([u]), (args, ), method="BFGS", options={"maxiter": 10000}) # Currently, this optimization is not always successful, even after increasing maxiter.
+    res = jso.minimize(obj_, jnp.array([1.0]), (args, ), method="BFGS", options={"maxiter": 10000}) # Currently, this optimization is not always successful, even after increasing maxiter.
     # jax.debug.print("res status: {x}, success: {y}", x =res.status, y = res.success)
     # jax.debug.print("res success: {x}", x =res.success) # The optimization is not always successful, that might cause problems. 
     return res.x[0] # was giving nans
 ḡ_mapped = jax.vmap(ḡ, in_axes=(0, 0, None, 0))
 
 def ḡ̇(u, v, b, π_i):
-    """ To be tested """
+    """ Tested, and yields the correct result in linear regression with change points. """
     ℓ_double_prime = jax.grad(jax.grad(ℓ_fixed))
-    return (b * π_i * ℓ_double_prime(u, v) + 1) ** -1
+    g_plug = ḡ(u, v, b, π_i)
+    return (b * π_i * ℓ_double_prime(g_plug, v) + 1) ** -1
 ḡ̇_mapped = jax.vmap(ḡ̇, in_axes=(0, 0, None, 0))
 
 def g(u, v, b, π_i):
     return (ḡ(u, v, b, π_i) - u) / b
 g_mapped = jax.vmap(g, in_axes=(0, 0, None, 0))
+
+def ġ_jax(u, v, b, π_i):
+    return jax.grad(g, 0)(u, v, b, π_i)
+ġ_jax_mapped = jax.vmap(ġ_jax, in_axes=(0, 0, None, 0))
 
 def ġ(u, v, b, π_i):
     return (ḡ̇(u, v, b, π_i) - 1) / b
@@ -73,7 +93,7 @@ def amp(X, y, n, p, π, ℓ, max_iter=10):
 
     ŝ = jnp.zeros(n)
     b = 0.5 # initial value of b must be greater than zero
-    β̂ = 0.5*np.random.normal(size=p) # initial value of β must be greater than zero
+    β̂ = np.random.normal(size=p) # initial value of β must be greater than zero
     for _ in tqdm(range(max_iter)):
         # θ update steps
         θ = X @ β̂ - b * ŝ
@@ -84,7 +104,6 @@ def amp(X, y, n, p, π, ℓ, max_iter=10):
         ŝ = g_mapped(θ, y, b, π).flatten()
         c = jnp.mean(ġ_mapped(θ, y, b, π), axis=0)
         print("c: ", c)
-        print("c is negative: ", c < 0)
 
         # β update steps
         β = X.T @ ŝ - c * β̂
