@@ -68,7 +68,7 @@ def logistic_reg_j_sample(Θ, c_j, η_j, L):
     return Y
 
 def logistic_reg(Θ, C):
-    """ Logistic Regression with a Change Point. This takes in Θ ∈ R^{nxL} and C ∈ {0,L-1}^{nxL} and returns Y ∈ R^{nx1}.
+    """ Logistic Regression with a Change Point. This takes in Θ ∈ R^{nxL} and C ∈ {0,L-1}^{nx1} and returns Y ∈ R^{nx1}.
     Needs to be differentiable to go into SE_fixed_C.  """
 
     L = Θ.shape[1]
