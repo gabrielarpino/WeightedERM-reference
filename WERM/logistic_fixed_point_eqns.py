@@ -11,8 +11,10 @@ from WERM.config import η_to_ψ
 from WERM.model import *
 
 def prox_obj_no_idx(t, args): 
+    """ Should always just involve scalars. """
     z, b, π_i = args
-    return (b * π_i * ζ(t) + (1/2) * jnp.linalg.norm(t - z)**2)
+    # return (b * π_i * ζ(t) + (1/2) * jnp.linalg.norm(t - z)**2)
+    return (b * π_i * ζ(t) + (1/2) * (t - z)**2) # The norm can cause interpretability problems, as this should always just take in scalars
 
 def prox(z, b, π_i):
     """ Proximal operator with respect to the loss b π_i M """
@@ -39,6 +41,9 @@ def prox_prime(z, b, π_i):
     prox_plug = prox(z, b, π_i)
     return jnp.power(b * π_i * ℓ_double_prime(prox_plug) + 1, -1)
 prox_prime_mapped = jax.vmap(prox_prime, in_axes=(0, None, 0))
+
+def ḡ_mapped(U, V, b, π):
+    return prox_mapped(U.flatten() + b * jnp.multiply(π.flatten(), V.flatten()), b, π.flatten())
 
 def logistic_fp(π, ρ, L, η_, δ, n):
     """ Solves the fixed point equations for MLE in the logistic model with change points."""
@@ -93,5 +98,5 @@ def logistic_fp(π, ρ, L, η_, δ, n):
     print("Optimization Results: x = ", res, ", ier = ", ier, ", mesg = ", mesg, ", infodict = ", infodict)
     b, μ̃, σ̃ = res[0], res[1:-1], res[-1]
     
-    return μ̃, σ̃
+    return μ̃, σ̃, b
 

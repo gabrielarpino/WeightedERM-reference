@@ -41,6 +41,12 @@ def hausdorff(x1, x2):
   x2 = np.array(x2).reshape(-1, 1)
   return max(sp.spatial.distance.directed_hausdorff(x1, x2)[0], sp.spatial.distance.directed_hausdorff(x2, x1)[0])
 
+def hausdorff_jax(x1, x2):
+    """ Calculate the Hausdorff distance between two sets of points using jax. NOT TESTED. """
+    x1 = jnp.array(x1).reshape(-1, 1)
+    x2 = jnp.array(x2).reshape(-1, 1)
+    return jnp.maximum(jnp.max(jnp.abs(x1 - x2)), jnp.max(jnp.abs(x2 - x1)))
+
 ### --- Logistic regression with change points --- ###
 
 def LR_gof_j(Θ, y, c_j, L):
@@ -67,6 +73,7 @@ def LR_gof_i(Θ, y, C):
     return gof_vec.sum() / y.shape[0]
 
 def LR_chgpt_gof_jax(Θ, y, η_arr):
+    """ Has to be generalized to allow -1's in η_arr"""
 
     C_s = η_to_ψ_jax_mapped(η_arr, Θ.shape[0])  
 

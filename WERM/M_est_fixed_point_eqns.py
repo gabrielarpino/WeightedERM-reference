@@ -105,8 +105,8 @@ def fp_linear_model_unif_prior(M, ρ, L, η_, δ, n, noise_std):
     global M_fixed
     M_fixed = M
 
-    # num_samples = 8000
-    num_samples = n
+    num_samples = 3000
+    # num_samples = n
     π = (num_samples - jnp.arange(num_samples)) / num_samples
     ε = jnp.array(np.random.randn(num_samples) * noise_std)
 

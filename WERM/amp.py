@@ -8,11 +8,10 @@ import numpy as np
 import jax.scipy.optimize as jso
 
 def norm_sq_corr(x1, x2):
-  if np.all(x1 == 0) or np.all(x2 == 0): return 0
-  return np.square(np.dot(x1, x2)) / (np.square(np.linalg.norm(x1)) * np.square(np.linalg.norm(x2)))
+  return jnp.square(jnp.dot(x1, x2)) / (jnp.square(jnp.linalg.norm(x1)) * jnp.square(jnp.linalg.norm(x2)) + 1e-16)
 
 def MSE(beta, beta_hat):
-  return np.mean(np.square(beta - beta_hat))
+  return jnp.mean(jnp.square(beta - beta_hat))
 
 """ Non-separable AMP to simulate Weighted ERM. Takes in a sequence of loss functions ℓᵢ, assumes no penalty on the signal for now """
 
