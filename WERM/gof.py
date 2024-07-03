@@ -35,6 +35,43 @@ def η_to_ψ_jax(η, n):
     return ψ
 η_to_ψ_jax_mapped = jax.vmap(η_to_ψ_jax, (0, None), 0)
 
+def η_to_ψ(η, n):
+    """
+    Convert η (length-(L-1) vector) into Ψ (length-n vector).
+    
+    η stores the starting index of signal 1 up to signal (L-1).
+    -1 in entry j means the config η involves fewer than L signals, 
+    excluding signal j.
+
+    ψ stores the signal index underlying each yi.
+
+    Does not involve jax, but can take η with -1s.
+    """
+    # Compatible with the -1 entries:
+    num_chgpts = np.sum(η != -1)
+    ψ = np.ones(n, dtype=int) * num_chgpts
+    # ψ = ψ.at[:η[0]].set(0)
+    ψ[:η[0]] = 0
+    for l in range(1, num_chgpts):
+        # ψ = ψ.at[η[l-1]:η[l]].set(l)
+        ψ[η[l-1]:η[l]] = l
+    assert np.diff(ψ).min() >= 0, "ψ should be non-decreasing"
+    return ψ
+
+
+def η_arr_to_C_s(η_arr, n):
+    """
+    Convert η_arr (num_configs x (L-1) matrix) into C_s 
+    (num_configs x n matrix). Does not involve jax, but can take η with -1s.
+    """
+    num_configs = η_arr.shape[0]
+    C_s = np.zeros((num_configs, n), dtype=int)
+    for i_config in range(num_configs):
+        η = η_arr[i_config, :]
+        C_s[i_config, :] = η_to_ψ(η, n)
+    return C_s
+
+
 def hausdorff(x1, x2):
   """ Calculate the Hausdorff distance between two sets of points using scipy."""
   x1 = np.array(x1).reshape(-1, 1)
