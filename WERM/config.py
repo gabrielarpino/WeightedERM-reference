@@ -3,6 +3,7 @@ import jax.numpy as jnp
 import jax
 import numpy as np
 from scipy.special import comb
+from tqdm.auto import tqdm
 
 def unif_prior_to_η_ϕ(Lmin, Lmax, Δ, n, p_l: np.array = None):
     """
@@ -38,7 +39,7 @@ def unif_prior_to_η_ϕ(Lmin, Lmax, Δ, n, p_l: np.array = None):
     if p_l is not None:
         # Marginal probability that each yi in i∈[n] is from signal l:
         ϕ = np.zeros((n, Lmax))
-    for l in range(Lmin, Lmax+1): 
+    for l in tqdm(range(Lmin, Lmax+1)): 
         nchgpts_l = l - 1
         η_l = configs_arr_for_exact_L(n, l, Δ) # nconfigs_l x nchgpts_l
         nconfigs_l = η_l.shape[0]
@@ -88,23 +89,42 @@ def configs_arr_for_exact_L(n:int, L:int, Δ:int=1):
     configs_arr[j, l] = starting index of signal l in config j.
 
     This function may cause memory issues for larger L (L>5).
+
+    Tested on Jupyter notebook with (L = 4, L^* = 3), (L = 4, L^* = 2). 
     """
     assert L >= 1
     nchgpts = L - 1
-    tot_nconfigs = int(comb(n-1, nchgpts))
-    η_arr = np.array(list(itertools.combinations(range(1,n), nchgpts))
+    # tot_nconfigs = int(comb(n-1, nchgpts))
+
+    # η_arr = np.zeros((tot_nconfigs, nchgpts), dtype=int)
+    # for i, combo in tqdm(enumerate(itertools.combinations(range(1, n), nchgpts)), total=tot_nconfigs):
+    #     η_arr[i] = combo
+    desired_range = range(np.maximum(1, Δ).astype(int),n - Δ)
+    tot_nconfigs = int(comb(len(desired_range), nchgpts))
+    η_arr = np.array(list(itertools.combinations(desired_range, nchgpts))
                            ).reshape(tot_nconfigs, nchgpts)
+
     # η_arr is nconfigs x nchgpts. Signal 0 always starts from index 0.
     if Δ > 1:
         # Discard violating configs:
-        def is_ok_config(η):
-            if np.all(η == -1):
-                return True
-            η_extended = np.concatenate(([0], η[η!=-1], [n-1]))
-            # adjacent chgpts must be at least Δ apart, first/last chgpt 
-            # must be at least Δ away from the endpoints:
-            return np.all(np.diff(η_extended) > Δ)
-        η_arr = η_arr[np.apply_along_axis(is_ok_config, axis=1, arr=η_arr)]
+        # if Δ > 1:
+        #     # Discard violating configs:
+        #     def is_ok_config(η):
+        #         if np.all(η == -1):
+        #             return True
+        #         η_extended = np.concatenate(([0], η[η!=-1], [n-1]))
+        #         # adjacent chgpts must be at least Δ apart, first/last chgpt 
+        #         # must be at least Δ away from the endpoints:
+        #         return np.all(np.diff(η_extended) > Δ)
+        #     η_arr = η_arr[np.apply_along_axis(is_ok_config, axis=1, arr=η_arr)]
+
+        # Vectorize the above for-loop. This is correct because η_arr will have no -1's, and so we can take the diff. 
+        η_extended = jnp.block([jnp.zeros((η_arr.shape[0], 1)), η_arr , (n-1) * jnp.ones((η_arr.shape[0], 1))])
+        η_ext_diff = jnp.diff(η_extended, axis=1)
+        # mask = jnp.all(jnp.logical_or(η_ext_diff > Δ, (η_ext_diff == 0)), axis = 1)
+        mask = jnp.all(η_ext_diff > Δ, axis = 1)
+        # Discard violating configs according to mask: 
+        η_arr = η_arr[mask]
 
     assert np.all(np.diff(η_arr, axis=1) > 0), "Each row is non-decreasing"
     return η_arr.astype(int)
@@ -119,7 +139,7 @@ def nconfigs_arr_for_exact_L(η_arr, n):
     nconfigs = η_arr.shape[0]
     L = η_arr.shape[1] + 1
     nconfigs_arr = np.zeros((n, L), dtype=int)
-    for i_config in range(nconfigs):
+    for i_config in tqdm(range(nconfigs)):
         η = η_arr[i_config, :]
         num_chgpts = np.sum(η != -1)
         if num_chgpts == 0:
