@@ -63,19 +63,34 @@ def η_to_ψ_jax_combinations(η, n, comb):
 
 def η_to_ψ_jax_combinations_mapped(η_arr, n, L):
     """ Returns an array of signal configurations ψ_arr, along with an array η_idx indicating the index of the η configuration that generated each ψ configuration (useful for gof computations and point estimation). 
+
     
     Tested on Jupyter notebook with (L = 4, L^* = 3), (L = 4, L^* = 2), (L = 4, L^* = 1).
     """
+
+    num_chgpts_mask = jnp.array([jnp.where(η_arr != -1, 1, 0).sum(axis=1)]).T # To be tested
+    min_num_chgpts = num_chgpts_mask.min()
+    max_num_chgpts = num_chgpts_mask.max()
+    assert max_num_chgpts == L - 1, "The maximum number of change points should be L - 1"
+    assert max_num_chgpts == η_arr.shape[1], "The maximum number of change points should be equal to the number of columns in η_arr"
+
+    L_star_min = min_num_chgpts + 1
+    assert L_star_min >= 1
+
+    η_to_ψ_jax_combinations_vmap = (jax.vmap(η_to_ψ_jax_combinations, (0, None, None), 0)) # The key step that speeds everything up
+    if L_star_min == L: # Account for the special case of L_star = L
+        combinations = list(itertools.combinations(range(1, L), L-1))
+        comb = combinations[0]
+        ψ_arr = η_to_ψ_jax_combinations_vmap(η_arr, n, comb) # Could eventually replace this with a jax.lax.scan for memory efficiency
+        η_idx = jnp.arange(η_arr.shape[0])
+        return ψ_arr, η_idx
+    assert L_star_min == 1, "L_star_min should either be equal to 1 or equal to L in order for the code to work"
+
 
     combinations = []
     max_num_chgpts = η_arr.shape[1]
     for num_chgpts in range(0, max_num_chgpts):
         combinations.append(list(itertools.combinations(range(1, L), num_chgpts + 1)))
-
-    num_chgpts_mask = jnp.array([jnp.where(η_arr != -1, 1, 0).sum(axis=1)]).T # To be tested
-
-    η_to_ψ_jax_combinations_vmap = (jax.vmap(η_to_ψ_jax_combinations, (0, None, None), 0)) # The key step that speeds everything up
-
 
     for num_chgpts in range(0, max_num_chgpts+1): 
 
@@ -112,6 +127,46 @@ def η_to_ψ_jax_combinations_mapped(η_arr, n, L):
                 η_idx = jnp.concatenate((η_idx, jnp.where(mask)[0]))
 
     return ψ_arr, η_idx
+
+
+    # combinations = []
+    # L_star_list = list(range(L_star_min, L))
+    # for L_star in L_star_list:
+    #     combinations.append(list(itertools.combinations(range(1, L), L_star)))
+
+    # num_chgpts_mask = jnp.array([jnp.where(η_arr != -1, 1, 0).sum(axis=1)]).T # To be tested
+
+
+    # for i in range(0, len(combinations)):
+    #     L_star = L_star_list[i]
+    #     num_chgpts = L_star - 1
+
+    #     # Identify the configurations with the correct number of change points
+    #     mask = jnp.where(num_chgpts_mask == num_chgpts, 1, 0).flatten()
+
+    #     # Apply the mask to η_arr
+    #     η_arr_masked = η_arr[mask.astype(bool)]
+
+    #     # Apply the function to the configurations with the correct number of change points, and stack the results
+    #     combs = combinations[i]
+    #     if num_chgpts == 0: # Special case of zero change points
+    #         ψ_arr = jnp.multiply(jnp.ones((L, n), dtype=int), jnp.arange(0, L).reshape(L, 1))
+    #         η_idx = jnp.repeat(jnp.where(mask)[0], L)
+    #         continue
+
+    #     for comb in combs:
+    #         ψ = η_to_ψ_jax_combinations_vmap(η_arr_masked, n, comb) # Could eventually replace this with a jax.lax.scan for memory efficiency
+    #         if 'ψ_arr' not in locals():
+    #             ψ_arr = ψ
+    #         else:
+    #             ψ_arr = jnp.vstack((ψ_arr, ψ))
+
+    #         if 'η_idx' not in locals():
+    #             η_idx = jnp.where(mask)[0]
+    #         else:
+    #             η_idx = jnp.concatenate((η_idx, jnp.where(mask)[0])) 
+
+    # return ψ_arr, η_idx
 
 def η_to_ψ(η, n):
     """
@@ -200,81 +255,59 @@ def hausdorff_jax(x1, x2):
 
 ### --- Linear model with change points --- ###
 
-def lin_reg_opt_chgpt_gof()
-
-def opt_chgpt_gof(Z, y, η_arr, p_η_arr):
+def lin_reg_opt_chgpt_gof(Z, y, η_arr, p_η_arr, σ = 0.5, ϵ = 0.15):
     """ Z is n × L, where L is the number of signals. 
-    Don't need to vmap this whole thing, but can jit the inside of for loop to make it faster. """
+    Don't need to vmap this whole thing, but can jit the inside of for loop to make it faster. 
+    Assumes we are using the linear regression loss. """
 
     L = Z.shape[1]
     C_s, η_idx = η_to_ψ_jax_combinations_mapped(η_arr, Z.shape[0], L)
 
-    # m = np.inf
-    # gof_list = []
-
-    # for i in tqdm(range(len(C_s))): 
-    #     ψ = C_s[i]
-    #     # η = ψ_to_η(ψ, L)
-    #     η = η_arr[η_idx[i]]
-
-    #     # Find the index of η_arr where η occurs
-    #     # prob_index = np.where((η_arr == η).all(axis=1))[0][0] # Makes for loop slower
-
-    #     # gof = np.linalg.norm(y - Z[np.arange(Z.shape[0]), ψ], ord=2)**2 / y.shape[0]
-    #     norm_component = jnp.linalg.norm(y - Z[jnp.arange(Z.shape[0]), ψ], ord=2)
-    #     # prior_component = -np.log(p_η_arr[prob_index])
-    #     gof = norm_component
-    #     if gof < m:
-    #         m = gof
-    #         η_opt = η
-    #         # Find the index of η_arr where η_opt occurs
-    #         # η_opt = η_arr[i]
-    #         i_opt = i
-    #     gof_list.append(gof)    
-
-    # vmap the above for loop
-    # y_, Z_ = jnp.array(y), jnp.array(Z)
-    # gof_list = jax.vmap(lambda ψ: jnp.linalg.norm(y_ - Z_[jnp.arange(Z.shape[0]), ψ], ord=2) / y.shape[0])(C_s)
-    # argmin_gof_idx = jnp.argmin(gof_list) # Returns the index of the minimum gof
-    # η_opt = η_arr[η_idx[argmin_gof_idx]]
-    # i_opt = argmin_gof_idx
-
-    # Re-implement the vmap above but with a jax.lax.scan. Uses less memory than vmap, and nearly as fast.
+    # Implement with jax.lax.scan. Uses less memory than vmap, and nearly as fast.
     gof_list = []
     p_η_arr_ = jnp.array(p_η_arr)
-
-    # Normalize the prior on η by the number of signals, not sure if this is necessary or makes sense
-    # num_comb_array = np.zeros(p_η_arr_.shape[0])
-    # max_num_chgpts = η_arr.shape[1]
-    # num_chgpts_mask = jnp.array([jnp.where(η_arr != -1, 1, 0).sum(axis=1)]).T
-    # for num_chgpts in range(0, max_num_chgpts):
-    #     num_combinations = scipy.special.comb(L-1, num_chgpts + 1)
-    #     print("num_chgpts, num_combinations: ", num_chgpts, num_combinations)
-    #     num_comb_array[(num_chgpts_mask == num_chgpts).flatten()] = num_combinations
-    # num_comb_array = jnp.array(num_comb_array)
 
     def scan_fn(carry, x):
         y, Z = carry
         ψ, idx = x[:-1], x[-1]
-        gof = jnp.linalg.norm(y - Z[jnp.arange(Z.shape[0]), ψ], ord=2) / (2 * jnp.maximum(σ**2, 0.15**2)) - jnp.log(p_η_arr_[idx]) 
-        # gof = jnp.linalg.norm(y - Z[jnp.arange(Z.shape[0]), ψ], ord=2) / (2 * σ**2)
+        gof = jnp.linalg.norm(y - Z[jnp.arange(Z.shape[0]), ψ], ord=2) / (2 * jnp.maximum(σ**2, ϵ**2)) - jnp.log(p_η_arr_[idx]) 
         return (y, Z), gof
     xs = jnp.block([C_s, η_idx.reshape(-1, 1)])
     _, gof_list = jax.lax.scan(scan_fn, (y, Z), xs)
 
     gof_list = np.array(gof_list)
-    m = gof_list.min()
     i_opt = gof_list.argmin()
     η_opt = η_arr[η_idx[i_opt]]
 
-    plt.plot(gof_list)
-    plt.title("GOF")
-    plt.show()
-    
-    return η_opt[η_opt != -1], i_opt
+    return η_opt[η_opt != -1]
 
 
 ### --- Logistic model with change points --- ###
+
+def logistic_reg_opt_chgpt_gof(Z, y, η_arr, p_η_arr):
+
+    L = Z.shape[1]
+    C_s, η_idx = η_to_ψ_jax_combinations_mapped(η_arr, Z.shape[0], L)
+
+    # Implement with jax.lax.scan. Uses less memory than vmap, and nearly as fast.
+    gof_list = []
+    p_η_arr_ = jnp.array(p_η_arr)
+
+    def scan_fn(carry, x):
+        y, Z = carry
+        ψ, idx = x[:-1], x[-1]
+        Z_ψ = Z[jnp.arange(Z.shape[0]), ψ]
+        # gof = jnp.linalg.norm(y - Z[jnp.arange(Z.shape[0]), ψ], ord=2) / (2 * jnp.maximum(σ**2, ϵ**2)) - jnp.log(p_η_arr_[idx]) 
+        gof = (ζ(Z_ψ) - jnp.multiply(y, Z_ψ)).sum() - jnp.log(p_η_arr_[idx]) 
+        return (y, Z), gof
+    xs = jnp.block([C_s, η_idx.reshape(-1, 1)])
+    _, gof_list = jax.lax.scan(scan_fn, (y, Z), xs)
+
+    gof_list = np.array(gof_list)
+    i_opt = gof_list.argmin()
+    η_opt = η_arr[η_idx[i_opt]]
+
+    return η_opt[η_opt != -1]
 
 def LR_gof_j(Θ, y, c_j, L):
     if Θ.ndim == 1:
@@ -303,6 +336,8 @@ def LR_chgpt_gof_jax(Θ, y, η_arr):
     """ Has to be generalized to allow -1's in η_arr"""
 
     C_s = η_to_ψ_jax_mapped(η_arr, Θ.shape[0])  
+
+    # C_s, η_idx = η_to_ψ_jax_combinations_mapped(η_arr, Θ.shape[0], Θ.shape[1])
 
     gof = jax.vmap(LR_gof_i, in_axes=(None, None, 0), out_axes=0)(Θ, y, C_s)
     idx_opt = jnp.argmin(gof)

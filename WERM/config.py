@@ -99,6 +99,7 @@ def configs_arr_for_exact_L(n:int, L:int, Δ:int=1):
     # η_arr = np.zeros((tot_nconfigs, nchgpts), dtype=int)
     # for i, combo in tqdm(enumerate(itertools.combinations(range(1, n), nchgpts)), total=tot_nconfigs):
     #     η_arr[i] = combo
+    range_start = np.maximum(1, Δ).astype(int)
     desired_range = range(np.maximum(1, Δ).astype(int),n - Δ)
     tot_nconfigs = int(comb(len(desired_range), nchgpts))
     η_arr = np.array(list(itertools.combinations(desired_range, nchgpts))
