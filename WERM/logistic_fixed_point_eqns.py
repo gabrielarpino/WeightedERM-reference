@@ -42,6 +42,9 @@ def prox_prime(z, b, π_i):
     return jnp.power(b * π_i * ℓ_double_prime(prox_plug) + 1, -1)
 prox_prime_mapped = jax.vmap(prox_prime, in_axes=(0, None, 0))
 
+def g_mapped(U, V, b, π):
+    return (ḡ_mapped(U, V, b, π) - U.flatten()) / b
+
 def ḡ_mapped(U, V, b, π):
     return prox_mapped(U.flatten() + b * jnp.multiply(π.flatten(), V.flatten()), b, π.flatten())
 
@@ -100,3 +103,26 @@ def logistic_fp(π, ρ, L, η_, δ, n):
     
     return μ̃, σ̃, b
 
+def debias_logistic(θ̂, y, b, π):
+    """ Debiases θ̂ so that it is asymptotically normal, using AMP theory. """
+
+    def func(θ_t):
+        ŝ = g_mapped(θ_t, y, b, π)
+        return θ̂ - b * ŝ
+        # return ḡ_mapped(θ_t, y, b, π) - b * ŝ
+
+    # Solve the fixed point equations using scipy.optimize.fixed_point
+    # θ_t = scipy.optimize.fixed_point(func, θ̂, xtol = 1e-10, maxiter = 1000, method = "iteration")
+    # θ_t = scipy.optimize.fixed_point(func, θ̂, xtol = 1e-3, maxiter = 50, method = "del2") # Xtol has to be fairly large
+    # return θ_t
+
+    # Find the fixed point of func by iterating
+    θ_t_prev = θ̂
+    for i in tqdm(range(20)):
+        θ_t = func(θ_t_prev)
+        print("Norm: ", jnp.linalg.norm(θ_t - θ_t_prev)/jnp.linalg.norm(θ_t_prev))
+        if jnp.linalg.norm(θ_t - θ_t_prev)/jnp.linalg.norm(θ_t_prev) < 1e-5:
+            break
+        θ_t_prev = θ_t
+
+    return θ_t
