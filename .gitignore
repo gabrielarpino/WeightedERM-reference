@@ -462,3 +462,9 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 junit/
+
+# Don't include anything in the results folder
+results/
+
+# Don't include anything in the figures folder
+figures/

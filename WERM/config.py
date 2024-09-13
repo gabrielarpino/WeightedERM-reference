@@ -5,6 +5,106 @@ import numpy as np
 from scipy.special import comb
 from tqdm.auto import tqdm
 
+
+def unif_prior_to_η_ϕ_combinations(Lmin, Lmax, Δ, n, p_l: np.array = None):
+    """
+    Returns: Lxn matrix ϕ, where ϕ[l, t] is the marginal probability of observing 
+    signal l at time t.
+
+    Allow at most L signals i.e. 0, 1, 2, ... L signals.
+    When L_tmp < L signals, assume signals present are sequential: 0, ..., L_tmp-1.
+    
+    p_l: length-L vector storing the prior probability over the number of signals.
+    When left blank, assume uniform prior over all η configs, across l ∈ [Lmin, Lmax].
+    Can be uniform or arbitrary as long as it sums to 1. [tested in test_chgpt_configs.py]
+
+    η: tot_nconfigs x (L-1) matrix, where each row stores a config via 
+       the starting index i of each signal l=1, ..., (L-1). 
+       Observation index i and signal index l are 0-indexed.
+
+    Considers all possible combinations of signals with number of signals l < Lmax, and computes the marginal probability of observing signal l at time t.
+    """
+
+    assert Lmin > 0 and Lmax >= Lmin
+    num_L = Lmax - Lmin + 1
+    if p_l is not None:
+        assert len(p_l) == num_L, "p_l must store the prior probability over [Lmin, Lmax]"
+        assert np.isclose(np.sum(p_l), 1), "p_l must be normalised to 1"
+
+    assert Δ >= 1 and Δ * Lmax <= n, \
+        "If Δ*Lmax > n, then some L∈[Lmin, Lmax] will " + \
+        "have no valid configs satisfying minimum Δ intersignal distance" + \
+        "making p_l meaningless as well."
+    # Each config stores starting index i of each signal:
+    η_arr = -np.ones((0, Lmax-1), dtype=int)
+    # Stores number of configs when there exist l signals, for each l ∈ [Lmin, Lmax]:
+    nconfigs_arr = np.zeros(num_L, dtype=int) # exactly l signals
+    marg_nconfigs_arr = np.zeros((n, Lmax), dtype=int)
+    if p_l is not None:
+        # Marginal probability that each yi in i∈[n] is from signal l:
+        ϕ = np.zeros((n, Lmax))
+    for l in tqdm(range(Lmin, Lmax+1)): 
+
+        nchgpts_l = l - 1
+        η_l = configs_arr_for_exact_L(n, l, Δ) # nconfigs_l x nchgpts_l. Most computationally expensive, stays the same regardless of combinations. 
+        nconfigs_l = η_l.shape[0]
+        nconfigs_arr[l-Lmin] = nconfigs_l
+        η_l_padded = -np.ones((nconfigs_l, Lmax-1), dtype=int) # -1s represent non-existent chgpts
+        η_l_padded[:, :nchgpts_l] = η_l
+        η_arr = np.concatenate((η_arr, η_l_padded), axis=0)
+
+        marg_nconfigs_arr_l = nconfigs_arr_for_exact_L(η_l, n) # nxl, this is going to hold for each possible combination of signals
+        if l <= 2: # No combinations need to be considered, back to the original code.
+            marg_nconfigs_arr[:, :l] += marg_nconfigs_arr_l
+            if p_l is not None:
+                ϕ[:, :l] += marg_nconfigs_arr_l / nconfigs_l * p_l[l-Lmin] # This is where the key update happens, and where the combo will be used.
+                assert np.allclose(np.sum(ϕ, axis=1), np.sum(p_l[:l-Lmin + 1]))
+                # assuming given l, chgpts are uniform:
+                # p_η_arr[idx_start:idx_end] = p_l[nchgpts_l] / tot_nconfigs_l 
+            continue
+        
+        # Combinations code begins
+        combs = list(itertools.combinations(range(1, Lmax), l-1))
+
+        for j in range(len(combs)): 
+            combs_idx = np.array([0, *combs[j]]) # Prepend the 0 because we always assume β_0 always takes the first spot
+            marg_nconfigs_arr[:, combs_idx] += marg_nconfigs_arr_l
+            # marg_nconfigs_arr[:, :l] += marg_nconfigs_arr_l
+        
+        if p_l is not None:
+            for j in range(len(combs)): 
+                combs_idx = np.array([0, *combs[j]]) # Prepend the 0 because we always assume β_0 always takes the first spot
+                ϕ[:, combs_idx] += marg_nconfigs_arr_l / nconfigs_l * (p_l[l-Lmin] / len(combs)) # This is where the key update happens, and where the combo will be used.
+            assert np.allclose(np.sum(ϕ, axis=1), np.sum(p_l[:l-Lmin + 1]))
+            # assuming given l, chgpts are uniform:
+            # p_η_arr[idx_start:idx_end] = p_l[nchgpts_l] / tot_nconfigs_l 
+    
+    tot_nconfigs = np.sum(nconfigs_arr)
+    assert η_arr.shape[0] == tot_nconfigs
+
+    # Marginal probability that each yi in i∈[n] is from signal l:
+    if p_l is None: # assume uniform prior over all η configs.
+        ϕ = marg_nconfigs_arr / tot_nconfigs # nxLmax
+    assert np.allclose(np.sum(ϕ, axis=1), 1)
+
+    # This section stays the same as it only updates p_η_arr, which is independent of combinations (only change-point location dependent). 
+    if p_l is None:
+        p_η_arr = np.ones(tot_nconfigs) / tot_nconfigs
+    else:
+        p_η_arr = np.zeros(tot_nconfigs)
+        nconfigs_so_far = 0
+        for l in range(Lmin, Lmax+1):
+            nconfigs_l = nconfigs_arr[l - Lmin]
+            idx_start = nconfigs_so_far
+            idx_end = nconfigs_so_far + nconfigs_l
+            p_η_arr[idx_start:idx_end] = p_l[l - Lmin] / nconfigs_l 
+            nconfigs_so_far += nconfigs_l
+    assert np.allclose(np.sum(p_η_arr), 1)
+    # η: tot_nconfigs x (Lmax-1)
+    # p_η: length-tot_nconfigs vector
+    # ϕ.T: Lmax x n matrix
+    return tot_nconfigs, η_arr, p_η_arr, ϕ.T 
+
 def unif_prior_to_η_ϕ(Lmin, Lmax, Δ, n, p_l: np.array = None):
     """
     Returns: Lxn matrix ϕ, where ϕ[l, t] is the marginal probability of observing 
@@ -40,18 +140,19 @@ def unif_prior_to_η_ϕ(Lmin, Lmax, Δ, n, p_l: np.array = None):
         # Marginal probability that each yi in i∈[n] is from signal l:
         ϕ = np.zeros((n, Lmax))
     for l in tqdm(range(Lmin, Lmax+1)): 
+
         nchgpts_l = l - 1
-        η_l = configs_arr_for_exact_L(n, l, Δ) # nconfigs_l x nchgpts_l
+        η_l = configs_arr_for_exact_L(n, l, Δ) # nconfigs_l x nchgpts_l. The slowest part of the code.
         nconfigs_l = η_l.shape[0]
         nconfigs_arr[l-Lmin] = nconfigs_l
         η_l_padded = -np.ones((nconfigs_l, Lmax-1), dtype=int) # -1s represent non-existent chgpts
         η_l_padded[:, :nchgpts_l] = η_l
         η_arr = np.concatenate((η_arr, η_l_padded), axis=0)
 
-        marg_nconfigs_arr_l = nconfigs_arr_for_exact_L(η_l, n) # nxl
+        marg_nconfigs_arr_l = nconfigs_arr_for_exact_L(η_l, n) # nxl, this is going to hold for each possible combination of signals
         marg_nconfigs_arr[:, :l] += marg_nconfigs_arr_l
         if p_l is not None:
-            ϕ[:, :l] += marg_nconfigs_arr_l / nconfigs_l * p_l[l-Lmin]
+            ϕ[:, :l] += marg_nconfigs_arr_l / nconfigs_l * p_l[l-Lmin] # This is where the key update happens, and where the combo will be used.
             assert np.allclose(np.sum(ϕ, axis=1), np.sum(p_l[:l-Lmin + 1]))
             # assuming given l, chgpts are uniform:
             # p_η_arr[idx_start:idx_end] = p_l[nchgpts_l] / tot_nconfigs_l 

@@ -60,6 +60,8 @@ def logistic_reg_opt_chgpt_gof(Z, y, η_arr, p_η_arr):
 
     return η_opt[η_opt != -1]
 
+### --- OLD --- ###
+
 def LR_gof_j(Θ, y, c_j, L):
     if Θ.ndim == 1:
         Θ = Θ.reshape((1, L))
