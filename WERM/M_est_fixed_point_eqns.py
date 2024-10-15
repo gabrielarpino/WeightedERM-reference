@@ -35,6 +35,12 @@ def S(z, b, π_i):
     return z - prox(z, b, π_i)
 S_mapped = jax.vmap(S, in_axes=(0, None, 0))
 
+def ḡ_mapped(U, V, b, π):
+    return U.flatten() + S_mapped((V - U).flatten(), b, π.flatten())
+
+def g_mapped(U, V, b, π):
+    return (ḡ_mapped(U, V, b, π) - U.flatten()) / b
+
 def prox_prime(z, b, π_i):
     """ Tested, and yields the correct result in linear regression with change points. """
     ℓ_double_prime = jax.grad(jax.grad(M_fixed))
@@ -232,4 +238,142 @@ def fp_linear_model_vanilla(M, δ, noise_std):
 
     return σ̃
 
+def fp_lin_model(π, M, ρ, L, η_, δ, n, ε):
 
+    global M_fixed
+    M_fixed = M
+
+    num_samples = n
+
+    if η_.size == 0:
+        ψ = jnp.zeros(num_samples).astype(int) 
+    else:
+        ψ = η_to_ψ((η_ * num_samples).astype(int), num_samples) # Seems to be correct
+    G_1 = jnp.array(np.random.randn(num_samples))
+    G_2 = jnp.array(np.random.randn(num_samples))
+
+    def μ̃(x, l, args):
+        b_ = x[-1]
+        τ_arr = x[:-1]
+        δ, ρ, ε, π = args
+        ε_and_τ = ε + τ_arr[l] * G_1
+        return ( (δ / num_samples) * jnp.where(ψ == l, S_prime_mapped(ε_and_τ, b_, π), 0)).sum() # Written this way for differentiability
+    μ̃_jit = jax.jit(μ̃)
+
+    def σ̃_l_squared(x, l, args): 
+        b_ = x[-1]
+        τ_arr = x[:-1]
+        δ, ρ, ε, π = args
+        ε_and_τ = ε + τ_arr[l] * G_2
+        return ((δ**2 / num_samples) * jnp.where(ψ == l, jnp.power(S_mapped(ε_and_τ, b_, π), 2), 0)).sum() # Written this way for differentiability
+
+    def σ̃_squared(x, args):
+        return jnp.sum(jnp.array([σ̃_l_squared(x, l, args) for l in range(L)]))
+    σ̃_squared_jit = jax.jit(σ̃_squared)
+
+    def τ_squared_l(x, l, args):
+        δ, ρ, ε, π = args
+        ind_l = np.zeros(L)
+        ind_l[l] = 1
+        μ̃_arr = jnp.array([μ̃(x, l, args) for l in range(L)])
+        return (σ̃_squared(x, args) / δ) + (ind_l - μ̃_arr).T @ ρ @ (ind_l - μ̃_arr)
+
+    def τ_squared_obj(x, args):
+        b_ = x[-1]
+        τ_arr = x[:-1]
+        return jnp.array([jnp.power(jnp.power(τ_arr[l], 2) - τ_squared_l(x, l, args), 2) for l in range(L)]).sum()
+
+    def joint_obj_jaxopt(x, args):
+        δ, ρ, ε, π = args
+        return τ_squared_obj(x, args) + jnp.power( 1 - jnp.sum(jnp.array([μ̃(x, l, args) for l in range(L)])) , 2)
+        # return τ_squared_obj(x, args) + np.power( 1 - np.sum([μ̃(x, l, args) for l in range(L)]) , 2)
+    joint_obj_jaxopt_jit = jax.jit(joint_obj_jaxopt)
+
+    def fsolve_obj(x, args): 
+        """ TODO: Implement this."""
+        b_ = x[-1]
+        τ_arr = x[:-1]
+        τ_obj_list = [jnp.sqrt(τ_squared_l(x, l, args)) - τ_arr[l] for l in range(L)]
+        μ̃_obj = (1 - jnp.sum(jnp.array([μ̃(x, l, args) for l in range(L)])))
+        return jnp.array([*τ_obj_list, μ̃_obj])
+    fsolve_obj_jit = jax.jit(fsolve_obj)
+
+    # gd = jaxopt.GradientDescent(fun=joint_obj_jaxopt, maxiter=1e10, tol = 1e-2, \
+    #                             stepsize = 5e-4).run(jnp.array([*(0.85*np.ones(L)), 0.75]), \
+    #                                                  (δ, ρ, ε, π))  # Make step size smaller if getting nans
+    # gd = jaxopt.GradientDescent(fun=joint_obj_jaxopt, maxiter=1e10, tol = 1e-2, \
+    #                             stepsize = 1e-1).run(jnp.array([*(0.85*np.ones(L)), 0.75]), \
+    #                                                  (δ, ρ, ε, π))  # Make step size smaller if getting nans
+    # res = gd.params # Indexing problems with jaxopt
+    # τ_arr, b = res[0], res[1]
+
+    # Solve using fsolve, faster than minimize with the jacobian
+    J_fsolve = jax.jacrev(fsolve_obj_jit, argnums=0)
+    res, infodict, ier, mesg  = scipy.optimize.fsolve(fsolve_obj_jit, jnp.array([*(0.85*np.ones(L)), 0.75]), args = ([δ, ρ, ε, π]), fprime = J_fsolve, full_output = True, maxfev = 1000)
+    print("Optimization Results: x = ", res, ", ier = ", ier, ", mesg = ", mesg, ", infodict = ", infodict)
+    τ_arr, b = res[:-1], res[-1]
+    
+    # Solve using Minimize
+    # J = jax.jit(jax.jacrev(joint_obj_jaxopt, argnums=0))
+    # J = jax.grad(joint_obj_jaxopt_jit, argnums=0)
+    # opt_res = scipy.optimize.minimize(joint_obj_jaxopt_jit, x0 = np.array([*(0.85*np.ones(L)), 0.75]), args = ([δ, ρ, ε, π]), method="BFGS", options={"maxiter": 100}, jac = J) # switch to jso instead of scipy for speed
+    # print("Optimization Results: x = ", opt_res.x, ", fun = ", opt_res.fun, ", success = ", opt_res.success, ", message = ", opt_res.message, ", nfev = ", opt_res.nfev, ", nit = ", opt_res.nit, ", njev = ", opt_res.njev, ", status = ", opt_res.status)
+    # res = opt_res.x
+    # print("res: ", res)
+    # τ_arr, b = res[:-1], res[-1]
+
+    # Compute σ̃
+    σ̃ = np.sqrt(σ̃_squared_jit(res, (δ, ρ, ε, π)))
+    # σ = σ̃ / (δ * b)
+
+    μ̃_arr = np.array([μ̃_jit(res, l, (δ, ρ, ε, π)) for l in range(L)])
+    print("μ̃_arr: ", μ̃_arr)
+    
+    μ_arr = μ̃_arr / (δ * b)
+    σ = σ̃ / (δ * b)
+
+    return μ̃_arr, σ̃, μ_arr, σ, b
+
+def debias_M_est(θ̂, y, b, π, initial_guess):
+    """ Debiases θ̂ so that it is asymptotically normal, using AMP theory. Identical logic to that in the logistic case. """
+
+    def func(θ_t):
+        ŝ = g_mapped(θ_t, y, b, π)
+        # return ḡ_mapped(θ_t, y, b, π) - b * ŝ
+        return θ̂ - b * ŝ
+
+
+
+    # Solve the fixed point equations using scipy.optimize.fixed_point
+    # θ_t = scipy.optimize.fixed_point(func, θ̂, xtol = 1e-10, maxiter = 1000, method = "iteration")
+    # θ_t = scipy.optimize.fixed_point(func, θ̂, xtol = 1e-3, maxiter = 50, method = "del2") # Xtol has to be fairly large
+    # return θ_t
+
+    # Find the fixed point of func by iterating
+    θ_t_prev = initial_guess
+    for i in tqdm(range(100)):
+        θ_t = func(θ_t_prev)
+        print("Norm: ", jnp.linalg.norm(θ_t - θ_t_prev)/jnp.linalg.norm(θ_t_prev))
+        if jnp.linalg.norm(θ_t - θ_t_prev)/jnp.linalg.norm(θ_t_prev) < 6e-18:
+            print("Norm: ", jnp.linalg.norm(θ_t - θ_t_prev)/jnp.linalg.norm(θ_t_prev))
+            break
+        θ_t_prev = θ_t
+
+    return θ_t
+
+def amp_algorithm(X, y, n, p, π, ℓ, max_iter = 15): 
+
+    ŝ = 0
+    b = 0.5 # initial value of b must be greater than zero
+    β̂ = np.random.normal(size=p)
+
+    for _ in tqdm(range(max_iter)):
+        θ = X @ β̂ - b * ŝ
+        θ_test = ḡ_mapped(θ, y, b, π)
+        print("θ_test: ", θ_test)
+        θ̂ = ḡ_mapped(θ, y, b, π).flatten()
+        ŝ = g_mapped(θ, y, b, π).flatten()
+        c = jnp.mean(ġ_mapped(θ, y, b, π), axis=0)
+        print("c: ", c)
+
+    return
