@@ -1,4 +1,5 @@
 import jax
+import jax.lax
 jax.config.update("jax_enable_x64", True) # float64
 import jax.numpy as jnp
 from matplotlib import pyplot as plt
@@ -90,3 +91,13 @@ h_i_mapped = jax.vmap(h_i, in_axes=(0, 0, 0, None, None), out_axes=0)
 def h_CP(h, Z, C):
     L = Z.shape[1]
     return h_i_mapped(Z, C, h, L).reshape((Z.shape[0], 1))
+
+def q_linear_model(Z_i, psi_i, ε_i):
+    """ Linear model with change points, Z_i ∈ R^{L}, psi_i ∈ [L], ε_i ∈ R."""
+    val = jax.lax.dynamic_index_in_dim(Z_i, psi_i, axis=0, keepdims=False) # Allows for traced integers and dynamic indexing on jax (safe to use vmap with in the case of dynamic ψ)
+    return val + ε_i
+
+def q_logistic_model(Z_i, psi_i, ε_i):
+    """ Logistic model with change points, Z_i ∈ R^{L}, psi_i ∈ [L], ε_i ∈ R."""
+    val = jax.lax.dynamic_index_in_dim(Z_i, psi_i, axis=0, keepdims=False) # Allows for traced integers and dynamic indexing on jax (safe to use vmap with in the case of dynamic ψ)
+    return jnp.greater(ζ_prime(val), ε_i).astype(int)
