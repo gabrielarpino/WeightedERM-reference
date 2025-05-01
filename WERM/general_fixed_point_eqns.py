@@ -37,7 +37,7 @@ def prox(z, b, π_i, v, maxiter=30):
     #     implicit_diff=True
     # ) # Seems a little more stable and robust to parameters than gradient descent
     # args = (z, b, π_i, v)
-    # res = lb.run(z, args).params
+    # res = gd.run(0.9*z, args).params
     # return res
 
     # Simple newton's method, fully JAX compatible
@@ -52,6 +52,12 @@ def prox(z, b, π_i, v, maxiter=30):
     t_final, _ = jax.lax.scan(body, z, xs=None, length=maxiter)
     return t_final
 
+def g(z_i, v_θ_i, b, π_i, ψ_i, ε_i, q):
+    ḡ = prox(v_θ_i, b, π_i, q(z_i, ψ_i, ε_i))
+    return (ḡ - v_θ_i) / b
+g_grad = jax.grad(g, argnums=0)
+g_grad_mapped = jax.vmap(g_grad, in_axes=(0, 0, None, 0, 0, 0, None))
+
 def general_fp(M, ρ, δ, η_, ϕ, ε, n, q):
 
     global M_fixed
@@ -59,9 +65,9 @@ def general_fp(M, ρ, δ, η_, ϕ, ε, n, q):
     
     # Define higher order derivatives of M
     global M_prime
-    M_prime = jax.grad(M_fixed)
+    M_prime = jax.grad(M_fixed, argnums=0)
     global M_double_prime
-    M_double_prime = jax.grad(M_prime)
+    M_double_prime = jax.grad(M_prime, argnums=0)
     # M_partial_12 = jax.grad(M_double_prime, argnums=1)
     M_prime_mapped = jax.vmap(M_prime, in_axes=(0, 0))
     M_double_prime_mapped = jax.vmap(M_double_prime, in_axes=(0, 0))
@@ -76,10 +82,6 @@ def general_fp(M, ρ, δ, η_, ϕ, ε, n, q):
     else:
         ψ = η_to_ψ((η_ * num_samples).astype(int), num_samples) # Seems to be correct, converts chgpt to signal config vector
 
-    b = jnp.ones((L, ))
-    ν̃ = jnp.eye(L)
-    κ̃ = jnp.eye(L)
-
     key = random.PRNGKey(0)
     key1, key_G = random.split(key)
 
@@ -89,30 +91,46 @@ def general_fp(M, ρ, δ, η_, ϕ, ε, n, q):
     # Pre-sample standard normal G_raw
     G_raw_full = random.multivariate_normal(key_G, jnp.zeros((L, )), jnp.eye(L), shape=(num_samples_mult, n,)) # num_samp × n × L
 
-    q_mapped = jax.vmap(q)
+    q_mapped = jax.vmap(q, in_axes=(0, 0, 0)) # q_mapped(Z, ψ, ε) = q(Z @ ψ + ε)
+
+    # q_mapped_input_test
+    assert q_mapped(Z_full[0, :, :], ψ, ε).shape == (n,), "q_mapped(Z_full[0, :, :], ψ, ε) should be of shape (n,)"
 
     def W_b(b, ν̃, κ̃, Z, G_raw):
-        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-11 * jnp.eye(L), upper=False)  # stabilize
+        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-12 * jnp.eye(L), upper=False)  # stabilize
         G_sample = G_raw @ κ̃_sqrt.T
         q_mapped_with_input = q_mapped(Z, ψ, ε)
-        arr = [b[ℓ] * M_prime_mapped( prox_mapped(Z @ ν̃[:, ℓ] + G_sample[:, ℓ], b[ℓ], ϕ[ℓ, :], q_mapped_with_input), q_mapped_with_input) for ℓ in range(L)] 
+        arr = [b[ℓ] * jnp.multiply(ϕ[ℓ, :], M_prime_mapped( prox_mapped(Z @ ν̃[:, ℓ] + G_sample[:, ℓ], b[ℓ], ϕ[ℓ, :], q_mapped_with_input), q_mapped_with_input)) for ℓ in range(L)] 
         assert jnp.array(arr).T.shape == (n, L)
         return jnp.array(arr).T
 
     def W_b_prime(b, ν̃, κ̃, Z, G_raw):
-        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-11 * jnp.eye(L), upper=False)  # stabilize
+        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-12 * jnp.eye(L), upper=False)  # stabilize
         G_sample = G_raw @ κ̃_sqrt.T
         q_mapped_with_input = q_mapped(Z, ψ, ε)
-        arr = [b[ℓ] * M_double_prime_mapped( prox_mapped(Z @ ν̃[:, ℓ] + G_sample[:, ℓ], b[ℓ], ϕ[ℓ, :], q_mapped_with_input), q_mapped_with_input) for ℓ in range(L)]
+        arr = [b[ℓ] * jnp.multiply(ϕ[ℓ, :], M_double_prime_mapped( prox_mapped(Z @ ν̃[:, ℓ] + G_sample[:, ℓ], b[ℓ], ϕ[ℓ, :], q_mapped_with_input), q_mapped_with_input)) for ℓ in range(L)]
         assert jnp.array(arr).T.shape == (n, L)
         return jnp.array(arr).T
+
+    def W_z(b, ν̃, κ̃, Z, G_raw):
+        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-7 * jnp.eye(L), upper=False)  # stabilize
+        G_sample = G_raw @ κ̃_sqrt.T
+        # print("g_grad_mapped shape: ", g_grad_mapped(Z, Z @ ν̃[:, 0] + G_sample[:, 0], b[0], ϕ[0, :], ψ, ε, q).shape)
+        arr = [g_grad_mapped(Z, Z @ ν̃[:, ℓ] + G_sample[:, ℓ], b[ℓ], ϕ[ℓ, :], ψ, ε, q) for ℓ in range(L)]
+        # print("arr.shape = ", jnp.array(arr).shape)
+        jnparr = jnp.array(arr)
+        jnparr = jnp.moveaxis(jnparr, 0, -1) # move so that: n × dim of gradient \times L
+        assert jnparr.shape == (n, L, L)
+        return jnparr
     
     def unpack_x(x):
+        """ Optimize the cholesky factorization of κ̃ instead of the full matrix. """
         b = x[0:L]
         ν̃_flat = x[L:L+L**2]
         ν̃ = ν̃_flat.reshape((L, L))
-        κ̃_flat = x[L+L**2:]
-        κ̃ = κ̃_flat.reshape((L, L))
+        L_flat = x[L+L**2:]
+        L_mat = jnp.zeros((L, L)).at[jnp.tril_indices(L)].set(L_flat)
+        κ̃ = L_mat @ L_mat.T
         return b, ν̃, κ̃
 
     def obj_1(x): 
@@ -149,6 +167,26 @@ def general_fp(M, ρ, δ, η_, ϕ, ε, n, q):
         lhs = jnp.zeros((L, L))
         assert (lhs - rhs).shape == (L, L)
         return lhs - rhs
+
+    def obj_2_v2(x): 
+        """ Use the explicit gradient of g̃. Does not yield as good results as stein's lemma method. 
+        Maybe would need to write it out more explicitly in code rather than differentiating 
+        the entire prox operation. """
+        b, ν̃, κ̃ = unpack_x(x)
+
+        def body(carry, idx):
+            Z = Z_full[idx, :, :]
+            G_raw = G_raw_full[idx, :, :]
+            term = jnp.sum(W_z(b, ν̃, κ̃, Z, G_raw), axis = 0) / n
+            return carry + term, None
+        
+        init = jnp.zeros((L, L))
+        carry_final, _ = jax.lax.scan(body, init, jnp.arange(num_samples_mult))
+        rhs = carry_final / num_samples_mult
+
+        lhs = ν̃
+        assert (lhs - rhs).shape == (L, L)
+        return lhs - rhs
         
     def obj_3(x):
         b, ν̃, κ̃ = unpack_x(x)
@@ -169,32 +207,38 @@ def general_fp(M, ρ, δ, η_, ϕ, ε, n, q):
         return lhs - rhs
 
     def fsolve_obj(x): 
-        return jnp.array([*obj_1(x), *obj_2(x).flatten(), *obj_3(x).flatten()])
+        return jnp.concatenate([obj_1(x).flatten(), obj_2(x).flatten(), obj_3(x).flatten()])
     fsolve_obj_jit = jax.jit(fsolve_obj)
 
     # Solve using fsolve, faster than minimize with the jacobian
     J_fsolve = jax.jacrev(fsolve_obj_jit, argnums=0)
+    L0 = 0.75 * jnp.eye(L)
+    L0_flat = L0[jnp.tril_indices(L)]
+
     x0 = jnp.concatenate([
         0.66 * jnp.ones((L,)),
-        0.85 * jnp.ones((L,L)).flatten(),
-        0.75 * jnp.eye(L).flatten()
+        0.85 * jnp.ones((L, L)).flatten(),
+        L0_flat
     ])
+    # x0 = jnp.concatenate([
+    #     0.66 * jnp.ones((L,)),
+    #     0.85 * jnp.ones((L,L)).flatten(),
+    #     0.75 * jnp.eye(L).flatten()
+    # ])
 
     # Use constrained optimization instead of fsolve, seems to be more stable since enforcing b and diagonal of κ̃ to be positive
-    # Bounds:
-    lower_b = 1e-7 * jnp.ones((L,))
-    lower_nu = -jnp.inf * jnp.ones((L*L,))
-    lower_kappa = -jnp.inf * jnp.ones((L,L))
-    for i in range(L):
-        lower_kappa = lower_kappa.at[i, i].set(1e-8)
-    lower_kappa = lower_kappa.flatten()  # flatten to match the shape of x0
+    lower_b = 1e-6 * jnp.ones((L,))
+    lower_nu = -jnp.inf * jnp.ones((L * L,))
+    L_indices = jnp.tril_indices(L)
 
-    # But enforce positivity on kappa diagonals:
-    # for i in range(L):
-    #     lower_kappa = lower_kappa.at[i*L + i].set(1e-7)  # diagonal element
+    # Set bounds for each element in L
+    lower_L = -jnp.inf * jnp.ones(len(L_indices[0]))
+    for i in range(L):  # enforce positivity on L_ii
+        diag_idx = jnp.where((L_indices[0] == i) & (L_indices[1] == i))[0][0]
+        lower_L = lower_L.at[diag_idx].set(1e-6)
 
-    lower = jnp.concatenate([lower_b, lower_nu, lower_kappa])
-    upper = jnp.inf * jnp.ones_like(lower)    
+    lower = jnp.concatenate([lower_b, lower_nu, lower_L])
+    upper = jnp.inf * jnp.ones_like(lower)
 
     # Solve:
     res = scipy.optimize.least_squares(
