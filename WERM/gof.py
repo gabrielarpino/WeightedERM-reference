@@ -5,6 +5,39 @@ from WERM.model import ζ
 import matplotlib.pyplot as plt
 from WERM.config import η_to_ψ_jax_mapped, η_to_ψ_jax_combinations_mapped
 
+### --- General Goodness of Fit (GoF) --- ###
+
+def chgpt_gof(M, Z, y, η_arr, p_η_arr, γ = 1.0, combinations = True):
+    """ General Goodness of Fit (GoF) function.
+    M is the model, Z is the data, y is the target, η_arr is the array of change points,
+    p_η_arr is the prior probability of each change point, and γ is the penalization constant."""
+    
+    L = Z.shape[1]
+    if combinations:
+        C_s, η_idx = η_to_ψ_jax_combinations_mapped(η_arr, Z.shape[0], L)
+    else:
+        raise NotImplementedError("No Combinations not implemented for GoF function.")
+
+    # Implement with jax.lax.scan. Uses less memory than vmap, and nearly as fast.
+    gof_list = []
+    p_η_arr_ = jnp.array(p_η_arr)
+
+    def scan_fn(carry, x):
+        y, Z = carry
+        ψ, idx = x[:-1], x[-1]
+        similarity = M(Z[jnp.arange(Z.shape[0]), ψ], y)
+        # gof = jnp.linalg.norm(y - Z[jnp.arange(Z.shape[0]), ψ], ord=2) - γ * jnp.log(p_η_arr_[idx]) 
+        gof = jnp.sum(similarity, axis=0) - γ * jnp.log(p_η_arr_[idx])
+        return (y, Z), gof
+    xs = jnp.block([C_s, η_idx.reshape(-1, 1)])
+    _, gof_list = jax.lax.scan(scan_fn, (y, Z), xs)
+
+    gof_list = np.array(gof_list)
+    i_opt = gof_list.argmin()
+    η_opt = η_arr[η_idx[i_opt]]
+
+    return η_opt[η_opt != -1]
+
 ### --- Linear model with change points --- ###
 
 def lin_reg_opt_chgpt_gof(Z, y, η_arr, p_η_arr, σ = 0.5, ϵ = 0.15):
