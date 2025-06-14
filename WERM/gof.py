@@ -59,13 +59,17 @@ def _calculate_gof_single(η, Z, y, M, γ, log_prior, n):
     return gof
 
 # --- Main memory-efficient function (using the corrected helper) ---
-def chgpt_gof_binary_seg_mem_eff(M, Z, y, n, L, delta, γ=1.0, min_window_size=30, gof_list_output=False):
+def chgpt_gof_binary_seg_mem_eff(M, Z, y, n, L, delta, γ=1.0, min_window_size=30, gof_opt_output=False):
     """
     Memory-efficient GoF search that generates configurations on the fly.
     """
     k = L - 1
     if k == 0:
-        if gof_list_output: return np.array([], dtype=int), np.array([0.0])
+        # if gof_list_output: return np.array([], dtype=int), np.array([0.0])
+        if gof_opt_output: 
+            similarity = M(Z, y)
+            gof = jnp.sum(similarity) + γ * jnp.log(1.0)  # log(1.0) is zero
+            return np.array([], dtype=int), gof
         else: return np.array([], dtype=int)
         
     num_positions = n - 1
@@ -124,15 +128,17 @@ def chgpt_gof_binary_seg_mem_eff(M, Z, y, n, L, delta, γ=1.0, min_window_size=3
         η = get_η_from_index(i)
         gof = _calculate_gof_single(η, Z_jax, y_jax, M, γ, log_prior_penalty, n)
         
-        if gof_list_output:
-            final_gof_list.append(gof)
+        # if gof_list_output:
+        #     final_gof_list.append(gof)
             
         if gof < best_gof:
             best_gof = gof
             best_η = η
 
-    if gof_list_output:
-        return np.asarray(best_η), np.asarray(final_gof_list)
+    # if gof_list_output:
+    #     return np.asarray(best_η), np.asarray(final_gof_list)
+    if gof_opt_output:
+        return np.asarray(best_η), best_gof 
     else:
         return np.asarray(best_η)
 
