@@ -7,7 +7,7 @@ from WERM.config import η_to_ψ_jax_mapped, η_to_ψ_jax_combinations_mapped
 
 ### --- General Goodness of Fit (GoF) --- ###
 
-def chgpt_gof(M, Z, y, η_arr, p_η_arr, γ = 1.0, combinations = True):
+def chgpt_gof(M, Z, y, η_arr, p_η_arr, γ = 1.0, combinations = True, gof_list_output = False):
     """ General Goodness of Fit (GoF) function.
     M is the model, Z is the data, y is the target, η_arr is the array of change points,
     p_η_arr is the prior probability of each change point, and γ is the penalization constant."""
@@ -36,7 +36,10 @@ def chgpt_gof(M, Z, y, η_arr, p_η_arr, γ = 1.0, combinations = True):
     i_opt = gof_list.argmin()
     η_opt = η_arr[η_idx[i_opt]]
 
-    return η_opt[η_opt != -1]
+    if gof_list_output:
+        return η_opt[η_opt != -1], gof_list
+    else:
+        return η_opt[η_opt != -1]
 
 ### --- Linear model with change points --- ###
 
