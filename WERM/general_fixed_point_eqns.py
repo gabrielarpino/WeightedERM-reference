@@ -248,7 +248,7 @@ def general_fp(M, ρ, δ, η_, ϕ, ε, n, q):
         bounds=(lower, upper),
         xtol=1e-6,
         ftol=1e-6,
-        max_nfev=1000
+        max_nfev=200
     )
 
     print("Optimization Results: all = ", res, "success = ", res.success, ", message = ", res.message)

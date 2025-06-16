@@ -9,38 +9,150 @@ from functools import partial
 import scipy.special
 from tqdm.auto import tqdm # For a nice progress bar
 
-### --- Efficient GoF Search for Change Points --- ###
+### --- New Binary Segmentation Code --- ###
+### --- 1. NEW JIT-compiled Inner Helper Function --- ###
+# This new function contains the logic we want to speed up.
+# It operates on pre-sliced arrays, so their shapes are static from its perspective.
+@partial(jax.jit, static_argnames=['M', 'L'])
+def _jitted_cost_computation(segment_y, segment_z_all_prototypes, M, L):
+    """
+    JIT-compiled helper to compute the minimum cost for a given segment.
+    
+    Args:
+        segment_y: A JAX array of shape (segment_length,).
+        segment_z_all_prototypes: A JAX array of shape (segment_length, L).
+        M: The dissimilarity function.
+        L: The static number of prototypes.
+    """
+    def cost_for_prototype(l):
+        # Slice out the l-th prototype for the segment
+        segment_z_prototype = segment_z_all_prototypes[:, l]
+        dissimilarity = M(segment_z_prototype, segment_y)
+        return jnp.sum(dissimilarity)
 
-# --- Corrected Helper Function ---
-def _unrank_combination(rank, k, n):
+    all_costs = jax.vmap(cost_for_prototype)(jnp.arange(L))
+    return jnp.min(all_costs)
+### --- 2. MODIFIED `_calculate_segment_cost` (NO JIT) --- ###
+# This function is now a regular Python function. Its job is to do the
+# dynamic slicing and then call our fast, jitted helper.
+# REMOVED: @partial(jax.jit, static_argnames=['M', 'L'])
+def _calculate_segment_cost(start, end, Z, y, M, L):
     """
-    Generates the k-combination of {0, ..., n-1} with the given lexicographical rank.
-    This is a standard, correct implementation using the combinadic method.
-    It produces the combination in descending order.
+    Calculates the cost for a single segment [start, end).
+    This is now a non-jitted function that handles dynamic slicing.
     """
-    if k < 0 or k > n:
-        raise ValueError("Invalid combination parameters k, n")
-    if rank < 0 or rank >= scipy.special.comb(n, k, exact=True):
-        raise ValueError("Rank is out of bounds.")
-        
-    result = np.zeros(k, dtype=np.int64)
-    current_rank = rank
+    # Perform dynamic slicing in standard Python/Numpy mode
+    segment_y = y[start:end]
+    segment_z_all = Z[start:end, :] # Slice all L prototypes for the segment
+
+    # Call the jitted helper with the now statically-sized slices
+    return _jitted_cost_computation(segment_y, segment_z_all, M, L)
+
+# User's original GoF calculator, used only at the end if gof_opt_output is True
+@partial(jax.jit, static_argnames=['M', 'γ', 'n'])
+def _calculate_final_gof(η, Z, y, M, γ, log_prior, n):
+    """
+    JIT-compiled function to calculate GoF for a single change point configuration.
+    Unchanged from your original code.
+    """
+    def η_to_ψ(η_in, n_in):
+        boundaries = jnp.concatenate([jnp.array([0]), η_in, jnp.array([n_in])])
+        indices = jnp.arange(n_in)
+        return jnp.searchsorted(boundaries, indices, side='right') - 1
+
+    ψ = η_to_ψ(η, n)
+    # Z has shape (n, L), ψ has shape (n,). We need to select the right prototype for each point.
+    # This assumes the segment index from ψ corresponds to the prototype index in Z.
+    # A safer assumption is to re-calculate the best prototype for each segment.
+    # For simplicity here, we stick to a simplified interpretation.
+    # A more robust implementation would re-fit prototypes to segments post-hoc.
+    z_for_y = Z[jnp.arange(n), ψ]
+    dissimilarity = M(z_for_y, y)
+    gof = jnp.sum(dissimilarity) + γ * log_prior
+    return gof
+
+### --- Main Binary Segmentation Function (with tqdm) --- ###
+def chgpt_binary_segmentation(M, Z, y, n, L, min_window_size=30, 
+                              gamma=0.0, # 1. USE GAMMA AS THE THRESHOLD
+                              gof_opt_output=False):
+    """
+    Performs change point detection using the standard Binary Segmentation algorithm.
+
+    Args:
+        gamma (float): A penalty threshold for the gain. A new change point is
+            added only if the gain from the split is strictly greater than gamma.
+            - To find AT MOST L-1 change points, use gamma >= 0 (default is 0).
+            - To find a FIXED number of L-1 change points, set gamma to a large
+              negative number (e.g., -np.inf).
+        gof_opt_output (bool): If True, returns the final GoF score.
+    """
+    k = L - 1
+    if k <= 0:
+        return np.array([], dtype=int)
+
+    changepoints = []
+    segments_to_check = [(0, n)]
     
-    # Start with the largest possible element, n-1
-    j = n - 1
-    
-    # Iterate from the largest element of the combination down to the smallest
-    for i in range(k, 0, -1):
-        # Find the largest element v (where v < j) for the current position
-        v = j
-        while scipy.special.comb(v, i, exact=True) > current_rank:
-            v -= 1
-        
-        result[k - i] = v  # Store the element
-        current_rank -= scipy.special.comb(v, i, exact=True)
-        j = v - 1
+    Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
+
+    pbar = tqdm(range(k), desc="Finding change points")
+    for _ in pbar:
+        max_gain = -np.inf
+        best_split_info = None
+
+        for i, (start, end) in enumerate(segments_to_check):
+            if (end - start) < 2 * min_window_size:
+                continue
+
+            parent_cost = _calculate_segment_cost(start, end, Z_jax, y_jax, M, L)
             
-    return np.sort(result) # Return in ascending order for consistency
+            for split_point in range(start + min_window_size, end - min_window_size):
+                cost_child1 = _calculate_segment_cost(start, split_point, Z_jax, y_jax, M, L)
+                cost_child2 = _calculate_segment_cost(split_point, end, Z_jax, y_jax, M, L)
+                
+                current_gain = parent_cost - (cost_child1 + cost_child2)
+
+                if current_gain > max_gain:
+                    max_gain = current_gain
+                    best_split_info = {
+                        "split_point": split_point,
+                        "parent_segment_index": i,
+                        "new_segments": [(start, split_point), (split_point, end)]
+                    }
+        
+        # --- 2. UNIFIED STOPPING CONDITION USING GAMMA ---
+        # This single condition now handles all cases:
+        # 1. No split is possible (max_gain remains -inf, which is <= gamma).
+        # 2. The best possible split is not good enough (max_gain <= gamma).
+        if max_gain <= gamma:
+            tqdm.write(
+                f"Stopping: Best gain ({max_gain:.2f}) "
+                f"did not exceed threshold ({gamma:.2f})."
+            )
+            break
+        # --- END OF NEW LOGIC ---
+
+        changepoints.append(best_split_info["split_point"])
+        parent_idx = best_split_info["parent_segment_index"]
+        segments_to_check.pop(parent_idx)
+        segments_to_check.extend(best_split_info["new_segments"])
+        
+        # Update the progress bar's description with the latest gain and threshold
+        pbar.set_postfix(max_gain=f"{max_gain:.2f}", threshold=gamma)
+
+    pbar.close()
+    best_η = np.sort(np.array(changepoints, dtype=int))
+
+    if gof_opt_output:
+        # Note: The final GoF is calculated without an explicit penalty term here,
+        # as the model selection was already performed by the gamma threshold.
+        final_gof = _calculate_final_gof(jnp.asarray(best_η), Z_jax, y_jax, M, 1.0, 0.0, n)
+        return best_η, final_gof
+    else:
+        return best_η
+
+
+### --- Efficient GoF Search for Change Points --- ###
 
 # --- JIT-compiled GoF calculator (unchanged) ---
 @partial(jax.jit, static_argnames=['M', 'γ', 'n'])
@@ -59,7 +171,7 @@ def _calculate_gof_single(η, Z, y, M, γ, log_prior, n):
     return gof
 
 # --- Main memory-efficient function (using the corrected helper) ---
-def chgpt_gof_binary_seg_mem_eff(M, Z, y, n, L, delta, γ=1.0, min_window_size=30, gof_opt_output=False):
+def chgpt_gof_binary_seg_mem_eff(M, Z, y, n, L, Delta, γ=1.0, min_window_size=30, gof_opt_output=False):
     """
     Memory-efficient GoF search that generates configurations on the fly.
     """
@@ -73,10 +185,10 @@ def chgpt_gof_binary_seg_mem_eff(M, Z, y, n, L, delta, γ=1.0, min_window_size=3
         else: return np.array([], dtype=int)
         
     num_positions = n - 1
-    effective_positions = num_positions - (k - 1) * (delta - 1)
+    effective_positions = num_positions - (k - 1) * (Delta - 1) # This is correct
     
     if effective_positions < k:
-        raise ValueError(f"Impossible to place {k} change points with separation {delta} in {n} points.")
+        raise ValueError(f"Impossible to place {k} change points with separation {Delta} in {n} points.")
 
     num_total_configs = scipy.special.comb(effective_positions, k, exact=True)
     log_prior_penalty = jnp.log(num_total_configs)
@@ -86,7 +198,7 @@ def chgpt_gof_binary_seg_mem_eff(M, Z, y, n, L, delta, γ=1.0, min_window_size=3
             raise IndexError("Configuration index out of bounds.")
         
         y = _unrank_combination(idx, k, effective_positions)
-        separations = (delta - 1) * np.arange(k)
+        separations = (Delta - 1) * np.arange(k)
         η = y + separations + 1 
         return jnp.asarray(η, dtype=jnp.int32)
 
@@ -237,27 +349,36 @@ def chgpt_gof_binary_seg(M, Z, y, η_arr, p_η_arr, γ = 1.0, combinations = Tru
 
 ### --- Memory efficient brute force GoF --- ###
 
-# --- Helper Function to generate combinations (unchanged) ---
+# --- Helper Function ---
 def _unrank_combination(rank, k, n):
     """
     Generates the k-combination of {0, ..., n-1} with the given lexicographical rank.
+    This is a standard, correct implementation using the combinadic method.
+    It produces the combination in descending order.
     """
     if k < 0 or k > n:
         raise ValueError("Invalid combination parameters k, n")
     if rank < 0 or rank >= scipy.special.comb(n, k, exact=True):
-        raise ValueError(f"Rank {rank} is out of bounds for C({n},{k}).")
+        raise ValueError("Rank is out of bounds.")
         
     result = np.zeros(k, dtype=np.int64)
     current_rank = rank
+    
+    # Start with the largest possible element, n-1
     j = n - 1
+    
+    # Iterate from the largest element of the combination down to the smallest
     for i in range(k, 0, -1):
+        # Find the largest element v (where v < j) for the current position
         v = j
         while scipy.special.comb(v, i, exact=True) > current_rank:
             v -= 1
-        result[k - i] = v
+        
+        result[k - i] = v  # Store the element
         current_rank -= scipy.special.comb(v, i, exact=True)
         j = v - 1
-    return np.sort(result)
+            
+    return np.sort(result) # Return in ascending order for consistency
 
 # --- JIT-compiled GoF calculator for a BATCH of configurations ---
 @partial(jax.jit, static_argnames=['M', 'γ', 'n'])
@@ -283,7 +404,7 @@ def _calculate_gof_for_batch(η_batch, Z, y, M, γ, log_prior, n):
     # Vmap the single-config function over the batch axis of η_batch
     return jax.vmap(_calculate_gof_single)(η_batch)
 
-def chgpt_gof_brute_force_mem_eff(M, Z, y, n, L, delta, γ=1.0, batch_size=4096):
+def chgpt_gof_brute_force_mem_eff(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096, gof_opt_output=False):
     """
     Memory-efficient GoF brute-force search that generates configurations on the fly.
 
@@ -293,7 +414,7 @@ def chgpt_gof_brute_force_mem_eff(M, Z, y, n, L, delta, γ=1.0, batch_size=4096)
         y: The target vector.
         n (int): The number of data points.
         L (int): The number of signals (implies L-1 change points).
-        delta (int): The minimum separation between change points.
+        Delta (int): The minimum separation between change points.
         γ (float): The penalization constant.
         batch_size (int): The number of configurations to process in parallel.
                           Tune based on GPU memory. Larger is often faster.
@@ -302,14 +423,19 @@ def chgpt_gof_brute_force_mem_eff(M, Z, y, n, L, delta, γ=1.0, batch_size=4096)
         The optimal change point array.
     """
     k = L - 1
+    # if gof_list_output: return np.array([], dtype=int), np.array([0.0])
     if k == 0:
-        return np.array([], dtype=int)
+        if gof_opt_output: 
+            similarity = M(Z, y)
+            gof = jnp.sum(similarity) + γ * jnp.log(1.0)  # log(1.0) is zero
+            return np.array([], dtype=int), gof
+        else: return np.array([], dtype=int)
         
     num_positions = n - 1
-    effective_positions = num_positions - (k - 1) * (delta - 1)
+    effective_positions = num_positions - (k - 1) * (Delta - 1)
     
     if effective_positions < k:
-        raise ValueError(f"Impossible to place {k} change points with separation {delta} in {n} points.")
+        raise ValueError(f"Impossible to place {k} change points with separation {Delta} in {n} points.")
 
     num_total_configs = scipy.special.comb(effective_positions, k, exact=True)
     print(f"Starting brute-force search over {num_total_configs:,} configurations...")
@@ -338,8 +464,8 @@ def chgpt_gof_brute_force_mem_eff(M, Z, y, n, L, delta, γ=1.0, batch_size=4096)
         indices = range(start_idx, end_idx)
         η_list = [_unrank_combination(idx, k, effective_positions) for idx in indices]
         
-        # Add separation delta and convert to JAX array
-        separations = (delta - 1) * np.arange(k)
+        # Add separation Delta and convert to JAX array
+        separations = (Delta - 1) * np.arange(k)
         η_batch_np = np.array(η_list, dtype=np.int32) + separations.astype(np.int32) + 1
         η_batch_jax = jnp.asarray(η_batch_np)
 
@@ -358,7 +484,10 @@ def chgpt_gof_brute_force_mem_eff(M, Z, y, n, L, delta, γ=1.0, batch_size=4096)
             best_η = η_batch_np[batch_best_idx]
             
     print(f"Search complete. Optimal GoF score: {best_gof:.4f}")
-    return best_η
+    if gof_opt_output:
+        return best_η, best_gof
+    else:
+        return best_η if best_gof < jnp.inf else np.array([])
 
 ### --- General Goodness of Fit (GoF) --- ###
 
