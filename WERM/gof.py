@@ -8,7 +8,171 @@ import math
 from functools import partial
 import scipy.special
 from tqdm.auto import tqdm # For a nice progress bar
+from joblib import Parallel, delayed
 
+
+### --- Divide and Conquer (Binary Segmentation) Change Point Detection --- ###
+
+@partial(jax.jit, static_argnames=['M'])
+def _get_segment_cost(M, Z_seg, y_seg):
+    """
+    Calculates the minimum cost for a single data segment against all possible signals.
+
+    This function is JIT-compiled for performance. It finds the best-fitting
+    constant signal for the segment [start, end) and returns its associated cost.
+
+    Args:
+        M: The cost function.
+        Z_seg: A JAX array slice of signals for the segment, shape (seg_len, L).
+        y_seg: A JAX array slice of data for the segment, shape (seg_len,).
+
+    Returns:
+        The minimum cost (a scalar JAX array).
+    """
+    # This function assumes M operates on vectors of the same length.
+    # We vmap the cost calculation over all L signals (the columns of Z_seg).
+    def cost_for_one_signal(z_col):
+        return jnp.sum(M(z_col, y_seg))
+
+    # vmap iterates over the columns of Z_seg.
+    all_costs = jax.vmap(cost_for_one_signal, in_axes=1)(Z_seg)
+    
+    return jnp.min(all_costs)
+
+
+def chgpt_gof_dc(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound=True, gof_opt_output=False):
+    """
+    Finds change points using a divide-and-conquer (binary segmentation) approach.
+
+    This is a fast heuristic that is not guaranteed to find the global optimum.
+    It works by iteratively finding the single best split point that results in the
+    largest reduction in cost.
+
+    Args:
+        M: The model/cost function (e.g., a loss function).
+        Z: The data matrix (n x L).
+        y: The target vector.
+        n (int): The number of data points.
+        L (int): If L_is_upper_bound is True, this is the maximum number of segments
+                 (L-1 change points). If False, it is the exact number of segments.
+        Delta (int): The minimum separation between change points.
+        γ (float): The penalization constant.
+        L_is_upper_bound (bool): If True, finds *at most* L-1 change points by only
+                                 splitting if it reduces the cost. If False, finds
+                                 *exactly* L-1 change points, even if it increases cost.
+        gof_opt_output (bool): If True, returns the final GoF score along with the change points.
+
+    Returns:
+        An array of found change points. If gof_opt_output is True, also returns
+        the calculated goodness-of-fit score.
+    """
+    k_target = L - 1
+    if k_target <= 0:
+        print("Target k is 0 or less, no change points to find.")
+        # Calculate GoF for the no-changepoint case if requested
+        if gof_opt_output:
+            Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
+            cost = _get_segment_cost(M, Z_jax, y_jax)
+            return np.array([], dtype=int), cost
+        return np.array([], dtype=int)
+
+    Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
+
+    # Memoization cache to store the costs of segments that have already been calculated.
+    memo = {}
+
+    def get_cached_segment_cost(start, end):
+        """Wrapper for _get_segment_cost that uses a memoization cache."""
+        if (start, end) in memo:
+            return memo[(start, end)]
+        
+        # A segment must be at least Delta long to be valid.
+        if (end - start) < Delta:
+             return jnp.inf
+
+        y_seg = y_jax[start:end]
+        Z_seg = Z_jax[start:end, :]
+        
+        cost = _get_segment_cost(M, Z_seg, y_seg)
+        memo[(start, end)] = cost
+        return cost
+
+    # --- Main Binary Segmentation Loop ---
+    found_changepoints = []
+    # A list of segment tuples (start, end) that are candidates for splitting.
+    segments_to_process = [(0, n)] 
+
+    search_type = "at most" if L_is_upper_bound else "exactly"
+    print(f"Starting binary segmentation to find {search_type} {k_target} change points...")
+    
+    for _ in tqdm(range(k_target), desc="Binary Segmentation"):
+        best_split_info = {
+            'gain': -jnp.inf, 
+            'changepoint': -1, 
+            'segment_to_split': None # This will store the (start, end) tuple of the segment to be split.
+        }
+
+        # In each iteration, find the single best split across ALL current segments.
+        for s, e in segments_to_process:
+            cost_parent = get_cached_segment_cost(s, e)
+            if jnp.isinf(cost_parent):
+                continue
+            
+            # Iterate through all valid split points `t` for this segment.
+            for t in range(s + Delta, e - Delta + 1):
+                cost_child1 = get_cached_segment_cost(s, t)
+                cost_child2 = get_cached_segment_cost(t, e)
+                
+                if jnp.isinf(cost_child1) or jnp.isinf(cost_child2):
+                    continue
+                
+                total_child_cost = cost_child1 + cost_child2
+                current_gain = cost_parent - total_child_cost
+
+                if current_gain > best_split_info['gain']:
+                    best_split_info['gain'] = current_gain
+                    best_split_info['changepoint'] = t
+                    best_split_info['segment_to_split'] = (s, e)
+
+        # Determine whether to accept the found split.
+        a_split_is_possible = best_split_info['segment_to_split'] is not None
+        
+        # If L_is_upper_bound, only split if it's beneficial (positive gain).
+        # Otherwise (exact L), split as long as it's possible.
+        if (L_is_upper_bound and best_split_info['gain'] > 0) or (not L_is_upper_bound and a_split_is_possible):
+            t_optimal = best_split_info['changepoint']
+            s_to_split, e_to_split = best_split_info['segment_to_split']
+
+            found_changepoints.append(t_optimal)
+            segments_to_process.remove((s_to_split, e_to_split))
+            segments_to_process.append((s_to_split, t_optimal))
+            segments_to_process.append((t_optimal, e_to_split))
+        else:
+            # Stop if no beneficial split is found (for upper bound case) or
+            # if no split is possible at all (for exact case).
+            if L_is_upper_bound:
+                print(f"Stopping early after finding {len(found_changepoints)} changepoints, as no further split improves the score.")
+            else:
+                 print(f"Warning: Could not find any more valid split points due to Delta constraints. Stopping.")
+            break
+            
+    best_eta = np.sort(np.array(found_changepoints, dtype=np.int32))
+    print(f"Search complete. Found {len(best_eta)} changepoints: {best_eta}")
+
+    if not L_is_upper_bound and len(best_eta) < k_target:
+        print(f"Warning: Found {len(best_eta)} changepoints, but the target was exactly {k_target}.")
+
+    if gof_opt_output:
+        final_unpenalized_cost = sum(get_cached_segment_cost(s, e) for s, e in segments_to_process)
+        final_k = len(best_eta)
+        penalty = γ * final_k * jnp.log(n) if final_k > 0 else 0
+        final_gof = final_unpenalized_cost + penalty
+        
+        print(f"Final penalized GoF: {final_gof:.4f} (using BIC-style penalty γ*k*log(n))")
+        return best_eta, final_gof
+    else:
+        return best_eta
+    
 ### --- New Binary Segmentation Code --- ###
 ### --- 1. NEW JIT-compiled Inner Helper Function --- ###
 # This new function contains the logic we want to speed up.
@@ -151,7 +315,6 @@ def chgpt_binary_segmentation(M, Z, y, n, L, min_window_size=30,
     else:
         return best_η
 
-
 ### --- Efficient GoF Search for Change Points --- ###
 
 # --- JIT-compiled GoF calculator (unchanged) ---
@@ -191,7 +354,7 @@ def chgpt_gof_binary_seg_mem_eff(M, Z, y, n, L, Delta, γ=1.0, min_window_size=3
         raise ValueError(f"Impossible to place {k} change points with separation {Delta} in {n} points.")
 
     num_total_configs = scipy.special.comb(effective_positions, k, exact=True)
-    log_prior_penalty = jnp.log(num_total_configs)
+    log_prior_penalty = jnp.log(L * num_total_configs)
 
     def get_η_from_index(idx):
         if idx >= num_total_configs:
@@ -404,7 +567,7 @@ def _calculate_gof_for_batch(η_batch, Z, y, M, γ, log_prior, n):
     # Vmap the single-config function over the batch axis of η_batch
     return jax.vmap(_calculate_gof_single)(η_batch)
 
-def chgpt_gof_brute_force_mem_eff(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096, gof_opt_output=False):
+def _chgpt_gof_bf_mem_eff_exact_L(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096, gof_opt_output=False):
     """
     Memory-efficient GoF brute-force search that generates configurations on the fly.
 
@@ -446,7 +609,7 @@ def chgpt_gof_brute_force_mem_eff(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096,
         print(f"The number of configurations is extremely large. This search may take a very long time.")
         print("Consider using the binary search version or reducing the problem complexity.\n")
 
-    log_prior_penalty = jnp.log(num_total_configs)
+    log_prior_penalty = jnp.log(L * num_total_configs)
     
     Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
 
@@ -488,6 +651,28 @@ def chgpt_gof_brute_force_mem_eff(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096,
         return best_η, best_gof
     else:
         return best_η if best_gof < jnp.inf else np.array([])
+
+def chgpt_gof_bf_mem_eff(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound = False, batch_size=4096, gof_opt_output=False):
+    if not L_is_upper_bound:
+        return _chgpt_gof_bf_mem_eff_exact_L(M, Z, y, n, L, Delta, γ, batch_size, gof_opt_output)
+    else:
+        # If L is an upper bound, we need to search for the best L
+        best_η = np.array([], dtype=int)
+        best_gof = jnp.inf
+
+        for L_current in range(1, L + 1):
+            η_current, gof_current = _chgpt_gof_bf_mem_eff_exact_L(
+                M, Z, y, n, L_current, Delta, γ, batch_size, gof_opt_output=True
+            )
+            if gof_current < best_gof:
+                best_gof = gof_current
+                best_η = η_current
+
+        if gof_opt_output:
+            return best_η, best_gof
+        else:
+            return best_η
+        
 
 ### --- General Goodness of Fit (GoF) --- ###
 

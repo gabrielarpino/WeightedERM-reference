@@ -8,6 +8,7 @@ import scipy.special
 from functools import partial
 from tqdm.auto import tqdm
 from tqdm import trange
+from joblib import Parallel, delayed
 
 def chgpt_two_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer = None):
     """
@@ -147,11 +148,14 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
     # The original gof functions might not have a gof_opt_output argument
     # I'm assuming they can be modified to return both chgpts and gof_score
     if brute_force:
-        # Assuming brute force can also return gof
-        opt_chgpts, opt_gof = WERM.gof.chgpt_gof_brute_force_mem_eff(M, Theta_hat, y, n, L, Delta_n, γ=gamma, batch_size=4096, gof_opt_output=True)
+        opt_chgpts, opt_gof = WERM.gof.chgpt_gof_bf_mem_eff(
+                M, Theta_hat, y, n, L, Delta_n, L_is_upper_bound=L_is_upper_bound,
+                γ=gamma, batch_size=4096, gof_opt_output=True
+            )
     else:
         # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_binary_seg_mem_eff(M, Theta_hat, y, n, L, Delta_n, γ=gamma, min_window_size=30, gof_opt_output=True)
-        opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, min_window_size=Delta_n, gamma=gamma, gof_opt_output=True, γ=gamma)
+        # opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, min_window_size=Delta_n, gamma=gamma, gof_opt_output=True, γ=gamma)
+        opt_chgpts, opt_gof = WERM.gof.chgpt_gof_dc(M, Theta_hat, y, n, L, Delta_n, γ=1.0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
 
     if return_gof:
         return (opt_chgpts, opt_gof, B_hat) if return_B_hat else (opt_chgpts, opt_gof)
@@ -203,7 +207,7 @@ def weighted_erm_extended_penalized(X, y, M, L, Delta_n, gamma, brute_force=Fals
         if s >= n:
             log_penalty_term = np.inf
         else:
-            log_penalty_term = np.log(scipy.special.comb(n - 1, s, exact=False) + 1e-9)
+            log_penalty_term = np.log(L * scipy.special.comb(n - 1, s, exact=False) + 1e-9)
 
         penalized_score = gof_score + gamma * log_penalty_term
         
