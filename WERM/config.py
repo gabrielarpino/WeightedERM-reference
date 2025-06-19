@@ -17,13 +17,22 @@ warnings.filterwarnings('ignore')
 
 ### --- Compute the marginals by extrapolating from smaller solution --- ###
 
-def extrapolated_marginals(Lmin, Lmax, Delta_small, n_small = 50, n_large = 1000, p_l = None):
-    """ Extrapolate the marginal probabilities from a small problem size to a larger one."""
+def extrapolated_marginals(Lmin, Lmax, Delta_small, n_small=50, n_large=1000, p_l=None, verbose='summary'):
+    """ 
+    Extrapolate the marginal probabilities from a small problem size to a larger one.
+    
+    Parameters:
+    -----------
+    verbose : str or bool
+        - True or 'full': Print all progress and diagnostic information
+        - 'summary': Print only final fitting summary (average MSE and max normalization error)
+        - False or 'silent': Print nothing
+    """
     
     # Compute the exact marginals for the small problem
     # p_l = 1/L * np.ones(L) # puts equal weight on all number of signals, set None otherwise. Best for estimating size. 
     # p_l = None
-    num_valid_configs, η_arr, p_η_arr, ϕ = unif_prior_to_η_ϕ(Lmin, Lmax, Delta_small, n_small, p_l = p_l) # Lxn matrix
+    num_valid_configs, η_arr, p_η_arr, ϕ = unif_prior_to_η_ϕ(Lmin, Lmax, Delta_small, n_small, p_l=p_l) # Lxn matrix
     assert η_arr.shape == (num_valid_configs, Lmax-1) and \
         len(p_η_arr) == num_valid_configs
     assert ϕ.shape == (Lmax, n_small)
@@ -31,7 +40,7 @@ def extrapolated_marginals(Lmin, Lmax, Delta_small, n_small = 50, n_large = 1000
 
     # Extrapolate to larger problem size
     # Step 2: Fit exact models
-    fitter = ExactCurveFitter(L=Lmax, target_mse=1e-8)
+    fitter = ExactCurveFitter(L=Lmax, target_mse=1e-8, verbose=verbose)
     fitter.fit_from_small_problem(π_original.shape[1], π_original, method='auto')
 
     # Step 3: Generate exact curves for large n
@@ -52,7 +61,7 @@ class ExactCurveFitter:
     5. Ensemble methods combining multiple approaches
     """
     
-    def __init__(self, L, delta_ratio=0.1, target_mse=1e-8):
+    def __init__(self, L, delta_ratio=0.1, target_mse=1e-8, verbose='summary'):
         """
         Parameters:
         -----------
@@ -62,14 +71,29 @@ class ExactCurveFitter:
             Ratio Δ/n
         target_mse : float
             Target MSE for "exact" fitting (default: 1e-8)
+        verbose : str or bool
+            - True or 'full': Print all progress and diagnostic information
+            - 'summary': Print only final fitting summary (average MSE and max normalization error)
+            - False or 'silent': Print nothing
         """
         self.L = L
         self.delta_ratio = delta_ratio
         self.target_mse = target_mse
+        self.verbose = verbose
         self.fitted_models = {}
         self.model_types = {}
         self.scalers = {}
         self.fit_scores = {}
+        
+    def _print(self, *args, **kwargs):
+        """Print only if verbose is True or 'full'."""
+        if self.verbose is True or self.verbose == 'full':
+            print(*args, **kwargs)
+    
+    def _print_summary(self, *args, **kwargs):
+        """Print if verbose is True, 'full', or 'summary'."""
+        if self.verbose is True or self.verbose == 'full' or self.verbose == 'summary':
+            print(*args, **kwargs)
         
     def fit_from_small_problem(self, n_small, phi_matrix, method='auto'):
         """
@@ -84,8 +108,8 @@ class ExactCurveFitter:
         method : str
             'auto', 'gp', 'neural', 'spline', 'rbf', 'ensemble'
         """
-        print(f"Fitting exact models to curves from n={n_small} problem...")
-        print(f"Target MSE: {self.target_mse}")
+        self._print(f"Fitting exact models to curves from n={n_small} problem...")
+        self._print(f"Target MSE: {self.target_mse}")
         
         # Normalize positions to [0, 1]
         positions_norm = np.linspace(0, 1, n_small)
@@ -94,7 +118,7 @@ class ExactCurveFitter:
         for ell in range(self.L):
             probs = phi_matrix[ell, :]
             
-            print(f"\nFitting segment {ell}...")
+            self._print(f"\nFitting segment {ell}...")
             
             if method == 'auto':
                 # Try all methods and pick the best
@@ -108,13 +132,19 @@ class ExactCurveFitter:
             self.model_types[ell] = best_type
             self.fit_scores[ell] = best_score
             
-            print(f"  Best model: {best_type} (MSE = {best_score:.2e})")
+            self._print(f"  Best model: {best_type} (MSE = {best_score:.2e})")
             
             if best_score > self.target_mse:
-                print(f"  Warning: MSE {best_score:.2e} exceeds target {self.target_mse:.2e}")
+                self._print(f"  Warning: MSE {best_score:.2e} exceeds target {self.target_mse:.2e}")
         
         self.n_reference = n_small
-        print(f"\nExact fitting complete! Average MSE: {np.mean(list(self.fit_scores.values())):.2e}")
+        
+        # Summary output for fitting quality
+        avg_mse = np.mean(list(self.fit_scores.values()))
+        self._print_summary(f"Fitting complete! Average MSE: {avg_mse:.2e} (target: {self.target_mse:.2e})")
+        
+        # Detailed output only for full verbose
+        self._print(f"\nExact fitting complete! Average MSE: {avg_mse:.2e}")
     
     def _fit_best_exact_model(self, x, y, segment_idx):
         """
@@ -144,13 +174,13 @@ class ExactCurveFitter:
                     
                     # If we hit target accuracy, stop early
                     if score < self.target_mse:
-                        print(f"    {method_name}: MSE = {score:.2e} ✓ (target reached)")
+                        self._print(f"    {method_name}: MSE = {score:.2e} ✓ (target reached)")
                         break
                     else:
-                        print(f"    {method_name}: MSE = {score:.2e}")
+                        self._print(f"    {method_name}: MSE = {score:.2e}")
                         
             except Exception as e:
-                print(f"    {method_name}: Failed ({str(e)[:50]})")
+                self._print(f"    {method_name}: Failed ({str(e)[:50]})")
                 continue
         
         return best_model, best_type, best_score
@@ -159,6 +189,13 @@ class ExactCurveFitter:
         """
         Fit Gaussian Process with optimized hyperparameters.
         """
+        # Import here to avoid issues if sklearn is not available
+        try:
+            from sklearn.gaussian_process import GaussianProcessRegressor
+            from sklearn.gaussian_process.kernels import RBF, Matern, WhiteKernel
+        except ImportError:
+            raise ImportError("sklearn required for Gaussian Process fitting")
+            
         if kernel_type == 'rbf':
             # RBF kernel with multiple length scales to try
             kernels = [
@@ -210,6 +247,13 @@ class ExactCurveFitter:
         """
         Fit deep neural network with PyTorch for maximum flexibility.
         """
+        try:
+            import torch
+            import torch.nn as nn
+            import torch.optim as optim
+        except ImportError:
+            raise ImportError("PyTorch required for neural network fitting")
+            
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
         # Convert to tensors
@@ -291,6 +335,11 @@ class ExactCurveFitter:
         """
         Fit B-spline with automatic knot selection.
         """
+        try:
+            from scipy.interpolate import UnivariateSpline, interp1d
+        except ImportError:
+            raise ImportError("scipy required for spline fitting")
+            
         if smoothing:
             # Smoothing spline with automatic smoothing parameter
             spline = UnivariateSpline(x, y, s=None)  # s=None for automatic smoothing
@@ -316,8 +365,11 @@ class ExactCurveFitter:
         """
         Fit Radial Basis Function network.
         """
-        from sklearn.cluster import KMeans
-        
+        try:
+            from sklearn.cluster import KMeans
+        except ImportError:
+            raise ImportError("sklearn required for RBF network fitting")
+            
         # Automatically select number of RBF centers
         n_centers = min(len(x) // 2, 20)
         
@@ -372,7 +424,7 @@ class ExactCurveFitter:
         if not self.fitted_models:
             raise ValueError("Must fit models first")
         
-        print(f"Predicting with exact models for n={n_large}...")
+        self._print(f"Predicting with exact models for n={n_large}...")
         
         # Create normalized positions
         positions_norm = np.linspace(0, 1, n_large)
@@ -394,10 +446,11 @@ class ExactCurveFitter:
         # Report quality
         if enforce_normalization:
             max_norm_error = np.max(np.abs(np.sum(phi_pred, axis=0) - 1.0))
-            print(f"Normalization enforced. Max error: {max_norm_error:.2e}")
+            self._print_summary(f"Max normalization error: {max_norm_error:.2e}")
+            self._print(f"Normalization enforced. Max error: {max_norm_error:.2e}")
         
         min_val, max_val = np.min(phi_pred), np.max(phi_pred)
-        print(f"Value bounds: [{min_val:.6f}, {max_val:.6f}]")
+        self._print(f"Value bounds: [{min_val:.6f}, {max_val:.6f}]")
         
         return phi_pred
     
@@ -405,6 +458,12 @@ class ExactCurveFitter:
         """
         Plot the quality of fits on the original data.
         """
+        try:
+            import matplotlib.pyplot as plt
+        except ImportError:
+            print("matplotlib required for plotting")
+            return
+            
         positions_norm = np.linspace(0, 1, n_small)
         
         fig, axes = plt.subplots(2, 3, figsize=(15, 10))

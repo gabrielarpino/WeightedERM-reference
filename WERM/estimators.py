@@ -119,11 +119,24 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
     (This function was provided as complete and is used as a helper).
     """
     n, p = X.shape
+
     # Assuming WERM.marginals.compute_pi is a valid function in your library
     pi = WERM.marginals.compute_pi(
         L=L, n=n, Delta=Delta_n, L_is_upper_bound=L_is_upper_bound
     )
-    L = pi.shape[0]
+
+    n_small = 50
+    Delta_n_small = int(Delta_n * n_small/n)
+    if L_is_upper_bound: 
+        p_l = 1/L * np.ones(L) # puts equal weight on all number of signals, set None otherwise. Best for estimating size. 
+        Lmin = 1
+        Lmax = L
+    else:
+        p_l = None
+        Lmin = L
+        Lmax = L
+    pi = WERM.config.extrapolated_marginals(Lmin, Lmax, Delta_n_small, n_small = n_small, n_large = n, p_l = p_l)
+
     B_hat = np.zeros((p, L))
 
     # --- 1. Estimate signal coefficients B_hat ---
@@ -145,8 +158,6 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
     # --- 2. Compute Change Point Estimates using Goodness-of-Fit ---
     Theta_hat = X @ B_hat
 
-    # The original gof functions might not have a gof_opt_output argument
-    # I'm assuming they can be modified to return both chgpts and gof_score
     if brute_force:
         opt_chgpts, opt_gof = WERM.gof.chgpt_gof_bf_mem_eff(
                 M, Theta_hat, y, n, L, Delta_n, L_is_upper_bound=L_is_upper_bound,
@@ -155,7 +166,8 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
     else:
         # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_binary_seg_mem_eff(M, Theta_hat, y, n, L, Delta_n, γ=gamma, min_window_size=30, gof_opt_output=True)
         # opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, min_window_size=Delta_n, gamma=gamma, gof_opt_output=True, γ=gamma)
-        opt_chgpts, opt_gof = WERM.gof.chgpt_gof_dc(M, Theta_hat, y, n, L, Delta_n, γ=1.0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
+        # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_dc(M, Theta_hat, y, n, L, Delta_n, γ=1.0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
+        opt_chgpts, opt_gof = WERM.gof.chgpt_gof_divide_conquer(M, Theta_hat, y, n, L, Delta_n, γ=gamma, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
 
     if return_gof:
         return (opt_chgpts, opt_gof, B_hat) if return_B_hat else (opt_chgpts, opt_gof)
@@ -209,6 +221,9 @@ def weighted_erm_extended_penalized(X, y, M, L, Delta_n, gamma, brute_force=Fals
         else:
             log_penalty_term = np.log(L * scipy.special.comb(n - 1, s, exact=False) + 1e-9)
 
+        # Print the scale of the penalty term vs. the GOF score
+        if gof_score > 0:
+            print(f"GOF score: {gof_score:.4f}, gamma * log-penalty term: {gamma * log_penalty_term:.4f} (gamma={gamma})")
         penalized_score = gof_score + gamma * log_penalty_term
         
         candidate_chgpts.append(chgpts)

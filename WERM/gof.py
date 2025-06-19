@@ -10,505 +10,294 @@ import scipy.special
 from tqdm.auto import tqdm # For a nice progress bar
 from joblib import Parallel, delayed
 
+### --- Efficient, approximate divide and conquer approach --- ###
 
-### --- Divide and Conquer (Binary Segmentation) Change Point Detection --- ###
-
-@partial(jax.jit, static_argnames=['M'])
-def _get_segment_cost(M, Z_seg, y_seg):
-    """
-    Calculates the minimum cost for a single data segment against all possible signals.
-
-    This function is JIT-compiled for performance. It finds the best-fitting
-    constant signal for the segment [start, end) and returns its associated cost.
-
-    Args:
-        M: The cost function.
-        Z_seg: A JAX array slice of signals for the segment, shape (seg_len, L).
-        y_seg: A JAX array slice of data for the segment, shape (seg_len,).
-
-    Returns:
-        The minimum cost (a scalar JAX array).
-    """
-    # This function assumes M operates on vectors of the same length.
-    # We vmap the cost calculation over all L signals (the columns of Z_seg).
-    def cost_for_one_signal(z_col):
-        return jnp.sum(M(z_col, y_seg))
-
-    # vmap iterates over the columns of Z_seg.
-    all_costs = jax.vmap(cost_for_one_signal, in_axes=1)(Z_seg)
-    
-    return jnp.min(all_costs)
-
-
-def chgpt_gof_dc(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound=True, gof_opt_output=False):
-    """
-    Finds change points using a divide-and-conquer (binary segmentation) approach.
-
-    This is a fast heuristic that is not guaranteed to find the global optimum.
-    It works by iteratively finding the single best split point that results in the
-    largest reduction in cost.
-
-    Args:
-        M: The model/cost function (e.g., a loss function).
-        Z: The data matrix (n x L).
-        y: The target vector.
-        n (int): The number of data points.
-        L (int): If L_is_upper_bound is True, this is the maximum number of segments
-                 (L-1 change points). If False, it is the exact number of segments.
-        Delta (int): The minimum separation between change points.
-        γ (float): The penalization constant.
-        L_is_upper_bound (bool): If True, finds *at most* L-1 change points by only
-                                 splitting if it reduces the cost. If False, finds
-                                 *exactly* L-1 change points, even if it increases cost.
-        gof_opt_output (bool): If True, returns the final GoF score along with the change points.
-
-    Returns:
-        An array of found change points. If gof_opt_output is True, also returns
-        the calculated goodness-of-fit score.
-    """
-    k_target = L - 1
-    if k_target <= 0:
-        print("Target k is 0 or less, no change points to find.")
-        # Calculate GoF for the no-changepoint case if requested
-        if gof_opt_output:
-            Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
-            cost = _get_segment_cost(M, Z_jax, y_jax)
-            return np.array([], dtype=int), cost
-        return np.array([], dtype=int)
-
-    Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
-
-    # Memoization cache to store the costs of segments that have already been calculated.
-    memo = {}
-
-    def get_cached_segment_cost(start, end):
-        """Wrapper for _get_segment_cost that uses a memoization cache."""
-        if (start, end) in memo:
-            return memo[(start, end)]
-        
-        # A segment must be at least Delta long to be valid.
-        if (end - start) < Delta:
-             return jnp.inf
-
-        y_seg = y_jax[start:end]
-        Z_seg = Z_jax[start:end, :]
-        
-        cost = _get_segment_cost(M, Z_seg, y_seg)
-        memo[(start, end)] = cost
-        return cost
-
-    # --- Main Binary Segmentation Loop ---
-    found_changepoints = []
-    # A list of segment tuples (start, end) that are candidates for splitting.
-    segments_to_process = [(0, n)] 
-
-    search_type = "at most" if L_is_upper_bound else "exactly"
-    print(f"Starting binary segmentation to find {search_type} {k_target} change points...")
-    
-    for _ in tqdm(range(k_target), desc="Binary Segmentation"):
-        best_split_info = {
-            'gain': -jnp.inf, 
-            'changepoint': -1, 
-            'segment_to_split': None # This will store the (start, end) tuple of the segment to be split.
-        }
-
-        # In each iteration, find the single best split across ALL current segments.
-        for s, e in segments_to_process:
-            cost_parent = get_cached_segment_cost(s, e)
-            if jnp.isinf(cost_parent):
-                continue
-            
-            # Iterate through all valid split points `t` for this segment.
-            for t in range(s + Delta, e - Delta + 1):
-                cost_child1 = get_cached_segment_cost(s, t)
-                cost_child2 = get_cached_segment_cost(t, e)
-                
-                if jnp.isinf(cost_child1) or jnp.isinf(cost_child2):
-                    continue
-                
-                total_child_cost = cost_child1 + cost_child2
-                current_gain = cost_parent - total_child_cost
-
-                if current_gain > best_split_info['gain']:
-                    best_split_info['gain'] = current_gain
-                    best_split_info['changepoint'] = t
-                    best_split_info['segment_to_split'] = (s, e)
-
-        # Determine whether to accept the found split.
-        a_split_is_possible = best_split_info['segment_to_split'] is not None
-        
-        # If L_is_upper_bound, only split if it's beneficial (positive gain).
-        # Otherwise (exact L), split as long as it's possible.
-        if (L_is_upper_bound and best_split_info['gain'] > 0) or (not L_is_upper_bound and a_split_is_possible):
-            t_optimal = best_split_info['changepoint']
-            s_to_split, e_to_split = best_split_info['segment_to_split']
-
-            found_changepoints.append(t_optimal)
-            segments_to_process.remove((s_to_split, e_to_split))
-            segments_to_process.append((s_to_split, t_optimal))
-            segments_to_process.append((t_optimal, e_to_split))
-        else:
-            # Stop if no beneficial split is found (for upper bound case) or
-            # if no split is possible at all (for exact case).
-            if L_is_upper_bound:
-                print(f"Stopping early after finding {len(found_changepoints)} changepoints, as no further split improves the score.")
-            else:
-                 print(f"Warning: Could not find any more valid split points due to Delta constraints. Stopping.")
-            break
-            
-    best_eta = np.sort(np.array(found_changepoints, dtype=np.int32))
-    print(f"Search complete. Found {len(best_eta)} changepoints: {best_eta}")
-
-    if not L_is_upper_bound and len(best_eta) < k_target:
-        print(f"Warning: Found {len(best_eta)} changepoints, but the target was exactly {k_target}.")
-
-    if gof_opt_output:
-        final_unpenalized_cost = sum(get_cached_segment_cost(s, e) for s, e in segments_to_process)
-        final_k = len(best_eta)
-        penalty = γ * final_k * jnp.log(n) if final_k > 0 else 0
-        final_gof = final_unpenalized_cost + penalty
-        
-        print(f"Final penalized GoF: {final_gof:.4f} (using BIC-style penalty γ*k*log(n))")
-        return best_eta, final_gof
-    else:
-        return best_eta
-    
-### --- New Binary Segmentation Code --- ###
-### --- 1. NEW JIT-compiled Inner Helper Function --- ###
-# This new function contains the logic we want to speed up.
-# It operates on pre-sliced arrays, so their shapes are static from its perspective.
-@partial(jax.jit, static_argnames=['M', 'L'])
-def _jitted_cost_computation(segment_y, segment_z_all_prototypes, M, L):
-    """
-    JIT-compiled helper to compute the minimum cost for a given segment.
-    
-    Args:
-        segment_y: A JAX array of shape (segment_length,).
-        segment_z_all_prototypes: A JAX array of shape (segment_length, L).
-        M: The dissimilarity function.
-        L: The static number of prototypes.
-    """
-    def cost_for_prototype(l):
-        # Slice out the l-th prototype for the segment
-        segment_z_prototype = segment_z_all_prototypes[:, l]
-        dissimilarity = M(segment_z_prototype, segment_y)
-        return jnp.sum(dissimilarity)
-
-    all_costs = jax.vmap(cost_for_prototype)(jnp.arange(L))
-    return jnp.min(all_costs)
-### --- 2. MODIFIED `_calculate_segment_cost` (NO JIT) --- ###
-# This function is now a regular Python function. Its job is to do the
-# dynamic slicing and then call our fast, jitted helper.
-# REMOVED: @partial(jax.jit, static_argnames=['M', 'L'])
-def _calculate_segment_cost(start, end, Z, y, M, L):
-    """
-    Calculates the cost for a single segment [start, end).
-    This is now a non-jitted function that handles dynamic slicing.
-    """
-    # Perform dynamic slicing in standard Python/Numpy mode
-    segment_y = y[start:end]
-    segment_z_all = Z[start:end, :] # Slice all L prototypes for the segment
-
-    # Call the jitted helper with the now statically-sized slices
-    return _jitted_cost_computation(segment_y, segment_z_all, M, L)
-
-# User's original GoF calculator, used only at the end if gof_opt_output is True
 @partial(jax.jit, static_argnames=['M', 'γ', 'n'])
-def _calculate_final_gof(η, Z, y, M, γ, log_prior, n):
-    """
-    JIT-compiled function to calculate GoF for a single change point configuration.
-    Unchanged from your original code.
-    """
-    def η_to_ψ(η_in, n_in):
-        boundaries = jnp.concatenate([jnp.array([0]), η_in, jnp.array([n_in])])
-        indices = jnp.arange(n_in)
-        return jnp.searchsorted(boundaries, indices, side='right') - 1
-
-    ψ = η_to_ψ(η, n)
-    # Z has shape (n, L), ψ has shape (n,). We need to select the right prototype for each point.
-    # This assumes the segment index from ψ corresponds to the prototype index in Z.
-    # A safer assumption is to re-calculate the best prototype for each segment.
-    # For simplicity here, we stick to a simplified interpretation.
-    # A more robust implementation would re-fit prototypes to segments post-hoc.
-    z_for_y = Z[jnp.arange(n), ψ]
-    dissimilarity = M(z_for_y, y)
-    gof = jnp.sum(dissimilarity) + γ * log_prior
-    return gof
-
-### --- Main Binary Segmentation Function (with tqdm) --- ###
-def chgpt_binary_segmentation(M, Z, y, n, L, min_window_size=30, 
-                              gamma=0.0, # 1. USE GAMMA AS THE THRESHOLD
-                              gof_opt_output=False):
-    """
-    Performs change point detection using the standard Binary Segmentation algorithm.
-
-    Args:
-        gamma (float): A penalty threshold for the gain. A new change point is
-            added only if the gain from the split is strictly greater than gamma.
-            - To find AT MOST L-1 change points, use gamma >= 0 (default is 0).
-            - To find a FIXED number of L-1 change points, set gamma to a large
-              negative number (e.g., -np.inf).
-        gof_opt_output (bool): If True, returns the final GoF score.
-    """
-    k = L - 1
-    if k <= 0:
-        return np.array([], dtype=int)
-
-    changepoints = []
-    segments_to_check = [(0, n)]
+def _calculate_gof_single_config(η, Z, y, M, γ, log_prior, n):
+    """Calculate GoF for a single configuration."""
+    boundaries = jnp.concatenate([jnp.array([0]), η, jnp.array([n])])
+    indices = jnp.arange(n)
+    ψ = jnp.searchsorted(boundaries, indices, side='right') - 1
     
-    Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
-
-    pbar = tqdm(range(k), desc="Finding change points")
-    for _ in pbar:
-        max_gain = -np.inf
-        best_split_info = None
-
-        for i, (start, end) in enumerate(segments_to_check):
-            if (end - start) < 2 * min_window_size:
-                continue
-
-            parent_cost = _calculate_segment_cost(start, end, Z_jax, y_jax, M, L)
-            
-            for split_point in range(start + min_window_size, end - min_window_size):
-                cost_child1 = _calculate_segment_cost(start, split_point, Z_jax, y_jax, M, L)
-                cost_child2 = _calculate_segment_cost(split_point, end, Z_jax, y_jax, M, L)
-                
-                current_gain = parent_cost - (cost_child1 + cost_child2)
-
-                if current_gain > max_gain:
-                    max_gain = current_gain
-                    best_split_info = {
-                        "split_point": split_point,
-                        "parent_segment_index": i,
-                        "new_segments": [(start, split_point), (split_point, end)]
-                    }
-        
-        # --- 2. UNIFIED STOPPING CONDITION USING GAMMA ---
-        # This single condition now handles all cases:
-        # 1. No split is possible (max_gain remains -inf, which is <= gamma).
-        # 2. The best possible split is not good enough (max_gain <= gamma).
-        if max_gain <= gamma:
-            tqdm.write(
-                f"Stopping: Best gain ({max_gain:.2f}) "
-                f"did not exceed threshold ({gamma:.2f})."
-            )
-            break
-        # --- END OF NEW LOGIC ---
-
-        changepoints.append(best_split_info["split_point"])
-        parent_idx = best_split_info["parent_segment_index"]
-        segments_to_check.pop(parent_idx)
-        segments_to_check.extend(best_split_info["new_segments"])
-        
-        # Update the progress bar's description with the latest gain and threshold
-        pbar.set_postfix(max_gain=f"{max_gain:.2f}", threshold=gamma)
-
-    pbar.close()
-    best_η = np.sort(np.array(changepoints, dtype=int))
-
-    if gof_opt_output:
-        # Note: The final GoF is calculated without an explicit penalty term here,
-        # as the model selection was already performed by the gamma threshold.
-        final_gof = _calculate_final_gof(jnp.asarray(best_η), Z_jax, y_jax, M, 1.0, 0.0, n)
-        return best_η, final_gof
-    else:
-        return best_η
-
-### --- Efficient GoF Search for Change Points --- ###
-
-# --- JIT-compiled GoF calculator (unchanged) ---
-@partial(jax.jit, static_argnames=['M', 'γ', 'n'])
-def _calculate_gof_single(η, Z, y, M, γ, log_prior, n):
-    """
-    JIT-compiled function to calculate GoF for a single change point configuration.
-    """
-    def η_to_ψ(η_in, n_in):
-        boundaries = jnp.concatenate([jnp.array([0]), η_in, jnp.array([n_in])])
-        indices = jnp.arange(n_in)
-        return jnp.searchsorted(boundaries, indices, side='right') - 1
-    
-    ψ = η_to_ψ(η, n)
     similarity = M(Z[jnp.arange(n), ψ], y)
     gof = jnp.sum(similarity) + γ * log_prior 
     return gof
 
-# --- Main memory-efficient function (using the corrected helper) ---
-def chgpt_gof_binary_seg_mem_eff(M, Z, y, n, L, Delta, γ=1.0, min_window_size=30, gof_opt_output=False):
+# --- NEW: Approximate Divide-and-Conquer Method ---
+def _find_best_single_changepoint(M, Z, y, start, end, Delta, γ, log_prior, n, existing_changepoints=None):
     """
-    Memory-efficient GoF search that generates configurations on the fly.
-    """
-    k = L - 1
-    if k == 0:
-        # if gof_list_output: return np.array([], dtype=int), np.array([0.0])
-        if gof_opt_output: 
-            similarity = M(Z, y)
-            gof = jnp.sum(similarity) + γ * jnp.log(1.0)  # log(1.0) is zero
-            return np.array([], dtype=int), gof
-        else: return np.array([], dtype=int)
-        
-    num_positions = n - 1
-    effective_positions = num_positions - (k - 1) * (Delta - 1) # This is correct
+    Find the best single change point in the range [start, end).
     
-    if effective_positions < k:
-        raise ValueError(f"Impossible to place {k} change points with separation {Delta} in {n} points.")
-
-    num_total_configs = scipy.special.comb(effective_positions, k, exact=True)
-    log_prior_penalty = jnp.log(L * num_total_configs)
-
-    def get_η_from_index(idx):
-        if idx >= num_total_configs:
-            raise IndexError("Configuration index out of bounds.")
-        
-        y = _unrank_combination(idx, k, effective_positions)
-        separations = (Delta - 1) * np.arange(k)
-        η = y + separations + 1 
-        return jnp.asarray(η, dtype=jnp.int32)
-
-    num_levels = max(0, math.ceil(math.log2(num_total_configs / min_window_size)))
-    start_idx, end_idx = 0, num_total_configs
+    Args:
+        M: Model function
+        Z, y: Data
+        start, end: Range to search in
+        Delta: Minimum separation
+        γ: Penalty parameter
+        log_prior: Prior penalty
+        n: Total number of data points
+        existing_changepoints: List of already placed change points
+    
+    Returns:
+        best_position: Best change point position, or None if no valid position
+        best_gof: Best GoF score achieved
+    """
+    if existing_changepoints is None:
+        existing_changepoints = []
     
     Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
-
-    for _ in range(num_levels):
-        if end_idx - start_idx <= 1: break
-            
-        midpoint = (start_idx + end_idx) // 2
-        q1_point = (start_idx + midpoint) // 2
-        q3_point = (midpoint + end_idx) // 2
-        
-        test_indices = [q1_point, midpoint, q3_point]
-        best_gof_step = jnp.inf
-        best_region = 1
-        
-        for i, idx in enumerate(test_indices):
-            η_test = get_η_from_index(idx)
-            gof = _calculate_gof_single(η_test, Z_jax, y_jax, M, γ, log_prior_penalty, n)
-            if gof < best_gof_step:
-                best_gof_step = gof
-                best_region = i
-        
-        if best_region == 0:
-            end_idx = midpoint
-        elif best_region == 1:
-            start_idx, end_idx = q1_point, q3_point
-        else:
-            start_idx = midpoint
-
+    
+    # Find valid positions (respecting Delta separation from existing change points)
+    valid_positions = []
+    for pos in range(start + 1, end):  # Change points are at positions 1 to n-1
+        valid = True
+        for existing_cp in existing_changepoints:
+            if abs(pos - existing_cp) < Delta:
+                valid = False
+                break
+        if valid:
+            valid_positions.append(pos)
+    
+    if not valid_positions:
+        return None, jnp.inf
+    
     best_gof = jnp.inf
-    best_η = jnp.array([-1] * k, dtype=jnp.int32) # Initialize with correct shape
-    final_gof_list = []
-
-    for i in range(start_idx, end_idx):
-        η = get_η_from_index(i)
-        gof = _calculate_gof_single(η, Z_jax, y_jax, M, γ, log_prior_penalty, n)
+    best_position = None
+    
+    # Test each valid position
+    for pos in valid_positions:
+        # Create configuration with this change point
+        test_changepoints = sorted(existing_changepoints + [pos])
+        η = jnp.array(test_changepoints)
         
-        # if gof_list_output:
-        #     final_gof_list.append(gof)
-            
+        gof = _calculate_gof_single_config(η, Z_jax, y_jax, M, γ, log_prior, n)
+        
         if gof < best_gof:
             best_gof = gof
-            best_η = η
+            best_position = pos
+    
+    return best_position, best_gof
 
-    # if gof_list_output:
-    #     return np.asarray(best_η), np.asarray(final_gof_list)
-    if gof_opt_output:
-        return np.asarray(best_η), best_gof 
-    else:
-        return np.asarray(best_η)
-
-### --- Binary Segmentation Style GoF --- ###
-
-def chgpt_gof_binary_seg(M, Z, y, η_arr, p_η_arr, γ = 1.0, combinations = True,
-                         gof_list_output = False, min_window_size = 30):
+def _chgpt_gof_divide_conquer_L(M, Z, y, n, L, Delta, γ=1.0, gof_opt_output=False):
     """
-    Finds the best change point using a binary segmentation-style search.
-
-    This function treats the ordered list of all possible change point 
-    configurations as a search space. It iteratively halves this space until
-    a small, promising window remains, which is then scanned exhaustively.
-
+    Approximate change point detection using divide-and-conquer approach.
+    
+    This method recursively finds the best single change point in each segment,
+    which is much faster than brute force but may not find the global optimum.
+    
     Args:
-        M: The model function.
-        Z: The data.
-        y: The target.
-        η_arr: The array of change points.
-        p_η_arr: The prior probability of each change point.
-        γ: The penalization constant.
-        combinations: Boolean flag for using combinations.
-        gof_list_output: If True, returns the final GoF list from the last stage.
-        min_window_size (int): The search stops subdividing when the window size
-                               is smaller than this, performing a final full
-                               scan on this window.
-
+        M: The model function
+        Z: The data matrix (n x L)
+        y: The target vector
+        n: Number of data points
+        L: Number of signals (implies L-1 change points)
+        Delta: Minimum separation between change points
+        γ: Penalization constant
+        gof_opt_output: Whether to return the GoF score
+    
     Returns:
-        The optimal change point array, and optionally the GoF list.
+        Change point array (and optionally GoF score)
     """
-    # --- FIX: Explicitly convert all NumPy inputs to JAX arrays ---
-    # This ensures that all operations inside the traced function (fori_loop)
-    # are performed on JAX-native types, preventing conversion errors.
-    Z = jnp.asarray(Z)
-    y = jnp.asarray(y)
-    η_arr = jnp.asarray(η_arr)
-    p_η_arr_ = jnp.asarray(p_η_arr) # Renamed to avoid shadowing
-
-    L = Z.shape[1]
-    if combinations:
-        C_s, η_idx = η_to_ψ_jax_combinations_mapped(η_arr, Z.shape[0], L)
+    k = L - 1
+    
+    if k == 0:
+        if gof_opt_output:
+            similarity = M(Z, y)
+            gof = jnp.sum(similarity) + γ * jnp.log(1.0)
+            return np.array([], dtype=int), gof
+        else:
+            return np.array([], dtype=int)
+    
+    # Check feasibility
+    min_required_length = 1 + (k - 1) * Delta + 1  # 1 + gaps + 1
+    if n < min_required_length:
+        raise ValueError(f"Impossible to place {k} change points with separation {Delta} in {n} points.")
+    
+    # Calculate log prior penalty (approximation - use similar logic as brute force)
+    num_positions = n - 1
+    effective_positions = num_positions - (k - 1) * (Delta - 1)
+    num_total_configs = scipy.special.comb(effective_positions, k, exact=True)
+    log_prior_penalty = jnp.log(L * num_total_configs)
+    
+    print(f"Starting divide-and-conquer search for {k} change points...")
+    
+    # Recursively find change points
+    def find_changepoints_recursive(start, end, num_remaining):
+        """Recursively find change points in the range [start, end)."""
+        if num_remaining == 0:
+            return []
+        
+        if num_remaining == 1:
+            # Find the single best change point in this range
+            best_pos, _ = _find_best_single_changepoint(
+                M, Z, y, start, end, Delta, γ, log_prior_penalty, n, []
+            )
+            return [best_pos] if best_pos is not None else []
+        
+        # For multiple change points, divide the range
+        mid = (start + end) // 2
+        
+        # Ensure we can fit the remaining change points
+        left_points = num_remaining // 2
+        right_points = num_remaining - left_points
+        
+        # Adjust mid to ensure feasibility
+        min_left_end = start + left_points * Delta + 1
+        max_left_end = end - right_points * Delta - 1
+        mid = max(min_left_end, min(mid, max_left_end))
+        
+        # Recursively find change points in each half
+        left_changepoints = find_changepoints_recursive(start, mid, left_points)
+        right_changepoints = find_changepoints_recursive(mid, end, right_points)
+        
+        return left_changepoints + right_changepoints
+    
+    # Find initial change points
+    changepoints = find_changepoints_recursive(0, n, k)
+    changepoints = [cp for cp in changepoints if cp is not None]
+    changepoints.sort()
+    
+    # If we didn't find enough change points, try a different approach
+    if len(changepoints) < k:
+        print(f"Warning: Only found {len(changepoints)} change points, expected {k}")
+        print("Falling back to greedy approach...")
+        
+        # Greedy approach: keep adding the best single change point
+        while len(changepoints) < k:
+            best_pos = None
+            best_gof = jnp.inf
+            
+            # Try all valid positions
+            for pos in range(1, n):
+                # Check if position is valid
+                valid = True
+                for existing_cp in changepoints:
+                    if abs(pos - existing_cp) < Delta:
+                        valid = False
+                        break
+                if not valid or pos in changepoints:
+                    continue
+                
+                # Test this position
+                test_changepoints = sorted(changepoints + [pos])
+                η = jnp.array(test_changepoints)
+                gof = _calculate_gof_single_config(
+                    η, jnp.asarray(Z), jnp.asarray(y), M, γ, log_prior_penalty, n
+                )
+                
+                if gof < best_gof:
+                    best_gof = gof
+                    best_pos = pos
+            
+            if best_pos is not None:
+                changepoints.append(best_pos)
+                changepoints.sort()
+            else:
+                break
+    
+    # Final optimization: local refinement
+    if len(changepoints) == k:
+        changepoints = _local_refinement(
+            M, Z, y, n, changepoints, Delta, γ, log_prior_penalty
+        )
+    
+    result = np.array(changepoints, dtype=int)
+    
+    if gof_opt_output and len(result) > 0:
+        final_gof = _calculate_gof_single_config(
+            jnp.array(result), jnp.asarray(Z), jnp.asarray(y), 
+            M, γ, log_prior_penalty, n
+        )
+        return result, final_gof
+    elif gof_opt_output:
+        return result, jnp.inf
     else:
-        raise NotImplementedError("No Combinations not implemented for GoF function.")
+        return result
 
-    # Ensure C_s and η_idx are also JAX arrays before blocking
-    xs = jnp.block([jnp.asarray(C_s), jnp.asarray(η_idx).reshape(-1, 1)])
-    num_total_configs = xs.shape[0]
-
-    def calculate_gof(config_vector):
-        ψ, idx = config_vector[:-1], config_vector[-1]
-        ψ_int = jnp.int32(ψ)
-        
-        similarity = M(Z[jnp.arange(Z.shape[0]), ψ_int], y)
-        gof = jnp.sum(similarity, axis=0) - γ * jnp.log(p_η_arr_[jnp.int32(idx)])
-        return gof
-
-    num_levels = max(0, math.ceil(math.log2(num_total_configs / min_window_size)))
-
-    def search_step(level, loop_state):
-        start_idx, end_idx = loop_state
-        midpoint = (start_idx + end_idx) // 2
-        q1_point = (start_idx + midpoint) // 2
-        q3_point = (midpoint + end_idx) // 2
-        
-        test_indices = jnp.array([q1_point, midpoint, q3_point])
-        test_scores = jax.vmap(calculate_gof)(xs[test_indices])
-        
-        best_test_region = jnp.argmin(test_scores)
-        possible_starts = jnp.array([start_idx, q1_point, midpoint])
-        possible_ends = jnp.array([midpoint, q3_point, end_idx])
-        
-        new_start = possible_starts[best_test_region]
-        new_end = possible_ends[best_test_region]
-        return (new_start, new_end)
-
-    initial_state = (0, num_total_configs)
-    final_start, final_end = jax.lax.fori_loop(0, num_levels, search_step, initial_state)
-
-    window_len = jnp.maximum(1, final_end - final_start)
-    final_xs = jax.lax.dynamic_slice_in_dim(xs, final_start, window_len, axis=0)
-    gof_list_final = jax.vmap(calculate_gof)(final_xs)
+def _local_refinement(M, Z, y, n, changepoints, Delta, γ, log_prior, max_iterations=5):
+    """
+    Local refinement: try to improve each change point by moving it slightly.
+    """
+    changepoints = list(changepoints)
+    Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
     
-    best_local_idx = jnp.argmin(gof_list_final)
-    i_opt = final_start + best_local_idx
+    improved = True
+    iteration = 0
     
-    # We need the original numpy array for indexing to get the final result
-    η_opt = np.asarray(η_arr)[np.asarray(η_idx)[i_opt]]
+    while improved and iteration < max_iterations:
+        improved = False
+        iteration += 1
+        
+        for i in range(len(changepoints)):
+            current_pos = changepoints[i]
+            best_pos = current_pos
+            
+            # Calculate current GoF
+            η = jnp.array(changepoints)
+            current_gof = _calculate_gof_single_config(
+                η, Z_jax, y_jax, M, γ, log_prior, n
+            )
+            best_gof = current_gof
+            
+            # Try moving this change point
+            for offset in [-2, -1, 1, 2]:
+                new_pos = current_pos + offset
+                if new_pos < 1 or new_pos >= n:
+                    continue
+                
+                # Check Delta constraint
+                valid = True
+                for j, other_pos in enumerate(changepoints):
+                    if i != j and abs(new_pos - other_pos) < Delta:
+                        valid = False
+                        break
+                
+                if not valid:
+                    continue
+                
+                # Test this new position
+                test_changepoints = changepoints.copy()
+                test_changepoints[i] = new_pos
+                η = jnp.array(test_changepoints)
+                
+                gof = _calculate_gof_single_config(
+                    η, Z_jax, y_jax, M, γ, log_prior, n
+                )
+                
+                if gof < best_gof:
+                    best_gof = gof
+                    best_pos = new_pos
+            
+            # Update if we found an improvement
+            if best_pos != current_pos:
+                changepoints[i] = best_pos
+                improved = True
+        
+        changepoints.sort()
     
-    η_final = η_opt[η_opt != -1]
+    return changepoints
 
-    if gof_list_output:
-        return η_final, np.array(gof_list_final)
+def chgpt_gof_divide_conquer(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound=False, gof_opt_output=False):
+
+    if not L_is_upper_bound:
+        return _chgpt_gof_divide_conquer_L(M, Z, y, n, L, Delta, γ, gof_opt_output)
     else:
-        # Always return a tuple to prevent unpacking errors.
-        return η_final, None
+        # If L is an upper bound, we need to search for the best L
+        best_η = np.array([], dtype=int)
+        best_gof = jnp.inf
+
+        for L_current in range(1, L + 1):
+            η_current, gof_current = _chgpt_gof_divide_conquer_L(
+                M, Z, y, n, L_current, Delta, γ, gof_opt_output=True
+            )
+            if gof_current < best_gof:
+                best_gof = gof_current
+                best_η = η_current
+
+        if gof_opt_output:
+            return best_η, best_gof
+        else:
+            return best_η
 
 ### --- Memory efficient brute force GoF --- ###
 
@@ -601,7 +390,7 @@ def _chgpt_gof_bf_mem_eff_exact_L(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096,
         raise ValueError(f"Impossible to place {k} change points with separation {Delta} in {n} points.")
 
     num_total_configs = scipy.special.comb(effective_positions, k, exact=True)
-    print(f"Starting brute-force search over {num_total_configs:,} configurations...")
+    print(f"Starting brute-force search over {num_total_configs:,} configurations, with L = {L} and k = {k} change points.")
     
     # Check if the search is feasible
     if num_total_configs > 100_000_000:
@@ -662,7 +451,7 @@ def chgpt_gof_bf_mem_eff(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound = False,
 
         for L_current in range(1, L + 1):
             η_current, gof_current = _chgpt_gof_bf_mem_eff_exact_L(
-                M, Z, y, n, L_current, Delta, γ, batch_size, gof_opt_output=True
+                M, Z[:, :L_current], y, n, L_current, Delta, γ, batch_size, gof_opt_output=True
             )
             if gof_current < best_gof:
                 best_gof = gof_current
