@@ -120,11 +120,6 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
     """
     n, p = X.shape
 
-    # Assuming WERM.marginals.compute_pi is a valid function in your library
-    pi = WERM.marginals.compute_pi(
-        L=L, n=n, Delta=Delta_n, L_is_upper_bound=L_is_upper_bound
-    )
-
     n_small = 50
     Delta_n_small = int(Delta_n * n_small/n)
     if L_is_upper_bound: 
@@ -135,7 +130,7 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
         p_l = None
         Lmin = L
         Lmax = L
-    pi = WERM.config.extrapolated_marginals(Lmin, Lmax, Delta_n_small, n_small = n_small, n_large = n, p_l = p_l)
+    pi = WERM.config.extrapolated_marginals(Lmin, Lmax, Delta_n_small, n_small = n_small, n_large = n, p_l = p_l, verbose = False)
 
     B_hat = np.zeros((p, L))
 
@@ -154,6 +149,11 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
             method='L-BFGS-B'
         )
         B_hat[:, l_] = res.x
+
+        # Sanity check: print the linear regression loss
+        if l_ == 0: 
+            lr_loss = M((X @ B_hat)[:, 0], y).sum()
+            print("Linear Regression Opt Loss (inside WERM):", lr_loss)
 
     # --- 2. Compute Change Point Estimates using Goodness-of-Fit ---
     Theta_hat = X @ B_hat
@@ -219,11 +219,12 @@ def weighted_erm_extended_penalized(X, y, M, L, Delta_n, gamma, brute_force=Fals
         if s >= n:
             log_penalty_term = np.inf
         else:
-            log_penalty_term = np.log(L * scipy.special.comb(n - 1, s, exact=False) + 1e-9)
+            log_penalty_term = np.log(L * scipy.special.comb(n - 1, s, exact=False) + 1e-9) # Correct
 
         # Print the scale of the penalty term vs. the GOF score
         if gof_score > 0:
             print(f"GOF score: {gof_score:.4f}, gamma * log-penalty term: {gamma * log_penalty_term:.4f} (gamma={gamma})")
+            print(f"Change points: {chgpts}, Number of change points: {s}, L_tilde: {L_tilde}, n: {n}")
         penalized_score = gof_score + gamma * log_penalty_term
         
         candidate_chgpts.append(chgpts)
@@ -234,7 +235,7 @@ def weighted_erm_extended_penalized(X, y, M, L, Delta_n, gamma, brute_force=Fals
         return np.array([], dtype=int)
     
     best_idx = np.argmin(candidate_scores)
-    return candidate_chgpts[best_idx]
+    return candidate_chgpts[best_idx], candidate_chgpts, candidate_scores
 
 def weighted_erm_extended_penalizedCV(X, y, M, L, Delta_n, gamma_candidates=None, brute_force=False, **kwargs):
     """

@@ -356,7 +356,7 @@ def _calculate_gof_for_batch(η_batch, Z, y, M, γ, log_prior, n):
     # Vmap the single-config function over the batch axis of η_batch
     return jax.vmap(_calculate_gof_single)(η_batch)
 
-def _chgpt_gof_bf_mem_eff_exact_L(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096, gof_opt_output=False):
+def _chgpt_gof_bf_mem_eff_exact_L(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096, gof_opt_output=False, Lmax = None):
     """
     Memory-efficient GoF brute-force search that generates configurations on the fly.
 
@@ -378,10 +378,18 @@ def _chgpt_gof_bf_mem_eff_exact_L(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096,
     # if gof_list_output: return np.array([], dtype=int), np.array([0.0])
     if k == 0:
         if gof_opt_output: 
-            similarity = M(Z, y)
-            gof = jnp.sum(similarity) + γ * jnp.log(1.0)  # log(1.0) is zero
+            # Assert that Z is either a vector or a matrix with one column
+            if Z.ndim == 1:
+                Z = Z.reshape((n, 1))
+            elif Z.ndim > 2 or Z.shape[1] != 1:
+                raise ValueError("Z must be a vector or a matrix with one column.")
+            gof = M(Z[:, 0], y).sum()
             return np.array([], dtype=int), gof
         else: return np.array([], dtype=int)
+        
+
+    if Lmax is None:
+        Lmax = L
         
     num_positions = n - 1
     effective_positions = num_positions - (k - 1) * (Delta - 1)
@@ -398,7 +406,7 @@ def _chgpt_gof_bf_mem_eff_exact_L(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096,
         print(f"The number of configurations is extremely large. This search may take a very long time.")
         print("Consider using the binary search version or reducing the problem complexity.\n")
 
-    log_prior_penalty = jnp.log(L * num_total_configs)
+    log_prior_penalty = jnp.log(Lmax * num_total_configs)
     
     Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
 
@@ -429,7 +437,9 @@ def _chgpt_gof_bf_mem_eff_exact_L(M, Z, y, n, L, Delta, γ=1.0, batch_size=4096,
         # 3. Find the best result in the batch and update the overall best
         batch_best_idx = gof_scores_batch.argmin()
         batch_best_gof = gof_scores_batch[batch_best_idx]
-        
+        # Assert batch_best_gof is a scalar
+        assert batch_best_gof.ndim == 0, "Batch best GoF should be a scalar"
+
         if batch_best_gof < best_gof:
             best_gof = batch_best_gof
             # Store the best configuration (as a NumPy array)
@@ -449,13 +459,34 @@ def chgpt_gof_bf_mem_eff(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound = False,
         best_η = np.array([], dtype=int)
         best_gof = jnp.inf
 
-        for L_current in range(1, L + 1):
+        # for L_current in range(1, L + 1):
+        #     η_current, gof_current = _chgpt_gof_bf_mem_eff_exact_L(
+        #         M, Z[:, :L_current], y, n, L_current, Delta, γ, batch_size, gof_opt_output=True
+        #     )
+        #     if gof_current < best_gof:
+        #         best_gof = gof_current
+        #         best_η = η_current
+
+        # Do it by filling a list of chgpts and gofs
+        η_list = []
+        gof_list = []
+        for L_current in tqdm(range(1, L + 1), desc="Searching for best L"):
+            print(f"Searching for best L = {L_current}...")
             η_current, gof_current = _chgpt_gof_bf_mem_eff_exact_L(
-                M, Z[:, :L_current], y, n, L_current, Delta, γ, batch_size, gof_opt_output=True
+                M, Z[:, :L_current], y, n, L_current, Delta, γ, batch_size, gof_opt_output=True, Lmax=L
             )
-            if gof_current < best_gof:
-                best_gof = gof_current
-                best_η = η_current
+            # Assert gof_current is a scalar
+            assert gof_current.ndim == 0, "GoF current should be a scalar"
+            η_list.append(η_current)
+            gof_list.append(gof_current)
+        print("GOF List:", gof_list)
+        gof_list = np.array(gof_list)
+        # Print the gof_list and the chgpt_list
+        print("L_is_upper_bd. GoF List:", gof_list)
+        print("L_is_upper_bd. Chgpt List:", η_list)
+        i_opt = gof_list.argmin()
+        best_η = η_list[i_opt]
+        best_gof = gof_list[i_opt]
 
         if gof_opt_output:
             return best_η, best_gof
