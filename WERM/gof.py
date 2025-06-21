@@ -78,7 +78,7 @@ def _find_best_single_changepoint(M, Z, y, start, end, Delta, γ, log_prior, n, 
     
     return best_position, best_gof
 
-def _chgpt_gof_divide_conquer_L(M, Z, y, n, L, Delta, γ=1.0, gof_opt_output=False):
+def _chgpt_gof_divide_conquer_L(M, Z, y, n, L, Delta, γ=1.0, gof_opt_output=False, Lmax=None):
     """
     Approximate change point detection using divide-and-conquer approach.
     
@@ -101,13 +101,19 @@ def _chgpt_gof_divide_conquer_L(M, Z, y, n, L, Delta, γ=1.0, gof_opt_output=Fal
     k = L - 1
     
     if k == 0:
-        if gof_opt_output:
-            similarity = M(Z, y)
-            gof = jnp.sum(similarity) + γ * jnp.log(1.0)
+        if gof_opt_output: 
+            # Assert that Z is either a vector or a matrix with one column
+            if Z.ndim == 1:
+                Z = Z.reshape((n, 1))
+            elif Z.ndim > 2 or Z.shape[1] != 1:
+                raise ValueError("Z must be a vector or a matrix with one column.")
+            gof = M(Z[:, 0], y).sum()
             return np.array([], dtype=int), gof
-        else:
-            return np.array([], dtype=int)
+        else: return np.array([], dtype=int)
     
+    if Lmax is None:
+        Lmax = L
+
     # Check feasibility
     min_required_length = 1 + (k - 1) * Delta + 1  # 1 + gaps + 1
     if n < min_required_length:
@@ -117,7 +123,7 @@ def _chgpt_gof_divide_conquer_L(M, Z, y, n, L, Delta, γ=1.0, gof_opt_output=Fal
     num_positions = n - 1
     effective_positions = num_positions - (k - 1) * (Delta - 1)
     num_total_configs = scipy.special.comb(effective_positions, k, exact=True)
-    log_prior_penalty = jnp.log(L * num_total_configs)
+    log_prior_penalty = jnp.log(Lmax * num_total_configs)
     
     print(f"Starting divide-and-conquer search for {k} change points...")
     
@@ -286,17 +292,35 @@ def chgpt_gof_divide_conquer(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound=Fals
         best_η = np.array([], dtype=int)
         best_gof = jnp.inf
 
-        for L_current in range(1, L + 1):
+        # Rewrite the above using a candidate list
+        η_list = []
+        gof_list = []
+        for L_current in tqdm(range(1, L + 1), desc="Searching for best L"):
+            print(f"Searching for best L = {L_current}...")
             η_current, gof_current = _chgpt_gof_divide_conquer_L(
-                M, Z, y, n, L_current, Delta, γ, gof_opt_output=True
+                M, Z[:, :L_current], y, n, L_current, Delta, γ, gof_opt_output=True, Lmax=L
             )
-            if gof_current < best_gof:
-                best_gof = gof_current
-                best_η = η_current
+            # Assert gof_current is a scalar
+            assert gof_current.ndim == 0, "GoF current should be a scalar"
+
+            η_list.append(η_current)
+            gof_list.append(gof_current)
+
+        print("GOF List:", gof_list)
+        gof_list = np.array(gof_list)
+        # Print the gof_list and the chgpt_list
+        print("L_is_upper_bd. GoF List:", gof_list)
+        print("L_is_upper_bd. Chgpt List:", η_list)
+        i_opt = gof_list.argmin()
+        best_η = η_list[i_opt]
+        best_gof = gof_list[i_opt]
+        print(f"Optimal GoF score: {best_gof:.4f} for L = {i_opt + 1}")
+        print(f"Optimal change points: {best_η}")
 
         if gof_opt_output:
             return best_η, best_gof
         else:
+            return best_η
             return best_η
 
 ### --- Memory efficient brute force GoF --- ###
