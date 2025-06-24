@@ -10,7 +10,352 @@ import scipy.special
 from tqdm.auto import tqdm # For a nice progress bar
 from joblib import Parallel, delayed
 
-### --- Efficient, approximate divide and conquer approach --- ###
+### --- Binary Segmentation Search --- TESTED. ###
+def _chgpt_binary_segmentation(M, Z, y, n, L, Delta, γ=1.0, gof_opt_output=False, verbose=False):
+    """
+    Binary segmentation approach for change point detection.
+    
+    This finds exactly L-1 change points by greedily adding the change point
+    that most improves the fit at each step.
+    
+    Args:
+        M: The model function
+        Z: The data matrix (n x L)
+        y: The target vector
+        n: Number of data points
+        L: Number of signals (implies L-1 change points)
+        Delta: Minimum separation between change points
+        γ: Penalization constant (applied to final result only)
+        gof_opt_output: Whether to return the GoF score
+    
+    Returns:
+        Change point array (and optionally GoF score)
+    """
+    k = L - 1
+    
+    if k == 0:
+        if gof_opt_output: 
+            if Z.ndim == 1:
+                Z = Z.reshape((n, 1))
+            elif Z.ndim > 2 or Z.shape[1] != 1:
+                raise ValueError("Z must be a vector or a matrix with one column.")
+            # No log prior penalty for single segment
+            loss = M(Z[:, 0], y).sum()
+            return np.array([], dtype=int), loss
+        else: 
+            return np.array([], dtype=int)
+    
+    if verbose:
+        print(f"Starting binary segmentation for exactly {k} change points...")
+    
+    # Initialize with no change points
+    changepoints = []
+    Z_jax, y_jax = jnp.asarray(Z), jnp.asarray(y)
+    
+    # Iteratively add exactly k change points
+    for iteration in range(k):
+        if verbose:
+            print(f"\nIteration {iteration + 1}: Looking for change point {iteration + 1}/{k}")
+        
+        # Calculate current loss (without log prior penalty during search)
+        if len(changepoints) == 0:
+            current_loss = _calculate_raw_loss(M, Z_jax, y_jax, jnp.array([]), n)
+        else:
+            current_loss = _calculate_raw_loss(M, Z_jax, y_jax, jnp.array(sorted(changepoints)), n)
+        
+        if verbose:
+            print(f"  Current raw loss: {current_loss:.6f}")
+        
+        best_new_changepoint = None
+        best_new_loss = current_loss
+        
+        # Try adding a change point at each valid position
+        valid_positions_tested = 0
+        improvements_found = []
+        
+        for candidate_pos in range(1, n):
+            # Check if this position is valid (Delta constraints)
+            valid = True
+            for existing_cp in changepoints:
+                if abs(candidate_pos - existing_cp) < Delta:
+                    valid = False
+                    break
+            
+            if not valid:
+                continue
+            
+            valid_positions_tested += 1
+            
+            # Calculate loss with this new change point (no log prior)
+            test_changepoints = sorted(changepoints + [candidate_pos])
+            test_loss = _calculate_raw_loss(M, Z_jax, y_jax, jnp.array(test_changepoints), n)
+            
+            improvement = current_loss - test_loss  # Positive improvement = loss reduction
+            improvements_found.append((candidate_pos, improvement, test_loss))
+            
+            # Update best if this is better (lower loss = better fit)
+            if test_loss < best_new_loss:
+                best_new_loss = test_loss
+                best_new_changepoint = candidate_pos
+        
+        print(f"  Tested {valid_positions_tested} valid positions")
+        if len(improvements_found) > 0:
+            print(f"  Best 5 improvements: {sorted(improvements_found, key=lambda x: x[1], reverse=True)[:5]}")
+        else:
+            print(f"  No valid positions found! This suggests Delta={Delta} is too restrictive.")
+            print(f"  Current changepoints: {changepoints}")
+            print(f"  n={n}, need positions in range [1, {n-1}]")
+        
+        # Add the best change point (or least bad if no improvements)
+        if best_new_changepoint is not None:
+            changepoints.append(best_new_changepoint)
+            changepoints.sort()
+            improvement = current_loss - best_new_loss  # Positive = loss reduction
+            if verbose:
+                if improvement > 0:
+                    print(f"  Added change point at position {best_new_changepoint}")
+                    print(f"  Raw loss improved from {current_loss:.4f} to {best_new_loss:.4f} (improvement: {improvement:.4f})")
+                else:
+                    print(f"  Added change point at position {best_new_changepoint} (forced - no improvement available)")
+                    print(f"  Raw loss changed from {current_loss:.4f} to {best_new_loss:.4f} (change: {improvement:.4f})")
+        else:
+            # Force finding a change point even if no improvement
+            if verbose:
+                print(f"  No change point improves loss - forcing selection of least bad option...")
+            
+            # Find the change point that increases loss the least
+            least_bad_pos = None
+            least_bad_loss = jnp.inf
+            
+            for candidate_pos in range(1, n):
+                # Check Delta constraints
+                valid = True
+                for existing_cp in changepoints:
+                    if abs(candidate_pos - existing_cp) < Delta:
+                        valid = False
+                        break
+                
+                if not valid:
+                    continue
+                
+                # Calculate loss for this position
+                test_changepoints = sorted(changepoints + [candidate_pos])
+                test_loss = _calculate_raw_loss(M, Z_jax, y_jax, jnp.array(test_changepoints), n)
+                
+                if test_loss < least_bad_loss:
+                    least_bad_loss = test_loss
+                    least_bad_pos = candidate_pos
+            
+            if least_bad_pos is not None:
+                changepoints.append(least_bad_pos)
+                changepoints.sort()
+                if verbose:
+                    loss_increase = least_bad_loss - current_loss
+                    print(f"  Forced change point at position {least_bad_pos}")
+                    print(f"  Raw loss increased from {current_loss:.4f} to {least_bad_loss:.4f} (increase: {loss_increase:.4f})")
+            else:
+                # This should only happen if Delta constraints make it impossible
+                if verbose:
+                    print(f"  IMPOSSIBLE: Cannot place change point due to Delta constraints!")
+                    print(f"  Delta={Delta}, n={n}, existing changepoints: {changepoints}")
+                    print(f"  Stopping with {len(changepoints)} change points instead of {k}")
+                break
+    
+    # Check if we found the requested number of change points
+    if len(changepoints) < k:
+        if verbose:
+            print(f"WARNING: Only found {len(changepoints)} change points out of {k} requested")
+            print("This is likely due to Delta constraints being too restrictive")
+        
+        # Try to force additional change points if possible
+        remaining_needed = k - len(changepoints)
+        if verbose:
+            print(f"Attempting to force {remaining_needed} additional change points...")
+        
+        for _ in range(remaining_needed):
+            # Find any valid position that satisfies Delta constraints
+            forced_pos = None
+            for candidate_pos in range(1, n):
+                # Check Delta constraints
+                valid = True
+                for existing_cp in changepoints:
+                    if abs(candidate_pos - existing_cp) < Delta:
+                        valid = False
+                        break
+                
+                if valid:
+                    forced_pos = candidate_pos
+                    break
+            
+            if forced_pos is not None:
+                changepoints.append(forced_pos)
+                changepoints.sort()
+                if verbose:
+                    print(f"  Forced change point at position {forced_pos}")
+            else:
+                if verbose:
+                    print(f"  Cannot force more change points - Delta constraints prevent it")
+                break
+                
+    elif len(changepoints) > k:
+        # This shouldn't happen with our algorithm, but just in case
+        if verbose:
+            print(f"WARNING: Found {len(changepoints)} change points, truncating to {k}")
+        changepoints = changepoints[:k]
+    
+    # Local refinement (still without log prior)
+    if len(changepoints) > 0:
+        print("\nApplying local refinement...")
+        changepoints = _local_refinement_binary_seg(
+            M, Z_jax, y_jax, n, changepoints, Delta
+        )
+    
+    result = np.array(changepoints, dtype=int)
+    
+    if gof_opt_output and len(result) > 0:
+        # Calculate final GoF with log prior penalty only at the end
+        num_positions = n - 1
+        effective_positions = num_positions - (len(result) - 1) * (Delta - 1)
+        num_configs = scipy.special.comb(effective_positions, len(result), exact=True)
+        log_prior = jnp.log(L * num_configs)  # Use L as Lmax
+        
+        final_gof = _calculate_gof_single_config(
+            jnp.array(result), Z_jax, y_jax, M, γ, log_prior, n
+        )
+        return result, final_gof
+    elif gof_opt_output:
+        # Return infinite GoF if we couldn't find change points
+        return result, jnp.inf
+    else:
+        return result
+
+def _calculate_raw_loss(M, Z, y, changepoints, n):
+    """
+    Calculate the raw loss (without log prior penalty).
+    Each segment uses the corresponding column of Z (segment 0 -> column 0, etc.)
+    Lower loss = better fit (consistent with M function convention).
+    """
+    if len(changepoints) == 0:
+        # No change points - single segment using column 0
+        losses = M(Z[:, 0], y)
+        return jnp.sum(losses)
+    else:
+        # Multiple segments
+        boundaries = jnp.concatenate([jnp.array([0]), changepoints, jnp.array([n])])
+        
+    indices = jnp.arange(n)
+    ψ = jnp.searchsorted(boundaries, indices, side='right') - 1
+    
+    # Each segment uses its corresponding column: segment i uses Z[:, i]
+    losses = M(Z[jnp.arange(n), ψ], y)
+    return jnp.sum(losses)
+
+def _local_refinement_binary_seg(M, Z, y, n, changepoints, Delta, verbose=False, max_iterations=5):
+    """
+    Local refinement for binary segmentation (without log prior penalty).
+    Works with loss convention (lower is better).
+    """
+    changepoints = list(changepoints)
+    
+    improved = True
+    iteration = 0
+    
+    while improved and iteration < max_iterations:
+        improved = False
+        iteration += 1
+        
+        for i in range(len(changepoints)):
+            current_pos = changepoints[i]
+            best_pos = current_pos
+            
+            # Calculate current raw loss
+            current_loss = _calculate_raw_loss(M, Z, y, jnp.array(changepoints), n)
+            best_loss = current_loss
+            
+            # Try moving this change point
+            for offset in [-2, -1, 1, 2]:
+                new_pos = current_pos + offset
+                if new_pos < 1 or new_pos >= n:
+                    continue
+                
+                # Check Delta constraint
+                valid = True
+                for j, other_pos in enumerate(changepoints):
+                    if i != j and abs(new_pos - other_pos) < Delta:
+                        valid = False
+                        break
+                
+                if not valid:
+                    continue
+                
+                # Test this new position
+                test_changepoints = changepoints.copy()
+                test_changepoints[i] = new_pos
+                
+                test_loss = _calculate_raw_loss(M, Z, y, jnp.array(test_changepoints), n)
+                
+                if test_loss < best_loss:  # Lower loss is better
+                    best_loss = test_loss
+                    best_pos = new_pos
+            
+            # Update if we found an improvement
+            if best_pos != current_pos:
+                changepoints[i] = best_pos
+                improved = True
+                if verbose:
+                    print(f"  Moved change point from {current_pos} to {best_pos}")
+        
+        changepoints.sort()
+    
+    return changepoints
+
+def chgpt_binary_segmentation(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound=False, gof_opt_output=False, verbose=False):
+    """
+    Main interface for binary segmentation change point detection.
+    
+    Note: When L_is_upper_bound=True, this will try different values of L
+    and apply the log prior penalty for model selection. When False,
+    it finds exactly L-1 change points without log prior considerations.
+    """
+    if not L_is_upper_bound:
+        return _chgpt_binary_segmentation(M, Z, y, n, L, Delta, γ, gof_opt_output, verbose)
+    else:
+        # If L is an upper bound, search for the best L
+        η_list = []
+        gof_list = []
+        
+        for L_current in tqdm(range(1, L + 1), desc="Binary segmentation - searching for best L"):
+            if verbose:
+                print(f"\nBinary segmentation with L = {L_current}...")
+            η_current, gof_current = _chgpt_binary_segmentation(
+                M, Z[:, :L_current], y, n, L_current, Delta, γ, 
+                gof_opt_output=True, verbose=verbose
+            )
+            
+            assert gof_current.ndim == 0, "GoF current should be a scalar"
+            η_list.append(η_current)
+            gof_list.append(gof_current)
+        
+        if verbose:
+            print("\nBinary Segmentation Results:")
+            for i, (η, gof) in enumerate(zip(η_list, gof_list)):
+                print(f"  L={i+1}: GoF={gof:.4f}, change points={η}")
+        
+        gof_list = np.array(gof_list)
+        i_opt = gof_list.argmin()  # Lower GoF is better (includes penalty)
+        best_η = η_list[i_opt]
+        best_gof = gof_list[i_opt]
+        
+        if verbose:
+            print(f"\nOptimal: GoF={best_gof:.4f} for L={i_opt + 1}")
+            print(f"Optimal change points: {best_η}")
+        
+        if gof_opt_output:
+            return best_η, best_gof
+        else:
+            return best_η
+
+### --- Efficient, approximate divide and conquer approach - NOT FULLY CORRECT --- ###
 
 @partial(jax.jit, static_argnames=['M', 'γ', 'n'])
 def _calculate_gof_single_config(η, Z, y, M, γ, log_prior, n):
@@ -358,6 +703,7 @@ def _unrank_combination(rank, k, n):
 
 # --- JIT-compiled GoF calculator for a BATCH of configurations ---
 @partial(jax.jit, static_argnames=['M', 'γ', 'n'])
+# @partial(jax.jit, static_argnames=['M'])
 def _calculate_gof_for_batch(η_batch, Z, y, M, γ, log_prior, n):
     """
     Calculates GoF for a whole batch of η configurations using vmap.
@@ -495,7 +841,6 @@ def chgpt_gof_bf_mem_eff(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound = False,
         η_list = []
         gof_list = []
         for L_current in tqdm(range(1, L + 1), desc="Searching for best L"):
-            print(f"Searching for best L = {L_current}...")
             η_current, gof_current = _chgpt_gof_bf_mem_eff_exact_L(
                 M, Z[:, :L_current], y, n, L_current, Delta, γ, batch_size, gof_opt_output=True, Lmax=L
             )

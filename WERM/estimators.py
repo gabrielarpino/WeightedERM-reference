@@ -10,234 +10,274 @@ from tqdm.auto import tqdm
 from tqdm import trange
 from joblib import Parallel, delayed
 
-def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5):
+def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_jobs=4):
     """
-    Performs k-fold cross-validation using index-based splits to find the
-    best hyperparameter for a changepoint detection function.
-
-    The scoring method is based on Section A.1 of "Divide and Conquer Dynamic
-    Programming..." by Li, Wang, and Rinaldo. For each fold, it:
-    1. Finds changepoints on the training set (k-1 folds).
-    2. Uses these changepoints to segment the test set (1 fold).
-    3. Fits a separate model within each test set segment by minimizing an
-       empirical risk.
-    4. Sums the minimized risk values across all segments to get the final score
-       for the fold. A lower score is better.
-
+    K-fold cross-validation following the paper's structure but adapted for regression
+    with empirical risk minimization.
+    
     Args:
-        f (callable): A black-box function `f(X, y, gamma)` that accepts
-            training data and a hyperparameter, and returns an array of
-            changepoint indices.
-        X (np.ndarray): The full feature data (n_samples, n_features).
-        y (np.ndarray): The full target data (n_samples,).
-        gamma_candidates (list or np.ndarray): A list of gamma values to test.
-        M_scorer (callable): The loss function part of the empirical risk,
-            e.g., `M(y_pred, y_true)`.
-        P_scorer (callable): The penalty function part of the empirical risk,
-            e.g., `P(beta)`.
-        k (int): Number of folds for cross-validation. Default is 5.
-
+        f (callable): A function f(X, y, gamma) that returns changepoint indices
+        X (np.ndarray): Feature data (n_samples, n_features)
+        y (np.ndarray): Target data (n_samples,)
+        gamma_candidates (list): Hyperparameter values to test
+        M_scorer (callable): Loss function M(y_pred, y_true)
+        P_scorer (callable): Penalty function P(beta), optional
+        k (int): Number of folds (V in the paper)
+        n_jobs (int): Number of parallel jobs
+    
     Returns:
-        tuple: (best_gamma, best_chgpt_est) where best_gamma is the hyperparameter
-               that achieved the lowest mean score across all folds, and 
-               best_chgpt_est is the changepoint estimate using best_gamma on full data.
+        tuple: (best_gamma, best_chgpt_est)
     """
     n_samples, p = X.shape
     
-    # Create k folds using index-based splits
+    # Create folds following paper's definition: F_v = {v + i·V : v + i·V ≤ n}
+    # Adapted to 0-based indexing
     folds = []
-    for fold_idx in range(k):
-        fold_indices = np.arange(fold_idx, n_samples, k)
-        if len(fold_indices) == 0:
-            raise ValueError(f"Fold {fold_idx} is empty. Consider reducing k or increasing data size.")
-        folds.append(fold_indices)
+    for v in range(k):
+        fold_indices = []
+        i = 0
+        while True:
+            idx = v + i * k
+            if idx >= n_samples:
+                break
+            fold_indices.append(idx)
+            i += 1
+        folds.append(np.array(fold_indices))
     
-    # Check that all folds have data
+    # Ensure no empty folds
     if any(len(fold) == 0 for fold in folds):
-        raise ValueError(f"Cannot create {k} non-empty folds. Input data is too small.")
-
-    mean_scores = []
-
-    # JIT-compiled function to calculate empirical risk for a given segment
+        raise ValueError(f"Cannot create {k} non-empty folds with {n_samples} samples")
+    
+    # JIT-compiled empirical risk function
     @partial(jax.jit, static_argnums=(0, 1))
     def empirical_risk(M_func, P_func, beta, X_data, y_data):
-        # Ensure predictions and targets have compatible shapes for M_func
         y_pred = X_data @ beta
-        # The risk is the sum of the loss and the model complexity penalty
         if P_func is None:
-            # If no penalty function is provided, just return the loss
             return jnp.sum(M_func(y_pred, y_data))
         return jnp.sum(M_func(y_pred, y_data)) + jnp.sum(P_func(beta))
-
-    # Helper function to compute the total risk for a test fold
-    def _calculate_fold_score(chgpts, X_test, y_test):
-        total_risk = 0.0
-        # Segment the test data based on the provided changepoints
-        # np.split will create segments from indices 0..n-1 at the chgpt locations
-        test_segments = np.split(np.arange(len(X_test)), chgpts)
-
-        for segment_indices in test_segments:
-            if len(segment_indices) == 0:
-                continue # Skip empty segments
-
-            X_seg, y_seg = X_test[segment_indices], y_test[segment_indices]
-
-            # Define the objective function for this segment
-            objective_fn = lambda beta: empirical_risk(M_scorer, P_scorer, beta, X_seg, y_seg)
-            
-            # Minimize the empirical risk for this segment
-            res = scipy.optimize.minimize(
-                fun=objective_fn,
-                x0=0.1*jnp.ones(p, dtype=jnp.float64), # Initial guess for beta
-                jac=jax.grad(objective_fn),
-                method='L-BFGS-B'
-            )
-            
-            # Add the minimized risk of this segment to the total
-            total_risk += res.fun
+    
+    def evaluate_single_gamma(gamma):
+        """Evaluate one gamma value using k-fold CV"""
+        cv_score = 0.0
         
-        return total_risk
-
-    print(f"Running {k}-fold CV for {len(gamma_candidates)} gamma candidates...")
-    for gamma in tqdm(gamma_candidates, desc="CV Progress"):
-        fold_scores = []
+        for v in range(k):
+            # Get test fold F_v
+            test_indices = folds[v]
+            
+            # Get training indices F_v^c (complement of F_v)
+            train_indices = np.concatenate([folds[i] for i in range(k) if i != v])
+            train_indices_ordered = np.sort(train_indices)  # Maintain temporal order
+            # assert np.all(train_indices == train_indices_ordered), "Training indices must be in temporal order"
+            
+            # Step 1: Apply changepoint detection on training data F_v^c
+            train_chgpts = f(X[train_indices], y[train_indices], gamma)
+            
+            # Step 2: Map changepoints back to original dataset indices
+            mapped_chgpts = []
+            for chgpt in train_chgpts:
+                if 0 < chgpt < len(train_indices):  # Exclude boundaries
+                    mapped_chgpts.append(train_indices[chgpt])
+            mapped_chgpts = np.array(mapped_chgpts)
+            
+            # Step 3: Estimate β̂^{-F_v}_{ψ,k} for each segment using training data F_v^c
+            # Add boundaries: 0 and n_samples
+            all_chgpts = np.concatenate([[0], mapped_chgpts, [n_samples]])
+            segment_betas = []
+            
+            for k_seg in range(len(all_chgpts) - 1):
+                start_idx = all_chgpts[k_seg]
+                end_idx = all_chgpts[k_seg + 1]
+                
+                # Find training indices in this segment
+                segment_train_mask = (train_indices >= start_idx) & (train_indices < end_idx)
+                segment_train_indices = train_indices[segment_train_mask]
+                
+                if len(segment_train_indices) > 0:
+                    # Get training data for this segment
+                    X_seg_train = X[segment_train_indices]
+                    y_seg_train = y[segment_train_indices]
+                    
+                    # Minimize empirical risk on this training segment to get β̂
+                    objective_fn = lambda beta: empirical_risk(M_scorer, P_scorer, beta, X_seg_train, y_seg_train)
+                    
+                    res = scipy.optimize.minimize(
+                        fun=objective_fn,
+                        x0=0.1 * jnp.ones(p, dtype=jnp.float64),
+                        jac=jax.grad(objective_fn),
+                        method='L-BFGS-B'
+                    )
+                    
+                    segment_betas.append(res.x)
+                else:
+                    # If no training data in segment, use zero vector
+                    segment_betas.append(np.zeros(p))
+            
+            # Step 4: Evaluate test data F_v using pre-computed changepoints and β̂ values
+            fold_score = 0.0
+            for i in test_indices:
+                # Find which segment this test point belongs to
+                segment_idx = np.searchsorted(all_chgpts[1:], i, side='right')
+                segment_idx = min(segment_idx, len(segment_betas) - 1)
+                
+                # Get the β̂ for this segment (estimated from training data)
+                beta_seg = segment_betas[segment_idx]
+                
+                # Compute prediction and add to empirical risk
+                y_pred = X[i:i+1] @ beta_seg  # Single prediction
+                assert M_scorer(y_pred, y[i:i+1]).shape == (1, )
+                fold_score += float(M_scorer(y_pred, y[i:i+1])[0])  # Ensure M_scorer returns a scalar
+                
+                # Add penalty if provided
+                if P_scorer is not None:
+                    fold_score += float(P_scorer(beta_seg))
+            
+            cv_score += fold_score
         
-        for test_fold_idx in range(k):
-            # Get test fold indices
-            test_indices = folds[test_fold_idx]
-            
-            # Get training fold indices (all other folds combined)
-            train_indices = np.concatenate([folds[i] for i in range(k) if i != test_fold_idx])
-            
-            # Sort indices to maintain temporal order
-            train_indices = np.sort(train_indices)
-            test_indices = np.sort(test_indices)
-            
-            # Train: Find changepoints on training data
-            chgpt_estimate = f(X[train_indices], y[train_indices], gamma)
-            
-            # Test: Evaluate on test data using the found changepoints
-            fold_score = _calculate_fold_score(chgpt_estimate, X[test_indices], y[test_indices])
-            fold_scores.append(fold_score)
-        
-        # The final score for this gamma is the average across all folds
-        mean_scores.append(np.mean(fold_scores))
-
-    # Find the best gamma corresponding to the minimum score (lower risk is better)
-    print("mean_scores:", mean_scores)
-    best_idx = np.argmin(mean_scores)
+        return cv_score
+    
+    print(f"Running {k}-fold CV for {len(gamma_candidates)} gamma candidates using {n_jobs} cores...")
+    
+    # Parallel evaluation
+    scores = Parallel(n_jobs=n_jobs, verbose=1)(
+        delayed(evaluate_single_gamma)(gamma) 
+        for gamma in tqdm(gamma_candidates, desc="CV Progress")
+    )
+    
+    # Find best gamma
+    best_idx = np.argmin(scores)
     best_gamma = gamma_candidates[best_idx]
     
-    print(f"CV finished. Best gamma found: {best_gamma:.4f} (score: {mean_scores[best_idx]:.4f})")
-
-    # Fit the final model using the best gamma on the full dataset
+    print(f"CV finished. Best gamma: {best_gamma:.4f} (score: {scores[best_idx]:.4f})")
+    
+    # Fit final model on full dataset
     best_chgpt_est = f(X, y, best_gamma)
     
     return best_gamma, best_chgpt_est
 
-def chgpt_two_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer = None):
+def chgpt_two_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None):
     """
-    Performs a 2-fold cross-validation using an even/odd index split to find the
-    best hyperparameter for a changepoint detection function.
-
-    The scoring method is based on Section A.1 of "Divide and Conquer Dynamic
-    Programming..." by Li, Wang, and Rinaldo. For each fold, it:
-    1. Finds changepoints on the training set (e.g., even indices).
-    2. Uses these changepoints to segment the test set (e.g., odd indices).
-    3. Fits a separate model within each test set segment by minimizing an
-       empirical risk.
-    4. Sums the minimized risk values across all segments to get the final score
-       for the fold. A lower score is better.
-
-    Args:
-        f (callable): A black-box function `f(X, y, gamma)` that accepts
-            training data and a hyperparameter, and returns an array of
-            changepoint indices.
-        X (np.ndarray): The full feature data (n_samples, n_features).
-        y (np.ndarray): The full target data (n_samples,).
-        gamma_candidates (list or np.ndarray): A list of gamma values to test.
-        M_scorer (callable): The loss function part of the empirical risk,
-            e.g., `M(y_pred, y_true)`.
-        P_scorer (callable): The penalty function part of the empirical risk,
-            e.g., `P(beta)`.
-
-    Returns:
-        float: The hyperparameter `gamma` that achieved the lowest mean score
-               across the two folds.
+    2-fold cross-validation following the paper's structure but adapted for regression.
     """
     n_samples, p = X.shape
-    even_indices = np.arange(0, n_samples, 2)
-    odd_indices = np.arange(1, n_samples, 2)
-
-    if len(even_indices) == 0 or len(odd_indices) == 0:
-        raise ValueError("Cannot create two folds. Input data is too small.")
-
-    mean_scores = []
-
-    # JIT-compiled function to calculate empirical risk for a given segment
+    
+    # Create folds following paper's definition (adapted to 0-based indexing)
+    fold_1 = np.arange(0, n_samples, 2)  # Even indices: 0, 2, 4, ...
+    fold_2 = np.arange(1, n_samples, 2)  # Odd indices: 1, 3, 5, ...
+    
+    if len(fold_1) == 0 or len(fold_2) == 0:
+        raise ValueError("Cannot create two non-empty folds")
+    
+    # JIT-compiled empirical risk function
     @partial(jax.jit, static_argnums=(0, 1))
     def empirical_risk(M_func, P_func, beta, X_data, y_data):
-        # Ensure predictions and targets have compatible shapes for M_func
         y_pred = X_data @ beta
-        # The risk is the sum of the loss and the model complexity penalty
         if P_func is None:
-            # If no penalty function is provided, just return the loss
             return jnp.sum(M_func(y_pred, y_data))
         return jnp.sum(M_func(y_pred, y_data)) + jnp.sum(P_func(beta))
-
-    # Helper function to compute the total risk for a test fold
-    def _calculate_fold_score(chgpts, X_test, y_test):
-        total_risk = 0.0
-        # Segment the test data based on the provided changepoints
-        # np.split will create segments from indices 0..n-1 at the chgpt locations
-        test_segments = np.split(np.arange(len(X_test)), chgpts)
-
-        for segment_indices in test_segments:
-            if len(segment_indices) == 0:
-                continue # Skip empty segments
-
-            X_seg, y_seg = X_test[segment_indices], y_test[segment_indices]
-
-            # Define the objective function for this segment
-            objective_fn = lambda beta: empirical_risk(M_scorer, P_scorer, beta, X_seg, y_seg)
-            
-            # Minimize the empirical risk for this segment
-            res = scipy.optimize.minimize(
-                fun=objective_fn,
-                x0=0.1*jnp.ones(p, dtype=jnp.float64), # Initial guess for beta
-                jac=jax.grad(objective_fn),
-                method='L-BFGS-B'
-            )
-            
-            # Add the minimized risk of this segment to the total
-            total_risk += res.fun
+    
+    def evaluate_single_gamma(gamma):
+        cv_score = 0.0
         
-        return total_risk
-
+        # Process both folds
+        for fold_idx, (train_indices, test_indices) in enumerate([(fold_2, fold_1), (fold_1, fold_2)]):
+            
+            # Step 1: Get changepoints on training data
+            train_chgpts = f(X[train_indices], y[train_indices], gamma)
+            
+            # Ensure changepoints are integers and convert to numpy array if needed
+            if isinstance(train_chgpts, (list, tuple)):
+                train_chgpts = np.array(train_chgpts, dtype=int)
+            elif hasattr(train_chgpts, 'numpy'):  # JAX array
+                train_chgpts = np.array(train_chgpts, dtype=int)
+            else:
+                train_chgpts = np.asarray(train_chgpts, dtype=int)
+            
+            # Step 2: Map to original indices
+            mapped_chgpts = []
+            for chgpt in train_chgpts:
+                if 0 < chgpt < len(train_indices):
+                    mapped_chgpts.append(train_indices[chgpt])
+            mapped_chgpts = np.array(mapped_chgpts, dtype=int)
+            
+            # Step 3: Estimate β̂ for each segment using training data
+            all_chgpts = np.concatenate([[0], mapped_chgpts, [n_samples]]).astype(int)
+            segment_betas = []
+            
+            for k_seg in range(len(all_chgpts) - 1):
+                start_idx = all_chgpts[k_seg]
+                end_idx = all_chgpts[k_seg + 1]
+                
+                segment_train_mask = (train_indices >= start_idx) & (train_indices < end_idx)
+                segment_train_indices = train_indices[segment_train_mask]
+                
+                if len(segment_train_indices) > 0:
+                    X_seg_train = X[segment_train_indices]
+                    y_seg_train = y[segment_train_indices]
+                    
+                    objective_fn = lambda beta: empirical_risk(M_scorer, P_scorer, beta, X_seg_train, y_seg_train)
+                    
+                    res = scipy.optimize.minimize(
+                        fun=objective_fn,
+                        x0=0.1 * jnp.ones(p, dtype=jnp.float64),
+                        jac=jax.grad(objective_fn),
+                        method='L-BFGS-B'
+                    )
+                    
+                    segment_betas.append(res.x)
+                else:
+                    segment_betas.append(np.zeros(p))
+            
+            # Step 4: Evaluate on test data
+            fold_score = 0.0
+            for i in test_indices:
+                segment_idx = np.searchsorted(all_chgpts[1:], i, side='right')
+                segment_idx = min(segment_idx, len(segment_betas) - 1)
+                
+                beta_seg = segment_betas[segment_idx]
+                y_pred = X[i:i+1] @ beta_seg
+                
+                # Compute M_scorer - for your case this is jnp.abs(u - v)
+                m_score = M_scorer(y_pred, y[i:i+1])
+                # Validate that M_scorer returns expected shape and convert to scalar
+                if jnp.isscalar(m_score):
+                    fold_score += float(m_score)
+                elif m_score.shape == ():  # 0-dimensional array (scalar)
+                    fold_score += float(m_score)
+                elif m_score.shape == (1,):  # 1-element array
+                    fold_score += float(m_score.item())
+                else:
+                    raise ValueError(f"M_scorer returned unexpected shape {m_score.shape}. "
+                                   f"Expected scalar or (1,) array for single data point.")
+                
+                if P_scorer is not None:
+                    p_score = P_scorer(beta_seg)
+                    if jnp.isscalar(p_score):
+                        fold_score += float(p_score)
+                    elif p_score.shape == ():  # 0-dimensional array (scalar)
+                        fold_score += float(p_score)
+                    elif p_score.shape == (1,):  # 1-element array
+                        fold_score += float(p_score.item())
+                    else:
+                        raise ValueError(f"P_scorer returned unexpected shape {p_score.shape}. "
+                                       f"Expected scalar for single parameter vector.")
+            
+            cv_score += fold_score
+        
+        return cv_score
+    
     print(f"Running 2-fold CV for {len(gamma_candidates)} gamma candidates...")
+    
+    scores = []
     for gamma in tqdm(gamma_candidates, desc="CV Progress"):
-        # --- Fold 1: Train on even indices, test on odd indices ---
-        chgpt_estimate_1 = f(X[even_indices], y[even_indices], gamma)
-        # The logic of the even/odd split implies that changepoints found on one
-        # set can be used directly to partition the other set.
-        score_1 = _calculate_fold_score(chgpt_estimate_1, X[odd_indices], y[odd_indices])
-
-        # --- Fold 2: Train on odd indices, test on even indices ---
-        chgpt_estimate_2 = f(X[odd_indices], y[odd_indices], gamma)
-        score_2 = _calculate_fold_score(chgpt_estimate_2, X[even_indices], y[even_indices])
-        
-        # The final score for this gamma is the average of the two fold scores
-        mean_scores.append(np.mean([score_1, score_2]))
-
-    # Find the best gamma corresponding to the minimum score (lower risk is better)
-    print("mean_scores:", mean_scores)
-    best_idx = np.argmin(mean_scores)
+        scores.append(evaluate_single_gamma(gamma))
+    
+    # Find best gamma
+    best_idx = np.argmin(scores)
     best_gamma = gamma_candidates[best_idx]
     
-    print(f"CV finished. Best gamma found: {best_gamma:.4f} (score: {mean_scores[best_idx]:.4f})")
-
-    # Fit the final model using the best gamma on the full dataset
-    # This is optional, depending on whether you want to return the best model
+    print(f"CV finished. Best gamma: {best_gamma:.4f} (score: {scores[best_idx]:.4f})")
+    
+    # Fit final model
     best_chgpt_est = f(X, y, best_gamma)
     
     return best_gamma, best_chgpt_est
@@ -291,13 +331,15 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
         # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_binary_seg_mem_eff(M, Theta_hat, y, n, L, Delta_n, γ=gamma, min_window_size=30, gof_opt_output=True)
         # opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, min_window_size=Delta_n, gamma=gamma, gof_opt_output=True, γ=gamma)
         # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_dc(M, Theta_hat, y, n, L, Delta_n, γ=1.0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
-        opt_chgpts, opt_gof = WERM.gof.chgpt_gof_divide_conquer(M, Theta_hat, y, n, L, Delta_n, γ=gamma, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
+        # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_divide_conquer(M, Theta_hat, y, n, L, Delta_n, γ=gamma, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
+        opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, Delta_n, γ=0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
+        
 
     if return_gof:
         return (opt_chgpts, opt_gof, B_hat) if return_B_hat else (opt_chgpts, opt_gof)
     return (opt_chgpts, B_hat) if return_B_hat else opt_chgpts
 
-def weighted_ermCV(X, y, M, L, Delta_n, gamma_candidates=None, L_is_upper_bound = True, brute_force=False, **kwargs):
+def weighted_ermCV(X, y, M, L, Delta_n, gamma_candidates=None, L_is_upper_bound = True, brute_force=False, M_scorer = None, P_scorer = None, num_folds = 5, n_jobs = 4, **kwargs):
     """
     Run cross-validation to select the best gamma for WERM, and return
     the best change point configuration.
@@ -307,14 +349,18 @@ def weighted_ermCV(X, y, M, L, Delta_n, gamma_candidates=None, L_is_upper_bound 
         X_train, y_train, M, L=L, Delta_n=Delta_n, gamma=gamma,
         L_is_upper_bound=L_is_upper_bound, brute_force=brute_force, return_gof=False, return_B_hat=False, **kwargs
     )
+    if M_scorer is None:
+        M_scorer = M
 
-    best_gamma, best_model_output = chgpt_two_fold_cv(
+    best_gamma, best_model_output = chgpt_k_fold_cv(
         f=f,
         X=X,
         y=y,
         gamma_candidates=gamma_candidates if gamma_candidates is not None else np.logspace(-1, 1, 10),
-        M_scorer=M,
-        P_scorer=None
+        M_scorer=M_scorer,
+        P_scorer=P_scorer,
+        k=num_folds,
+        n_jobs=n_jobs
     )
 
     return best_gamma, best_model_output
@@ -343,6 +389,7 @@ def weighted_erm_extended(X, y, M, L, Delta_n, gamma, brute_force=False, **kwarg
 
         # Calculate the penalty for this configuration
         s = len(chgpts[chgpts != -1])
+        assert s == (L_tilde-1) , f"Expected {L_tilde-1} change points, got {s}."
         
         # Penalty term: gamma * log(C(n-1, s))
         if s >= n:
@@ -364,6 +411,9 @@ def weighted_erm_extended(X, y, M, L, Delta_n, gamma, brute_force=False, **kwarg
     # Return the change point configuration with the minimum penalized score
     if not candidate_scores:
         return np.array([], dtype=int)
+    print(f"Candidate scores: {candidate_scores}")
+    print(f"Fit scores: {fit_scores}")
+    print(f"Penalty scores: {penalty_scores}")
     
     return candidate_chgpts, fit_scores, penalty_scores
 
@@ -383,7 +433,7 @@ def weighted_erm_extended_penalized(X, y, M, L, Delta_n, gamma, brute_force=Fals
         return candidate_chgpts[best_idx], candidate_scores
     return candidate_chgpts[best_idx]
 
-def weighted_erm_extended_penalizedCV(X, y, M, L, Delta_n, gamma_candidates=None, brute_force=False, M_scorer = None, P_scorer = None, num_folds = 5, **kwargs):
+def weighted_erm_extended_penalizedCV(X, y, M, L, Delta_n, gamma_candidates=None, brute_force=False, M_scorer = None, P_scorer = None, num_folds = 5, n_jobs = 4, **kwargs):
     """
     Run cross-validation to select the best gamma for penalized WERM,
     and return the best change point configuration.
@@ -392,8 +442,6 @@ def weighted_erm_extended_penalizedCV(X, y, M, L, Delta_n, gamma_candidates=None
         X_train, y_train, M, L=L, Delta_n=Delta_n, gamma=gamma, brute_force=brute_force, **kwargs
     )
 
-
-
     best_gamma, best_chgpt_est = chgpt_k_fold_cv(
         f=f,
         X=X,
@@ -401,7 +449,8 @@ def weighted_erm_extended_penalizedCV(X, y, M, L, Delta_n, gamma_candidates=None
         gamma_candidates=gamma_candidates if gamma_candidates is not None else np.logspace(-1, 1, 10),
         M_scorer=M_scorer,
         P_scorer=P_scorer,
-        k=num_folds  # Using 5-fold CV for better stability
+        k=num_folds,
+        n_jobs=n_jobs
     )
 
     print(f"Best gamma found: {best_gamma:.4f}")
