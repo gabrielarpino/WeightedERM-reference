@@ -466,4 +466,6 @@ junit/
 # Don't include anything other than pdfs or eps in the figures folder
 figures/*
 !figures/*.pdf
+!figures/*.pgf
+!figures/*.tikz
 !figures/*.eps
