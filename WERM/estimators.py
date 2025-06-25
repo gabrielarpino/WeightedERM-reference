@@ -133,7 +133,7 @@ def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_j
             #     if P_scorer is not None:
             #         fold_score += float(P_scorer(beta_seg))
 
-            # Step 4: Evaluate test data F_v using pre-computed changepoints and β̂ values - vectorized
+            # Step 4: Evaluate test data F_v using pre-computed changepoints and β̂ values - vectorized - untested. 
             segment_indices = np.searchsorted(all_chgpts[1:], test_indices, side='right')
             segment_indices = np.minimum(segment_indices, len(segment_betas) - 1)
 
