@@ -463,8 +463,7 @@ __pycache__/
 OpenCover/
 junit/
 
-# Don't include anything in the results folder
-results/
-
-# Don't include anything in the figures folder
-figures/
+# Don't include anything other than pdfs or eps in the figures folder
+figures/*
+!figures/*.pdf
+!figures/*.eps
