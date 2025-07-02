@@ -126,7 +126,6 @@ class SparseDiffSignal(SignalPrior):
             B[:, l] = β_2.reshape(-1)
             β_1 = β_2.copy()
         return B
-    
 
 class SparseGaussianSignal(SignalPrior):
     def __init__(self, α, δ, σ_l_arr) -> None:

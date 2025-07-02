@@ -619,6 +619,7 @@ def unif_prior_to_η_ϕ(Lmin, Lmax, Δ, n, p_l: np.array = None):
         assert len(p_l) == num_L, "p_l must store the prior probability over [Lmin, Lmax]"
         assert np.isclose(np.sum(p_l), 1), "p_l must be normalised to 1"
 
+    print(f"\Delta: {Δ}, n: {n}, Lmin: {Lmin}, Lmax: {Lmax}")
     assert Δ >= 1 and Δ * Lmax <= n, \
         "If Δ*Lmax > n, then some L∈[Lmin, Lmax] will " + \
         "have no valid configs satisfying minimum Δ intersignal distance" + \

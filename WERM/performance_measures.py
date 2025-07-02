@@ -13,3 +13,10 @@ def hausdorff_jax(x1, x2):
     x1 = jnp.array(x1).reshape(-1, 1)
     x2 = jnp.array(x2).reshape(-1, 1)
     return jnp.maximum(jnp.max(jnp.abs(x1 - x2)), jnp.max(jnp.abs(x2 - x1)))
+
+def closest_point_distance(candidate_set, true_point): 
+    """ Find the distance from the closest point in candidate_set to true_point."""
+    candidate_set = np.array(candidate_set).reshape(-1, 1)
+    true_point = np.array(true_point).reshape(-1, 1)
+    distances = np.abs(candidate_set - true_point)
+    return np.min(distances)
