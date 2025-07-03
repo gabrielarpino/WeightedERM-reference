@@ -323,6 +323,7 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
         Lmax = L
     pi = WERM.config.extrapolated_marginals(Lmin, Lmax, Delta_n_small, n_small = n_small, n_large = n, p_l = p_l, verbose = False)
 
+
     B_hat = np.zeros((p, L))
 
     # --- 1. Estimate signal coefficients B_hat ---
