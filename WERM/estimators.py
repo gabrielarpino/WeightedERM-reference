@@ -115,41 +115,41 @@ def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_j
                     segment_betas.append(np.zeros(p))
             
             # Step 4: Evaluate test data F_v using pre-computed changepoints and β̂ values
-            # fold_score = 0.0
-            # for i in test_indices:
-            #     # Find which segment this test point belongs to
-            #     segment_idx = np.searchsorted(all_chgpts[1:], i, side='right')
-            #     segment_idx = min(segment_idx, len(segment_betas) - 1)
+            fold_score = 0.0
+            for i in test_indices:
+                # Find which segment this test point belongs to
+                segment_idx = np.searchsorted(all_chgpts[1:], i, side='right')
+                segment_idx = min(segment_idx, len(segment_betas) - 1)
                 
-            #     # Get the β̂ for this segment (estimated from training data)
-            #     beta_seg = segment_betas[segment_idx]
+                # Get the β̂ for this segment (estimated from training data)
+                beta_seg = segment_betas[segment_idx]
                 
-            #     # Compute prediction and add to empirical risk
-            #     y_pred = X[i:i+1] @ beta_seg  # Single prediction
-            #     assert M_scorer(y_pred, y[i:i+1]).shape == (1, )
-            #     fold_score += float(M_scorer(y_pred, y[i:i+1])[0])  # Ensure M_scorer returns a scalar
+                # Compute prediction and add to empirical risk
+                y_pred = X[i:i+1] @ beta_seg  # Single prediction
+                assert M_scorer(y_pred, y[i:i+1]).shape == (1, )
+                fold_score += float(M_scorer(y_pred, y[i:i+1])[0])  # Ensure M_scorer returns a scalar
                 
-            #     # Add penalty if provided
-            #     if P_scorer is not None:
-            #         fold_score += float(P_scorer(beta_seg))
+                # Add penalty if provided
+                # if P_scorer is not None:
+                #     fold_score += float(P_scorer(beta_seg))
 
-            # Step 4: Evaluate test data F_v using pre-computed changepoints and β̂ values - vectorized - untested. 
-            segment_indices = np.searchsorted(all_chgpts[1:], test_indices, side='right')
-            segment_indices = np.minimum(segment_indices, len(segment_betas) - 1)
+            # # Step 4: Evaluate test data F_v using pre-computed changepoints and β̂ values - vectorized - untested. 
+            # segment_indices = np.searchsorted(all_chgpts[1:], test_indices, side='right')
+            # segment_indices = np.minimum(segment_indices, len(segment_betas) - 1)
 
-            B_hat = np.array(segment_betas).reshape((p, len(segment_indices))) # (p, len(segment_indices))
-            assert B_hat.shape == (p, len(test_indices)), f"Expected B_hat shape {(p, len(test_indices))}, got {B_hat.shape}"
+            # B_hat = np.array(segment_betas).reshape((p, len(segment_indices))) # (p, len(segment_indices))
+            # assert B_hat.shape == (p, len(test_indices)), f"Expected B_hat shape {(p, len(test_indices))}, got {B_hat.shape}"
 
-            theta_pred = X[test_indices] @ B_hat  # (n_test, p)
-            assert theta_pred.shape == (len(test_indices), p), f"Expected theta_pred shape {(len(test_indices), p)}, got {theta_pred.shape}"
+            # theta_pred = X[test_indices] @ B_hat  # (n_test, p)
+            # assert theta_pred.shape == (len(test_indices), p), f"Expected theta_pred shape {(len(test_indices), p)}, got {theta_pred.shape}"
 
-            # Compute the loss for all test points
-            m_scores = [M_scorer(theta_pred[:, l], y[test_indices]).sum() for l in range(B_hat.shape[1])]
-            fold_score = jnp.sum(jnp.array(m_scores))  # Sum over all segments
+            # # Compute the loss for all test points
+            # m_scores = [M_scorer(theta_pred[:, l], y[test_indices]).sum() for l in range(B_hat.shape[1])]
+            # fold_score = jnp.sum(jnp.array(m_scores))  # Sum over all segments
 
-            # Add penalty if provided
-            if P_scorer is not None:
-                fold_score += np.sum([P_scorer(beta_seg) for beta_seg in segment_betas])
+            # # Add penalty if provided -- do not add penalty to goodness of fit score
+            # # if P_scorer is not None:
+            # #     fold_score += np.sum([P_scorer(beta_seg) for beta_seg in segment_betas])
             
             cv_score += fold_score
         

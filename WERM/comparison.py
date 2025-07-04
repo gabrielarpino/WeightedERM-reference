@@ -86,7 +86,7 @@ def DCDP(X_unit, Y_unit, λ_list = [0.1, 1, 5, 10], γ_list = [100, 500, 1000]):
     cp_loc_refined = dcdp.local_refine((Y_unit, X_unit), cp_loc)
     return cp_loc_refined
 
-def DPDU(X_unit, Y_unit, λs = [0.3, 0.5, 1, 2], ζs = [10.0, 15.0, 20.0]):
+def DPDU(X_unit, Y_unit, λs = [0.01, 0.1, 1, 2], ζs = [10.0, 15.0, 20.0]):
     """ Dynamic Programming with Dynamic Updates (Xu, Wang, Zhao, Yu 2022).
     X_unit: n x p matrix of covariates, where n is the number of observations and p is the number of covariates. Entries i.i.d N(0, 1). 
     Y_unit: n x 1 vector of responses. Assumes a sparse signal β with sparsity d₀. 
