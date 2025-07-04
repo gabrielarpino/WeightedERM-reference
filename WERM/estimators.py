@@ -304,40 +304,63 @@ def chgpt_two_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None):
     
     return best_gamma, best_chgpt_est
 
-def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force=False, return_gof=False, return_B_hat=False, **kwargs):
+def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force=False, return_gof=False, return_B_hat=False, P_func=lambda beta : 0, **kwargs):
     """
     Computes the change point estimate using the Weighted ERM method for a single L.
     (This function was provided as complete and is used as a helper).
     """
     n, p = X.shape
 
-    n_small = 50
-    Delta_n_small = int(Delta_n * n_small/n)
-    if L_is_upper_bound: 
-        p_l = 1/L * np.ones(L) # puts equal weight on all number of signals, set None otherwise. Best for estimating size. 
-        Lmin = 1
-        Lmax = L
-    else:
-        p_l = None
-        Lmin = L
-        Lmax = L
-    pi = WERM.config.extrapolated_marginals(Lmin, Lmax, Delta_n_small, n_small = n_small, n_large = n, p_l = p_l, verbose = False)
+    if Delta_n ==1 : # No separation between change points, so use analytical binomial approximation. 
+        if L_is_upper_bound:
+            pi_i_l = lambda L, l, i : 1/(L - l + 1) * np.sum([scipy.special.comb(k - 1, l- 1, exact=False) * (i/n)**(l-1) * (1 - i/n)**(k-l) for k in range(l, L+1)])
+        else: 
+            pi_i_l = lambda L,l , i: scipy.special.comb(L-1, l-1, exact=False) * (i/n)**(l-1) * (1 - i/n)**(L-l)
+        # Populate the pi L times n matrix
+        pi = np.zeros((L, n))
+        for l in range(L):
+            for i in range(n):
+                pi[l, i] = pi_i_l(L, l + 1, i + 1)
+    else: 
+        n_small = 50
+        Delta_n_small = int(Delta_n * n_small/n)
+        if L_is_upper_bound: 
+            p_l = 1/L * np.ones(L) # puts equal weight on all number of signals, set None otherwise. Best for estimating size. 
+            Lmin = 1
+            Lmax = L
+        else:
+            p_l = None
+            Lmin = L
+            Lmax = L
+        pi = WERM.config.extrapolated_marginals(Lmin, Lmax, Delta_n_small, n_small = n_small, n_large = n, p_l = p_l, verbose = False)
 
 
     B_hat = np.zeros((p, L))
 
     # --- 1. Estimate signal coefficients B_hat ---
     for l_ in range(L):
-        sample_weight = pi[l_, :] / np.sum(pi[l_, :])
+        sample_weight = pi[l_, :] / np.sum(pi[l_, :]) # Ensure weights sum to 1
         
-        @partial(jax.jit, static_argnums=(0,))
-        def empirical_risk(M_func, beta, X_data, y_data, weights):
-            return jnp.multiply(M_func(X_data @ beta, y_data), weights).sum()
+        @partial(jax.jit, static_argnums=(0, 1))
+        def empirical_risk(M_func, P_func,beta, X_data, y_data, weights):
+            return jnp.multiply(M_func(X_data @ beta, y_data), weights).sum() + P_func(beta)
+
+        # def make_empirical_risk(P_func_):
+        #     @partial(jax.jit, static_argnums=(0, 5))  # M_func = 0, P_func = 5
+        #     def empirical_risk(M_func, beta, X_data, y_data, weights, P_func_):
+        #         loss = M_func(X_data @ beta, y_data)
+        #         risk = jnp.multiply(loss, weights).sum()
+        #         if P_func_ is not None:
+        #             risk += P_func_(beta)
+        #         return risk
+        #     return empirical_risk
+
+        # empirical_risk_fn = make_empirical_risk(P_func)
 
         res = scipy.optimize.minimize(
-            lambda beta: empirical_risk(M, beta, X, y, sample_weight),
+            lambda beta: empirical_risk(M, P_func, beta, X, y, sample_weight),
             0.1*np.ones(p),
-            jac=jax.grad(lambda beta: empirical_risk(M, beta, X, y, sample_weight)),
+            jac=jax.grad(lambda beta: empirical_risk(M, P_func, beta, X, y, sample_weight)),
             method='L-BFGS-B'
         )
         B_hat[:, l_] = res.x
