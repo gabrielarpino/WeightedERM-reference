@@ -11,7 +11,7 @@ from rpy2.robjects.packages import importr, data
 from WERM.performance_measures import hausdorff
 utils = importr('utils')
 base = importr('base')
-# charcoal = importr('charcoal')
+charcoal = importr('charcoal')
 
 # MODERN rpy2: Use conversion context instead of deprecated activate/deactivate
 import rpy2.robjects.numpy2ri
@@ -265,6 +265,7 @@ def run_charcoal(X_unit, Y_unit, σ, η_true):
         if charcoal_res == rpy2.rinterface.NULL:
             print("charcoal_res is NULL.")
             haus = np.inf
+            return charcoal_res, haus
         else: 
             assert len(charcoal_res) == 5
             stage_str_list = ["initial", "test_refine", "midpoint_refine", "final"]
@@ -289,7 +290,7 @@ def run_charcoal(X_unit, Y_unit, σ, η_true):
                     stage_hausdorff_list.append(tmp_haus)
                 print(f"Normalised hausdorff distance: {stage_hausdorff_list[i_stage]}")
             haus = stage_hausdorff_list[-1]
-        return haus
+        return stage_cp_list[-1], haus  # Return the final estimated changepoints and hausdorff distance
 
 def run_mcscan(X_unit, Y_unit, num_chgpts = None):
     """ Runs the McScan procedure from inferchange R package in this paper: https://arxiv.org/abs/2402.06915. 
