@@ -205,6 +205,7 @@ def MOSEG(X_unit, Y_unit, num_chgpts=None, ms=False, debug=False):
 ### --- Logistic Regression Wang, Liu, Zhang, Liu 2023 --- ###
 
 glm_package = importr('myglm') # associated with paper by Wang, Liu, Zhang, Liu 2023
+# glm_package = importr('myglm2') # associated with paper by Wang, Liu, Zhang, Liu 2023
 
 # def glm_bsa(X_unit, Y_unit, kmax, c1, m1, delta):
 def glm_bsa(X, Y, kmax=3, delta=0.1, is_exact=False):
