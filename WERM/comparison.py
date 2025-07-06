@@ -241,7 +241,151 @@ def glm_bsa(X, Y, kmax=3, delta=0.1, is_exact=False):
         print("Estimated changepoint locations: ", cp_loc)
         return cp_loc
 
+def glm_bsa2(X, Y, kmax=2, c1=0.18, m1 = None, delta = 1, exact=False):
+    """
+    #' This function provides change point estimation by Binary Segmentation Algorithm
+    #'  for the high dimensional generalized linear regression model.
+    #' @export
+    #' @param X an n*p data matrix, n=observation, p=dimension
+    #' @param Y an n dimensional data vector, n=observation
+    #' @param kmax the maximum change point number.
+    #' @param c1 a constant specified by users.
+    #' @param m1 the sample size of the minimal interval.
+    #' @param delta the minimal interval length specified by users.
+    #' @return  A list including: the estimated change point number, the estimated
+    #'   change point locations.
+    #' @importFrom stats coef
+    #' @importFrom glmnet glmnet
+    """
+
+    n, p = X.shape
+    # Set default parameters like they do in their R code
+    if m1 is None: 
+        m1 = np.ceil(n * delta)
+
+    with conversion.localconverter(converter):
+        # For some reason, the np.array() wrappers are necessary for this function to run.
+        if not exact:
+            res = glm_package.bsa_chgpt(X, Y, kmax, c1, m1, delta)
+        else:
+            res = glm_package.bsa_exactchgpt(X, Y, kmax, c1, m1, delta)
+        assert len(res) == 2, "Expected result to be a list of length 2."
+        num_cps, cp_loc = res
+    return cp_loc
+
 ### --- Algorithms for sparse difference priors --- %%%
+
+def run_charcoal_updated(X_unit, Y_unit, σ, η_true):
+    """
+    X_unit is nxp, Y is nx1. AMP δ is n/p.
+    σ is AMP's noise level. charcoal uses noise level σ * sqrt(n).
+    η_true is the true chgpt locations.
+    
+    Compared to three methods above, this function returns 1/n*hausdorff 
+    distance from η_true directly, but can be modified to return the 
+    estimated changepoint locations.
+    
+    Returns:
+    cp (numpy.ndarray): Estimated changepoint locations. Returns np.array([-1]) if no changepoints are found or an error occurs.
+    haus (float): Normalized Hausdorff distance. Returns np.nan if no changepoints are found or an error occurs.
+    """
+    
+    # Define default fallback values
+    default_cp = np.array([-1])
+    default_haus = np.nan
+
+    with conversion.localconverter(converter):
+        (n, p) = X_unit.shape
+        assert len(Y_unit) == n
+        
+        if n < p:
+            # GW22 needs n > p, otherwise charcoal crashes
+            print(f"Warning: n ({n}) < p ({p}). Charcoal method requires n >= p. Returning default fallback.")
+            return default_cp, default_haus
+        
+        try:
+            charcoal_func = charcoal.not_cpreg 
+            # print(f"Successfully retrieved charcoal_func: {charcoal_func}") # Commenting out verbose debugging prints for cleaner output
+            # print(f"Type of charcoal_func: {type(charcoal_func)}")
+
+        except AttributeError as e:
+            print(f"AttributeError: Could not find 'not_cpreg' in 'charcoal' package: {e}")
+            return default_cp, default_haus # Return default on function retrieval error
+
+        try:
+            charcoal_res = charcoal_func(X_unit, Y_unit, sigma=σ*np.sqrt(n), verbose=True)
+            # print(f"charcoal.not_cpreg call successful. Result type: {type(charcoal_res)}") # Commenting out
+            # print(f"charcoal_res content: {charcoal_res}") # Commenting out
+
+        except rpy2.rinterface.RRuntimeError as e:
+            print(f"R runtime error during charcoal.not_cpreg call: {e}")
+            print("This could indicate issues with input types, R function internal errors, etc.")
+            return default_cp, default_haus # Return default on R runtime error
+        except Exception as e:
+            print(f"An unexpected Python error occurred during charcoal.not_cpreg call: {e}")
+            return default_cp, default_haus # Return default on other Python errors
+
+        if charcoal_res == rpy2.rinterface.NULL:
+            print("charcoal_res is NULL. No changepoints found or algorithm failed to converge. Returning default fallback.")
+            return default_cp, default_haus # Return default if charcoal returns NULL
+        else: 
+            # Validate output structure
+            if not isinstance(charcoal_res, (list, tuple, ro.vectors.ListVector)) or len(charcoal_res) != 5:
+                print(f"Warning: charcoal_res is not a list/tuple of length 5 as expected. Actual type: {type(charcoal_res)}, length: {len(charcoal_res) if hasattr(charcoal_res, '__len__') else 'N/A'}. Returning default fallback.")
+                # print(f"Raw charcoal_res: {charcoal_res}") # Uncomment for deeper debugging if needed
+                return default_cp, default_haus
+
+            # Process valid results
+            stage_str_list = ["initial", "test_refine", "midpoint_refine", "final"]
+            stage_cp_list = [] # initial, test_refine, midpoint_refine, final estimate of chgpt indices
+            stage_hausdorff_list = []
+            
+            for i_stage, stage_str in enumerate(stage_str_list):
+                # print(f"========== {i_stage}/4 {stage_str} ==========") # Commenting out
+                current_stage_res = charcoal_res[i_stage+1]
+                
+                if current_stage_res == rpy2.rinterface.NULL:
+                    # print(f"charcoal {stage_str} result is NULL.") # Commenting out
+                    stage_hausdorff_list.append(np.inf) # Keep inf for internal stages if null, indicates no estimate for that stage
+                    stage_cp_list.append(np.array([])) # Empty array if NULL for the stage
+                else:
+                    try:
+                        cp_stats = np.asarray(current_stage_res) 
+                        
+                        # Ensure cp_stats is not empty and has a shape compatible with indexing
+                        if cp_stats.ndim >= 1 and cp_stats.shape[0] > 0:
+                            # Assuming cp_stats[0, :] extracts the changepoint locations
+                            stage_cp_list.append(cp_stats[0, :].flatten())
+                        else:
+                            # Handle cases where cp_stats is an empty array or a single value not suitable for [0,:]
+                            stage_cp_list.append(np.array([]))
+                        
+                        # print(f"cp (0-indexing i.e. Python indexing," + \ # Commenting out
+                        #       f" idx of 1st observation of new signal): \n{stage_str}={stage_cp_list[i_stage]},") # Commenting out
+                        
+                        # Calculate Hausdorff distance only if there are estimated changepoints
+                        if stage_cp_list[i_stage].size > 0:
+                            tmp_haus = 1/n * hausdorff(η_true, stage_cp_list[i_stage])
+                            stage_hausdorff_list.append(tmp_haus)
+                        else:
+                            stage_hausdorff_list.append(np.inf) # No CPs found for this stage, so infinite distance
+                            
+                    except Exception as inner_e:
+                        print(f"Error processing stage {stage_str} result: {inner_e}")
+                        stage_hausdorff_list.append(np.inf)
+                        stage_cp_list.append(np.array([])) # Fallback if internal processing fails
+                # print(f"Normalised hausdorff distance: {stage_hausdorff_list[i_stage]}") # Commenting out
+            
+            # Determine final changepoint estimate and Hausdorff distance
+            # If the final stage produced no CPs (empty array), return the default fallback values
+            final_cp_est = stage_cp_list[-1] if stage_cp_list and stage_cp_list[-1].size > 0 else default_cp
+            haus = stage_hausdorff_list[-1] if stage_hausdorff_list and stage_cp_list[-1].size > 0 else default_haus
+            
+            # If final_cp_est is np.array([-1]), ensure haus is np.nan
+            if np.array_equal(final_cp_est, default_cp):
+                haus = default_haus
+
+        return final_cp_est, haus
 
 def run_charcoal(X_unit, Y_unit, σ, η_true):
     """
@@ -260,37 +404,64 @@ def run_charcoal(X_unit, Y_unit, σ, η_true):
         if n < p:
             # GW22 needs n > p, otherwise charcoal crashes
             return np.inf
+
+        # Obtain the threshold from getTestThreshold function, using default parameters
+        test_thresh = charcoal.getTestThreshold(n, p, burnIn=0, alpha=0.05, permSize=1000, sigma=σ, b=1, verbose=True)
+        print("Test threshold for charcoal:", test_thresh[0][0])
+        # Assert that threshold is a scalar
+        assert np.isscalar(test_thresh[0][0]), "Test threshold should be a scalar value."
+        # charcoal_res = charcoal.not_cpreg(X_unit, Y_unit, 
+        #                 sigma=σ, thresh=test_thresh[0][0], verbose=True)
         charcoal_res = charcoal.not_cpreg(X_unit, Y_unit, 
-                        sigma=σ*np.sqrt(n), verbose=True)
-        if charcoal_res == rpy2.rinterface.NULL:
-            print("charcoal_res is NULL.")
-            haus = np.inf
-            return charcoal_res, haus
-        else: 
-            assert len(charcoal_res) == 5
-            stage_str_list = ["initial", "test_refine", "midpoint_refine", "final"]
-            stage_cp_list = [] # initial, test_refine, midpoint_refine, final estimate of chgpt indices
-            stage_hausdorff_list = []
-            for i_stage, stage_str in enumerate(stage_str_list):
-                print(f"========== {i_stage}/4 {stage_str} ==========")
-                if charcoal_res[i_stage+1] == rpy2.rinterface.NULL:
-                    print("charcoal initial is NULL.")
-                    stage_hausdorff_list.append(np.inf)
-                else:
-                    cp_stats = np.array(charcoal_res[i_stage+1]) 
-                    stage_cp_list.append(cp_stats[0, :])
-                    print(f"cp (0-indexing i.e. Python indexing," + \
-                        f" idx of 1st observation of new signal): \ninitial={stage_cp_list[i_stage]},")
-                    # Compare the estimated and true index of the first observation of the new signal 
-                    # (with python indexing):
-                    tmp_haus = 1/n * hausdorff(η_true, stage_cp_list[i_stage])
-                    # if tmp_haus == np.Inf:
-                    #     stage_hausdorff_list.append(np.inf)
-                    # else:
-                    stage_hausdorff_list.append(tmp_haus)
-                print(f"Normalised hausdorff distance: {stage_hausdorff_list[i_stage]}")
-            haus = stage_hausdorff_list[-1]
-        return stage_cp_list[-1], haus  # Return the final estimated changepoints and hausdorff distance
+                        thresh=test_thresh[0][0], verbose=True) # Try passing in no sigma
+
+        # print("charcoal_res: ", charcoal_res)
+        # print("np.array(charcoal_res[-1]): ", np.array(charcoal_res[-1]))
+        if np.array(charcoal_res[-1]).size == 0: 
+            return np.array([])
+        else:
+            print("----- FOUND A CP! -----")
+            print("np.array(charcoal_res[-1]): ", np.array(charcoal_res[-1]))
+            cps = np.array([lis[0] for lis in charcoal_res[-1]])
+            return cps
+        # if False:
+        #     haus = np.inf
+        # # if charcoal_res == rpy2.rinterface.NULL:
+        # #     print("charcoal_res is NULL.")
+        # #     haus = np.inf
+        # #     return charcoal_res
+        # else: 
+        #     # return charcoal_res[-1]
+        #     # assert len(charcoal_res) == 5
+        #     stage_str_list = ["initial", "test_refine", "midpoint_refine", "final"]
+        #     stage_cp_list = [] # initial, test_refine, midpoint_refine, final estimate of chgpt indices
+        #     stage_hausdorff_list = []
+        #     for i_stage, stage_str in enumerate(stage_str_list):
+        #         print(f"========== {i_stage}/4 {stage_str} ==========")
+        #         if charcoal_res[i_stage+1] == rpy2.rinterface.NULL:
+        #             print("charcoal stage is NULL.")
+        #             stage_hausdorff_list.append(np.inf)
+        #         elif np.array(charcoal_res[i_stage+1]).size == 0: 
+        #             print("charcoal stage is empty.")
+        #             stage_hausdorff_list.append(np.inf)
+        #             stage_cp_list.append(np.array([]))
+        #         else:
+        #             print("----- FOUND A CP! -----")
+        #             # cp_stats = np.array(charcoal_res[i_stage+1]) 
+        #             cps = np.array([lis[0] for lis in charcoal_res[i_stage+1]])
+        #             stage_cp_list.append(cps)
+        #             print(f"cp (0-indexing i.e. Python indexing," + \
+        #                 f" idx of 1st observation of new signal): \ninitial={stage_cp_list[i_stage]},")
+        #             # Compare the estimated and true index of the first observation of the new signal 
+        #             # (with python indexing):
+        #             tmp_haus = 1/n * hausdorff(η_true, stage_cp_list[i_stage])
+        #             if tmp_haus == np.Inf:
+        #                 stage_hausdorff_list.append(np.inf)
+        #             else:
+        #                 stage_hausdorff_list.append(tmp_haus)
+        #         print(f"Normalised hausdorff distance: {stage_hausdorff_list[i_stage]}")
+        #     haus = stage_hausdorff_list[-1]
+        # return stage_cp_list[-1]  # Return the final estimated changepoints and hausdorff distance
 
 def run_mcscan(X_unit, Y_unit, num_chgpts = None):
     """ Runs the McScan procedure from inferchange R package in this paper: https://arxiv.org/abs/2402.06915. 
@@ -307,15 +478,18 @@ def run_mcscan(X_unit, Y_unit, num_chgpts = None):
 
     with conversion.localconverter(converter):
         if num_chgpts is not None:
-            print(f"Running McScan with num_chgpts = {num_chgpts}.")
+            print(f"Running McScan with upper bound num_chgpts = {num_chgpts}.")
             res = inferchange_package.McScan(X_unit, Y_unit, num_chgpts)
             cp = res[0]
         else:
-            res = inferchange_package.inferchange(X_unit, Y_unit)
-            cp = res[0]
+            print("Running McScan with automatic changepoint estimation.")
+            # res = inferchange_package.inferchange(X_unit, Y_unit)
+            # cp = res[0]
+            res = inferchange_package.McScan(X_unit, Y_unit)
+            cp = res[0]  # Extract the estimated changepoints from the result
             print("Estimated changepoints from McScan: ", cp)
-            delta = res[1]
-            ci = res[2]
+            # delta = res[1]
+            # ci = res[2]
         return cp
 
 # Helper functions for modern rpy2 conversion
