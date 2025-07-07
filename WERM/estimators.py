@@ -102,11 +102,13 @@ def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_j
                     # Minimize empirical risk on this training segment to get β̂
                     objective_fn = lambda beta: empirical_risk(M_scorer, P_scorer, beta, X_seg_train, y_seg_train)
                     
+                    options = {'disp': False, 'maxiter': 1000}  # Options for L-BFGS-B
                     res = scipy.optimize.minimize(
                         fun=objective_fn,
                         x0=0.1 * jnp.ones(p, dtype=jnp.float64),
                         jac=jax.grad(objective_fn),
-                        method='L-BFGS-B'
+                        method='L-BFGS-B',
+                        options=options
                     )
                     
                     segment_betas.append(res.x)
