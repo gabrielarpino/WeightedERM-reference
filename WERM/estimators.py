@@ -357,11 +357,13 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
 
         # empirical_risk_fn = make_empirical_risk(P_func)
 
+        options = {'disp': False, 'maxiter': 1e3} # Useful for ensuring bounded logistic estimators 
         res = scipy.optimize.minimize(
             lambda beta: empirical_risk(M, P_func, beta, X, y, sample_weight),
             0.1*np.ones(p),
             jac=jax.grad(lambda beta: empirical_risk(M, P_func, beta, X, y, sample_weight)),
-            method='L-BFGS-B'
+            method='L-BFGS-B',
+            options=options
         )
         B_hat[:, l_] = res.x
 
@@ -411,13 +413,13 @@ def weighted_ermCV(X, y, M, L, Delta_n, gamma_candidates=None, L_is_upper_bound 
 
     return best_gamma, best_model_output
 
-def weighted_erm_extended(X, y, M, L, Delta_n, gamma, brute_force=False, **kwargs):
+def weighted_erm_extended(X, y, M, L, Delta_n, gamma, brute_force=False, P_func=lambda beta: 0, **kwargs):
     """
     Computes the optimal change point configuration by searching over L_tilde <= L
     and selecting the best based on a penalized goodness-of-fit score.
     """
 
-    n = X.shape[0]
+    n, p = X.shape
     candidate_chgpts = []
     candidate_scores = []
     fit_scores = []
@@ -428,7 +430,7 @@ def weighted_erm_extended(X, y, M, L, Delta_n, gamma, brute_force=False, **kwarg
         # Get the unpenalized GOF score by setting gamma=0 for the search
         chgpts, fit_score = weighted_erm(
             X, y, M, L=L_tilde, Delta_n=Delta_n, gamma=0.0,
-            L_is_upper_bound=False, brute_force=brute_force, return_gof=True, **kwargs
+            L_is_upper_bound=False, brute_force=brute_force, return_gof=True, P_func=P_func,**kwargs
         )
 
         if fit_score is None: continue
@@ -441,7 +443,8 @@ def weighted_erm_extended(X, y, M, L, Delta_n, gamma, brute_force=False, **kwarg
         if s >= n:
             log_penalty_term = np.inf
         else:
-            log_penalty_term = np.log(L * scipy.special.comb(n - 1, s, exact=False) + 1e-9) # Correct
+            # log_penalty_term = np.log(L * scipy.special.comb(n - 1, s, exact=False) + 1e-9) # Correct
+            log_penalty_term = (p * L + L) * np.log(n) # BIC, based on the number of parameters and data points
 
         # Print the scale of the penalty term vs. the GOF score
         if fit_score > 0:
@@ -463,14 +466,14 @@ def weighted_erm_extended(X, y, M, L, Delta_n, gamma, brute_force=False, **kwarg
     
     return candidate_chgpts, fit_scores, penalty_scores
 
-def weighted_erm_extended_penalized(X, y, M, L, Delta_n, gamma, brute_force=False, gof_output = False, **kwargs):
+def weighted_erm_extended_penalized(X, y, M, L, Delta_n, gamma, brute_force=False, gof_output = False, P_func=lambda beta: 0, **kwargs):
     """
     Computes the optimal change point configuration by searching over L_tilde <= L
     and selecting the best based on a penalized goodness-of-fit score.
     """
 
     candidate_chgpts, fit_scores, penalty_scores = weighted_erm_extended(
-        X, y, M, L=L, Delta_n=Delta_n, gamma=gamma, brute_force=brute_force, **kwargs
+        X, y, M, L=L, Delta_n=Delta_n, gamma=gamma, brute_force=brute_force, P_func=P_func,**kwargs
     )
     candidate_scores = np.array(fit_scores) + gamma * np.array(penalty_scores)
     best_idx = np.argmin(candidate_scores)
@@ -596,3 +599,28 @@ def weighted_erm_extended_elbow_kneedle(X, y, M, Delta_n, L_max=7, brute_force=F
     
     return sorted_chgpts[knee_idx]
 
+def weighted_erm_num_chgptCV(X, y, M, Delta_n, Lmax=7, brute_force=False, return_gof=False, P_func=lambda beta: 0, M_scorer=None, num_folds=5, n_jobs=4, **kwargs):
+    """
+    Cross-validation to select the best number of change points L_tilde.
+    Returns the best L_tilde and the corresponding change point configuration.
+    """
+    f = lambda X_train, y_train, L_tilde: weighted_erm(
+        X_train, y_train, M, L=L_tilde, Delta_n=Delta_n, gamma=0.0,
+        brute_force=brute_force, P_func=P_func, return_gof=return_gof, **kwargs
+    )
+
+    if M_scorer is None:
+        M_scorer = M
+
+    best_L_tilde, best_chgpt_est = chgpt_k_fold_cv(
+        f=f,
+        X=X,
+        y=y,
+        gamma_candidates=np.arange(1, Lmax + 1),
+        M_scorer=M_scorer,
+        P_scorer=None,
+        k=num_folds,
+        n_jobs=n_jobs
+    )
+
+    return best_L_tilde, best_chgpt_est

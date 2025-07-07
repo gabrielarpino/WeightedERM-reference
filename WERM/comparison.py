@@ -204,8 +204,8 @@ def MOSEG(X_unit, Y_unit, num_chgpts=None, ms=False, debug=False):
 
 ### --- Logistic Regression Wang, Liu, Zhang, Liu 2023 --- ###
 
-glm_package = importr('myglm') # associated with paper by Wang, Liu, Zhang, Liu 2023
-# glm_package = importr('myglm2') # associated with paper by Wang, Liu, Zhang, Liu 2023
+# glm_package = importr('myglm') # associated with paper by Wang, Liu, Zhang, Liu 2023
+glm_package = importr('myglm2') # associated with paper by Wang, Liu, Zhang, Liu 2023, explicitly pass in lambda parameter into glmnet for more numerical stability
 
 # def glm_bsa(X_unit, Y_unit, kmax, c1, m1, delta):
 def glm_bsa(X, Y, kmax=3, delta=0.1, is_exact=False):
@@ -227,21 +227,22 @@ def glm_bsa(X, Y, kmax=3, delta=0.1, is_exact=False):
         # For some reason, the np.array() wrappers are necessary for this function to run.
         if is_exact:
             print(f"Running bsa with exactly kmax={kmax} chgpts.")
-            res = glm_package.bsa_exact_wrapper(np.array(X), np.array(Y), kmax, delta)
+            res = glm_package.bsa_exact_wrapper(X, Y, kmax, delta)
         else:
             print(f"Running bsa with at most kmax={kmax} chgpts, at least 1 chgpt.")
-            res = glm_package.bsa_wrapper(np.array(X), np.array(Y), kmax, delta)
+            res = glm_package.bsa_wrapper(X, Y, kmax, delta)
         # res = glm_package.bsachgpt(X_unit, Y_unit, kmax, c1, m1, delta) # this is a list
         if res == rpy2.rinterface.NULL:
             print("glm_bsa res is NULL.")
-            return np.array([])
+            raise ValueError("BSA algorithm failed to converge.")
+            # return np.array([]) # Return empty array if no changepoints found, original
         num_cp = res[0]
         cp_loc = res[1]
         print("Estimated number of changepoints: ", num_cp)
         print("Estimated changepoint locations: ", cp_loc)
         return cp_loc
 
-def glm_bsa2(X, Y, kmax=2, c1=0.18, m1 = None, delta = 1, exact=False):
+def glm_bsa2(X, Y, kmax=2, c1=0.18, m1 = None, delta = 0.1, exact=False):
     """
     #' This function provides change point estimation by Binary Segmentation Algorithm
     #'  for the high dimensional generalized linear regression model.
@@ -266,8 +267,10 @@ def glm_bsa2(X, Y, kmax=2, c1=0.18, m1 = None, delta = 1, exact=False):
     with conversion.localconverter(converter):
         # For some reason, the np.array() wrappers are necessary for this function to run.
         if not exact:
+            print("Running bsa_chgpt with at most kmax=", kmax, " chgpts.")
             res = glm_package.bsa_chgpt(X, Y, kmax, c1, m1, delta)
         else:
+            print("Running bsa_exactchgpt with exactly kmax=", kmax, " chgpts.")
             res = glm_package.bsa_exactchgpt(X, Y, kmax, c1, m1, delta)
         assert len(res) == 2, "Expected result to be a list of length 2."
         num_cps, cp_loc = res
