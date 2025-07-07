@@ -308,6 +308,8 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
     """
     Computes the change point estimate using the Weighted ERM method for a single L.
     (This function was provided as complete and is used as a helper).
+
+    Delta_n is an int. 
     """
     n, p = X.shape
 
@@ -455,7 +457,7 @@ def weighted_erm_extended(X, y, M, L, Delta_n, gamma, brute_force=False, P_func=
         candidate_chgpts.append(chgpts)
         candidate_scores.append(penalized_score)
         fit_scores.append(fit_score)
-        penalty_scores.append(gamma * log_penalty_term)
+        penalty_scores.append(log_penalty_term)
 
     # Return the change point configuration with the minimum penalized score
     if not candidate_scores:

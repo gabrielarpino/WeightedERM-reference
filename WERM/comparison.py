@@ -466,11 +466,13 @@ def run_charcoal(X_unit, Y_unit, σ, η_true):
         #     haus = stage_hausdorff_list[-1]
         # return stage_cp_list[-1]  # Return the final estimated changepoints and hausdorff distance
 
-def run_mcscan(X_unit, Y_unit, num_chgpts = None):
+def run_mcscan(X_unit, Y_unit, num_chgpts = None, method='not'):
     """ Runs the McScan procedure from inferchange R package in this paper: https://arxiv.org/abs/2402.06915. 
     X_unit is nxp, Y is nx1.
     If num_chgpts is None, McScan estimates the number of changepoints in addition to location.
     If num_chgpts is an integer, McScan uses that number of changepoints and only estimates location.
+
+    method is 'not' (fixed threshold) or 'auto' (automatic threshold estimation).
     """
 
     # set.seed(12345)
@@ -488,7 +490,7 @@ def run_mcscan(X_unit, Y_unit, num_chgpts = None):
             print("Running McScan with automatic changepoint estimation.")
             # res = inferchange_package.inferchange(X_unit, Y_unit)
             # cp = res[0]
-            res = inferchange_package.McScan(X_unit, Y_unit)
+            res = inferchange_package.McScan(X_unit, Y_unit, method=method)
             cp = res[0]  # Extract the estimated changepoints from the result
             print("Estimated changepoints from McScan: ", cp)
             # delta = res[1]
