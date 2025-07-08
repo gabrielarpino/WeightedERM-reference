@@ -55,9 +55,9 @@ def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_j
     def empirical_risk(M_func, P_func, beta, X_data, y_data):
         y_pred = X_data @ beta
         if P_func is None:
-            return jnp.sum(M_func(y_pred, y_data))
-        return jnp.sum(M_func(y_pred, y_data)) + jnp.sum(P_func(beta))
-    
+            return jnp.sum(M_func(y_pred.flatten(), y_data.flatten()))
+        return jnp.sum(M_func(y_pred.flatten(), y_data.flatten())) + jnp.sum(P_func(beta))
+
     def evaluate_single_gamma(gamma):
         """Evaluate one gamma value using k-fold CV"""
         cv_score = 0.0
@@ -347,7 +347,7 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
         
         @partial(jax.jit, static_argnums=(0, 1))
         def empirical_risk(M_func, P_func,beta, X_data, y_data, weights):
-            return jnp.multiply(M_func(X_data @ beta, y_data), weights).sum() + P_func(beta)
+            return jnp.multiply(M_func((X_data @ beta).flatten(), y_data.flatten()), weights).sum() + P_func(beta)
 
         # def make_empirical_risk(P_func_):
         #     @partial(jax.jit, static_argnums=(0, 5))  # M_func = 0, P_func = 5

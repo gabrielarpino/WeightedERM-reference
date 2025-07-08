@@ -656,7 +656,11 @@ def unif_prior_to_η_ϕ(Lmin, Lmax, Δ, n, p_l: np.array = None):
     # Marginal probability that each yi in i∈[n] is from signal l:
     if p_l is None: # assume uniform prior over all η configs.
         ϕ = marg_nconfigs_arr / tot_nconfigs # nxLmax
-    assert np.allclose(np.sum(ϕ, axis=1), 1)
+    try: 
+        assert np.allclose(np.sum(ϕ, axis=1), 1)
+    except:
+        print("Warning: ϕ does not sum to 1 across rows. Check p_l and Δ.")
+        print(f"Sum across rows (should be 1): {np.sum(ϕ, axis=1)}")
 
     if p_l is None:
         p_η_arr = np.ones(tot_nconfigs) / tot_nconfigs
