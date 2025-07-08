@@ -35,9 +35,9 @@
 %%       
 %%   \ifdefined\pdftexversion\else  % non-pdftex case.
 %%     \usepackage{fontspec}
-%%     \setmainfont{Times_New_Roman.ttf}[Path=\detokenize{/usr/share/fonts/truetype/msttcorefonts/}]
-%%     \setsansfont{DejaVuSans.ttf}[Path=\detokenize{/scratch/ga442/miniforge3/envs/weighted-erm/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
-%%     \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/scratch/ga442/miniforge3/envs/weighted-erm/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%     \setmainfont{Times New Roman.ttf}[Path=\detokenize{/System/Library/Fonts/Supplemental/}]
+%%     \setsansfont{DejaVuSans.ttf}[Path=\detokenize{/Users/gabrielarpino/.local/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%     \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/Users/gabrielarpino/.local/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
 %%   \fi
 %%   \makeatletter\@ifpackageloaded{underscore}{}{\usepackage[strings]{underscore}}\makeatother
 %%
@@ -932,16 +932,16 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.400000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{4.354800in}{3.443525in}}%
+\pgfpathmoveto{\pgfqpoint{4.584662in}{3.443525in}}%
 \pgfpathlineto{\pgfqpoint{6.516606in}{3.443525in}}%
 \pgfpathquadraticcurveto{\pgfqpoint{6.563828in}{3.443525in}}{\pgfqpoint{6.563828in}{3.490747in}}%
 \pgfpathlineto{\pgfqpoint{6.563828in}{4.129944in}}%
 \pgfpathquadraticcurveto{\pgfqpoint{6.563828in}{4.177167in}}{\pgfqpoint{6.516606in}{4.177167in}}%
-\pgfpathlineto{\pgfqpoint{4.354800in}{4.177167in}}%
-\pgfpathquadraticcurveto{\pgfqpoint{4.307578in}{4.177167in}}{\pgfqpoint{4.307578in}{4.129944in}}%
-\pgfpathlineto{\pgfqpoint{4.307578in}{3.490747in}}%
-\pgfpathquadraticcurveto{\pgfqpoint{4.307578in}{3.443525in}}{\pgfqpoint{4.354800in}{3.443525in}}%
-\pgfpathlineto{\pgfqpoint{4.354800in}{3.443525in}}%
+\pgfpathlineto{\pgfqpoint{4.584662in}{4.177167in}}%
+\pgfpathquadraticcurveto{\pgfqpoint{4.537440in}{4.177167in}}{\pgfqpoint{4.537440in}{4.129944in}}%
+\pgfpathlineto{\pgfqpoint{4.537440in}{3.490747in}}%
+\pgfpathquadraticcurveto{\pgfqpoint{4.537440in}{3.443525in}}{\pgfqpoint{4.584662in}{3.443525in}}%
+\pgfpathlineto{\pgfqpoint{4.584662in}{3.443525in}}%
 \pgfpathclose%
 \pgfusepath{stroke,fill}%
 \end{pgfscope}%
@@ -953,8 +953,8 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.800000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{4.638134in}{3.880639in}}%
-\pgfpathlineto{\pgfqpoint{4.638134in}{4.116750in}}%
+\pgfpathmoveto{\pgfqpoint{4.867995in}{3.880639in}}%
+\pgfpathlineto{\pgfqpoint{4.867995in}{4.116750in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
@@ -974,7 +974,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{4.638134in}{3.880639in}%
+\pgfsys@transformshift{4.867995in}{3.880639in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -995,7 +995,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{4.638134in}{4.116750in}%
+\pgfsys@transformshift{4.867995in}{4.116750in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1007,8 +1007,8 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.800000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{4.402023in}{3.998694in}}%
-\pgfpathlineto{\pgfqpoint{4.874245in}{3.998694in}}%
+\pgfpathmoveto{\pgfqpoint{4.631884in}{3.998694in}}%
+\pgfpathlineto{\pgfqpoint{5.104106in}{3.998694in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
@@ -1037,7 +1037,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{4.638134in}{3.998694in}%
+\pgfsys@transformshift{4.867995in}{3.998694in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1045,7 +1045,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.063134in,y=3.916055in,left,base]{\color{textcolor}{\rmfamily\fontsize{17.000000}{20.400000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{GLMBSA}}}%
+\pgftext[x=5.292995in,y=3.916055in,left,base]{\color{textcolor}{\rmfamily\fontsize{17.000000}{20.400000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{GLMBSA}}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -1055,8 +1055,8 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.800000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{4.638134in}{3.549235in}}%
-\pgfpathlineto{\pgfqpoint{4.638134in}{3.785346in}}%
+\pgfpathmoveto{\pgfqpoint{4.867995in}{3.549235in}}%
+\pgfpathlineto{\pgfqpoint{4.867995in}{3.785346in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
@@ -1076,7 +1076,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{4.638134in}{3.549235in}%
+\pgfsys@transformshift{4.867995in}{3.549235in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1097,7 +1097,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{4.638134in}{3.785346in}%
+\pgfsys@transformshift{4.867995in}{3.785346in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1109,8 +1109,8 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.800000}%
 \pgfsetdash{{12.950000pt}{5.600000pt}}{0.000000pt}%
-\pgfpathmoveto{\pgfqpoint{4.402023in}{3.667290in}}%
-\pgfpathlineto{\pgfqpoint{4.874245in}{3.667290in}}%
+\pgfpathmoveto{\pgfqpoint{4.631884in}{3.667290in}}%
+\pgfpathlineto{\pgfqpoint{5.104106in}{3.667290in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
@@ -1134,7 +1134,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{4.638134in}{3.667290in}%
+\pgfsys@transformshift{4.867995in}{3.667290in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1142,7 +1142,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.063134in,y=3.584651in,left,base]{\color{textcolor}{\rmfamily\fontsize{17.000000}{20.400000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{WERM-CV}}}%
+\pgftext[x=5.292995in,y=3.584651in,left,base]{\color{textcolor}{\rmfamily\fontsize{17.000000}{20.400000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{WERM}}}%
 \end{pgfscope}%
 \end{pgfpicture}%
 \makeatother%

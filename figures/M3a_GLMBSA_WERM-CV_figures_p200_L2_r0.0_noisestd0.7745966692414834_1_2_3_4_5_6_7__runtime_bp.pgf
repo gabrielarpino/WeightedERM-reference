@@ -35,9 +35,9 @@
 %%       
 %%   \ifdefined\pdftexversion\else  % non-pdftex case.
 %%     \usepackage{fontspec}
-%%     \setmainfont{Times_New_Roman.ttf}[Path=\detokenize{/usr/share/fonts/truetype/msttcorefonts/}]
-%%     \setsansfont{DejaVuSans.ttf}[Path=\detokenize{/scratch/ga442/miniforge3/envs/weighted-erm/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
-%%     \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/scratch/ga442/miniforge3/envs/weighted-erm/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%     \setmainfont{Times New Roman.ttf}[Path=\detokenize{/System/Library/Fonts/Supplemental/}]
+%%     \setsansfont{DejaVuSans.ttf}[Path=\detokenize{/Users/gabrielarpino/.local/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%     \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/Users/gabrielarpino/.local/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
 %%   \fi
 %%   \makeatletter\@ifpackageloaded{underscore}{}{\usepackage[strings]{underscore}}\makeatother
 %%
@@ -466,7 +466,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=0.339583in,y=2.690898in,,bottom,rotate=90.000000]{\color{textcolor}{\rmfamily\fontsize{18.000000}{21.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}Runtime (seconds)}}%
+\pgftext[x=0.339583in,y=2.690898in,,bottom,rotate=90.000000]{\color{textcolor}{\rmfamily\fontsize{18.000000}{21.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}Runtime (s)}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{0.875227in}{0.705277in}}{\pgfqpoint{5.806657in}{3.971241in}}%
@@ -1666,10 +1666,10 @@
 \pgfsetstrokeopacity{0.950000}%
 \pgfsetdash{}{0pt}%
 \pgfpathmoveto{\pgfqpoint{1.011338in}{3.970963in}}%
-\pgfpathlineto{\pgfqpoint{2.805435in}{3.970963in}}%
-\pgfpathquadraticcurveto{\pgfqpoint{2.844324in}{3.970963in}}{\pgfqpoint{2.844324in}{4.009852in}}%
-\pgfpathlineto{\pgfqpoint{2.844324in}{4.540407in}}%
-\pgfpathquadraticcurveto{\pgfqpoint{2.844324in}{4.579296in}}{\pgfqpoint{2.805435in}{4.579296in}}%
+\pgfpathlineto{\pgfqpoint{2.613884in}{3.970963in}}%
+\pgfpathquadraticcurveto{\pgfqpoint{2.652772in}{3.970963in}}{\pgfqpoint{2.652772in}{4.009852in}}%
+\pgfpathlineto{\pgfqpoint{2.652772in}{4.540407in}}%
+\pgfpathquadraticcurveto{\pgfqpoint{2.652772in}{4.579296in}}{\pgfqpoint{2.613884in}{4.579296in}}%
 \pgfpathlineto{\pgfqpoint{1.011338in}{4.579296in}}%
 \pgfpathquadraticcurveto{\pgfqpoint{0.972449in}{4.579296in}}{\pgfqpoint{0.972449in}{4.540407in}}%
 \pgfpathlineto{\pgfqpoint{0.972449in}{4.009852in}}%
@@ -1726,7 +1726,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.594671in,y=4.087630in,left,base]{\color{textcolor}{\rmfamily\fontsize{14.000000}{16.800000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{WERM-CV}}}%
+\pgftext[x=1.594671in,y=4.087630in,left,base]{\color{textcolor}{\rmfamily\fontsize{14.000000}{16.800000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{WERM}}}%
 \end{pgfscope}%
 \end{pgfpicture}%
 \makeatother%
