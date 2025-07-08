@@ -170,7 +170,10 @@ def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_j
     best_gamma = gamma_candidates[best_idx]
     
     δ = n_samples/p
-    print(f"CV finished for delta: {δ:.4f}. Best gamma: {best_gamma:.4f} (score: {scores[best_idx]:.4f})")
+
+    fmt = lambda g: "(" + ", ".join(f"{x:.4f}" for x in g) + ")" if isinstance(g, tuple) else f"{g:.4f}"
+    print(f"CV finished for delta: {δ:.4f}. Best gamma: {fmt(best_gamma)} (score: {scores[best_idx]:.4f})\nCandidates: {[fmt(g) for g in gamma_candidates]} (Scores: {[f'{s:.4f}' for s in scores]})")
+    # print(f"CV finished for delta: {δ:.4f}. Best gamma: {best_gamma:.4f} (score: {scores[best_idx]:.4f})")
     print(f"Candidate gammas: {gamma_candidates}, Scores: {scores}")
     
     # Fit final model on full dataset
