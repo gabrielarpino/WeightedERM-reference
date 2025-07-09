@@ -15,7 +15,7 @@ def prox_obj_no_idx(t, args):
     z, b, π_i, v = args
     return (b * π_i * M_fixed(t, v) + (1/2) * jnp.linalg.norm(t - z)**2)
 
-def prox(z, b, π_i, v, maxiter=30):
+def prox(z, b, π_i, v, M_prime, M_double_prime, maxiter=30):
     """ Proximal operator with respect to the loss b π_i M """
 
     # def prox_obj(t): 
@@ -65,14 +65,14 @@ def general_fp(M, ρ, δ, η_, ϕ, ε, n, q):
     
     # Define higher order derivatives of M
     global M_prime
-    M_prime = jax.grad(M_fixed, argnums=0)
+    M_prime = jax.grad(M, argnums=0)
     global M_double_prime
     M_double_prime = jax.grad(M_prime, argnums=0)
     # M_partial_12 = jax.grad(M_double_prime, argnums=1)
     M_prime_mapped = jax.vmap(M_prime, in_axes=(0, 0))
     M_double_prime_mapped = jax.vmap(M_double_prime, in_axes=(0, 0))
     # M_partial_12_mapped = jax.vmap(M_partial_12, in_axes=(0, 0))
-    prox_mapped = jax.vmap(prox, in_axes=(0, None, 0, 0))
+    prox_mapped = lambda z, b, π_i, v: jax.vmap(prox, in_axes=(0, None, 0, 0, None, None))(z, b, π_i, v, M_prime, M_double_prime)
 
     num_samples = n
     L = ρ.shape[0]
