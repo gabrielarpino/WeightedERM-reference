@@ -340,6 +340,7 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
             Lmin = L
             Lmax = L
         pi = WERM.config.extrapolated_marginals(Lmin, Lmax, Delta_n_small, n_small = n_small, n_large = n, p_l = p_l, verbose = False)
+    # pi = pi / np.sum(pi, axis=1, keepdims=True) # Normalize rows to sum to 1
 
 
     B_hat = np.zeros((p, L))
@@ -377,17 +378,19 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
     # --- 2. Compute Change Point Estimates using Goodness-of-Fit ---
     Theta_hat = X @ B_hat
 
-    if brute_force:
+    if brute_force and L > 1:
         opt_chgpts, opt_gof = WERM.gof.chgpt_gof_bf_mem_eff(
                 M, Theta_hat, y, n, L, Delta_n, L_is_upper_bound=L_is_upper_bound,
                 γ=gamma, batch_size=4096, gof_opt_output=True
             )
-    else:
+    elif L > 1:
         # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_binary_seg_mem_eff(M, Theta_hat, y, n, L, Delta_n, γ=gamma, min_window_size=30, gof_opt_output=True)
         # opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, min_window_size=Delta_n, gamma=gamma, gof_opt_output=True, γ=gamma)
         # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_dc(M, Theta_hat, y, n, L, Delta_n, γ=1.0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
         # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_divide_conquer(M, Theta_hat, y, n, L, Delta_n, γ=gamma, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
         opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, Delta_n, γ=0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
+    else:
+        opt_chgpts, opt_gof = np.array([]), np.inf  # No change points, no goodness-of-fit
         
 
     if return_gof:
