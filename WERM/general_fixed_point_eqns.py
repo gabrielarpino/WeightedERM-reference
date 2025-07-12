@@ -159,7 +159,7 @@ def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_ful
 
     # --- Functions for fixed-point equations (W_b, W_b_prime, W_z) ---
     def W_b(b, ν̃, κ̃, Z, G_raw):
-        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-9 * jnp.eye(L))
+        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-12 * jnp.eye(L))
         G_sample = G_raw @ κ̃_sqrt.T
         q_mapped_with_input = q_mapped(Z, jnp.arange(n), ε)
         arr = [b[ℓ] * jnp.multiply(ϕ[ℓ, :], M_prime_mapped(
@@ -169,7 +169,7 @@ def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_ful
         return jnp.array(arr).T
 
     def W_b_prime(b, ν̃, κ̃, Z, G_raw):
-        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-9 * jnp.eye(L))
+        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-12 * jnp.eye(L))
         G_sample = G_raw @ κ̃_sqrt.T
         q_mapped_with_input = q_mapped(Z, jnp.arange(n), ε)
         arr = [b[ℓ] * jnp.multiply(ϕ[ℓ, :], M_double_prime_mapped(
@@ -364,7 +364,7 @@ def _unrank_combination_constrained(rank, k, effective_N_prime, effective_range_
     eta_ = effective_range_start + np.sort(result_effective) + np.arange(k) * (Delta - 1)
     return eta_.astype(np.int32)
 
-def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, master_key, num_samples_mult=100):
+def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, master_key, num_samples_mult=100,maxiter=1000):
     """
     Computes the fixed-point solution for a single, specified change-point vector.
 
@@ -393,7 +393,7 @@ def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, ma
 
     # Run the optimization for this single configuration
     b_res, nu_tilde_res, kappa_tilde_res, success_status = _run_single_fp_optimization(
-        M_func, ρ, δ, eta_vector, ϕ, ε, n, q_func, L_val, Z_full_val, G_raw_full_val
+        M_func, ρ, δ, eta_vector, ϕ, ε, n, q_func, L_val, Z_full_val, G_raw_full_val, maxiter=maxiter
     )
 
     return b_res, nu_tilde_res, kappa_tilde_res, success_status
