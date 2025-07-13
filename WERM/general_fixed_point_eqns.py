@@ -120,7 +120,7 @@ def _setup_fixed_point_problem(M_func, ρ, δ, η_, ϕ, ε, n, q_func, key, num_
     return L, Z_full, G_raw_full
 
 # --- Function to run a single fixed-point optimization ---
-def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_full, G_raw_full, tol=1e-6, maxiter=1000):
+def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_full, G_raw_full, tol=1e-6, maxiter=1000, lr=0.25):
     """
     Runs the fixed-point optimization for a single configuration using jaxopt.AndersonAcceleration.
     This function is NOT JAX-traceable due to potential CPU-based operations but the
@@ -262,7 +262,7 @@ def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_ful
     #     x_projected = jnp.concatenate([b_proj, nu_tilde_flat_next, L_flat_proj])
     #     return x_projected
 
-    learning_rate = 0.1 # New hyperparameter for fixed-point updates
+    learning_rate = lr # New hyperparameter for fixed-point updates
     use_iterate_averaging = True # Whether to return the average of iterates or the final one
     # The fixed_point_update function now uses the learning_rate argument
     def fixed_point_update(x):
@@ -364,7 +364,7 @@ def _unrank_combination_constrained(rank, k, effective_N_prime, effective_range_
     eta_ = effective_range_start + np.sort(result_effective) + np.arange(k) * (Delta - 1)
     return eta_.astype(np.int32)
 
-def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, master_key, num_samples_mult=100,maxiter=1000):
+def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, master_key, num_samples_mult=100,maxiter=1000, lr=0.25):
     """
     Computes the fixed-point solution for a single, specified change-point vector.
 
@@ -393,7 +393,7 @@ def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, ma
 
     # Run the optimization for this single configuration
     b_res, nu_tilde_res, kappa_tilde_res, success_status = _run_single_fp_optimization(
-        M_func, ρ, δ, eta_vector, ϕ, ε, n, q_func, L_val, Z_full_val, G_raw_full_val, maxiter=maxiter
+        M_func, ρ, δ, eta_vector, ϕ, ε, n, q_func, L_val, Z_full_val, G_raw_full_val, maxiter=maxiter,lr=lr
     )
 
     return b_res, nu_tilde_res, kappa_tilde_res, success_status
