@@ -16,6 +16,7 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, WhiteKernel
 from sklearn.preprocessing import StandardScaler
 from jaxopt import AndersonAcceleration
+from sklearn.metrics import mean_squared_error
 
 # Set small regularization constant for numerical stability
 ϵ_0 = 1e-10
@@ -24,13 +25,14 @@ from jaxopt import AndersonAcceleration
 
 def fixed_pt_sol_extrapolate(
     n_large, n_small, L, Delta_fn, M_func, ρ, δ, π_small, ε_small, q_func, 
-    master_key, batch_size=4096, use_cpu_parallelization=False, cpu_workers=None):
+    master_key, batch_size=4096, use_cpu_parallelization=False, cpu_workers=None, coarse_grain_factor_train=1):
 
     # --- Step 1 & 2: Generate and Structure Training Data ---
     print("### Step 1 & 2: Generating Training Data... ###")
     training_data = generate_training_data(
         n_values=[n_small], L=L, Delta_fn=Delta_fn, M_func=M_func, ρ=ρ, δ=δ, π_small=π_small, ε_small=ε_small, q_func=q_func,
         master_key=master_key, batch_size=batch_size, use_cpu_parallelization=use_cpu_parallelization, cpu_workers=cpu_workers,
+        coarse_grain_factor=coarse_grain_factor_train
     )
 
     # --- Step 3: Train the Interpolator ---
@@ -156,7 +158,7 @@ class FixedPointInterpolator:
         mse = mean_squared_error(Y_scaled, Y_pred_scaled)
         
         # Calculate the Maximum Absolute Error to find the worst-case fit.
-        max_abs_error = max_error(Y_scaled, Y_pred_scaled)
+        max_abs_error = np.max(np.abs(Y_scaled - Y_pred_scaled))
         
         print(f"\nFit Quality Report:")
         print(f"  - Training MSE: {mse:.2e}")
@@ -184,7 +186,7 @@ class FixedPointInterpolator:
         return results
 
 def generate_training_data(n_values, L, Delta_fn, M_func, ρ, δ, π_small, ε_small, q_func, 
-                           master_key, batch_size=4096, use_cpu_parallelization=False, cpu_workers=None,
+                           master_key, batch_size=4096, use_cpu_parallelization=False, cpu_workers=None, coarse_grain_factor=1
                            ):
     """
     Generates training data by running the solver for small n and normalizing results.
@@ -193,18 +195,19 @@ def generate_training_data(n_values, L, Delta_fn, M_func, ρ, δ, π_small, ε_s
     """
     all_data = []
     assert len(n_values) == 1, 'Only implemented for n_values of length 0 for now, π input must be extended.'
+    print("Generating training data for n values:", n_values)
     for n_small in n_values:
         results = fp.compute_all_fixed_points(n_small, L, Delta_fn(n_small), M_func, 
                         ρ, δ, π_small, ε_small, n_small, q_func, master_key, 
                         batch_size=batch_size, use_cpu_parallelization=use_cpu_parallelization, 
-                        cpu_workers=cpu_workers
+                        cpu_workers=cpu_workers, coarse_grain_factor=coarse_grain_factor
                         )
 
         for eta_abs, b, nu, kappa, success in results:
-            if success:
-                # Normalize eta to get fractional locations
-                fractional_eta = eta_abs / n_small
-                all_data.append((fractional_eta, b, nu, kappa))
+            # if success:
+            # Normalize eta to get fractional locations
+            fractional_eta = eta_abs / n_small
+            all_data.append((fractional_eta, b, nu, kappa))
     return all_data
 
 def generate_changepoint_grid(n, L, Delta_n, coarse_grain_factor=1):
@@ -1190,12 +1193,10 @@ def exact_posterior_gaussian(η_arr, p_η_arr, V, Y, ρ, σ, ν_fixed_tabulated,
     return posterior
 
 def logP_V_Y_given_η_jax(η, V, Y, ρ, σ, ν, κ_T):
-    """ TODO: This uses η_to_ψ_jax, which assumes η has to -1's in it. Need to change η_to_ψ_jax to fix this. """
     n = Y.shape[0]
-    ψ = WERM.config.η_to_ψ_jax(η, n) # length-n vector
-    # log P(V, Y | η) = log ∑_j P(Vj, Yj | ψj)
-    # sum over all rows of V, Y, ψ:
-    return jnp.sum(logP_Vj_Yj_given_ψj_allj(V, Y, ψ.reshape(-1,1), ρ, σ, ν, κ_T)) # scalar
+    # Use the new, improved function
+    ψ = η_to_ψ_jax_new(η, n) # length-n vector
+    return jnp.sum(logP_Vj_Yj_given_ψj_allj(V, Y, ψ.reshape(-1,1), ρ, σ, ν, κ_T))
 
 def logP_V_Y_given_η_jax_allη(η_arr, V, Y, ρ, σ, ν_list, κ_T_list):
     return jax.vmap(logP_V_Y_given_η_jax, (0, None, None, None, None, 0, 0), 0)(η_arr, V, Y, ρ, σ, ν_list, κ_T_list)
@@ -1231,3 +1232,28 @@ def Σ_V_j_Y_j(C_j, ρ, σ, ν, κ_T):
         [(ν_ρ_inv @ ρ[:, C_j]).reshape((1, L)), ρ[C_j, C_j] + σ**2]
     ])
     return A # (L+1)x(L+1) matrix
+
+def η_to_ψ_jax_new(η, n):
+    """
+    Converts a change point vector (η) to a signal configuration vector (ψ)
+    using jnp.searchsorted.
+
+    Args:
+        η: A 1D array of change point start indices, sorted in ascending order.
+           -1 is used as a placeholder for non-existent change points.
+        n: The total number of data points.
+
+    Returns:
+        A length-n vector (ψ) where ψ[i] is the signal index for data point i.
+    """
+    # Create an array of indices [0, 1, ..., n-1]
+    indices = jnp.arange(n)
+
+    # Replace -1 placeholders with a value larger than any index (n),
+    # so they don't affect the search.
+    # The `where` clause handles the case where η might be padded with -1s.
+    valid_η = jnp.where(η == -1, n, η)
+
+    # Find the insertion point for each index. This directly gives the signal segment.
+    # 'right' means that if an index `i` is equal to a changepoint, it belongs to the new segment.
+    return jnp.searchsorted(valid_η, indices, side='right')

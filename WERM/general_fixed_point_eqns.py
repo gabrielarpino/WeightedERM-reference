@@ -502,7 +502,7 @@ def compute_all_fixed_points(n_total_samples, L, Delta, M_func, ρ, δ, ϕ, ε, 
 
 # --- Compute fixed points for all valid eta's naive (for loop) ---
 
-def compute_all_fixed_points_naive(n, L, Delta_n, M, ρ, δ, ϕ, ε, q, coarse_grain_factor = 1, est_b=False, X=None, y=None, num_samples_mult=100):
+def compute_all_fixed_points_naive(n, L, Delta_n, M, ρ, δ, ϕ, ε, q, coarse_grain_factor = 1, master_key=random.PRNGKey(0), est_b=False, X=None, y=None, num_samples_mult=100):
     """ Naive implementation of fixed point computation for all valid eta's, using a for loop.
     This function is not JAX-traceable, and is only kept for reference and testing purposes.
     It is not used in the main codebase, as it is too slow for large L and n.
@@ -512,10 +512,295 @@ def compute_all_fixed_points_naive(n, L, Delta_n, M, ρ, δ, ϕ, ε, q, coarse_g
 
     res_list = []
     for cp in tqdm(chgpt_grid_absolute):
-        b, nu, kappa = general_fp(M, ρ, δ, cp, ϕ, ε, n, q, est_b=est_b, X=X, y=y, Delta_n=Delta_n, num_samples_mult=num_samples_mult)
-        res_list.append((cp, b, nu, kappa))
+        # b, nu, kappa = general_fp(M, ρ, δ, cp, ϕ, ε, n, q, est_b=est_b, X=X, y=y, Delta_n=Delta_n, num_samples_mult=num_samples_mult)
+        # res_list.append((cp, b, nu, kappa))
+        b, nu, kappa, success_status = compute_single_fixed_point(cp, M, ρ, δ, ϕ, ε, n, q, master_key=master_key, num_samples_mult=num_samples_mult, maxiter=1000)
+        res_list.append((cp, b, nu, kappa, success_status))
 
     return res_list
+
+
+# --- Compute all fixed points, traceable version (for vmap) ---
+
+def _run_single_fp_iteration_traceable(
+    M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_full, G_raw_full,
+    learning_rate=0.25, max_iter=100, use_polyak_avg=True, early_stop_tol=1e-5
+):
+    """
+    Runs a fixed number of naive fixed-point iterations for a single configuration.
+    This function is JAX-traceable and designed to be used with jax.vmap.
+    """
+    # NOTE: All helper functions are defined *inside* this function.
+    # This ensures that when jax.vmap traces this function, it captures
+    # all the necessary logic and correctly handles closures over `η_`.
+
+    # --- Start of Inner Function Definitions (copied from original) ---
+    M_prime_func = jax.grad(M_func, argnums=0)
+    M_double_prime_func = jax.grad(M_prime_func, argnums=0)
+    M_prime_mapped = jax.vmap(M_prime_func, in_axes=(0, 0))
+    M_double_prime_mapped = jax.vmap(M_double_prime_func, in_axes=(0, 0))
+    prox_mapped = lambda z, b, π_i, v: jax.vmap(prox, in_axes=(0, None, 0, 0, None, None))(
+        z, b, π_i, v, M_prime_func, M_double_prime_func
+    )
+    num_samples_mult = Z_full.shape[0]
+
+    def get_psi_for_sample_idx(sample_idx, eta_vec):
+        """
+        Computes psi_i for a given sample index using jax.lax.cond
+        in a way that is robust to JAX's tracer.
+        """
+        L_minus_1 = eta_vec.shape[0]
+
+        # Define the two branches of the conditional as separate, named functions.
+        # Both functions must accept the same arguments (operands).
+        
+        def true_branch(s_idx, _):
+            """Branch for when eta_ is empty (L=1). Ignores eta_vec."""
+            return jnp.zeros_like(s_idx, dtype=jnp.int32)
+
+        def false_branch(s_idx, e_vec):
+            """Branch for when eta_ has content (L>1)."""
+            return jnp.searchsorted(e_vec, s_idx, side='right')
+
+        # Call cond, explicitly passing the functions and the data they need.
+        return jax.lax.cond(
+            L_minus_1 == 0,
+            true_branch,   # The function to run if true
+            false_branch,  # The function to run if false
+            sample_idx,    # First operand (passed as s_idx)
+            eta_vec        # Second operand (passed as e_vec or _)
+        )
+
+    def q_func_dynamic_psi(z_i, sample_idx_i, ε_scalar):
+        psi_i = get_psi_for_sample_idx(sample_idx_i, η_)
+        return q_func(z_i, psi_i, ε_scalar)
+
+    q_mapped = jax.vmap(q_func_dynamic_psi, in_axes=(0, 0, 0))
+    g_grad = jax.grad(g_func_modified, argnums=0)
+    g_grad_mapped = jax.vmap(g_grad, in_axes=(0, 0, None, 0, 0, 0, None, None))
+
+    def W_b(b, ν̃, κ̃, Z, G_raw):
+        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-12 * jnp.eye(L))
+        G_sample = G_raw @ κ̃_sqrt.T
+        q_mapped_with_input = q_mapped(Z, jnp.arange(n), ε)
+        arr = [b[ℓ] * jnp.multiply(ϕ[ℓ, :], M_prime_mapped(
+            prox_mapped(Z @ ν̃[:, ℓ] + G_sample[:, ℓ], b[ℓ], ϕ[ℓ, :], q_mapped_with_input),
+            q_mapped_with_input
+        )) for ℓ in range(L)]
+        return jnp.array(arr).T
+
+    def W_b_prime(b, ν̃, κ̃, Z, G_raw):
+        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + 1e-12 * jnp.eye(L))
+        G_sample = G_raw @ κ̃_sqrt.T
+        q_mapped_with_input = q_mapped(Z, jnp.arange(n), ε)
+        arr = [b[ℓ] * jnp.multiply(ϕ[ℓ, :], M_double_prime_mapped(
+            prox_mapped(Z @ ν̃[:, ℓ] + G_sample[:, ℓ], b[ℓ], ϕ[ℓ, :], q_mapped_with_input),
+            q_mapped_with_input
+        )) for ℓ in range(L)]
+        return jnp.array(arr).T
+
+    def unpack_x(x_flat):
+        b = x_flat[0:L]
+        ν̃_flat = x_flat[L:L+L**2]
+        ν̃ = ν̃_flat.reshape((L, L))
+        L_flat = x_flat[L+L**2:]
+        L_mat = jnp.zeros((L, L)).at[jnp.tril_indices(L)].set(L_flat)
+        κ̃ = L_mat @ L_mat.T
+        return b, ν̃, κ̃
+
+    def obj_1(x):
+        b, ν̃, κ̃ = unpack_x(x)
+        body = lambda carry, idx: (carry + jnp.pow(W_b_prime(b, ν̃, κ̃, Z_full[idx], G_raw_full[idx]) + 1, -1).T @ jnp.ones((n,)) / n, None)
+        rhs = jax.lax.scan(body, jnp.zeros((L,)), jnp.arange(num_samples_mult))[0] / num_samples_mult
+        return (1 - 1/δ) * jnp.ones((L,)) - rhs
+
+    def obj_2(x):
+        b, ν̃, κ̃ = unpack_x(x)
+        body = lambda carry, idx: (carry + Z_full[idx].T @ W_b(b, ν̃, κ̃, Z_full[idx], G_raw_full[idx]) / n, None)
+        rhs = jax.lax.scan(body, jnp.zeros((L, L)), jnp.arange(num_samples_mult))[0] / num_samples_mult
+        return jnp.zeros((L, L)) - rhs
+
+    def obj_3(x):
+        b, ν̃, κ̃ = unpack_x(x)
+        def body(carry, idx):
+            term = δ * W_b(b, ν̃, κ̃, Z_full[idx], G_raw_full[idx]).T @ W_b(b, ν̃, κ̃, Z_full[idx], G_raw_full[idx]) / n
+            return carry + term, None
+        rhs = jax.lax.scan(body, jnp.zeros((L,L)), jnp.arange(num_samples_mult))[0] / num_samples_mult
+        residual_matrix = κ̃ - rhs
+        return residual_matrix[jnp.tril_indices(L)]
+
+    # Flattened objective for the fixed-point iteration
+    def fsolve_obj(x):
+        return jnp.concatenate([obj_1(x).flatten(), obj_2(x).flatten(), obj_3(x)])
+    # --- End of Inner Function Definitions ---
+
+
+    # --- Core Fixed-Point Iteration Logic ---
+    def fixed_point_iteration_step(x):
+        """Represents one step of the projected fixed-point iteration x_k+1 = g(x_k)."""
+        residual = fsolve_obj(x)
+        x_next = x - learning_rate * residual
+
+        # --- Projection Step to Enforce Constraints ---
+        b_next, nu_tilde_flat_next, L_flat_next = x_next[0:L], x_next[L:L+L**2], x_next[L+L**2:]
+        b_proj = jnp.maximum(1e-9, b_next) # Project b to be positive
+        tril_indices = jnp.tril_indices(L)
+        is_diagonal_mask = (tril_indices[0] == tril_indices[1])
+        L_flat_proj = jnp.where(is_diagonal_mask, jnp.maximum(1e-6, L_flat_next), L_flat_next)
+        x_projected = jnp.concatenate([b_proj, nu_tilde_flat_next, L_flat_proj])
+        return x_projected
+
+    # 1. Define the condition function (when to continue the loop)
+    def loop_cond(state):
+        k, _, _, error = state
+        # Continue if we're under max_iter AND the error is above the tolerance
+        return jnp.logical_and(k < max_iter, error > early_stop_tol)
+
+    # 2. Define the body function (one step of the iteration)
+    def loop_body(state):
+        k, x_k, x_avg_k, _ = state
+        
+        # Perform one fixed-point iteration step
+        x_k_plus_1 = fixed_point_iteration_step(x_k)
+        
+        # Update Polyak-Ruppert average
+        x_avg_k_plus_1 = (k * x_avg_k + x_k_plus_1) / (k + 1)
+        
+        # Calculate the new error as the norm of the change
+        new_error = jnp.linalg.norm(x_k_plus_1 - x_k)
+        
+        return (k + 1, x_k_plus_1, x_avg_k_plus_1, new_error)
+
+    # Initial guess (x0)
+    L0 = 0.75 * jnp.eye(L)
+    L0_flat = L0[jnp.tril_indices(L)]
+    x0 = jnp.concatenate([
+        0.66 * jnp.ones((L,)),
+        0.85 * jnp.ones((L, L)).flatten(),
+        L0_flat
+    ])
+
+    # 3. Set up the initial state for the loop
+    # (iteration=0, x=x0, avg_x=x0, error=infinity)
+    initial_state = (0, x0, x0, jnp.inf)
+
+    # 4. Run the traceable while_loop
+    _, x_final, x_avg_final, final_error = jax.lax.while_loop(loop_cond, loop_body, initial_state)
+
+    # Select final or averaged solution
+    final_solution = jax.lax.cond(
+        use_polyak_avg,
+        lambda: x_avg_final,
+        lambda: x_final
+    )
+
+    # Unpack results and check final convergence status
+    b_res, nu_tilde_res, kappa_tilde_res = unpack_x(final_solution)
+    # The success status is now based on the loop's final error
+    success_status = final_error < early_stop_tol
+
+    return b_res, nu_tilde_res, kappa_tilde_res, success_status
+
+def compute_all_fixed_points_vmap(n_total_samples, L, Delta, M_func, ρ, δ, ϕ, ε, n,
+                             q_func, master_key, coarse_grain_factor=1,
+                             batch_size=4096, # Batch size for memory management
+                             num_samples_mult=100,
+                             # New params for the traceable solver
+                             max_iter=100,
+                             fp_lr=0.25,
+                             use_polyak_avg=True,
+                             early_stop_tol=1e-5):
+    """
+    Computes fixed points for all valid eta configurations using jax.vmap
+    for massive parallelization.
+    """
+    num_change_points = L - 1
+
+    if num_change_points == 0:
+        # L=1 case remains the same, but we call the new function
+        print("L=1, no change points. Computing single configuration.")
+        eta_vec = jnp.array([], dtype=jnp.int32)
+        L_val, Z_full, G_raw = _setup_fixed_point_problem(M_func, ρ, δ, eta_vec, ϕ, ε, n, q_func, master_key, num_samples_mult)
+        b_res, nu_res, kap_res, succ = _run_single_fp_iteration_traceable(
+             M_func, ρ, δ, eta_vec, ϕ, ε, n, q_func, L_val, Z_full, G_raw, learning_rate=fp_lr, max_iter=max_iter, use_polyak_avg=use_polyak_avg, early_stop_tol=early_stop_tol
+        )
+        return [(eta_vec, b_res, nu_res, kap_res, succ)]
+
+
+    # --- Generate all eta configurations (same as before) ---
+    effective_range_start = Delta
+    effective_range_end = n_total_samples - Delta - (num_change_points - 1) * (Delta - 1)
+    effective_N_prime = effective_range_end - effective_range_start + 1
+
+    if effective_N_prime < num_change_points:
+        print(f"No valid eta vectors possible.")
+        return []
+
+    num_total_configs = int(scipy.special.comb(effective_N_prime, num_change_points, exact=True))
+    selected_ranks = list(range(0, num_total_configs, coarse_grain_factor))
+    print(f"Total valid configurations: {num_total_configs:,}. Processing {len(selected_ranks):,} of them.")
+
+    all_results = []
+    num_batches = math.ceil(len(selected_ranks) / batch_size)
+
+    # --- JAX VMAP DEFINITIONS ---
+    # vmap the setup function to generate random samples for each eta in a batch
+    vmapped_setup = jax.vmap(
+        _setup_fixed_point_problem,
+        in_axes=(None, None, None, 0, None, None, None, None, 0),
+        out_axes=(None, 0, 0)
+    )
+
+    # vmap the new traceable solver
+    # We map over eta_, Z_full_batch, and G_raw_full_batch
+    vmapped_solver = jax.vmap(
+        partial(_run_single_fp_iteration_traceable, learning_rate=fp_lr, max_iter=max_iter, use_polyak_avg=use_polyak_avg, early_stop_tol=1e-5),
+        in_axes=(None, None, None, 0, None, None, None, None, None, 0, 0)
+    )
+
+
+    # --- BATCH PROCESSING LOOP (for memory control) ---
+    for i in tqdm(range(num_batches)):
+        batch_start_idx = i * batch_size
+        batch_end_idx = min((i + 1) * batch_size, len(selected_ranks))
+        current_batch_ranks = selected_ranks[batch_start_idx:batch_end_idx]
+
+        if not current_batch_ranks:
+            continue
+
+        # Generate eta vectors for the current batch (CPU)
+        eta_batch_np = np.array([
+            _unrank_combination_constrained(rank, num_change_points, effective_N_prime, effective_range_start, Delta)
+            for rank in current_batch_ranks
+        ], dtype=np.int32)
+        eta_batch_jax = jnp.asarray(eta_batch_np)
+
+        # Generate JAX keys for the batch
+        batch_keys = jax.random.split(master_key, len(current_batch_ranks))
+        master_key, _ = jax.random.split(master_key) # Get a new key for the next batch
+
+        # 1. Setup problem for all etas in the batch at once
+        L_val, Z_full_batch, G_raw_full_batch = vmapped_setup(
+            M_func, ρ, δ, eta_batch_jax, ϕ, ε, n, q_func, batch_keys
+        )
+
+        # 2. Run the solver for all etas in the batch at once
+        b_batch, nu_tilde_batch, kappa_tilde_batch, success_batch = vmapped_solver(
+            M_func, ρ, δ, eta_batch_jax, ϕ, ε, n, q_func,
+            L, Z_full_batch, G_raw_full_batch
+        )
+
+        # 3. Store results for the batch
+        for j in range(len(current_batch_ranks)):
+            all_results.append((
+                eta_batch_np[j],
+                b_batch[j],
+                nu_tilde_batch[j],
+                kappa_tilde_batch[j],
+                success_batch[j]
+            ))
+
+    return all_results
 
 ### --- Original Code (still used) ---
 
