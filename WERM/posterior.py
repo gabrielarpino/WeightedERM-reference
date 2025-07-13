@@ -17,6 +17,7 @@ from sklearn.gaussian_process.kernels import RBF, WhiteKernel
 from sklearn.preprocessing import StandardScaler
 from jaxopt import AndersonAcceleration
 from sklearn.metrics import mean_squared_error
+from jax.scipy.stats import multivariate_normal, norm
 
 # Set small regularization constant for numerical stability
 ϵ_0 = 1e-10
@@ -857,7 +858,7 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
 
 ### --- Functions for computing debiased theta estimate ---
 
-def compute_debiased_theta(Theta_hat, y, M, pi, delta, output_b_hat=False):
+def compute_debiased_theta(Theta_hat, y, M, pi, delta, output_b_hat=False, history_size=5, ridge=1e-8, maxiter=1000, learning_rate=0.1, use_iterate_averaging=True):
     """
     Compute the debiased estimate of Theta.
 
@@ -872,7 +873,7 @@ def compute_debiased_theta(Theta_hat, y, M, pi, delta, output_b_hat=False):
     for l in range(L):
         theta_hat = Theta_hat[:, l]
         # b_hat_l = compute_b_hat(theta_hat, y, M, pi[l, :], delta)
-        b_hat_l = compute_b_hat_anderson_jax(theta_hat, y, M, pi[l, :], delta)
+        b_hat_l = compute_b_hat_anderson_jax(theta_hat, y, M, pi[l, :], delta, history_size=history_size, ridge=ridge, maxiter=maxiter, learning_rate=learning_rate, use_iterate_averaging=use_iterate_averaging)
         b_hat_arr = b_hat_arr.at[l].set(b_hat_l)
 
         M_prime_evaluated = M_prime_mapped(theta_hat, y)
@@ -1257,3 +1258,68 @@ def η_to_ψ_jax_new(η, n):
     # Find the insertion point for each index. This directly gives the signal segment.
     # 'right' means that if an index `i` is equal to a changepoint, it belongs to the new segment.
     return jnp.searchsorted(valid_η, indices, side='right')
+
+### --- Logistic posterior ---
+
+def exact_posterior_logistic(η_arr, p_η_arr, V, Y, ρ, σ, ν_fixed_tabulated, κ_T_fixed_tabulated, normalize=True):
+
+    a = logP_V_Y_given_η_jax_allη_logistic(η_arr, V, Y, ρ, σ, ν_fixed_tabulated, κ_T_fixed_tabulated).reshape(-1, 1)
+    a_max = jnp.max(a)
+    b = p_η_arr.reshape(-1, 1)
+    log_num, sgn_log_num = logsumexp(a=a-a_max, axis=1, b=b, return_sign=True)
+    log_denom, sgn_log_denom = logsumexp(a=a-a_max, axis=0, b=b, return_sign=True)
+    if normalize:
+        posterior = jnp.exp(sgn_log_num*log_num - sgn_log_denom*log_denom) # length num_configs vector 
+        assert jnp.isclose(jnp.sum(posterior), 1)
+    else:
+        posterior = jnp.exp(sgn_log_num*log_num)
+    return posterior
+
+def logP_V_Y_given_η_jax_logistic(η, V, Y, ρ, σ, ν, κ_T):
+    """ TODO: This uses η_to_ψ_jax, which assumes η has to -1's in it. Need to change η_to_ψ_jax to fix this. """
+    n = Y.shape[0]
+    ψ = η_to_ψ_jax_new(η, n) # length-n vector
+    # log P(V, Y | η) = log ∑_j P(Vj, Yj | ψj)
+    # sum over all rows of V, Y, ψ:
+    return jnp.sum(logP_Vj_Yj_given_ψj_allj_logistic(V, Y, ψ.reshape(-1,1), ρ, σ, ν, κ_T)) # scalar
+
+def logP_V_Y_given_η_jax_allη_logistic(η_arr, V, Y, ρ, σ, ν_list, κ_T_list):
+    return jax.vmap(logP_V_Y_given_η_jax_logistic, (0, None, None, None, None, 0, 0), 0)(η_arr, V, Y, ρ, σ, ν_list, κ_T_list)
+
+def logP_Vj_Yj_given_ψj_allj_logistic(V, Y, ψ, ρ, σ, ν, κ_T):
+
+    L = V.shape[1]
+    n = V.shape[0]
+    def helper(x):
+        V = x[:L]
+        Y = x[L]
+        ψ = x[L+1].astype(int)
+        return logP_Vj_Yj_given_ψj_logistic(V, Y, ψ, ρ, σ, ν, κ_T)
+
+    x = jnp.column_stack((V, Y, ψ))
+    return jax.lax.map(helper, x)
+    
+def logP_Vj_Yj_given_ψj_logistic(Vj, Yj, ψj, ρ, σ, ν, κ_T):
+    """
+    Calculates log P(Vj, Yj | ψj).
+    
+    Vj ∈ R^L is the j-th row of V.
+    Yj ∈ R is the j-th entry of q(Z, ψ, ϵ).
+    ψj ∈ R is the j-th entry of ψ.
+    """
+    L = ρ.shape[0]
+    lam = np.sqrt(np.pi/8)
+
+    Σ = ν.T @ jnp.linalg.inv(ρ) @ ν + κ_T     # covariance matrix of V
+    Σ_Z_given_V = (ρ - ν.T @ jnp.linalg.inv(Σ) @ ν)
+    μ_s = (ν @ jnp.linalg.inv(Σ) @ (Vj.reshape(L,1).flatten()))[ψj]
+
+    σ_sq_s = Σ_Z_given_V.diagonal().flatten()[ψj]
+
+    ρ_s = lam/jnp.sqrt(1+lam**2*σ_sq_s)
+
+    res_0 = norm.logcdf(-ρ_s*μ_s, loc=0, scale=1)
+    res_1 = norm.logcdf(ρ_s*μ_s, loc=0, scale=1)
+
+    res =  (Yj==0).astype(int)*res_0 + (Yj==1).astype(int)*res_1
+    return res # scalar

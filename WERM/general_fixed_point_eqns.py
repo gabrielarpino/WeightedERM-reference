@@ -494,6 +494,10 @@ def compute_all_fixed_points(n_total_samples, L, Delta, M_func, ρ, δ, ϕ, ε, 
                     M_func, ρ, δ, eta_batch_jax[j], ϕ, ε, n, q_func,
                     L_val_batch, Z_full_batch[j], G_raw_full_batch[j]
                 )
+                # Check if there are any NaNs in the results
+                if jnp.isnan(b_res).any() or jnp.isnan(nu_tilde_res).any() or jnp.isnan(kappa_tilde_res).any():
+                    print(f"Warning: NaN detected in results for eta {eta_batch_np[j]}. Marking as failed.")
+                    success_status = False
                 all_results.append((
                     eta_batch_np[j], b_res, nu_tilde_res, kappa_tilde_res, success_status
                 ))
@@ -502,7 +506,7 @@ def compute_all_fixed_points(n_total_samples, L, Delta, M_func, ρ, δ, ϕ, ε, 
 
 # --- Compute fixed points for all valid eta's naive (for loop) ---
 
-def compute_all_fixed_points_naive(n, L, Delta_n, M, ρ, δ, ϕ, ε, q, coarse_grain_factor = 1, master_key=random.PRNGKey(0), est_b=False, X=None, y=None, num_samples_mult=100):
+def compute_all_fixed_points_naive(n, L, Delta_n, M, ρ, δ, ϕ, ε, q, coarse_grain_factor = 1, master_key=random.PRNGKey(0), est_b=False, X=None, y=None, num_samples_mult=100, maxiter=1000):
     """ Naive implementation of fixed point computation for all valid eta's, using a for loop.
     This function is not JAX-traceable, and is only kept for reference and testing purposes.
     It is not used in the main codebase, as it is too slow for large L and n.
@@ -514,11 +518,14 @@ def compute_all_fixed_points_naive(n, L, Delta_n, M, ρ, δ, ϕ, ε, q, coarse_g
     for cp in tqdm(chgpt_grid_absolute):
         # b, nu, kappa = general_fp(M, ρ, δ, cp, ϕ, ε, n, q, est_b=est_b, X=X, y=y, Delta_n=Delta_n, num_samples_mult=num_samples_mult)
         # res_list.append((cp, b, nu, kappa))
-        b, nu, kappa, success_status = compute_single_fixed_point(cp, M, ρ, δ, ϕ, ε, n, q, master_key=master_key, num_samples_mult=num_samples_mult, maxiter=1000)
+        b, nu, kappa, success_status = compute_single_fixed_point(cp, M, ρ, δ, ϕ, ε, n, q, master_key=master_key, num_samples_mult=num_samples_mult, maxiter=maxiter)
+        # Check if there are any NaNs in the results
+        if jnp.isnan(b).any() or jnp.isnan(nu).any() or jnp.isnan(kappa).any():
+            print(f"Warning: NaN detected in results for eta {cp}. Marking as failed.")
+            success_status = False
         res_list.append((cp, b, nu, kappa, success_status))
 
     return res_list
-
 
 # --- Compute all fixed points, traceable version (for vmap) ---
 
@@ -789,6 +796,12 @@ def compute_all_fixed_points_vmap(n_total_samples, L, Delta, M_func, ρ, δ, ϕ,
             M_func, ρ, δ, eta_batch_jax, ϕ, ε, n, q_func,
             L, Z_full_batch, G_raw_full_batch
         )
+
+        # Check for NaNs in the batch results and mark failures
+        for j in range(len(current_batch_ranks)):
+            if jnp.isnan(b_batch[j]).any() or jnp.isnan(nu_tilde_batch[j]).any() or jnp.isnan(kappa_tilde_batch[j]).any():
+                print(f"Warning: NaN detected in batch results for eta {eta_batch_np[j]}. Marking as failed.")
+                success_batch = success_batch.at[j].set(False)
 
         # 3. Store results for the batch
         for j in range(len(current_batch_ranks)):
