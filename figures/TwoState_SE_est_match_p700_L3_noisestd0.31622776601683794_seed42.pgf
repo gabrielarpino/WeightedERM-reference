@@ -607,16 +607,16 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.400000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{2.196885in}{1.982558in}}%
+\pgfpathmoveto{\pgfqpoint{2.116468in}{1.982558in}}%
 \pgfpathlineto{\pgfqpoint{5.126328in}{1.982558in}}%
 \pgfpathquadraticcurveto{\pgfqpoint{5.170773in}{1.982558in}}{\pgfqpoint{5.170773in}{2.027002in}}%
 \pgfpathlineto{\pgfqpoint{5.170773in}{2.653699in}}%
 \pgfpathquadraticcurveto{\pgfqpoint{5.170773in}{2.698144in}}{\pgfqpoint{5.126328in}{2.698144in}}%
-\pgfpathlineto{\pgfqpoint{2.196885in}{2.698144in}}%
-\pgfpathquadraticcurveto{\pgfqpoint{2.152440in}{2.698144in}}{\pgfqpoint{2.152440in}{2.653699in}}%
-\pgfpathlineto{\pgfqpoint{2.152440in}{2.027002in}}%
-\pgfpathquadraticcurveto{\pgfqpoint{2.152440in}{1.982558in}}{\pgfqpoint{2.196885in}{1.982558in}}%
-\pgfpathlineto{\pgfqpoint{2.196885in}{1.982558in}}%
+\pgfpathlineto{\pgfqpoint{2.116468in}{2.698144in}}%
+\pgfpathquadraticcurveto{\pgfqpoint{2.072024in}{2.698144in}}{\pgfqpoint{2.072024in}{2.653699in}}%
+\pgfpathlineto{\pgfqpoint{2.072024in}{2.027002in}}%
+\pgfpathquadraticcurveto{\pgfqpoint{2.072024in}{1.982558in}}{\pgfqpoint{2.116468in}{1.982558in}}%
+\pgfpathlineto{\pgfqpoint{2.116468in}{1.982558in}}%
 \pgfpathclose%
 \pgfusepath{stroke,fill}%
 \end{pgfscope}%
@@ -641,7 +641,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{2.463551in}{2.500922in}%
+\pgfsys@transformshift{2.383135in}{2.500922in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -649,7 +649,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.863551in,y=2.442588in,left,base]{\color{textcolor}{\rmfamily\fontsize{16.000000}{19.200000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{Theory}}}%
+\pgftext[x=2.783135in,y=2.442588in,left,base]{\color{textcolor}{\rmfamily\fontsize{16.000000}{19.200000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{Theory}}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -659,8 +659,8 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.800000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{2.463551in}{2.084795in}}%
-\pgfpathlineto{\pgfqpoint{2.463551in}{2.307017in}}%
+\pgfpathmoveto{\pgfqpoint{2.383135in}{2.084795in}}%
+\pgfpathlineto{\pgfqpoint{2.383135in}{2.307017in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
@@ -680,7 +680,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{2.463551in}{2.084795in}%
+\pgfsys@transformshift{2.383135in}{2.084795in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -701,7 +701,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{2.463551in}{2.307017in}%
+\pgfsys@transformshift{2.383135in}{2.307017in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -713,8 +713,8 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.800000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{2.241329in}{2.195906in}}%
-\pgfpathlineto{\pgfqpoint{2.685774in}{2.195906in}}%
+\pgfpathmoveto{\pgfqpoint{2.160912in}{2.195906in}}%
+\pgfpathlineto{\pgfqpoint{2.605357in}{2.195906in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
@@ -743,7 +743,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{2.463551in}{2.195906in}%
+\pgfsys@transformshift{2.383135in}{2.195906in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -751,7 +751,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.863551in,y=2.118129in,left,base]{\color{textcolor}{\rmfamily\fontsize{16.000000}{19.200000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{WERM Two State}}}%
+\pgftext[x=2.783135in,y=2.118129in,left,base]{\color{textcolor}{\rmfamily\fontsize{16.000000}{19.200000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{WERM Alt. Signal}}}%
 \end{pgfscope}%
 \end{pgfpicture}%
 \makeatother%
