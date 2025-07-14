@@ -142,11 +142,20 @@ def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_ful
     num_samples_mult = Z_full.shape[0] # Infer from Z_full
 
     # Helper to get psi_i from sample_idx and eta_vec, avoiding full psi array
+    # def get_psi_for_sample_idx(sample_idx, eta_vec):
+    #     L_minus_1 = eta_vec.shape[0]
+    #     if L_minus_1 == 0:
+    #         return 0
+    #     return jnp.searchsorted(eta_vec, sample_idx, side='right')
+
+    # Lets me pass in eta_ with -1's in it
     def get_psi_for_sample_idx(sample_idx, eta_vec):
-        L_minus_1 = eta_vec.shape[0]
+        # Filter out negative values
+        valid_eta = eta_vec[eta_vec >= 0]
+        L_minus_1 = valid_eta.shape[0]
         if L_minus_1 == 0:
             return 0
-        return jnp.searchsorted(eta_vec, sample_idx, side='right')
+        return jnp.searchsorted(valid_eta, sample_idx, side='right')
 
     # Wrapper for the user's q_func that computes psi_i on the fly
     def q_func_dynamic_psi(z_i, sample_idx_i, ε_scalar):

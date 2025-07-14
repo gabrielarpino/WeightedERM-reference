@@ -294,7 +294,7 @@ def generate_changepoint_grid(n, L, Delta_n, coarse_grain_factor=1):
 
 ### --- Functions for solving for ρ ---
 
-def estimate_rho_iterative(X, y, M, pi, L, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None, num_iters = 5, rho_0=None, rho_diag = None, rho_list_output = False):
+def estimate_rho_iterative(X, y, M, pi, L, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None, num_iters = 5, rho_0=None, rho_diag = None, rho_list_output = False, master_key=random.PRNGKey(42)):
     """
     Estimate the ρ parameter iteratively
     """
@@ -331,7 +331,8 @@ def estimate_rho_iterative(X, y, M, pi, L, δ, Delta_n, ε, q, L_is_upper_bound=
 
     for _ in tqdm(range(num_iters)):
         print("Current estimate of ρ:", rho_est)
-        b, nu, kappa = fp.general_fp(M, rho_est, δ, η_, pi, ε, n, q, est_b = True, X=X, y=y, Delta_n=Delta_n)
+        # b, nu, kappa = fp.general_fp(M, rho_est, δ, η_, pi, ε, n, q, est_b = True, X=X, y=y, Delta_n=Delta_n)
+        b, nu, kappa, success_status = fp.compute_single_fixed_point(η_, M, rho_est, δ, pi, ε, n, q, master_key=master_key, num_samples_mult=100, maxiter=500)
         print("b - b_hat:", b - b_hat)
         print("b:", b)
         print("b_hat:", b_hat)
