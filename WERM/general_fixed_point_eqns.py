@@ -307,7 +307,7 @@ def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_ful
             fixed_point_fun=fixed_point_update,
             history_size=5,
             ridge=1e-8,
-            maxiter=maxiter # Note: maxiter is used by fori_loop, not solver.run
+            maxiter=maxiter, # Note: maxiter is used by fori_loop, not solver.run
         )
 
         # Define the body of the JIT-compatible loop
@@ -319,6 +319,10 @@ def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_ful
             x_avg_next = (k * x_avg + x_next) / (k + 1)
             return x_next, x_avg_next, solver_state_next
 
+        # Print solver summary
+        print(f"Running fixed-point solver with maxiter={maxiter}, lr={lr}, tol={tol}, use_iterate_averaging={use_iterate_averaging}")
+        print("")
+        
         # Initialize the state for the loop
         initial_solver_state = solver.init_state(x0)
         initial_loop_state = (x0, x0, initial_solver_state)
@@ -373,7 +377,7 @@ def _unrank_combination_constrained(rank, k, effective_N_prime, effective_range_
     eta_ = effective_range_start + np.sort(result_effective) + np.arange(k) * (Delta - 1)
     return eta_.astype(np.int32)
 
-def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, master_key, num_samples_mult=100,maxiter=1000, lr=0.25):
+def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, master_key, num_samples_mult=100,maxiter=1000, lr=0.25, tol=1e-4):
     """
     Computes the fixed-point solution for a single, specified change-point vector.
 
@@ -402,7 +406,7 @@ def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, ma
 
     # Run the optimization for this single configuration
     b_res, nu_tilde_res, kappa_tilde_res, success_status = _run_single_fp_optimization(
-        M_func, ρ, δ, eta_vector, ϕ, ε, n, q_func, L_val, Z_full_val, G_raw_full_val, maxiter=maxiter,lr=lr
+        M_func, ρ, δ, eta_vector, ϕ, ε, n, q_func, L_val, Z_full_val, G_raw_full_val, maxiter=maxiter,lr=lr, tol=tol
     )
 
     return b_res, nu_tilde_res, kappa_tilde_res, success_status

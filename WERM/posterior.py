@@ -18,6 +18,7 @@ from sklearn.preprocessing import StandardScaler
 from jaxopt import AndersonAcceleration
 from sklearn.metrics import mean_squared_error
 from jax.scipy.stats import multivariate_normal, norm
+from jax import value_and_grad
 
 # Set small regularization constant for numerical stability
 ϵ_0 = 1e-10
@@ -294,255 +295,148 @@ def generate_changepoint_grid(n, L, Delta_n, coarse_grain_factor=1):
 
 ### --- Functions for solving for ρ ---
 
-def estimate_rho_iterative(X, y, M, pi, L, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None, num_iters = 5, rho_0=None, rho_diag = None, rho_list_output = False, master_key=random.PRNGKey(42)):
+def estimate_rho_iterative(
+    X, y, M, pi, L, δ, Delta_n, ε, q,
+    L_is_upper_bound=False,
+    brute_force=False,
+    true_chgpt_locations=None,
+    num_iters=15,
+    rho_0=None,
+    learning_rate=0.5, # Initial learning rate
+    lr_decay=0.95, # Learning rate decay per iteration
+    polyak_beta=0.9,
+    rho_list_output=False,
+    master_key=random.PRNGKey(42),
+    tol=1e-4
+):
     """
-    Estimate the ρ parameter iteratively
+    Robustly estimates the ρ parameter iteratively, ensuring convergence.
     """
-    L = pi.shape[0]
     n, p = X.shape
-    ϕ = pi
 
-    # Estimate the change point locations first using weighted ERM
-    print("Estimating change point locations using weighted ERM...")
-    chgpt_est, gof, B_hat = WERM.estimators.weighted_erm(
-        X, y, M, L, Delta_n, 0.0, L_is_upper_bound=L_is_upper_bound,
-        brute_force=brute_force, return_gof=True, return_B_hat=True,
+    # --- Initial Setup ---
+    print("Estimating initial change point locations...")
+    chgpt_est, _, B_hat = WERM.estimators.weighted_erm(
+        X, y, M, L, Delta_n, 0.0,
+        L_is_upper_bound=L_is_upper_bound,
+        brute_force=brute_force,
+        return_gof=True,
+        return_B_hat=True,
     )
-    print("Change point locations estimated:", chgpt_est)
-    η_ = chgpt_est
-    if true_chgpt_locations is not None: # For debugging purposes
-        η_ = true_chgpt_locations
+    print("Initial (fractional) change point locations estimated:", chgpt_est / n)
+    η_ = true_chgpt_locations if true_chgpt_locations is not None else chgpt_est
+    print(f"Using change point locations: {η_}")
 
+    print("Computing initial debiased Theta estimate...")
     Theta_hat = X @ B_hat
-
-    print("Computing debiased Theta estimate...")
     Theta_deb, b_hat = compute_debiased_theta(Theta_hat, y, M, pi, δ, output_b_hat=True)
-    print("Debiased Theta estimate computed.")
-    lhs_rho = 1/n * Theta_deb.T @ Theta_deb
-    print("Left-hand side for estimating ρ:", lhs_rho)
+    lhs_rho = (1 / n) * Theta_deb.T @ Theta_deb
 
-    if rho_0 is None:
-        rho_est = jnp.eye(L)
-    else:
-        rho_est = rho_0
-    rho_L_est = jax.scipy.linalg.cholesky(rho_est + 1e-10 * jnp.eye(L), lower=True)  # Initial guess for the lower triangular part of ρ
-    rho_L_flat_est = rho_L_est.flatten()  # Flatten the lower triangular part of ρ
-    rho_est_list = []
+    # --- Iterative Estimation ---
+    rho_est = jnp.eye(L) if rho_0 is None else rho_0
+    rho_est_list = [rho_est]
+    current_lr = learning_rate
 
-    for _ in tqdm(range(num_iters)):
-        print("Current estimate of ρ:", rho_est)
-        # b, nu, kappa = fp.general_fp(M, rho_est, δ, η_, pi, ε, n, q, est_b = True, X=X, y=y, Delta_n=Delta_n)
-        b, nu, kappa, success_status = fp.compute_single_fixed_point(η_, M, rho_est, δ, pi, ε, n, q, master_key=master_key, num_samples_mult=100, maxiter=500)
-        print("b - b_hat:", b - b_hat)
-        print("b:", b)
-        print("b_hat:", b_hat)
+    for i in tqdm(range(num_iters), desc="Iteratively Estimating Rho"):
+        print(f"\n--- Iteration {i+1}/{num_iters} (LR: {current_lr:.4f}) ---")
+        print("Current rho estimate:\n", rho_est)
+
+        # 1. Solve for nu and kappa using the current rho
+        b, nu, kappa, success = fp.compute_single_fixed_point(
+            η_, M, rho_est, δ, pi, ε, n, q,
+            master_key=master_key,
+            num_samples_mult=100,
+            maxiter=500,
+            tol=tol
+        )
+        print("b, nu, kappa computed:\n", b, nu, kappa)
+        # 2. Check for numerical instability (NaNs) as the failure condition.
+        if jnp.isnan(nu).any() or jnp.isnan(kappa).any():
+            print("🛑 Error: NaN detected in 'nu' or 'kappa'. Halting iteration to prevent blow-up.")
+            break
         
-        # def obj(rho_L_flat):
-        #     """ Objective function to minimize """
-        #     rho_L = rho_L_flat.reshape((L, L))
-        #     rho = rho_L @ rho_L.T  # Ensure positive semi-definiteness
-        #     rhs = nu.T @ rho @ nu + kappa
-        #     return (lhs_rho - rhs).flatten()  # Return as a flat array for optimization
+        # Optional: Warn about convergence tolerance without stopping.
+        if not success:
+            print("⚠️ Warning: `compute_single_fixed_point` convergence tolerance not met, but continuing as results are not NaN.")
+
+        # 2. Find the next rho that best solves the matrix equation
+        rho_next = optimize_rho_as_cov(
+            lhs_rho, nu, kappa, rho_est, L, reg_lambda=0
+        )
+
+        # 3. Apply a smoothed update (Polyak averaging + learning rate)
+        # This prevents erratic jumps and stabilizes convergence.
+        rho_update = polyak_beta * rho_next + (1 - polyak_beta) * rho_est
+        rho_est = (1 - current_lr) * rho_est + current_lr * rho_update
         
-        # print("Iteration and objective value:", _, obj(rho_L_flat_est)) 
-        # # Solve for rho_est
-        # # Print the rank of nu and its eigenvalues
-        print("nu: ", nu)
-        print("Rank of nu:", jnp.linalg.matrix_rank(nu))
-        print("Eigenvalues of nu:", jnp.linalg.eigvalsh(nu))
-        print("kappa: ", kappa)
-        print("Rank of kappa:", jnp.linalg.matrix_rank(kappa))
-        print("Eigenvalues of kappa:", jnp.linalg.eigvalsh(kappa))
-        # # nu_inv = jnp.linalg.inv(nu + ϵ_0 * jnp.eye(L))  # Add small regularization for numerical stability
-        # # rho_est = nu_inv.T @ (lhs_rho - kappa) @ nu_inv
+        # 4. Project back to the cone of positive semi-definite matrices
+        # This is a crucial step to prevent numerical instability.
+        rho_est = (rho_est + rho_est.T) / 2 # Ensure symmetry
+        eigenvalues, eigenvectors = jnp.linalg.eigh(rho_est)
+        eigenvalues = jnp.maximum(eigenvalues, 1e-8) # Clip negative eigenvalues
+        rho_est = eigenvectors @ jnp.diag(eigenvalues) @ eigenvectors.T
 
-        # # Solve the optimization problem to find rho_est
-        # # lower = 1e-6 * jnp.ones((L * (L + 1) // 2,))
-        # # upper = jnp.inf * jnp.ones((L * (L + 1) // 2,))
-        # # rho_flat_init = jnp.zeros((L * (L + 1) // 2,))
-        # # rho_init = rho_0.flatten()
-        # rho_L_flat_init = jax.scipy.linalg.cholesky(rho_0 + 1e-10* jnp.eye(L), lower=True).flatten()  # Initial guess for the lower triangular part of ρ
-        # # Use scipy.optimize.least_squares to solve the optimization problem
-        # res = scipy.optimize.least_squares(
-        #     obj,
-        #     rho_L_flat_init,
-        #     # bounds=(lower, upper),
-        #     xtol=1e-6,
-        #     ftol=1e-6,
-        #     max_nfev=200
-        # )
-        # rho_L_flat_est = res.x
-        # rho_L_est = rho_L_flat_est.reshape((L, L))
-        # rho_est = rho_L_est @ rho_L_est.T  # Ensure positive semi-definiteness
-
-        rho_est = optimize_rho_as_cov(lhs_rho, nu, kappa, rho_0, L, rho_diag=rho_diag)
         rho_est_list.append(rho_est)
+        
+        # Update learning rate
+        current_lr *= lr_decay
 
-    if rho_list_output is True: 
+    if rho_list_output:
         return rho_est_list
     return rho_est
 
-def optimize_rho_as_cov(lhs_rho, nu, kappa, rho_0, L, rho_diag=None, epsilon=1e-10):
+
+def optimize_rho_as_cov(lhs_rho, nu, kappa, rho_0, L, reg_lambda=1e-6, epsilon=1e-8):
     """
-    Optimize covariance matrix with option to fix diagonal elements.
-    
-    Parameters:
-    -----------
-    lhs_rho : array
-        Left-hand side of the equation
-    nu : array
-        Nu matrix
-    kappa : array
-        Kappa matrix
-    rho_0 : array
-        Initial covariance matrix estimate
-    L : int
-        Dimension of the covariance matrix
-    rho_diag : array, optional
-        Pre-computed diagonal elements to fix. If None, optimize all elements.
-    epsilon : float
-        Small regularization constant for numerical stability
-    
-    Returns:
-    --------
-    rho_est : array
-        Optimized covariance matrix
+    Optimizes the covariance matrix `rho` using L-BFGS-B on the Cholesky factor
+    to ensure positive semi-definiteness.
     """
-    
-    if rho_diag is not None:
-        # Fix diagonal case: parameterize using correlation coefficients
-        # We'll parameterize the off-diagonal elements through bounded correlation coefficients
-        
-        # Number of off-diagonal parameters (strictly lower triangular)
-        n_params = L * (L - 1) // 2
-        
-        def params_to_rho(params):
-            """Convert parameter vector to covariance matrix with fixed diagonal"""
-            # Create correlation matrix
-            corr_matrix = jnp.eye(L)
-            
-            # Fill in the correlation coefficients (bounded between -1 and 1)
-            idx = 0
-            for i in range(1, L):
-                for j in range(i):
-                    # Use tanh to ensure correlation coefficients are in [-1, 1]
-                    corr_coef = jnp.tanh(params[idx])
-                    corr_matrix = corr_matrix.at[i, j].set(corr_coef)
-                    corr_matrix = corr_matrix.at[j, i].set(corr_coef)  # Symmetry
-                    idx += 1
-            
-            # Convert correlation matrix to covariance matrix using fixed diagonal
-            D_sqrt = jnp.sqrt(rho_diag + epsilon)
-            rho = jnp.outer(D_sqrt, D_sqrt) * corr_matrix
-            
-            # Ensure the diagonal is exactly as specified (numerical precision)
-            rho = rho.at[jnp.diag_indices(L)].set(rho_diag)
-            
-            return rho
-        
-        def obj_fixed_diag(params):
-            """Objective function with fixed diagonal"""
-            rho = params_to_rho(params)
-            rhs = nu.T @ rho @ nu + kappa
-            return (lhs_rho - rhs).flatten()
-        
-        # Initialize parameters from initial covariance matrix
-        # Convert initial covariance to correlation coefficients
-        D_sqrt_init = jnp.sqrt(jnp.diag(rho_0) + epsilon)
-        corr_init = rho_0 / jnp.outer(D_sqrt_init, D_sqrt_init)
-        
-        # Extract correlation coefficients and convert to unbounded parameters
-        params_init = []
-        for i in range(1, L):
-            for j in range(i):
-                corr_coef = jnp.clip(corr_init[i, j], -0.99, 0.99)  # Avoid infinities
-                params_init.append(jnp.arctanh(corr_coef))
-        params_init = jnp.array(params_init)
-        
-        # Solve optimization
-        res = scipy.optimize.least_squares(
-            obj_fixed_diag,
-            params_init,
-            xtol=1e-6,
-            ftol=1e-6,
-            max_nfev=200
-        )
-        
-        rho_est = params_to_rho(res.x)
-        
-    else:
-        # Original case with bounds on Cholesky factor elements
-        # For a valid covariance matrix, we need to ensure proper bounds
-        
-        def obj(rho_L_flat):
-            """Objective function to minimize"""
-            rho_L = rho_L_flat.reshape((L, L))
-            rho = rho_L @ rho_L.T  # Ensure positive semi-definiteness
-            rhs = nu.T @ rho @ nu + kappa
-            return (lhs_rho - rhs).flatten()
-        
-        # Initial guess using Cholesky decomposition
-        rho_L_flat_init = jax.scipy.linalg.cholesky(rho_0 + epsilon * jnp.eye(L), lower=True).flatten()
-        
-        # Set bounds for Cholesky factor elements
-        # Diagonal elements must be positive, off-diagonal can be negative
-        lower_bounds = []
-        upper_bounds = []
-        for i in range(L):
-            for j in range(L):
-                if j > i:
-                    # Upper triangular - should be zero
-                    # continue
-                    lower_bounds.append(-epsilon)
-                    upper_bounds.append(epsilon)
-                elif i == j:
-                    # Diagonal elements must be positive
-                    lower_bounds.append(epsilon)
-                    upper_bounds.append(jnp.inf)
-                else:
-                    # Off-diagonal elements can be positive or negative
-                    # but bounded to ensure numerical stability
-                    max_val = 1000.0 * jnp.sqrt(jnp.max(jnp.diag(rho_0)))
-                    lower_bounds.append(-max_val)
-                    upper_bounds.append(max_val)
-        
-        lower_bounds = jnp.array(lower_bounds)
-        upper_bounds = jnp.array(upper_bounds)
-        
-        # Solve optimization with bounds
-        res = scipy.optimize.least_squares(
-            obj,
-            rho_L_flat_init,
-            bounds=(lower_bounds, upper_bounds),
-            xtol=1e-6,
-            ftol=1e-6,
-            max_nfev=200
-        )
-        
-        rho_L_flat_est = res.x
-        rho_L_est = rho_L_flat_est.reshape((L, L))
-        rho_est = rho_L_est @ rho_L_est.T
-    
-    # Print diagnostics
-    print("Optimization converged:", res.success)
-    print("Number of function evaluations:", res.nfev)
-    print("Final objective norm:", jnp.linalg.norm(res.fun))
-    
-    # Verify the result is a valid covariance matrix
-    eigenvals = jnp.linalg.eigvalsh(rho_est)
-    print("Minimum eigenvalue:", jnp.min(eigenvals))
-    
-    if rho_diag is not None:
-        # Check that diagonal is preserved
-        print("Max diagonal error:", jnp.max(jnp.abs(jnp.diag(rho_est) - rho_diag)))
-        
-        # Check correlation bounds
-        D_sqrt = jnp.sqrt(jnp.diag(rho_est) + epsilon)
-        corr_matrix = rho_est / jnp.outer(D_sqrt, D_sqrt)
-        off_diag_mask = ~jnp.eye(L, dtype=bool)
-        max_corr = jnp.max(jnp.abs(corr_matrix[off_diag_mask]))
-        print("Max absolute correlation:", max_corr)
-    
+
+    def get_rho_from_cholesky(L_flat):
+        """Constructs rho from its flattened lower Cholesky factor."""
+        L_mat = L_flat.reshape((L, L))
+        # Enforce lower-triangularity for stability
+        return jnp.tril(L_mat) @ jnp.tril(L_mat).T
+
+    # The objective is to minimize the squared Frobenius norm of the residual
+    def objective_fn(L_flat):
+        rho = get_rho_from_cholesky(L_flat)
+        rhs = nu.T @ rho @ nu + kappa
+        # Add a small regularization term to prevent extreme values
+        return jnp.sum((lhs_rho - rhs)**2) + reg_lambda * jnp.sum(L_flat**2)
+
+    # We need a JAX-compatible value-and-grad function for the scipy optimizer
+    obj_and_grad = jax.jit(value_and_grad(objective_fn))
+    def scipy_obj_and_grad(L_flat):
+        val, grad = obj_and_grad(L_flat)
+        return float(val), jnp.array(grad)
+
+    # Initial guess from the previous rho estimate
+    try:
+        # Add a small identity matrix to ensure it's full rank before Cholesky
+        L_init = jnp.linalg.cholesky(rho_0 + epsilon * jnp.eye(L))
+    except jnp.linalg.LinAlgError:
+        print("⚠️ Initial rho_0 not positive definite. Starting with identity.")
+        L_init = jnp.eye(L)
+
+    L_flat_init = L_init.flatten()
+
+    # Perform the optimization
+    print("Optimizing rho using L-BFGS-B...")
+    res = scipy.optimize.minimize(
+        scipy_obj_and_grad,
+        L_flat_init,
+        method='L-BFGS-B',
+        jac=True, # We provide the gradient
+        options={'ftol': 1e-6, 'gtol': 1e-8, 'maxiter': 1000},
+    )
+
+    if not res.success:
+        print(f"⚠️ Warning: Rho optimization may not have fully converged. Message: {res.message}")
+
+    # Reconstruct the final estimated rho
+    rho_est = get_rho_from_cholesky(res.x)
+
     return rho_est
 
 def estimate_rho_diagonals(X, y, M, L, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None):
@@ -857,6 +751,13 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
 
     return b, ν̃, κ̃, rho
 
+def estimate_rho_general_fp():
+    
+    
+    
+    
+    return
+
 ### --- Functions for computing debiased theta estimate ---
 
 def compute_debiased_theta(Theta_hat, y, M, pi, delta, output_b_hat=False, history_size=5, ridge=1e-8, maxiter=1000, learning_rate=0.1, use_iterate_averaging=True):
@@ -965,221 +866,6 @@ def compute_b_hat_anderson_jax(
         lambda: b_avg_final,
         lambda: b_final
     )
-
-### --- Functions for computing Gaussian posterior (new) ---
-
-# def exact_posterior_gaussian(η_arr, p_η_arr, V, Y, ρ, σ, ν_fixed_tabulated, κ_T_fixed_tabulated):
-#     """
-#     Compute exact posterior for Gaussian likelihood model without converting η to ψ.
-    
-#     This function computes the posterior distribution over change point configurations
-#     using a Gaussian likelihood model for the observations.
-    
-#     Parameters:
-#     -----------
-#     η_arr : array of shape (num_configs, L-1)
-#         Each row is a change point configuration
-#     p_η_arr : array of shape (num_configs,)
-#         Prior probabilities for each configuration
-#     V : array of shape (n, L)
-#         Data matrix
-#     Y : array of shape (n,)
-#         Observations
-#     ρ, σ : model parameters
-#     ν_fixed_tabulated, κ_T_fixed_tabulated : precomputed state evolution values
-    
-#     Returns:
-#     --------
-#     posterior : array of shape (num_configs,)
-#         Posterior probabilities for each configuration
-#     """
-#     a = logP_gaussian_V_Y_given_η_direct(η_arr, V, Y, ρ, σ, ν_fixed_tabulated, κ_T_fixed_tabulated).reshape(-1, 1)
-#     a_max = jnp.max(a)
-#     b = p_η_arr.reshape(-1, 1)
-#     log_num, sgn_log_num = logsumexp(a=a-a_max, axis=1, b=b, return_sign=True)
-#     log_denom, sgn_log_denom = logsumexp(a=a-a_max, axis=0, b=b, return_sign=True)
-#     posterior = jnp.exp(sgn_log_num*log_num - sgn_log_denom*log_denom)
-#     assert jnp.isclose(jnp.sum(posterior), 1)
-#     return posterior
-
-# def logP_gaussian_V_Y_given_η_direct(η_arr, V, Y, ρ, σ, ν_list, κ_T_list):
-#     """
-#     Compute Gaussian log-likelihood log P(V, Y | η) for all η configurations without converting to ψ.
-#     """
-#     return jax.vmap(logP_gaussian_V_Y_given_single_η, (0, None, None, None, None, 0, 0), 0)(
-#         η_arr, V, Y, ρ, σ, ν_list, κ_T_list
-#     )
-
-# def logP_gaussian_V_Y_given_single_η(η, V, Y, ρ, σ, ν, κ_T):
-#     """
-#     Compute Gaussian log-likelihood log P(V, Y | η) for a single η without converting to ψ.
-    
-#     Uses a Gaussian model where the joint distribution of (V_j, Y_j) given the
-#     signal assignment is multivariate Gaussian.
-    
-#     Instead of converting η to ψ and then computing the likelihood,
-#     we directly compute which signal each observation belongs to based on η.
-#     """
-#     L = ρ.shape[0]
-    
-#     # Get signal assignments using Y's shape directly
-#     indices = jnp.arange(Y.shape[0])
-#     signal_assignments = jnp.full_like(indices, L - 1, dtype=jnp.int32)
-    
-#     # Process change points in reverse order
-#     for l in range(L-2, -1, -1):
-#         valid_mask = η[l] != -1
-#         mask = indices < η[l]
-#         signal_assignments = jnp.where(valid_mask & mask, l, signal_assignments)
-    
-#     # Compute log probabilities for all observations using Gaussian likelihood
-#     log_probs = jax.vmap(logP_gaussian_Vj_Yj_given_signal_idx, (0, 0, 0, None, None, None, None), 0)(
-#         V, Y, signal_assignments, ρ, σ, ν, κ_T
-#     )
-    
-#     return jnp.sum(log_probs)
-
-# def get_signal_idx_for_observation(j, η, L):
-#     """
-#     Determine which signal observation j belongs to based on η.
-    
-#     Parameters:
-#     -----------
-#     j : int
-#         Observation index
-#     η : array of shape (L-1,)
-#         Change point locations
-#     L : int
-#         Number of signals
-    
-#     Returns:
-#     --------
-#     signal_idx : int
-#         Index of the signal that observation j belongs to
-#     """
-#     # Start with the last signal
-#     signal_idx = L - 1
-    
-#     # Check each change point in reverse order
-#     for l in range(L-2, -1, -1):
-#         # If η[l] is -1, we've reached the end of valid change points
-#         signal_idx = jnp.where(η[l] == -1, l, signal_idx)
-#         # If j < η[l], then j belongs to signal l
-#         signal_idx = jnp.where(j < η[l], l, signal_idx)
-    
-#     return signal_idx
-
-# def get_signal_assignments_vectorized(η, n, L):
-#     """
-#     Get signal assignments for all n observations based on η.
-    
-#     Returns:
-#     --------
-#     signal_assignments : array of shape (n,)
-#         Signal index for each observation
-#     """
-#     # Create indices array without using n in array creation
-#     indices = jnp.arange(n)
-    
-#     # Initialize all observations to the last signal
-#     signal_assignments = jnp.full_like(indices, L - 1, dtype=jnp.int32)
-    
-#     # Process change points in reverse order
-#     for l in range(L-2, -1, -1):
-#         # Create mask for valid change points (not -1)
-#         valid_mask = η[l] != -1
-        
-#         # Update assignments for observations before this change point
-#         mask = indices < η[l]
-#         signal_assignments = jnp.where(valid_mask & mask, l, signal_assignments)
-    
-#     return signal_assignments
-
-# def Σ_gaussian_V_j_Y_j(signal_idx, ρ, σ, ν, κ_T):
-#     """
-#     Covariance matrix for the Gaussian distribution of (V_j, Y_j) given signal index.
-    
-#     Computes the (L+1)×(L+1) covariance matrix for the joint Gaussian distribution
-#     of V_j ∈ R^L and Y_j ∈ R given that observation j belongs to signal signal_idx.
-#     """
-#     L = ρ.shape[0]
-#     ν_ρ_inv = ν.T @ jnp.linalg.inv(ρ)
-    
-#     # Create a one-hot vector for indexing
-#     one_hot = jax.nn.one_hot(signal_idx, L, dtype=ρ.dtype)
-    
-#     # Use one-hot vector to select the appropriate column
-#     ρ_col = jnp.dot(ρ, one_hot).reshape((L, 1))
-    
-#     # Select diagonal element - extract ρ[signal_idx, signal_idx]
-#     ρ_diag = jnp.dot(jnp.dot(one_hot, ρ), one_hot)
-    
-#     # Compute the cross-covariance term
-#     cross_cov = ν_ρ_inv @ ρ_col
-    
-#     A = jnp.block([
-#         [ν_ρ_inv @ ν + κ_T, cross_cov],
-#         [cross_cov.reshape((1, L)), ρ_diag + σ**2]
-#     ])
-#     return A  # (L+1)×(L+1) matrix
-
-# def logP_gaussian_Vj_Yj_given_signal_idx(Vj, Yj, signal_idx, ρ, σ, ν, κ_T):
-#     """
-#     Calculate Gaussian log-likelihood log P(Vj, Yj | signal_idx).
-    
-#     Computes the log probability density of observing (Vj, Yj) under a
-#     multivariate Gaussian model given that observation j belongs to signal_idx.
-    
-#     Parameters:
-#     -----------
-#     Vj : array of shape (L,)
-#         j-th row of V
-#     Yj : float
-#         j-th observation
-#     signal_idx : int
-#         Index of the signal that observation j belongs to
-#     ρ, σ, ν, κ_T : model and state evolution parameters
-    
-#     Returns:
-#     --------
-#     log_prob : float
-#         Log probability density
-#     """
-#     L = ρ.shape[0]
-#     Σj = Σ_gaussian_V_j_Y_j(signal_idx, ρ, σ, ν, κ_T)  # (L+1)×(L+1) matrix
-#     V_flat = Vj.flatten()
-#     x = jnp.block([
-#         [V_flat.reshape((L, 1))], 
-#         [Yj]
-#     ]).flatten()  # length-(L+1) vector
-    
-#     # Add small regularization for numerical stability
-#     return multivariate_normal.logpdf(x, mean=jnp.zeros(((L+1),)), 
-#         cov=Σj + ϵ_0 * jnp.eye((L+1)))
-
-# # Alternative implementation for single observations (non-vectorized)
-# def logP_gaussian_V_Y_given_single_η_loop(η, V, Y, ρ, σ, ν, κ_T):
-#     """
-#     Loop-based version of Gaussian log-likelihood computation.
-    
-#     This version processes each observation individually in a loop,
-#     which may be useful for debugging or when vectorization is not desired.
-#     """
-#     n = Y.shape[0]
-#     L = ρ.shape[0]
-    
-#     # Compute log P(V, Y | η) = sum_j log P(Vj, Yj | signal assignment for j)
-#     log_prob = 0.0
-    
-#     # Process each observation
-#     for j in range(n):
-#         # Determine which signal observation j belongs to
-#         signal_idx = get_signal_idx_for_observation(j, η, L)
-        
-#         # Compute log P(Vj, Yj | signal_idx) using Gaussian likelihood
-#         log_prob += logP_gaussian_Vj_Yj_given_signal_idx(V[j], Y[j], signal_idx, ρ, σ, ν, κ_T)
-    
-#     return log_prob
 
 ### --- Functions for computing Gaussian posterior (old) ---
 
