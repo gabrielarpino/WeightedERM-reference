@@ -19,6 +19,7 @@ from jaxopt import AndersonAcceleration
 from sklearn.metrics import mean_squared_error
 from jax.scipy.stats import multivariate_normal, norm
 from jax import value_and_grad
+import matplotlib.pyplot as plt
 
 # Set small regularization constant for numerical stability
 ϵ_0 = 1e-10
@@ -294,7 +295,6 @@ def generate_changepoint_grid(n, L, Delta_n, coarse_grain_factor=1):
     return grid
 
 ### --- Functions for solving for ρ ---
-
 def estimate_rho_iterative(
     X, y, M, pi, L, δ, Delta_n, ε, q,
     L_is_upper_bound=False,
@@ -307,10 +307,31 @@ def estimate_rho_iterative(
     polyak_beta=0.9,
     rho_list_output=False,
     master_key=random.PRNGKey(42),
-    tol=1e-4
+    tol=1e-4,
+    # New parameters
+    use_acceleration=True,
+    acceleration_start_iter=10,
+    momentum=0.9,
+    adaptive_regularization=True,
+    reg_threshold=1e6,
+    min_reg=1e-6,
+    max_reg=1e-2,
+    convergence_tol=1e-3,
+    early_stopping=True,
+    verbose_diagnostics=True
 ):
     """
     Robustly estimates the ρ parameter iteratively, ensuring convergence.
+    
+    New parameters:
+    - use_acceleration: Enable momentum-based acceleration after stability
+    - acceleration_start_iter: Iteration to start acceleration
+    - momentum: Momentum coefficient for acceleration
+    - adaptive_regularization: Add regularization when condition number is high
+    - reg_threshold: Condition number threshold for regularization
+    - convergence_tol: Tolerance for convergence rate
+    - early_stopping: Stop if convergence rate is below tolerance
+    - verbose_diagnostics: Print detailed diagnostics
     """
     n, p = X.shape
 
@@ -336,55 +357,189 @@ def estimate_rho_iterative(
     rho_est = jnp.eye(L) if rho_0 is None else rho_0
     rho_est_list = [rho_est]
     current_lr = learning_rate
+    conv_rate_list = []
+    cond_num_list = []
+    kappa_max_list = []
+    
+    # For momentum acceleration
+    velocity = jnp.zeros_like(rho_est)
+    
+    # Adaptive regularization parameters
+    current_reg = 0.0
 
     for i in tqdm(range(num_iters), desc="Iteratively Estimating Rho"):
         print(f"\n--- Iteration {i+1}/{num_iters} (LR: {current_lr:.4f}) ---")
         print("Current rho estimate:\n", rho_est)
+        
+        # Store previous estimate for convergence monitoring
+        rho_prev = rho_est.copy()
+        
+        # Monitor condition number
+        cond_num = jnp.linalg.cond(rho_est)
+        cond_num_list.append(cond_num)
+        if verbose_diagnostics:
+            print(f"Condition number of rho: {cond_num:.2e}")
+        
+        # Apply adaptive regularization if needed
+        if adaptive_regularization and cond_num > reg_threshold:
+            current_reg = jnp.clip(
+                min_reg * (cond_num / reg_threshold), 
+                min_reg, 
+                max_reg
+            )
+            rho_reg = rho_est + current_reg * jnp.eye(L)
+            if verbose_diagnostics:
+                print(f"Applied regularization: {current_reg:.2e}")
+        else:
+            rho_reg = rho_est
+            current_reg = 0.0
 
         # 1. Solve for nu and kappa using the current rho
         b, nu, kappa, success = fp.compute_single_fixed_point(
-            η_, M, rho_est, δ, pi, ε, n, q,
+            η_, M, rho_reg, δ, pi, ε, n, q,
             master_key=master_key,
             num_samples_mult=100,
-            maxiter=500,
-            tol=tol
+            maxiter=1000,
+            tol=tol,
+            lr=0.01
         )
-        print("b, nu, kappa computed:\n", b, nu, kappa)
-        # 2. Check for numerical instability (NaNs) as the failure condition.
+        
+        # Monitor kappa stability
+        kappa_max = jnp.max(jnp.abs(kappa))
+        kappa_max_list.append(kappa_max)
+        
+        if verbose_diagnostics:
+            print(f"Norm of nu: {jnp.linalg.norm(nu):.4f}")
+            print(f"Max |kappa|: {kappa_max:.2e}")
+            print(f"Norm of lhs_rho: {jnp.linalg.norm(lhs_rho):.4f}")
+        
+        print("b, nu, kappa, b_hat computed:\n", b, nu, kappa, b_hat)
+        
+        # 2. Check for numerical instability
         if jnp.isnan(nu).any() or jnp.isnan(kappa).any():
             print("🛑 Error: NaN detected in 'nu' or 'kappa'. Halting iteration to prevent blow-up.")
             break
         
-        # Optional: Warn about convergence tolerance without stopping.
+        # Clamp kappa values to prevent extreme instability
+        if kappa_max > 1e6:
+            kappa = jnp.clip(kappa, -1e6, 1e6)
+            if verbose_diagnostics:
+                print("⚠️ Warning: Kappa values clamped to prevent overflow")
+        
         if not success:
             print("⚠️ Warning: `compute_single_fixed_point` convergence tolerance not met, but continuing as results are not NaN.")
 
-        # 2. Find the next rho that best solves the matrix equation
+        # 3. Find the next rho that best solves the matrix equation
         rho_next = optimize_rho_as_cov(
-            lhs_rho, nu, kappa, rho_est, L, reg_lambda=0
+            lhs_rho, nu, kappa, rho_est, L, reg_lambda=current_reg
         )
 
-        # 3. Apply a smoothed update (Polyak averaging + learning rate)
-        # This prevents erratic jumps and stabilizes convergence.
-        rho_update = polyak_beta * rho_next + (1 - polyak_beta) * rho_est
-        rho_est = (1 - current_lr) * rho_est + current_lr * rho_update
+        # 4. Apply acceleration if enabled and past initial phase
+        if use_acceleration and i >= acceleration_start_iter:
+            # Momentum-based acceleration
+            velocity = momentum * velocity + current_lr * (rho_next - rho_est)
+            rho_update = rho_est + velocity
+            if verbose_diagnostics:
+                print(f"Applied momentum acceleration (momentum={momentum})")
+        else:
+            # Standard Polyak averaging + learning rate
+            rho_update = polyak_beta * rho_next + (1 - polyak_beta) * rho_est
+            rho_update = (1 - current_lr) * rho_est + current_lr * rho_update
         
-        # 4. Project back to the cone of positive semi-definite matrices
-        # This is a crucial step to prevent numerical instability.
-        rho_est = (rho_est + rho_est.T) / 2 # Ensure symmetry
+        rho_est = rho_update
+        
+        # 5. Project back to positive semi-definite cone
+        rho_est = (rho_est + rho_est.T) / 2  # Ensure symmetry
         eigenvalues, eigenvectors = jnp.linalg.eigh(rho_est)
-        eigenvalues = jnp.maximum(eigenvalues, 1e-8) # Clip negative eigenvalues
+        
+        # More sophisticated eigenvalue thresholding
+        min_eig = jnp.min(eigenvalues)
+        if min_eig < 0:
+            # Adaptive threshold based on largest eigenvalue
+            eig_threshold = max(1e-8, 1e-6 * jnp.max(eigenvalues))
+            eigenvalues = jnp.maximum(eigenvalues, eig_threshold)
+            if verbose_diagnostics:
+                print(f"Projected to PSD (min eigenvalue was {min_eig:.2e})")
+        else:
+            eigenvalues = jnp.maximum(eigenvalues, 1e-8)
+            
         rho_est = eigenvectors @ jnp.diag(eigenvalues) @ eigenvectors.T
-
+        
+        # 6. Compute convergence rate
+        conv_rate = jnp.linalg.norm(rho_est - rho_prev, 'fro') / jnp.linalg.norm(rho_prev, 'fro')
+        conv_rate_list.append(conv_rate)
+        
+        if verbose_diagnostics:
+            print(f"Convergence rate: {conv_rate:.2e}")
+            print(f"||rho_new - rho_old||_F: {jnp.linalg.norm(rho_est - rho_prev, 'fro'):.4f}")
+        
         rho_est_list.append(rho_est)
         
+        # 7. Check for early stopping
+        if early_stopping and i > 5 and conv_rate < convergence_tol:
+            print(f"✓ Converged at iteration {i+1} (rate: {conv_rate:.2e} < {convergence_tol:.2e})")
+            break
+        
         # Update learning rate
-        current_lr *= lr_decay
+        if not (use_acceleration and i >= acceleration_start_iter):
+            current_lr *= lr_decay
+    
+    # Final diagnostics
+    print("\n=== Final Convergence Summary ===")
+    print(f"Final rho:\n{rho_est}")
+    print(f"Final convergence rate: {conv_rate_list[-1]:.2e}")
+    print(f"Final condition number: {cond_num_list[-1]:.2e}")
+    print(f"Max kappa encountered: {max(kappa_max_list):.2e}")
+    
+    if verbose_diagnostics:
+        # Plot convergence if matplotlib available
+        try:
+            import matplotlib.pyplot as plt
+            fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+            
+            # Convergence rates
+            axes[0, 0].semilogy(conv_rate_list)
+            axes[0, 0].set_xlabel('Iteration')
+            axes[0, 0].set_ylabel('Convergence Rate')
+            axes[0, 0].set_title('Convergence Rate (log scale)')
+            axes[0, 0].grid(True)
+            
+            # Condition numbers
+            axes[0, 1].semilogy(cond_num_list)
+            axes[0, 1].set_xlabel('Iteration')
+            axes[0, 1].set_ylabel('Condition Number')
+            axes[0, 1].set_title('Condition Number Evolution')
+            axes[0, 1].grid(True)
+            
+            # Kappa max values
+            axes[1, 0].semilogy(kappa_max_list)
+            axes[1, 0].set_xlabel('Iteration')
+            axes[1, 0].set_ylabel('Max |kappa|')
+            axes[1, 0].set_title('Maximum Kappa Values')
+            axes[1, 0].grid(True)
+            
+            # Rho diagonal elements
+            rho_diag = jnp.array([jnp.diag(r) for r in rho_est_list])
+            for j in range(L):
+                axes[1, 1].plot(rho_diag[:, j], label=f'ρ_{j+1,j+1}')
+            axes[1, 1].set_xlabel('Iteration')
+            axes[1, 1].set_ylabel('Diagonal Elements')
+            axes[1, 1].set_title('Rho Diagonal Evolution')
+            axes[1, 1].legend()
+            axes[1, 1].grid(True)
+            
+            plt.tight_layout()
+            plt.show()
+        except ImportError:
+            print("Matplotlib not available for plotting diagnostics")
 
     if rho_list_output:
-        return rho_est_list
+        return rho_est_list, {
+            'convergence_rates': conv_rate_list,
+            'condition_numbers': cond_num_list,
+            'kappa_max_values': kappa_max_list
+        }
     return rho_est
-
 
 def optimize_rho_as_cov(lhs_rho, nu, kappa, rho_0, L, reg_lambda=1e-6, epsilon=1e-8):
     """
