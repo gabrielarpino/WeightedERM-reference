@@ -20,6 +20,7 @@ from sklearn.metrics import mean_squared_error
 from jax.scipy.stats import multivariate_normal, norm
 from jax import value_and_grad
 import matplotlib.pyplot as plt
+import jaxopt
 
 # Set small regularization constant for numerical stability
 ϵ_0 = 1e-10
@@ -295,303 +296,255 @@ def generate_changepoint_grid(n, L, Delta_n, coarse_grain_factor=1):
     return grid
 
 ### --- Functions for solving for ρ ---
-def estimate_rho_iterative(
-    X, y, M, pi, L, δ, Delta_n, ε, q,
-    L_is_upper_bound=False,
-    brute_force=False,
-    true_chgpt_locations=None,
-    num_iters=15,
-    rho_0=None,
-    learning_rate=0.5, # Initial learning rate
-    lr_decay=0.95, # Learning rate decay per iteration
-    polyak_beta=0.9,
-    rho_list_output=False,
-    master_key=random.PRNGKey(42),
-    tol=1e-4,
-    # New parameters
-    use_acceleration=True,
-    acceleration_start_iter=10,
-    momentum=0.9,
-    adaptive_regularization=True,
-    reg_threshold=1e6,
-    min_reg=1e-6,
-    max_reg=1e-2,
-    convergence_tol=1e-3,
-    early_stopping=True,
-    verbose_diagnostics=True
-):
+
+def estimate_rho_iterative(X, y, M, pi, L, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None, num_iters = 5, rho_0=None, rho_diag = None, rho_list_output = False):
     """
-    Robustly estimates the ρ parameter iteratively, ensuring convergence.
-    
-    New parameters:
-    - use_acceleration: Enable momentum-based acceleration after stability
-    - acceleration_start_iter: Iteration to start acceleration
-    - momentum: Momentum coefficient for acceleration
-    - adaptive_regularization: Add regularization when condition number is high
-    - reg_threshold: Condition number threshold for regularization
-    - convergence_tol: Tolerance for convergence rate
-    - early_stopping: Stop if convergence rate is below tolerance
-    - verbose_diagnostics: Print detailed diagnostics
+    Estimate the ρ parameter iteratively
     """
+    L = pi.shape[0]
     n, p = X.shape
+    ϕ = pi
 
-    # --- Initial Setup ---
-    print("Estimating initial change point locations...")
-    chgpt_est, _, B_hat = WERM.estimators.weighted_erm(
-        X, y, M, L, Delta_n, 0.0,
-        L_is_upper_bound=L_is_upper_bound,
-        brute_force=brute_force,
-        return_gof=True,
-        return_B_hat=True,
+    # Estimate the change point locations first using weighted ERM
+    print("Estimating change point locations using weighted ERM...")
+    chgpt_est, gof, B_hat = WERM.estimators.weighted_erm(
+        X, y, M, L, Delta_n, 0.0, L_is_upper_bound=L_is_upper_bound,
+        brute_force=brute_force, return_gof=True, return_B_hat=True,
     )
-    print("Initial (fractional) change point locations estimated:", chgpt_est / n)
-    η_ = true_chgpt_locations if true_chgpt_locations is not None else chgpt_est
-    print(f"Using change point locations: {η_}")
+    print("Fractional Change point locations estimated:", chgpt_est/n)
+    η_ = chgpt_est
+    if true_chgpt_locations is not None: # For debugging purposes
+        η_ = true_chgpt_locations
 
-    print("Computing initial debiased Theta estimate...")
     Theta_hat = X @ B_hat
+
+    print("Computing debiased Theta estimate...")
     Theta_deb, b_hat = compute_debiased_theta(Theta_hat, y, M, pi, δ, output_b_hat=True)
-    lhs_rho = (1 / n) * Theta_deb.T @ Theta_deb
+    print("Debiased Theta estimate computed.")
+    lhs_rho = 1/n * Theta_deb.T @ Theta_deb
+    print("Left-hand side for estimating ρ:", lhs_rho)
 
-    # --- Iterative Estimation ---
-    rho_est = jnp.eye(L) if rho_0 is None else rho_0
-    rho_est_list = [rho_est]
-    current_lr = learning_rate
-    conv_rate_list = []
-    cond_num_list = []
-    kappa_max_list = []
-    
-    # For momentum acceleration
-    velocity = jnp.zeros_like(rho_est)
-    
-    # Adaptive regularization parameters
-    current_reg = 0.0
+    if rho_0 is None:
+        rho_est = jnp.eye(L)
+    else:
+        rho_est = rho_0
+    rho_L_est = jax.scipy.linalg.cholesky(rho_est + 1e-10 * jnp.eye(L), lower=True)  # Initial guess for the lower triangular part of ρ
+    rho_L_flat_est = rho_L_est.flatten()  # Flatten the lower triangular part of ρ
+    rho_est_list = []
 
-    for i in tqdm(range(num_iters), desc="Iteratively Estimating Rho"):
-        print(f"\n--- Iteration {i+1}/{num_iters} (LR: {current_lr:.4f}) ---")
-        print("Current rho estimate:\n", rho_est)
+    for _ in tqdm(range(num_iters)):
+        print("Current estimate of ρ:", rho_est)
+        b, nu, kappa = fp.general_fp_old(M, rho_est, δ, η_, pi, ε, n, q, est_b = True, X=X, y=y, Delta_n=Delta_n)
+        print("b - b_hat:", b - b_hat)
+        print("b:", b)
+        print("b_hat:", b_hat)
         
-        # Store previous estimate for convergence monitoring
-        rho_prev = rho_est.copy()
+        # def obj(rho_L_flat):
+        #     """ Objective function to minimize """
+        #     rho_L = rho_L_flat.reshape((L, L))
+        #     rho = rho_L @ rho_L.T  # Ensure positive semi-definiteness
+        #     rhs = nu.T @ rho @ nu + kappa
+        #     return (lhs_rho - rhs).flatten()  # Return as a flat array for optimization
         
-        # Monitor condition number
-        cond_num = jnp.linalg.cond(rho_est)
-        cond_num_list.append(cond_num)
-        if verbose_diagnostics:
-            print(f"Condition number of rho: {cond_num:.2e}")
-        
-        # Apply adaptive regularization if needed
-        if adaptive_regularization and cond_num > reg_threshold:
-            current_reg = jnp.clip(
-                min_reg * (cond_num / reg_threshold), 
-                min_reg, 
-                max_reg
-            )
-            rho_reg = rho_est + current_reg * jnp.eye(L)
-            if verbose_diagnostics:
-                print(f"Applied regularization: {current_reg:.2e}")
-        else:
-            rho_reg = rho_est
-            current_reg = 0.0
+        # print("Iteration and objective value:", _, obj(rho_L_flat_est)) 
+        # # Solve for rho_est
+        # # Print the rank of nu and its eigenvalues
+        print("nu: ", nu)
+        print("Rank of nu:", jnp.linalg.matrix_rank(nu))
+        print("Eigenvalues of nu:", jnp.linalg.eigvalsh(nu))
+        print("kappa: ", kappa)
+        print("Rank of kappa:", jnp.linalg.matrix_rank(kappa))
+        print("Eigenvalues of kappa:", jnp.linalg.eigvalsh(kappa))
+        # # nu_inv = jnp.linalg.inv(nu + ϵ_0 * jnp.eye(L))  # Add small regularization for numerical stability
+        # # rho_est = nu_inv.T @ (lhs_rho - kappa) @ nu_inv
 
-        # 1. Solve for nu and kappa using the current rho
-        b, nu, kappa, success = fp.compute_single_fixed_point(
-            η_, M, rho_reg, δ, pi, ε, n, q,
-            master_key=master_key,
-            num_samples_mult=100,
-            maxiter=1000,
-            tol=tol,
-            lr=0.01
-        )
-        
-        # Monitor kappa stability
-        kappa_max = jnp.max(jnp.abs(kappa))
-        kappa_max_list.append(kappa_max)
-        
-        if verbose_diagnostics:
-            print(f"Norm of nu: {jnp.linalg.norm(nu):.4f}")
-            print(f"Max |kappa|: {kappa_max:.2e}")
-            print(f"Norm of lhs_rho: {jnp.linalg.norm(lhs_rho):.4f}")
-        
-        print("b, nu, kappa, b_hat computed:\n", b, nu, kappa, b_hat)
-        
-        # 2. Check for numerical instability
-        if jnp.isnan(nu).any() or jnp.isnan(kappa).any():
-            print("🛑 Error: NaN detected in 'nu' or 'kappa'. Halting iteration to prevent blow-up.")
-            break
-        
-        # Clamp kappa values to prevent extreme instability
-        if kappa_max > 1e6:
-            kappa = jnp.clip(kappa, -1e6, 1e6)
-            if verbose_diagnostics:
-                print("⚠️ Warning: Kappa values clamped to prevent overflow")
-        
-        if not success:
-            print("⚠️ Warning: `compute_single_fixed_point` convergence tolerance not met, but continuing as results are not NaN.")
+        # # Solve the optimization problem to find rho_est
+        # # lower = 1e-6 * jnp.ones((L * (L + 1) // 2,))
+        # # upper = jnp.inf * jnp.ones((L * (L + 1) // 2,))
+        # # rho_flat_init = jnp.zeros((L * (L + 1) // 2,))
+        # # rho_init = rho_0.flatten()
+        # rho_L_flat_init = jax.scipy.linalg.cholesky(rho_0 + 1e-10* jnp.eye(L), lower=True).flatten()  # Initial guess for the lower triangular part of ρ
+        # # Use scipy.optimize.least_squares to solve the optimization problem
+        # res = scipy.optimize.least_squares(
+        #     obj,
+        #     rho_L_flat_init,
+        #     # bounds=(lower, upper),
+        #     xtol=1e-6,
+        #     ftol=1e-6,
+        #     max_nfev=200
+        # )
+        # rho_L_flat_est = res.x
+        # rho_L_est = rho_L_flat_est.reshape((L, L))
+        # rho_est = rho_L_est @ rho_L_est.T  # Ensure positive semi-definiteness
 
-        # 3. Find the next rho that best solves the matrix equation
-        rho_next = optimize_rho_as_cov(
-            lhs_rho, nu, kappa, rho_est, L, reg_lambda=current_reg
-        )
-
-        # 4. Apply acceleration if enabled and past initial phase
-        if use_acceleration and i >= acceleration_start_iter:
-            # Momentum-based acceleration
-            velocity = momentum * velocity + current_lr * (rho_next - rho_est)
-            rho_update = rho_est + velocity
-            if verbose_diagnostics:
-                print(f"Applied momentum acceleration (momentum={momentum})")
-        else:
-            # Standard Polyak averaging + learning rate
-            rho_update = polyak_beta * rho_next + (1 - polyak_beta) * rho_est
-            rho_update = (1 - current_lr) * rho_est + current_lr * rho_update
-        
-        rho_est = rho_update
-        
-        # 5. Project back to positive semi-definite cone
-        rho_est = (rho_est + rho_est.T) / 2  # Ensure symmetry
-        eigenvalues, eigenvectors = jnp.linalg.eigh(rho_est)
-        
-        # More sophisticated eigenvalue thresholding
-        min_eig = jnp.min(eigenvalues)
-        if min_eig < 0:
-            # Adaptive threshold based on largest eigenvalue
-            eig_threshold = max(1e-8, 1e-6 * jnp.max(eigenvalues))
-            eigenvalues = jnp.maximum(eigenvalues, eig_threshold)
-            if verbose_diagnostics:
-                print(f"Projected to PSD (min eigenvalue was {min_eig:.2e})")
-        else:
-            eigenvalues = jnp.maximum(eigenvalues, 1e-8)
-            
-        rho_est = eigenvectors @ jnp.diag(eigenvalues) @ eigenvectors.T
-        
-        # 6. Compute convergence rate
-        conv_rate = jnp.linalg.norm(rho_est - rho_prev, 'fro') / jnp.linalg.norm(rho_prev, 'fro')
-        conv_rate_list.append(conv_rate)
-        
-        if verbose_diagnostics:
-            print(f"Convergence rate: {conv_rate:.2e}")
-            print(f"||rho_new - rho_old||_F: {jnp.linalg.norm(rho_est - rho_prev, 'fro'):.4f}")
-        
+        rho_est = optimize_rho_as_cov(lhs_rho, nu, kappa, rho_0, L, rho_diag=rho_diag)
         rho_est_list.append(rho_est)
-        
-        # 7. Check for early stopping
-        if early_stopping and i > 5 and conv_rate < convergence_tol:
-            print(f"✓ Converged at iteration {i+1} (rate: {conv_rate:.2e} < {convergence_tol:.2e})")
-            break
-        
-        # Update learning rate
-        if not (use_acceleration and i >= acceleration_start_iter):
-            current_lr *= lr_decay
-    
-    # Final diagnostics
-    print("\n=== Final Convergence Summary ===")
-    print(f"Final rho:\n{rho_est}")
-    print(f"Final convergence rate: {conv_rate_list[-1]:.2e}")
-    print(f"Final condition number: {cond_num_list[-1]:.2e}")
-    print(f"Max kappa encountered: {max(kappa_max_list):.2e}")
-    
-    if verbose_diagnostics:
-        # Plot convergence if matplotlib available
-        try:
-            import matplotlib.pyplot as plt
-            fig, axes = plt.subplots(2, 2, figsize=(12, 10))
-            
-            # Convergence rates
-            axes[0, 0].semilogy(conv_rate_list)
-            axes[0, 0].set_xlabel('Iteration')
-            axes[0, 0].set_ylabel('Convergence Rate')
-            axes[0, 0].set_title('Convergence Rate (log scale)')
-            axes[0, 0].grid(True)
-            
-            # Condition numbers
-            axes[0, 1].semilogy(cond_num_list)
-            axes[0, 1].set_xlabel('Iteration')
-            axes[0, 1].set_ylabel('Condition Number')
-            axes[0, 1].set_title('Condition Number Evolution')
-            axes[0, 1].grid(True)
-            
-            # Kappa max values
-            axes[1, 0].semilogy(kappa_max_list)
-            axes[1, 0].set_xlabel('Iteration')
-            axes[1, 0].set_ylabel('Max |kappa|')
-            axes[1, 0].set_title('Maximum Kappa Values')
-            axes[1, 0].grid(True)
-            
-            # Rho diagonal elements
-            rho_diag = jnp.array([jnp.diag(r) for r in rho_est_list])
-            for j in range(L):
-                axes[1, 1].plot(rho_diag[:, j], label=f'ρ_{j+1,j+1}')
-            axes[1, 1].set_xlabel('Iteration')
-            axes[1, 1].set_ylabel('Diagonal Elements')
-            axes[1, 1].set_title('Rho Diagonal Evolution')
-            axes[1, 1].legend()
-            axes[1, 1].grid(True)
-            
-            plt.tight_layout()
-            plt.show()
-        except ImportError:
-            print("Matplotlib not available for plotting diagnostics")
 
-    if rho_list_output:
-        return rho_est_list, {
-            'convergence_rates': conv_rate_list,
-            'condition_numbers': cond_num_list,
-            'kappa_max_values': kappa_max_list
-        }
+    if rho_list_output is True: 
+        return rho_est_list
     return rho_est
 
-def optimize_rho_as_cov(lhs_rho, nu, kappa, rho_0, L, reg_lambda=1e-6, epsilon=1e-8):
+def optimize_rho_as_cov(lhs_rho, nu, kappa, rho_0, L, rho_diag=None, epsilon=1e-10):
     """
-    Optimizes the covariance matrix `rho` using L-BFGS-B on the Cholesky factor
-    to ensure positive semi-definiteness.
+    Optimize covariance matrix with option to fix diagonal elements.
+    
+    Parameters:
+    -----------
+    lhs_rho : array
+        Left-hand side of the equation
+    nu : array
+        Nu matrix
+    kappa : array
+        Kappa matrix
+    rho_0 : array
+        Initial covariance matrix estimate
+    L : int
+        Dimension of the covariance matrix
+    rho_diag : array, optional
+        Pre-computed diagonal elements to fix. If None, optimize all elements.
+    epsilon : float
+        Small regularization constant for numerical stability
+    
+    Returns:
+    --------
+    rho_est : array
+        Optimized covariance matrix
     """
-
-    def get_rho_from_cholesky(L_flat):
-        """Constructs rho from its flattened lower Cholesky factor."""
-        L_mat = L_flat.reshape((L, L))
-        # Enforce lower-triangularity for stability
-        return jnp.tril(L_mat) @ jnp.tril(L_mat).T
-
-    # The objective is to minimize the squared Frobenius norm of the residual
-    def objective_fn(L_flat):
-        rho = get_rho_from_cholesky(L_flat)
-        rhs = nu.T @ rho @ nu + kappa
-        # Add a small regularization term to prevent extreme values
-        return jnp.sum((lhs_rho - rhs)**2) + reg_lambda * jnp.sum(L_flat**2)
-
-    # We need a JAX-compatible value-and-grad function for the scipy optimizer
-    obj_and_grad = jax.jit(value_and_grad(objective_fn))
-    def scipy_obj_and_grad(L_flat):
-        val, grad = obj_and_grad(L_flat)
-        return float(val), jnp.array(grad)
-
-    # Initial guess from the previous rho estimate
-    try:
-        # Add a small identity matrix to ensure it's full rank before Cholesky
-        L_init = jnp.linalg.cholesky(rho_0 + epsilon * jnp.eye(L))
-    except jnp.linalg.LinAlgError:
-        print("⚠️ Initial rho_0 not positive definite. Starting with identity.")
-        L_init = jnp.eye(L)
-
-    L_flat_init = L_init.flatten()
-
-    # Perform the optimization
-    print("Optimizing rho using L-BFGS-B...")
-    res = scipy.optimize.minimize(
-        scipy_obj_and_grad,
-        L_flat_init,
-        method='L-BFGS-B',
-        jac=True, # We provide the gradient
-        options={'ftol': 1e-6, 'gtol': 1e-8, 'maxiter': 1000},
-    )
-
-    if not res.success:
-        print(f"⚠️ Warning: Rho optimization may not have fully converged. Message: {res.message}")
-
-    # Reconstruct the final estimated rho
-    rho_est = get_rho_from_cholesky(res.x)
-
+    
+    if rho_diag is not None:
+        # Fix diagonal case: parameterize using correlation coefficients
+        # We'll parameterize the off-diagonal elements through bounded correlation coefficients
+        
+        # Number of off-diagonal parameters (strictly lower triangular)
+        n_params = L * (L - 1) // 2
+        
+        def params_to_rho(params):
+            """Convert parameter vector to covariance matrix with fixed diagonal"""
+            # Create correlation matrix
+            corr_matrix = jnp.eye(L)
+            
+            # Fill in the correlation coefficients (bounded between -1 and 1)
+            idx = 0
+            for i in range(1, L):
+                for j in range(i):
+                    # Use tanh to ensure correlation coefficients are in [-1, 1]
+                    corr_coef = jnp.tanh(params[idx])
+                    corr_matrix = corr_matrix.at[i, j].set(corr_coef)
+                    corr_matrix = corr_matrix.at[j, i].set(corr_coef)  # Symmetry
+                    idx += 1
+            
+            # Convert correlation matrix to covariance matrix using fixed diagonal
+            D_sqrt = jnp.sqrt(rho_diag + epsilon)
+            rho = jnp.outer(D_sqrt, D_sqrt) * corr_matrix
+            
+            # Ensure the diagonal is exactly as specified (numerical precision)
+            rho = rho.at[jnp.diag_indices(L)].set(rho_diag)
+            
+            return rho
+        
+        def obj_fixed_diag(params):
+            """Objective function with fixed diagonal"""
+            rho = params_to_rho(params)
+            rhs = nu.T @ rho @ nu + kappa
+            return (lhs_rho - rhs).flatten()
+        
+        # Initialize parameters from initial covariance matrix
+        # Convert initial covariance to correlation coefficients
+        D_sqrt_init = jnp.sqrt(jnp.diag(rho_0) + epsilon)
+        corr_init = rho_0 / jnp.outer(D_sqrt_init, D_sqrt_init)
+        
+        # Extract correlation coefficients and convert to unbounded parameters
+        params_init = []
+        for i in range(1, L):
+            for j in range(i):
+                corr_coef = jnp.clip(corr_init[i, j], -0.99, 0.99)  # Avoid infinities
+                params_init.append(jnp.arctanh(corr_coef))
+        params_init = jnp.array(params_init)
+        
+        # Solve optimization
+        res = scipy.optimize.least_squares(
+            obj_fixed_diag,
+            params_init,
+            xtol=1e-6,
+            ftol=1e-6,
+            max_nfev=200
+        )
+        
+        rho_est = params_to_rho(res.x)
+        
+    else:
+        # Original case with bounds on Cholesky factor elements
+        # For a valid covariance matrix, we need to ensure proper bounds
+        
+        def obj(rho_L_flat):
+            """Objective function to minimize"""
+            rho_L = rho_L_flat.reshape((L, L))
+            rho = rho_L @ rho_L.T  # Ensure positive semi-definiteness
+            rhs = nu.T @ rho @ nu + kappa
+            return (lhs_rho - rhs).flatten()
+        
+        # Initial guess using Cholesky decomposition
+        rho_L_flat_init = jax.scipy.linalg.cholesky(rho_0 + epsilon * jnp.eye(L), lower=True).flatten()
+        
+        # Set bounds for Cholesky factor elements
+        # Diagonal elements must be positive, off-diagonal can be negative
+        lower_bounds = []
+        upper_bounds = []
+        for i in range(L):
+            for j in range(L):
+                if j > i:
+                    # Upper triangular - should be zero
+                    # continue
+                    lower_bounds.append(-epsilon)
+                    upper_bounds.append(epsilon)
+                elif i == j:
+                    # Diagonal elements must be positive
+                    lower_bounds.append(epsilon)
+                    upper_bounds.append(jnp.inf)
+                else:
+                    # Off-diagonal elements can be positive or negative
+                    # but bounded to ensure numerical stability
+                    max_val = 1000.0 * jnp.sqrt(jnp.max(jnp.diag(rho_0)))
+                    lower_bounds.append(-max_val)
+                    upper_bounds.append(max_val)
+        
+        lower_bounds = jnp.array(lower_bounds)
+        upper_bounds = jnp.array(upper_bounds)
+        
+        # Solve optimization with bounds
+        res = scipy.optimize.least_squares(
+            obj,
+            rho_L_flat_init,
+            bounds=(lower_bounds, upper_bounds),
+            xtol=1e-6,
+            ftol=1e-6,
+            max_nfev=200
+        )
+        
+        rho_L_flat_est = res.x
+        rho_L_est = rho_L_flat_est.reshape((L, L))
+        rho_est = rho_L_est @ rho_L_est.T
+    
+    # Print diagnostics
+    print("Optimization converged:", res.success)
+    print("Number of function evaluations:", res.nfev)
+    print("Final objective norm:", jnp.linalg.norm(res.fun))
+    
+    # Verify the result is a valid covariance matrix
+    eigenvals = jnp.linalg.eigvalsh(rho_est)
+    print("Minimum eigenvalue:", jnp.min(eigenvals))
+    
+    if rho_diag is not None:
+        # Check that diagonal is preserved
+        print("Max diagonal error:", jnp.max(jnp.abs(jnp.diag(rho_est) - rho_diag)))
+        
+        # Check correlation bounds
+        D_sqrt = jnp.sqrt(jnp.diag(rho_est) + epsilon)
+        corr_matrix = rho_est / jnp.outer(D_sqrt, D_sqrt)
+        off_diag_mask = ~jnp.eye(L, dtype=bool)
+        max_corr = jnp.max(jnp.abs(corr_matrix[off_diag_mask]))
+        print("Max absolute correlation:", max_corr)
+    
     return rho_est
 
 def estimate_rho_diagonals(X, y, M, L, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None):
@@ -629,12 +582,13 @@ def estimate_rho_diagonals(X, y, M, L, Delta_n, ε, q, L_is_upper_bound=False, b
 
     return np.diag(rho_hat_diag)
 
-def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None, rho_0=None, rho_est_weight=1.0):
+def estimate_rho(X, y, M, pi, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None, rho_0=None, rho_est_weight=1.0, max_iter=100):
     """
     Estimate the ρ parameter using fixed point equations
     """
     L = pi.shape[0]
     n, p = X.shape
+    δ = n / p
     ϕ = pi
 
     # Estimate the change point locations first using weighted ERM
@@ -643,18 +597,13 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
         X, y, M, L, Delta_n, 0.0, L_is_upper_bound=L_is_upper_bound,
         brute_force=brute_force, return_gof=True, return_B_hat=True,
     )
-    print("Change point locations estimated:", chgpt_est)
-    η_ = chgpt_est
+    print("Fractional change point locations estimated:", chgpt_est / n)
+    η_abs = chgpt_est
     if true_chgpt_locations is not None: # For debugging purposes
-        η_ = true_chgpt_locations
+        η_abs = true_chgpt_locations
 
     Theta_hat = X @ B_hat
 
-    print("Computing debiased Theta estimate...")
-    Theta_deb, b = compute_debiased_theta(Theta_hat, y, M, pi, δ, output_b_hat=True)
-    print("Debiased Theta estimate computed.")
-    lhs_rho = 1/n * Theta_deb.T @ Theta_deb
-    print("Left-hand side for estimating ρ:", lhs_rho)
 
     # Define higher order derivatives of M
     global M_prime
@@ -667,17 +616,24 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
     # M_partial_12_mapped = jax.vmap(M_partial_12, in_axes=(0, 0))
     prox_mapped = lambda z, b, π_i, v: jax.vmap(fp.prox, in_axes=(0, None, 0, 0, None, None))(z, b, π_i, v, M_prime, M_double_prime)
 
+    # The following are functions used to construct Theta_debiased in obj_4
+    M_prime_evaluated = np.zeros((n, L))
+    m_prime = np.zeros((n, L))
+    for l in range(L):
+        M_prime_evaluated[:, l] = M_prime_mapped(Theta_hat[:, l], y)
+        m_prime[:, l] = jnp.multiply(M_prime_evaluated[:, l].flatten(), pi[l, :].flatten())
+
     num_samples = n
 
-    if η_.size == 0:
+    if η_abs.size == 0:
         ψ = jnp.zeros(num_samples).astype(int) 
     else:
-        ψ = WERM.config.η_to_ψ((η_ * num_samples).astype(int), num_samples) # Seems to be correct, converts chgpt to signal config vector
+        ψ = WERM.config.η_to_ψ((η_abs * num_samples).astype(int), num_samples) # Seems to be correct, converts chgpt to signal config vector
 
     key = random.PRNGKey(0)
     key1, key_G = random.split(key)
 
-    num_samples_mult = 40 # Number of samples used to estimate a single expectation
+    num_samples_mult = 100 # Number of samples used to estimate a single expectation
 
     Z_raw_full = random.multivariate_normal(key1, jnp.zeros((L, )), jnp.eye(L), shape=(num_samples_mult, n,)) # num_samp \times n × L
     # Pre-sample standard normal G_raw
@@ -687,7 +643,7 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
 
     # q_mapped_input_test
     assert q_mapped(Z_raw_full[0, :, :], ψ, ε).shape == (n,), "q_mapped(Z_raw_full[0, :, :], ψ, ε) should be of shape (n,)"
-    diag_reg_const = 1e-7
+    diag_reg_const = 1e-9
 
     def W_b(b, ν̃, κ̃, rho, Z_raw, G_raw):
         κ̃_sqrt = jnp.linalg.cholesky(κ̃ + diag_reg_const * jnp.eye(L), upper=False)  # stabilize
@@ -735,41 +691,19 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
     #     rho = rho_L_mat @ rho_L_mat.T  # Ensure positive semi-definiteness
     #     return b, ν̃, κ̃, rho
 
-    # def unpack_x(x):
-    #     """ Optimize with ν̃ constrained to be positive definite (non-symmetric). """
-    #     b = x[0:L]
-        
-    #     # A is a full L×L matrix
-    #     A_flat = x[L:L+L**2]
-    #     A = A_flat.reshape((L, L))
-        
-    #     # ν̃ = A + A^T + ε*I ensures positive definiteness
-    #     ε = 0.0001  # Adjust based on your needs
-    #     ν̃ = A + A.T + ε * jnp.eye(L)
-        
-    #     offset = L + L**2
-    #     L_flat = x[offset:offset + len(jnp.tril_indices(L)[0])]
-    #     L_mat = jnp.zeros((L, L)).at[jnp.tril_indices(L)].set(L_flat)
-    #     κ̃ = L_mat @ L_mat.T
-        
-    #     offset += len(jnp.tril_indices(L)[0])
-    #     rho_L_flat = x[offset:]
-    #     rho_L_mat = jnp.zeros((L, L)).at[jnp.tril_indices(L)].set(rho_L_flat)
-    #     rho = rho_L_mat @ rho_L_mat.T
-        
-    #     return b, ν̃, κ̃, rho
-
     def unpack_x(x):
         """ Optimize with ν̃ constrained to be positive definite (non-symmetric). """
+        b = x[0:L]
+        
         # A is a full L×L matrix
-        A_flat = x[0:L**2]
+        A_flat = x[L:L+L**2]
         A = A_flat.reshape((L, L))
         
         # ν̃ = A + A^T + ε*I ensures positive definiteness
         ε = 0.0001  # Adjust based on your needs
         ν̃ = A + A.T + ε * jnp.eye(L)
         
-        offset = L**2
+        offset = L + L**2
         L_flat = x[offset:offset + len(jnp.tril_indices(L)[0])]
         L_mat = jnp.zeros((L, L)).at[jnp.tril_indices(L)].set(L_flat)
         κ̃ = L_mat @ L_mat.T
@@ -779,7 +713,29 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
         rho_L_mat = jnp.zeros((L, L)).at[jnp.tril_indices(L)].set(rho_L_flat)
         rho = rho_L_mat @ rho_L_mat.T
         
-        return ν̃, κ̃, rho
+        return b, ν̃, κ̃, rho
+
+    # def unpack_x(x):
+    #     """ Optimize with ν̃ constrained to be positive definite (non-symmetric). """
+    #     # A is a full L×L matrix
+    #     A_flat = x[0:L**2]
+    #     A = A_flat.reshape((L, L))
+        
+    #     # ν̃ = A + A^T + ε*I ensures positive definiteness
+    #     ε = 0.0001  # Adjust based on your needs
+    #     ν̃ = A + A.T + ε * jnp.eye(L)
+        
+    #     offset = L**2
+    #     L_flat = x[offset:offset + len(jnp.tril_indices(L)[0])]
+    #     L_mat = jnp.zeros((L, L)).at[jnp.tril_indices(L)].set(L_flat)
+    #     κ̃ = L_mat @ L_mat.T
+        
+    #     offset += len(jnp.tril_indices(L)[0])
+    #     rho_L_flat = x[offset:]
+    #     rho_L_mat = jnp.zeros((L, L)).at[jnp.tril_indices(L)].set(rho_L_flat)
+    #     rho = rho_L_mat @ rho_L_mat.T
+        
+    #     return ν̃, κ̃, rho
 
     def obj_1(x): 
         b, ν̃, κ̃, rho = unpack_x(x)
@@ -800,7 +756,7 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
         return lhs - rhs
 
     def obj_2(x): 
-        ν̃, κ̃, rho = unpack_x(x)
+        b, ν̃, κ̃, rho = unpack_x(x)
         rho_sqrt = jnp.linalg.cholesky(rho + 1e-7 * jnp.eye(L), upper=False)  # stabilize
 
         def body(carry, idx):
@@ -819,7 +775,7 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
         return lhs - rhs
 
     def obj_3(x):
-        ν̃, κ̃, rho = unpack_x(x)
+        b, ν̃, κ̃, rho = unpack_x(x)
 
         def body(carry, idx):
             Z_raw = Z_raw_full[idx, :, :]
@@ -838,16 +794,20 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
 
     def obj_4(x): 
         """ Equation for estimating rho. """
-        nu, kappa, rho = unpack_x(x)
+        b, nu, kappa, rho = unpack_x(x)
+
+        Theta_deb = jnp.zeros((n, L))
+        for l in range(L): 
+            theta_deb_l = Theta_hat[:, l] + b[l] * m_prime[:, l]
+            Theta_deb = Theta_deb.at[:, l].set(theta_deb_l)
+            
+        lhs_rho = 1/n * Theta_deb.T @ Theta_deb
         rhs = nu.T @ rho @ nu + kappa
         return lhs_rho - rhs
-        # nu_inv = jnp.linalg.inv(nu)
-        # qty = nu_inv.T @ (lhs_rho - kappa) @ nu_inv
-        # return qty - rho
 
     def fsolve_obj(x): 
         # return jnp.concatenate([obj_1(x).flatten(), obj_2(x).flatten(), obj_3(x).flatten(), rho_est_weight * obj_4(x).flatten()])
-        return jnp.concatenate([obj_2(x).flatten(), obj_3(x).flatten(), rho_est_weight * obj_4(x).flatten()])
+        return jnp.concatenate([obj_1(x).flatten(), obj_2(x).flatten(), obj_3(x).flatten(), rho_est_weight * obj_4(x).flatten()])
     fsolve_obj_jit = jax.jit(fsolve_obj)
 
     # Solve using fsolve, faster than minimize with the jacobian
@@ -859,7 +819,7 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
     rho_0_flat = rho_0[jnp.tril_indices(L)]
 
     x0 = jnp.concatenate([
-        # 0.66 * jnp.ones((L,)),
+        0.66 * jnp.ones((L,)),
         0.85 * jnp.eye(L).flatten(),
         L0_flat, 
         rho_0_flat  # Initial guess for the lower triangular part of ρ
@@ -871,7 +831,7 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
     # ])
 
     # Use constrained optimization instead of fsolve, seems to be more stable since enforcing b and diagonal of κ̃ to be positive
-    # lower_b = 1e-6 * jnp.ones((L,))
+    lower_b = 1e-7 * jnp.ones((L,))
     lower_nu = -jnp.inf * jnp.ones((L * L,))
     L_indices = jnp.tril_indices(L)
 
@@ -881,37 +841,235 @@ def estimate_rho(X, y, M, pi, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_
         diag_idx = jnp.where((L_indices[0] == i) & (L_indices[1] == i))[0][0]
         lower_L = lower_L.at[diag_idx].set(1e-6)
 
-    # lower = jnp.concatenate([lower_b, lower_nu, lower_L, lower_L])
-    lower = jnp.concatenate([lower_nu, lower_L, lower_L])
+    lower = jnp.concatenate([lower_b, lower_nu, lower_L, lower_L])
+    # lower = jnp.concatenate([lower_nu, lower_L, lower_L])
     
-    # upper_b = jnp.inf * jnp.ones((L,))
+    upper_b = jnp.inf * jnp.ones((L,))
     upper_nu = jnp.inf * jnp.ones((L * L,))
     upper_L = jnp.inf * jnp.ones(len(L_indices[0]))
-    # upper = jnp.concatenate([upper_b, upper_nu, upper_L, upper_L])
-    upper = jnp.concatenate([upper_nu, upper_L, upper_L])
+    upper = jnp.concatenate([upper_b, upper_nu, upper_L, upper_L])
+    # upper = jnp.concatenate([upper_nu, upper_L, upper_L])
 
-    # Solve:
-    res = scipy.optimize.least_squares(
-        fsolve_obj_jit,
-        x0,
-        jac=J_fsolve,
-        bounds=(lower, upper),
-        xtol=1e-6,
-        ftol=1e-6,
-        max_nfev=200
+    # Replace the scipy.optimize.least_squares call with:
+    solver = jaxopt.LevenbergMarquardt(
+        residual_fun=fsolve_obj_jit,
+        maxiter=max_iter,
+        tol=1e-3,
+        verbose=True
     )
+    res = solver.run(x0)
+    # print("Optimization successful:", res.state.success)
 
-    print("Optimization Results: all = ", res, "success = ", res.success, ", message = ", res.message)
-    ν̃, κ̃, rho = unpack_x(res.x)
+    b, ν̃, κ̃, rho = unpack_x(res.params)
 
     return b, ν̃, κ̃, rho
 
-def estimate_rho_general_fp():
+def estimate_rho_stochastic(
+    X, y, M, pi, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False,
+    true_chgpt_locations=None, rho_0=None, rho_est_weight=1.0,
+    # Hyperparameters for the stochastic optimizer
+    num_steps=1000,
+    batch_size=32,
+    initial_lr=0.01,
+    decay_rate=0.01,
+    huber_delta=1.0,  # Threshold for Huber loss
+    true_rho=None,
+):
+    """
+    Estimate the ρ parameter using a robust stochastic optimization loop with Huber loss.
+    ν̃ (nu) is an unconstrained L x L matrix.
+    """
+    L = pi.shape[0]
+    n, p = X.shape
+    δ = n / p
+    ϕ = pi
+
+    # --- Step 1: Initial setup (same as before) ---
+    print("Estimating change point locations using weighted ERM...")
+    chgpt_est, gof, B_hat = WERM.estimators.weighted_erm(
+        X, y, M, L, Delta_n, 0.0, L_is_upper_bound=L_is_upper_bound,
+        brute_force=brute_force, return_gof=True, return_B_hat=True,
+    )
+    print("Change point locations estimated:", chgpt_est)
+    η_abs = chgpt_est
+    if true_chgpt_locations is not None:
+        η_abs = true_chgpt_locations
+    Theta_hat = X @ B_hat
+
+    # Define higher order derivatives of M
+    global M_prime, M_double_prime
+    M_prime = jax.grad(M, argnums=0)
+    M_double_prime = jax.grad(M_prime, argnums=0)
+    M_prime_mapped = jax.vmap(M_prime, in_axes=(0, 0))
+    M_double_prime_mapped = jax.vmap(M_double_prime, in_axes=(0, 0))
+    prox_mapped = lambda z, b, π_i, v: jax.vmap(fp.prox, in_axes=(0, None, 0, 0, None, None))(z, b, π_i, v, M_prime, M_double_prime)
+
+    m_prime = jnp.zeros((n, L))
+    for l in range(L):
+        m_prime = m_prime.at[:, l].set(jnp.multiply(M_prime_mapped(Theta_hat[:, l], y).flatten(), pi[l, :].flatten()))
+
+    num_samples = n
+    ψ = WERM.config.η_to_ψ((η_abs * num_samples).astype(int), num_samples) if η_abs.size > 0 else jnp.zeros(num_samples).astype(int)
+
+    # Pre-sample a large pool of standard normal variables
+    key = random.PRNGKey(0)
+    key1, key_G = random.split(key)
+    num_pool_samples = 2048
+    Z_raw_full = random.multivariate_normal(key1, jnp.zeros(L), jnp.eye(L), shape=(num_pool_samples, n))
+    G_raw_full = random.multivariate_normal(key_G, jnp.zeros(L), jnp.eye(L), shape=(num_pool_samples, n))
+
+    q_mapped = jax.vmap(q, in_axes=(0, 0, 0))
+    diag_reg_const = 1e-9
+
+    # --- Step 2: Define parameter packing and objective functions ---
+
+    def unpack_x_stochastic(x):
+        log_b = x[0:L]
+        b = jnp.exp(log_b)
+        
+        nu_flat = x[L:L+L**2]
+        ν̃ = nu_flat.reshape((L, L))
+
+        offset = L + L**2
+        tril_indices = jnp.tril_indices(L)
+        
+        L_flat_kappa = x[offset : offset + len(tril_indices[0])]
+        L_mat_kappa = jnp.zeros((L, L)).at[tril_indices].set(L_flat_kappa)
+        κ̃ = L_mat_kappa @ L_mat_kappa.T
+        
+        offset += len(tril_indices[0])
+        L_flat_rho = x[offset:]
+        L_mat_rho = jnp.zeros((L, L)).at[tril_indices].set(L_flat_rho)
+        rho = L_mat_rho @ L_mat_rho.T
+        
+        return b, ν̃, κ̃, rho
     
+    def W_b(b, ν̃, κ̃, rho, Z_raw, G_raw):
+        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + diag_reg_const * jnp.eye(L))
+        rho_sqrt = jnp.linalg.cholesky(rho + diag_reg_const * jnp.eye(L))
+        G_sample = G_raw @ κ̃_sqrt.T
+        Z = Z_raw @ rho_sqrt.T
+        q_mapped_with_input = q_mapped(Z, ψ, ε)
+        arr = [b[ℓ] * jnp.multiply(ϕ[ℓ, :], M_prime_mapped(prox_mapped(Z @ ν̃[:, ℓ] + G_sample[:, ℓ], b[ℓ], ϕ[ℓ, :], q_mapped_with_input), q_mapped_with_input)) for ℓ in range(L)]
+        return jnp.array(arr).T
+
+    def W_b_prime(b, ν̃, κ̃, rho, Z_raw, G_raw):
+        κ̃_sqrt = jnp.linalg.cholesky(κ̃ + diag_reg_const * jnp.eye(L))
+        rho_sqrt = jnp.linalg.cholesky(rho + diag_reg_const * jnp.eye(L))
+        G_sample = G_raw @ κ̃_sqrt.T
+        Z = Z_raw @ rho_sqrt.T
+        q_mapped_with_input = q_mapped(Z, ψ, ε)
+        arr = [b[ℓ] * jnp.multiply(ϕ[ℓ, :], M_double_prime_mapped(prox_mapped(Z @ ν̃[:, ℓ] + G_sample[:, ℓ], b[ℓ], ϕ[ℓ, :], q_mapped_with_input), q_mapped_with_input)) for ℓ in range(L)]
+        return jnp.array(arr).T
+        
+    def obj_1_stochastic(x, Z_raw_batch, G_raw_batch):
+        b, ν̃, κ̃, rho = unpack_x_stochastic(x)
+        Wbp_batch = jax.vmap(W_b_prime, in_axes=(None, None, None, None, 0, 0))(b, ν̃, κ̃, rho, Z_raw_batch, G_raw_batch)
+        # rhs = jnp.mean(jnp.power(Wbp_batch + 1, -1).T @ jnp.ones((n,)) / n, axis=1)
+        # With this corrected line:
+        rhs = jnp.mean(jnp.einsum('bni,n->bi', jnp.power(Wbp_batch + 1, -1), jnp.ones(n)) / n, axis=0)
+        lhs = (1 - 1/δ) * jnp.ones((L,))
+        return lhs - rhs
+
+    def obj_2_stochastic(x, Z_raw_batch, G_raw_batch):
+        b, ν̃, κ̃, rho = unpack_x_stochastic(x)
+        rho_sqrt = jnp.linalg.cholesky(rho + diag_reg_const * jnp.eye(L))
+        
+        def single_sample_calc(Z_raw, G_raw):
+            Z = Z_raw @ rho_sqrt.T
+            Wb_sample = W_b(b, ν̃, κ̃, rho, Z_raw, G_raw)
+            return Z.T @ Wb_sample / n
+        
+        rhs = jnp.mean(jax.vmap(single_sample_calc)(Z_raw_batch, G_raw_batch), axis=0)
+        lhs = jnp.zeros((L, L))
+        return lhs - rhs
+
+    def obj_3_stochastic(x, Z_raw_batch, G_raw_batch):
+        b, ν̃, κ̃, rho = unpack_x_stochastic(x)
+        Wb_batch = jax.vmap(W_b, in_axes=(None, None, None, None, 0, 0))(b, ν̃, κ̃, rho, Z_raw_batch, G_raw_batch)
+        rhs = δ * jnp.mean(jax.vmap(lambda Wb: Wb.T @ Wb / n)(Wb_batch), axis=0)
+        lhs = κ̃
+        return lhs - rhs
+        
+    def obj_4(x):
+        b, ν̃, κ̃, rho = unpack_x_stochastic(x)
+        Theta_deb = Theta_hat + b * m_prime
+        lhs_rho = 1/n * Theta_deb.T @ Theta_deb
+        rhs = ν̃.T @ rho @ ν̃ + κ̃
+        return lhs_rho - rhs
     
+    def fsolve_obj_stochastic(x, Z_raw_batch, G_raw_batch):
+        return jnp.concatenate([
+            obj_1_stochastic(x, Z_raw_batch, G_raw_batch).flatten(),
+            obj_2_stochastic(x, Z_raw_batch, G_raw_batch).flatten(),
+            obj_3_stochastic(x, Z_raw_batch, G_raw_batch).flatten(),
+            rho_est_weight * obj_4(x).flatten()
+        ])
+
+    # --- Step 3: Define Robust Loss and Gradient for SGD ---
     
+    def huber_loss(residual, delta):
+        """ A robust, element-wise Huber loss function. """
+        abs_residual = jnp.abs(residual)
+        return jnp.where(
+            abs_residual <= delta,
+            0.5 * jnp.square(residual),  # Squared loss for small errors
+            delta * (abs_residual - 0.5 * delta)  # Absolute loss for large errors
+        )
+
+    def loss_fn(x, Z_raw_batch, G_raw_batch):
+        """ Calculates the total Huber loss over a batch of residuals. """
+        residuals = fsolve_obj_stochastic(x, Z_raw_batch, G_raw_batch)
+        # Apply Huber loss to each residual element-wise and sum the result
+        return jnp.sum(jax.vmap(huber_loss, in_axes=(0, None))(residuals, huber_delta))
+
+    @jax.jit
+    def update_step(x, key, step):
+        """ Performs a single update step of the stochastic optimizer. """
+        batch_indices = random.choice(key, num_pool_samples, shape=(batch_size,), replace=False)
+        Z_raw_batch = Z_raw_full[batch_indices]
+        G_raw_batch = G_raw_full[batch_indices]
+        
+        # JAX automatically computes the correct gradient for the Huber loss
+        grad = jax.grad(loss_fn, argnums=0)(x, Z_raw_batch, G_raw_batch)
+        
+        lr = initial_lr / (1.0 + step * decay_rate)
+        x_new = x - lr * grad
+        return x_new
+
+    # --- Step 4: Run the Stochastic Optimization Loop ---
+
+    L0 = 0.75 * jnp.eye(L)
+    rho_0 = rho_0 if rho_0 is not None else jnp.eye(L)
+    L0_flat = L0[jnp.tril_indices(L)]
+    rho_0_flat = rho_0[jnp.tril_indices(L)]
+
+    x0 = jnp.concatenate([
+        jnp.log(0.66 * jnp.ones((L,))),
+        0.85 * jnp.eye(L).flatten(),
+        L0_flat,
+        rho_0_flat
+    ])
     
-    return
+    x = x0
+    opt_key = random.PRNGKey(42)
+    print(f"Starting stochastic optimization for {num_steps} steps with Huber loss (delta={huber_delta})...")
+    for step in range(num_steps):
+        opt_key, step_key = random.split(opt_key)
+        x = update_step(x, step_key, step)
+        if step % 100 == 0:
+            # Monitor convergence by logging the loss on a consistent batch
+            current_loss = loss_fn(x, G_raw_full[:batch_size], Z_raw_full[:batch_size])
+            print(f"Step {step}, Current Loss: {current_loss:.4f}")
+            if true_rho is not None:
+                _, _, _, rho_est = unpack_x_stochastic(x)
+                frob_error = jnp.linalg.norm(rho_est - true_rho, ord='fro')
+                print(f" Difference between estimated and true rho:", true_rho - rho_est)
+                print(f" Frobenius norm error in rho estimate: {frob_error:.4f}")
+
+    print("Optimization finished.")
+    b, ν̃, κ̃, rho = unpack_x_stochastic(x)
+    return b, ν̃, κ̃, rho
 
 ### --- Functions for computing debiased theta estimate ---
 
