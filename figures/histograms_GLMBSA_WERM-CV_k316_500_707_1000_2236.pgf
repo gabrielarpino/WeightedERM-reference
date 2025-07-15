@@ -35,9 +35,9 @@
 %%       
 %%   \ifdefined\pdftexversion\else  % non-pdftex case.
 %%     \usepackage{fontspec}
-%%     \setmainfont{Times_New_Roman.ttf}[Path=\detokenize{/usr/share/fonts/truetype/msttcorefonts/}]
-%%     \setsansfont{DejaVuSans.ttf}[Path=\detokenize{/scratch/ga442/miniforge3/envs/weighted-erm/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
-%%     \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/scratch/ga442/miniforge3/envs/weighted-erm/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%     \setmainfont{Times New Roman.ttf}[Path=\detokenize{/System/Library/Fonts/Supplemental/}]
+%%     \setsansfont{DejaVuSans.ttf}[Path=\detokenize{/Users/gabrielarpino/.local/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%     \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/Users/gabrielarpino/.local/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
 %%   \fi
 %%   \makeatletter\@ifpackageloaded{underscore}{}{\usepackage[strings]{underscore}}\makeatother
 %%
@@ -1861,7 +1861,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=8.871353in,y=18.331229in,,base]{\color{textcolor}{\rmfamily\fontsize{18.000000}{21.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{WERM-CV}}}%
+\pgftext[x=8.871353in,y=18.331229in,,base]{\color{textcolor}{\rmfamily\fontsize{18.000000}{21.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}\textbf{WERM}}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{6.299813in}{15.088887in}}{\pgfqpoint{5.143080in}{3.034009in}}%
