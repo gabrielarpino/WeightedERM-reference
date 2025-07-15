@@ -373,7 +373,7 @@ def _setup_fixed_point_problem(M_func, ρ, δ, η_, ϕ, ε, n, q_func, key, num_
     return L, Z_full, G_raw_full
 
 # --- Function to run a single fixed-point optimization ---
-def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_full, G_raw_full, tol=1e-6, maxiter=1000, lr=0.25):
+def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_full, G_raw_full, tol=1e-6, maxiter=1000, lr=0.25, history_size=5):
     """
     Runs the fixed-point optimization for a single configuration using jaxopt.AndersonAcceleration.
     This function is NOT JAX-traceable due to potential CPU-based operations but the
@@ -558,7 +558,7 @@ def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_ful
         # Solver is defined inside to capture hyperparams
         solver = jaxopt.AndersonAcceleration(
             fixed_point_fun=fixed_point_update,
-            history_size=5,
+            history_size=history_size,
             ridge=1e-8,
             maxiter=maxiter, # Note: maxiter is used by fori_loop, not solver.run
         )
@@ -600,6 +600,11 @@ def _run_single_fp_optimization(M_func, ρ, δ, η_, ϕ, ε, n, q_func, L, Z_ful
     # Check for convergence based on the final solution's residual norm
     success_status = jnp.linalg.norm(fsolve_obj_jit(final_solution)) < tol
 
+    # Actually, set success_status to be the final error
+    final_error = jnp.linalg.norm(fsolve_obj_jit(final_solution))
+    success_status = final_error
+
+
     return b_res, nu_tilde_res, kappa_tilde_res, success_status
 
 # --- Helper Function for constrained combinations (CPU-based) ---
@@ -630,7 +635,7 @@ def _unrank_combination_constrained(rank, k, effective_N_prime, effective_range_
     eta_ = effective_range_start + np.sort(result_effective) + np.arange(k) * (Delta - 1)
     return eta_.astype(np.int32)
 
-def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, master_key, num_samples_mult=100,maxiter=1000, lr=0.25, tol=1e-4):
+def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, master_key, num_samples_mult=100,maxiter=1000, lr=0.25, tol=1e-4, history_size=5):
     """
     Computes the fixed-point solution for a single, specified change-point vector.
 
@@ -659,7 +664,7 @@ def compute_single_fixed_point(eta_vector, M_func, ρ, δ, ϕ, ε, n, q_func, ma
 
     # Run the optimization for this single configuration
     b_res, nu_tilde_res, kappa_tilde_res, success_status = _run_single_fp_optimization(
-        M_func, ρ, δ, eta_vector, ϕ, ε, n, q_func, L_val, Z_full_val, G_raw_full_val, maxiter=maxiter,lr=lr, tol=tol
+        M_func, ρ, δ, eta_vector, ϕ, ε, n, q_func, L_val, Z_full_val, G_raw_full_val, maxiter=maxiter,lr=lr, tol=tol, history_size=history_size
     )
 
     return b_res, nu_tilde_res, kappa_tilde_res, success_status

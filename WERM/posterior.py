@@ -295,6 +295,184 @@ def generate_changepoint_grid(n, L, Delta_n, coarse_grain_factor=1):
 
     return grid
 
+### --- Refactored ---
+def estimate_rho_iterative_refactored(
+    X, y, M, pi, L, delta, Delta_n, epsilon_fp, q,
+    L_is_upper_bound=False,
+    brute_force=False,
+    true_chgpt_locations=None,
+    max_iters=20,
+    convergence_tol=1e-4,
+    rho_0=None,
+    rho_diag=None,
+    rho_list_output=False
+):
+    """
+    Refactored function to estimate the rho parameter iteratively until convergence.
+
+    Args:
+        max_iters (int): Maximum number of iterations.
+        convergence_tol (float): Tolerance for assessing convergence based on the
+                                 relative change in the Frobenius norm of rho.
+        All other arguments are the same as the original function.
+    """
+    n, p = X.shape
+    
+    # --- Initial Setup (Unaffected by iteration) ---
+    print("Step 1: Estimating change point locations using weighted ERM...")
+    chgpt_est, _, B_hat = WERM.estimators.weighted_erm(
+        X, y, M, L, Delta_n, 0.0,
+        L_is_upper_bound=L_is_upper_bound,
+        brute_force=brute_force, return_gof=True, return_B_hat=True
+    )
+    eta_ = chgpt_est if true_chgpt_locations is None else true_chgpt_locations
+    print(f"Fractional Change point locations estimated at: {eta_ / n}")
+
+    print("\nStep 2: Computing debiased Theta estimate...")
+    Theta_hat = X @ B_hat
+    Theta_deb, b_hat = compute_debiased_theta(Theta_hat, y, M, pi, delta, output_b_hat=True)
+    lhs_rho = (1/n) * Theta_deb.T @ Theta_deb
+    print(f"Computed Left-Hand-Side for rho equation.")
+
+    # --- Iterative Estimation of Rho ---
+    rho_est = jnp.eye(L) if rho_0 is None else rho_0
+    rho_est_list = [rho_est]
+
+    print(f"\nStep 3: Starting iterative estimation of rho (max_iters={max_iters}, tol={convergence_tol:.1e})...")
+    for i in range(max_iters):
+        rho_prev = rho_est
+        print("-" * 60)
+        print(f"Iteration {i+1}/{max_iters}")
+
+        # --- Fixed-point equation 1: Compute b, nu, kappa from rho ---
+        print("  Solving for b, nu, kappa...")
+        MASTER_KEY = random.PRNGKey(i)
+        b, nu, kappa, fp_error = fp.compute_single_fixed_point(
+            eta_, M, rho_prev, delta, pi, epsilon_fp, n, q, MASTER_KEY,
+            num_samples_mult=100, maxiter=1000, lr=0.2, tol=1e-4
+        )
+        print(f"    Fixed-point error (b - b_hat): {jnp.linalg.norm(b - b_hat):.4f}")
+
+        # --- Fixed-point equation 2: Compute rho from nu, kappa ---
+        print("  Solving for rho...")
+        rho_est, optim_result = optimize_rho_as_cov_refactored(
+            lhs_rho, nu, kappa, rho_prev, L, rho_diag=rho_diag
+        )
+        
+        # --- Check for convergence ---
+        # Relative error in the Frobenius norm
+        change = jnp.linalg.norm(rho_est - rho_prev) / (jnp.linalg.norm(rho_prev) + 1e-8)
+        rho_est_list.append(rho_est)
+        
+        print(f"  Current rho estimate:\n{rho_est}")
+        print(f"  Result: Relative change in rho = {change:.4e}")
+
+        if change < convergence_tol:
+            print(f"\nConvergence achieved in {i+1} iterations.")
+            break
+        if not optim_result.success:
+            print("\nWarning: Rho optimization failed to converge. Stopping.")
+            break
+    else: # This else belongs to the for loop, executed if the loop finishes without `break`
+        print(f"\nMaximum iterations ({max_iters}) reached without convergence.")
+
+    if rho_list_output:
+        return rho_est_list
+    return rho_est
+
+def optimize_rho_as_cov_refactored(lhs_rho, nu, kappa, rho_0, L, rho_diag=None, epsilon=1e-10):
+    """
+    Refactored function to optimize for a covariance matrix rho.
+
+    This version uses parameterizations that guarantee rho remains positive
+    semi-definite, making the optimization unconstrained and more stable.
+    """
+    
+    # --- Case 1: The diagonal of rho is fixed ---
+    if rho_diag is not None:
+        num_params = L * (L - 1) // 2
+
+        def params_to_rho_fixed_diag(params):
+            """Converts unbounded parameters to a valid correlation matrix."""
+            # `params` are the arctanh of the correlation coefficients
+            correlations = jnp.tanh(params)
+            corr_matrix = jnp.eye(L)
+            
+            # Reconstruct the lower-triangular part of the correlation matrix
+            indices = jnp.tril_indices(L, k=-1)
+            corr_matrix = corr_matrix.at[indices].set(correlations)
+            corr_matrix = corr_matrix.at[indices[::-1]].set(correlations)
+            
+            # Convert correlation to covariance using the fixed diagonal
+            D_sqrt = jnp.sqrt(jnp.diag(rho_diag))
+            rho = jnp.outer(D_sqrt, D_sqrt) * corr_matrix
+            return rho
+
+        def objective_fn(params):
+            rho = params_to_rho_fixed_diag(params)
+            rhs = nu.T @ rho @ nu + kappa
+            return (lhs_rho - rhs).flatten()
+
+        # Initial parameters from the starting guess rho_0
+        D_sqrt_init = jnp.sqrt(jnp.diag(rho_0) + epsilon)
+        corr_init = rho_0 / jnp.outer(D_sqrt_init, D_sqrt_init)
+        # Clip to avoid infinity with arctanh
+        corr_vals_init = jnp.clip(corr_init[jnp.tril_indices(L, k=-1)], -0.999, 0.999)
+        params_init = jnp.arctanh(corr_vals_init)
+
+    # --- Case 2: The entire rho matrix is being optimized ---
+    else:
+        def params_to_rho_full(params):
+            """
+            Converts unbounded parameters to a positive semi-definite matrix.
+            The first L params are log-diagonals of the Cholesky factor.
+            The rest are the off-diagonal elements.
+            """
+            log_diag_L = params[:L]
+            off_diag_L = params[L:]
+            
+            L_factor = jnp.zeros((L, L))
+            L_factor = L_factor.at[jnp.diag_indices(L)].set(jnp.exp(log_diag_L))
+            
+            indices = jnp.tril_indices(L, k=-1)
+            L_factor = L_factor.at[indices].set(off_diag_L)
+            
+            # rho = L @ L.T ensures positive semi-definiteness
+            return L_factor @ L_factor.T
+
+        def objective_fn(params):
+            rho = params_to_rho_full(params)
+            rhs = nu.T @ rho @ nu + kappa
+            return (lhs_rho - rhs).flatten()
+
+        # Initial parameters from the Cholesky decomposition of rho_0
+        L_init = jax.scipy.linalg.cholesky(rho_0 + epsilon * jnp.eye(L), lower=True)
+        log_diag_L_init = jnp.log(jnp.diag(L_init))
+        off_diag_L_init = L_init[jnp.tril_indices(L, k=-1)]
+        params_init = jnp.concatenate([log_diag_L_init, off_diag_L_init])
+
+    # --- Common Optimization Step ---
+    res = scipy.optimize.least_squares(
+        objective_fn,
+        params_init,
+        xtol=1e-6,
+        ftol=1e-6,
+        max_nfev=500  # Increased for potentially complex problems
+    )
+
+    # Reconstruct the final rho estimate from the optimized parameters
+    if rho_diag is not None:
+        rho_est = params_to_rho_fixed_diag(res.x)
+    else:
+        rho_est = params_to_rho_full(res.x)
+
+    # --- Final Diagnostics ---
+    final_norm = jnp.linalg.norm(res.fun)
+    min_eigval = jnp.min(jnp.linalg.eigvalsh(rho_est))
+    print(f"    Optimization success: {res.success}. Final norm: {final_norm:.4f}. Min eigenvalue of rho: {min_eigval:.4f}")
+
+    return rho_est, res
+
 ### --- Functions for solving for ρ ---
 
 def estimate_rho_iterative(X, y, M, pi, L, δ, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None, num_iters = 5, rho_0=None, rho_diag = None, rho_list_output = False):
@@ -334,10 +512,13 @@ def estimate_rho_iterative(X, y, M, pi, L, δ, Delta_n, ε, q, L_is_upper_bound=
 
     for _ in tqdm(range(num_iters)):
         print("Current estimate of ρ:", rho_est)
-        b, nu, kappa = fp.general_fp_old(M, rho_est, δ, η_, pi, ε, n, q, est_b = True, X=X, y=y, Delta_n=Delta_n)
+        MASTER_KEY = random.PRNGKey(_)
+        # b, nu, kappa = fp.general_fp_old(M, rho_est, δ, η_, pi, ε, n, q, est_b = True, X=X, y=y, Delta_n=Delta_n)
+        b, nu, kappa, success_status = fp.compute_single_fixed_point(η_, M, rho_est, δ, pi, ε, n, q, MASTER_KEY, num_samples_mult=100, maxiter=1000, lr=0.2, tol=1e-4)
         print("b - b_hat:", b - b_hat)
         print("b:", b)
         print("b_hat:", b_hat)
+        print("Success status of fixed point computation (this is actually the error):", success_status)
         
         # def obj(rho_L_flat):
         #     """ Objective function to minimize """
@@ -547,7 +728,7 @@ def optimize_rho_as_cov(lhs_rho, nu, kappa, rho_0, L, rho_diag=None, epsilon=1e-
     
     return rho_est
 
-def estimate_rho_diagonals(X, y, M, L, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None):
+def estimate_rho_diagonals(X, y, M, L, Delta_n, ε, q, L_is_upper_bound=False, brute_force=False, true_chgpt_locations=None, num_iters=5):
 
     n, p = X.shape
     if true_chgpt_locations is None:
@@ -555,6 +736,7 @@ def estimate_rho_diagonals(X, y, M, L, Delta_n, ε, q, L_is_upper_bound=False, b
             X, y, M, L, Delta_n, 0.0, L_is_upper_bound=L_is_upper_bound,
             brute_force=brute_force, return_gof=True, return_B_hat=True,
         )
+        print("Fractional change point locations estimated:", chgpt_est / n)
     else:
         chgpt_est = true_chgpt_locations
 
@@ -575,7 +757,7 @@ def estimate_rho_diagonals(X, y, M, L, Delta_n, ε, q, L_is_upper_bound=False, b
         n_eff = X_seg.shape[0]  # Effective n for the segment
         δ_eff = (n_eff/p)  # Effective δ for the segment
         pi_eff = np.ones((1, n_eff)) / n_eff  # Uniform prior for the segment
-        rho_hat_l = WERM.posterior.estimate_rho_iterative(X_seg, y_seg, M, pi_eff, L_eff, δ_eff, 1, ε_seg, q, num_iters = 5, 
+        rho_hat_l = WERM.posterior.estimate_rho_iterative(X_seg, y_seg, M, pi_eff, L_eff, δ_eff, 1, ε_seg, q, num_iters = num_iters, 
                                                         rho_0 = 0.1*np.eye(L_eff), L_is_upper_bound=L_is_upper_bound, true_chgpt_locations=np.array([]),
                                                         brute_force=False)
         rho_hat_diag[l, l] = rho_hat_l[0]
