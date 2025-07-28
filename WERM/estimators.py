@@ -318,7 +318,31 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
     """
     n, p = X.shape
 
-    if Delta_n ==1 : # No separation between change points, so use analytical binomial approximation. 
+
+    def pi_i_l_endpoint_bias_v2(L, l, i, n, beta_param=0.5):
+        """
+        Version 2: Direct Beta distribution modification
+        
+        Parameters:
+        - beta_param: Beta distribution parameters (both set to this value)
+        - beta_param < 1 creates U-shape favoring endpoints
+        - beta_param = 0.5 gives moderate endpoint bias
+        """
+        return (scipy.special.comb(L-1, l-1, exact=False) * 
+                scipy.special.beta(i/n + beta_param, (n-i)/n + beta_param) /
+                scipy.special.beta(beta_param, beta_param) *
+                (i/n)**(l-1) * 
+                (1 - i/n)**(L-l))
+
+    if Delta_n == 1:  # No separation between change points, so use analytical binomial approximation.
+
+
+        # Populate the pi matrix: L rows for l, n columns for i
+        # pi = np.zeros((L, n))
+        # for l in range(L):
+        #     for i in range(n):
+        #         pi[l, i] = pi_i_l_endpoint_bias_v2(L, l + 1, i + 1, n, beta_param=0.5)
+
         if L_is_upper_bound:
             pi_i_l = lambda L, l, i : 1/(L - l + 1) * np.sum([scipy.special.comb(k - 1, l- 1, exact=False) * (i/n)**(l-1) * (1 - i/n)**(k-l) for k in range(l, L+1)])
         else: 
@@ -341,7 +365,6 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
             Lmax = L
         pi = WERM.config.extrapolated_marginals(Lmin, Lmax, Delta_n_small, n_small = n_small, n_large = n, p_l = p_l, verbose = False)
     # pi = pi / np.sum(pi, axis=1, keepdims=True) # Normalize rows to sum to 1
-
 
     B_hat = np.zeros((p, L))
 
@@ -397,7 +420,7 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
         return (opt_chgpts, opt_gof, B_hat) if return_B_hat else (opt_chgpts, opt_gof)
     return (opt_chgpts, B_hat) if return_B_hat else opt_chgpts
 
-def weighted_ermCV(X, y, M, L, Delta_n, gamma_candidates=None, L_is_upper_bound = True, brute_force=False, M_scorer = None, P_scorer = None, num_folds = 5, n_jobs = 4, **kwargs):
+def weighted_ermCV(X, y, M, L, Delta_n, gamma_candidates=None, L_is_upper_bound = False, brute_force=False, M_scorer = None, P_scorer = None, num_folds = 5, n_jobs = 4, **kwargs):
     """
     Run cross-validation to select the best gamma for WERM, and return
     the best change point configuration.

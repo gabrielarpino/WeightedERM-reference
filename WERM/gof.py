@@ -248,7 +248,8 @@ def _calculate_raw_loss(M, Z, y, changepoints, n):
     
     # Each segment uses its corresponding column: segment i uses Z[:, i]
     losses = M(Z[jnp.arange(n), ψ], y)
-    return jnp.sum(losses)
+    # return jnp.sum(losses)
+    return jnp.mean(losses) # So that these GoFs can be compared over different scales
 
 def _local_refinement_binary_seg(M, Z, y, n, changepoints, Delta, verbose=False, max_iterations=5):
     """
