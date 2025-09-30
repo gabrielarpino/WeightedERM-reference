@@ -470,7 +470,10 @@ figures/*
 !figures/*.tikz
 !figures/*.eps
 
-# Ignore .pkl files
+# Ignore .pkl files everywhere
 *.pkl
+results/**/*.pkl
+
+# (optional, redundant) explicitly ignore results/ pickles
 results/*.pkl
-!results/*.pkl
+
