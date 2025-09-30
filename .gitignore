@@ -469,3 +469,8 @@ figures/*
 !figures/*.pgf
 !figures/*.tikz
 !figures/*.eps
+
+# Ignore .pkl files
+*.pkl
+results/*.pkl
+!results/*.pkl

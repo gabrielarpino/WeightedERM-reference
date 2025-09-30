@@ -2,13 +2,153 @@ import WERM.gof
 import WERM.marginals
 import numpy as np
 import jax
+import jax
 import jax.numpy as jnp
 import scipy.optimize
 import scipy.special
+from jax.scipy.special import logsumexp
+from jaxopt import LBFGS
 from functools import partial
 from tqdm.auto import tqdm
 from tqdm import trange
 from joblib import Parallel, delayed
+
+### --- HVI --- ###
+
+def HVI(X, y, M, L, pi, Delta_n, gamma, L_is_upper_bound=False, brute_force=False, return_gof=False, return_B_hat=False, num_EM_iters = 3, P_func=lambda beta : 0, inv_temp = 1.0, **kwargs):
+    """
+    Heterogeneous Variational Inference
+    """
+    n, p = X.shape
+
+    B_hat = jnp.zeros((p, L))
+
+    # --- 1. Estimate signal coefficients B_hat ---
+    sample_weights = pi # (L, n)
+
+    # Plot the initial weights
+    # import matplotlib.pyplot as plt
+    # plt.figure(figsize=(10, 6), dpi=40)
+    # for l_ in range(L):
+    #     plt.plot(sample_weights[l_, :], label=f'Signal {l_+1}')
+    # plt.title('Initial Sample Weights')
+    # plt.xlabel('Data Point Index')
+    # plt.ylabel('Weight')
+    # plt.legend()
+    # plt.grid()
+    # plt.show()
+
+    def empirical_risk(beta, X_data, y_data, weights):
+        # Ensure M and P_func return JAX arrays and are pure
+        losses = M((X_data @ beta).flatten(), y_data.flatten())
+        return jnp.sum(losses * weights) + P_func(beta)
+    solver = LBFGS(fun=empirical_risk, value_and_grad=False, maxiter=1000, tol=1e-6)
+
+    for EM_iter in range(num_EM_iters):
+
+        # - M-step: Estimate B given current weights using JAXopt for efficiency - #
+            # pip install jaxopt (if available in your env)
+
+
+        # grad_empirical_risk = jax.grad(empirical_risk)
+        for l_ in range(L):
+            weights = sample_weights[l_, :] / jnp.sum(sample_weights[l_, :])
+            init = 0.1 * jnp.ones(p)
+            res = solver.run(init_params=init, X_data=X, y_data=y, weights=weights)
+            B_hat = B_hat.at[:, l_].set(res.params)
+
+        
+        # ## Step 1: Estimate B given current weights
+        # for l_ in range(L):
+        #     # sample_weight = pi[l_, :] / np.sum(pi[l_, :]) # Ensure weights sum to 1
+        #     sample_weight = sample_weights[l_, :] / np.sum(sample_weights[l_, :]) # Ensure weights sum to 1
+
+        #     @partial(jax.jit, static_argnums=(0, 1))
+        #     def empirical_risk(M_func, P_func,beta, X_data, y_data, weights):
+        #         return jnp.multiply(M_func((X_data @ beta).flatten(), y_data.flatten()), weights).sum() + P_func(beta)
+
+        #     options = {'disp': False, 'maxiter': 1e3} # Useful for ensuring bounded logistic estimators 
+        #     res = scipy.optimize.minimize(
+        #         lambda beta: empirical_risk(M, P_func, beta, X, y, sample_weight),
+        #         0.1*np.ones(p),
+        #         jac=jax.grad(lambda beta: empirical_risk(M, P_func, beta, X, y, sample_weight)),
+        #         method='L-BFGS-B',
+        #         options=options
+        #     )
+        #     B_hat[:, l_] = res.x
+
+        # ## Step 2: Update weights given current B_hat
+        # Theta_hat = X @ B_hat
+        # M_eval = jnp.array([M(Theta_hat[:, l], y) for l in range(L)]) # (L, n)
+        # assert M_eval.shape == (L, n), f"Expected M_eval shape {(L, n)}, got {M_eval.shape}"
+        # assert np.all(M_eval >= 0), "Loss values must be non-negative"
+        # assert pi.shape == (L, n), f"Expected pi shape {(L, n)}, got {pi.shape}"
+        # exp_M = np.exp(- inv_temp * M_eval) # (n, L)
+        # new_sample_weights = np.multiply(pi, exp_M) # (L, n) 
+        # new_sample_weights = new_sample_weights / np.sum(new_sample_weights, axis=0, keepdims=True) # Normalize columns to sum to 1
+        # print(f"EM Iter {EM_iter+1}/{num_EM_iters}: max weight change {np.max(np.abs(new_sample_weights - sample_weights)):.6f}")
+        # sample_weights = new_sample_weights
+
+
+        # Step 2 Improved: Update weights given current B_hat
+        eps = 1e-12
+        eta = 0.75  # EM damping in (0,1]
+        Theta_hat = X @ B_hat  # (n, L) if B_hat is (p, L)
+        # If your M expects 1D predictions: compute per l
+        M_eval = jnp.stack([M(Theta_hat[:, l], y) for l in range(L)], axis=0)  # (L, n)
+        assert M_eval.shape == (L, n), f"Expected M_eval shape {(L, n)}, got {M_eval.shape}"
+
+        # Guard assumptions (can keep your asserts if helpful)
+        # assert jnp.all(M_eval >= 0)
+
+        # LOG-SPACE update:
+        log_pi = jnp.log(jnp.clip(pi, eps, 1.0))          # (L, n)
+        assert log_pi.shape == (L, n), f"Expected log_pi shape {(L, n)}, got {log_pi.shape}"
+        logw   = log_pi - inv_temp * M_eval               # (L, n)
+        logZ   = logsumexp(logw, axis=0, keepdims=True)   # (1, n)
+        new_sample_weights = jnp.exp(logw - logZ)         # (L, n), columns sum to 1 by construction
+
+        # Optional: also enforce a min floor then renormalize to avoid exact zeros:
+        new_sample_weights = jnp.maximum(new_sample_weights, eps)
+        new_sample_weights = new_sample_weights / new_sample_weights.sum(axis=0, keepdims=True)
+
+        # Damped update for stability:
+        delta = jnp.max(jnp.abs(new_sample_weights - sample_weights))
+        if EM_iter % 10 == 0:
+            print(f"EM Iter {EM_iter+1}/{num_EM_iters}: max weight change {float(delta):.6f}")
+        sample_weights = (1.0 - eta) * sample_weights + eta * new_sample_weights
+
+        # Plot the final weights
+        # import matplotlib.pyplot as plt
+        # plt.figure(figsize=(10, 6), dpi=40)
+        # for l_ in range(L):
+        #     plt.plot(sample_weights[l_, :], label=f'Signal {l_+1}')
+        # plt.title('Final Sample Weights after HVI')
+        # plt.xlabel('Data Point Index')
+        # plt.ylabel('Weight')
+        # plt.legend()
+        # plt.grid()
+        # plt.show()
+
+    # --- 2. Compute Change Point Estimates using Goodness-of-Fit ---
+    Theta_hat = X @ B_hat
+
+    if brute_force and L > 1:
+        opt_chgpts, opt_gof = WERM.gof.chgpt_gof_bf_mem_eff(
+                M, Theta_hat, y, n, L, Delta_n, L_is_upper_bound=L_is_upper_bound,
+                γ=gamma, batch_size=4096, gof_opt_output=True
+            )
+    elif L > 1:
+        opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, Delta_n, γ=0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
+    else:
+        opt_chgpts, opt_gof = np.array([]), np.inf  # No change points, no goodness-of-fit
+        
+
+    if return_gof:
+        return (opt_chgpts, opt_gof, B_hat) if return_B_hat else (opt_chgpts, opt_gof)
+    return (opt_chgpts, B_hat) if return_B_hat else opt_chgpts 
+    
+### --- Weighted ERM --- ###
 
 def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_jobs=4):
     """
