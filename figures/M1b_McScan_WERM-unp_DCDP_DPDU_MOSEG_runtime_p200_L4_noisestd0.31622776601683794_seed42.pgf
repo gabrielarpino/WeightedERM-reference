@@ -35,9 +35,9 @@
 %%       
 %%   \ifdefined\pdftexversion\else  % non-pdftex case.
 %%     \usepackage{fontspec}
-%%     \setmainfont{Times New Roman.ttf}[Path=\detokenize{/System/Library/Fonts/Supplemental/}]
-%%     \setsansfont{DejaVuSans.ttf}[Path=\detokenize{/Users/gabrielarpino/.local/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
-%%     \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/Users/gabrielarpino/.local/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%     \setmainfont{Times_New_Roman.ttf}[Path=\detokenize{/usr/share/fonts/truetype/msttcorefonts/}]
+%%     \setsansfont{DejaVuSans.ttf}[Path=\detokenize{/scratch/ga442/miniforge3/envs/weighted-erm/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%     \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/scratch/ga442/miniforge3/envs/weighted-erm/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/}]
 %%   \fi
 %%   \makeatletter\@ifpackageloaded{underscore}{}{\usepackage[strings]{underscore}}\makeatother
 %%
