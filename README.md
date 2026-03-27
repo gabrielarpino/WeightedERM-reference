@@ -1,4 +1,5 @@
 # WeightedERM Reference
+[![DOI](https://zenodo.org/badge/790824372.svg)](https://doi.org/10.5281/zenodo.19262981)
 
 This repository contains the reference implementation and main experiment notebooks for WeightedERM (WERM), developed for high-dimensional change point detection. The repository is notebook-centered: the main experiments and applications live in Jupyter notebooks, while the underlying implementation lives in the `WERM/` source directory.
 
