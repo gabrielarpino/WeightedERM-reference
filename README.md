@@ -1,5 +1,6 @@
 # WeightedERM Reference
 [![DOI](https://zenodo.org/badge/790824372.svg)](https://doi.org/10.5281/zenodo.19262981)
+[![arXiv](https://img.shields.io/badge/arXiv-2604.11746-b31b1b.svg)](https://arxiv.org/abs/2604.11746)
 
 This repository contains the reference implementation and main experiment notebooks for the WeightedERM (WERM) developed in the paper [Inferring Change Points in Regression via Sample Weighting](https://arxiv.org/abs/2604.11746) by Gabriel Arpino and Ramji Venkataramanan for high-dimensional change point detection. The repository is notebook-centered: the main experiments and applications live in Jupyter notebooks, while the underlying implementation lives in the `WERM/` source directory. For more robust and flexible implementations better suited for practical use, see the [weightederm](https://github.com/gabrielarpino/weightederm) package in Python and the [weightederm-r](https://github.com/gabrielarpino/weightederm-r) package in R. 
 
