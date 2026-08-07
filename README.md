@@ -85,6 +85,24 @@ This repository is primarily a reference research codebase rather than a polishe
 
 The code and results in this repository were developed and are expected to work with Python `3.10.10`.
 
+For the locked uv environment used by the WER-5 baseline:
+
+```bash
+uv sync --frozen
+uv run --frozen python -c "import WERM; import WERM.estimators"
+```
+
+Notebook dependencies, including the Python/R bridge, are optional:
+
+```bash
+RPY2_CFFI_MODE=ABI uv sync --frozen --extra notebooks
+```
+
+The ABI setting is needed on machines without Python development headers. The
+custom R packages used by the comparison notebooks are not installed by uv;
+see `rebuttal/phase1/baseline.md` for the exact blockers and bounded-run
+settings.
+
 ### Minimal requirements
 
 The following packages are enough to run the quick-start example below:

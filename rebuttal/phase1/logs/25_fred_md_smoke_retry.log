@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/.venv/lib/python3.10/site-packages/rpy2/robjects/packages.py", line 472, in importr
+    raise PackageNotInstalledError(
+rpy2.robjects.packages.PackageNotInstalledError: The R package "inferchange" is not installed.
+R callback write-console: Warning message:
+
+R callback write-console: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :
+R callback write-console:
+
+R callback write-console:  libraries ‘/usr/local/lib/R/site-library’, ‘/usr/lib/R/site-library’ contain no packages
+
+pkl X shape: (773, 114)
+pkl y shape: (773,)
+RData fredmd_data present: True

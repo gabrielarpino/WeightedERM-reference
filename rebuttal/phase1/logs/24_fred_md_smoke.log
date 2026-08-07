@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+TypeError: 'NoneType' object is not iterable
+pkl type: dict
+pkl keys: ['X', 'date', 'y']

@@ -1,0 +1,244 @@
+Downloading jupyterlab (16.4MiB)
+Downloading notebook (5.3MiB)
+Downloading debugpy (2.9MiB)
+Downloading pandas (12.2MiB)
+   Building rpy2-rinterface==3.6.6
+ Downloaded debugpy
+ Downloaded notebook
+ Downloaded jupyterlab
+ Downloaded pandas
+  × Failed to build `rpy2-rinterface==3.6.6`
+  ├─▶ The build backend returned an error
+  ╰─▶ Call to `setuptools.build_meta.build_wheel` failed (exit status: 1)
+
+      [stdout]
+      cffi mode is CFFI_MODE.ANY
+      Looking for R home with: R RHOME
+      R home found: /usr/lib/R
+      R exec path: /usr/lib/R/bin/R
+      Looking for R CONFIG with: /usr/lib/R/bin/R CMD config --ldflags
+      ['-Wl,--export-dynamic -fopenmp -Wl,-Bsymbolic-functions -flto=auto
+      -ffat-lto-objects -Wl,-z,relro -L/usr/lib/R/lib -lR -lpcre2-8 -ldeflate
+      -lzstd -llzma -lbz2 -lz -ltirpc -lrt -ldl -lm -licuuc -licui18n']
+      R exec path: /usr/lib/R/bin/R
+      Looking for R CONFIG with: /usr/lib/R/bin/R CMD config BLAS_LIBS
+      ['-lblas']
+      R exec path: /usr/lib/R/bin/R
+      Looking for R CONFIG with: /usr/lib/R/bin/R CMD config --cppflags
+      ['-I/usr/share/R/include']
+      R exec path: /usr/lib/R/bin/R
+      Looking for R CONFIG with: /usr/lib/R/bin/R CMD config LIBnn
+      ['lib']
+      cffi mode is CFFI_MODE.ANY
+      Looking for R home with: R RHOME
+      R home found: /usr/lib/R
+      R exec path: /usr/lib/R/bin/R
+      Looking for R CONFIG with: /usr/lib/R/bin/R CMD config --ldflags
+      ['-Wl,--export-dynamic -fopenmp -Wl,-Bsymbolic-functions -flto=auto
+      -ffat-lto-objects -Wl,-z,relro -L/usr/lib/R/lib -lR -lpcre2-8 -ldeflate
+      -lzstd -llzma -lbz2 -lz -ltirpc -lrt -ldl -lm -licuuc -licui18n']
+      R exec path: /usr/lib/R/bin/R
+      Looking for R CONFIG with: /usr/lib/R/bin/R CMD config BLAS_LIBS
+      ['-lblas']
+      R exec path: /usr/lib/R/bin/R
+      Looking for R CONFIG with: /usr/lib/R/bin/R CMD config --cppflags
+      ['-I/usr/share/R/include']
+      R exec path: /usr/lib/R/bin/R
+      Looking for R CONFIG with: /usr/lib/R/bin/R CMD config LIBnn
+      ['lib']
+      running bdist_wheel
+      running build
+      cffi mode: CFFI_MODE.ANY
+      running build_py
+      creating build/lib.linux-x86_64-cpython-310/rpy2/rinterface
+      copying src/rpy2/rinterface/__init__.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface
+      creating build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/__init__.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/memorymanagement.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/_rinterface_cffi_build.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/na_values.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/bufferprotocol.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/callbacks.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/embedded.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/ffi_proxy.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/sexp.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/conversion.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/_rinterface_capi.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/openrlib.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      creating build/lib.linux-x86_64-cpython-310/rpy2/situation
+      copying src/rpy2/situation/__init__.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/situation
+      copying src/rpy2/situation/__main__.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/situation
+      creating build/lib.linux-x86_64-cpython-310/rpy2/rlike
+      copying src/rpy2/rlike/__init__.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rlike
+      copying src/rpy2/rlike/functional.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rlike
+      copying src/rpy2/rlike/indexing.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rlike
+      copying src/rpy2/rlike/container.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rlike
+      creating build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vector_numpy.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/__init__.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vector_bool.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vector_list.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_threading.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vectors.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_noinitialization.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_embedded_r.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vector_byte.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_memorymanagement.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_conversion.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_na.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_functions.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_endr.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vector_complex.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_bufferprotocol.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/utils.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vector_pairlist.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_environment.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vector_int.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vector_lang.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vector_float.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_callbacks.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_symbol.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_externalptr.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_openrlib.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_sexp.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      copying src/rpy2/rinterface/tests/test_vector_str.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests
+      creating build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests/rlike
+      copying src/rpy2/rinterface/tests/rlike/test_container.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests/rlike
+      copying src/rpy2/rinterface/tests/rlike/test_indexing.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests/rlike
+      copying src/rpy2/rinterface/tests/rlike/test_functional.py ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface/tests/rlike
+      running egg_info
+      writing src/rpy2_rinterface.egg-info/PKG-INFO
+      writing dependency_links to
+      src/rpy2_rinterface.egg-info/dependency_links.txt
+      writing requirements to src/rpy2_rinterface.egg-info/requires.txt
+      writing top-level names to src/rpy2_rinterface.egg-info/top_level.txt
+      reading manifest file 'src/rpy2_rinterface.egg-info/SOURCES.txt'
+      writing manifest file 'src/rpy2_rinterface.egg-info/SOURCES.txt'
+      copying src/rpy2/rinterface/py.typed ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface
+      copying src/rpy2/rinterface_lib/RPY2.h ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/R_API.h ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/R_API_eventloop.c ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/R_API_eventloop.h ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/_bufferprotocol.c ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/rinterface_lib/py.typed ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rinterface_lib
+      copying src/rpy2/situation/py.typed ->
+      build/lib.linux-x86_64-cpython-310/rpy2/situation
+      copying src/rpy2/rlike/py.typed ->
+      build/lib.linux-x86_64-cpython-310/rpy2/rlike
+      generating cffi module
+      'build/lib.linux-x86_64-cpython-310/_rinterface_cffi_abi.py'
+      running build_ext
+      generating cffi module
+      'build/temp.linux-x86_64-cpython-310/_rinterface_cffi_api.c'
+      creating build/temp.linux-x86_64-cpython-310
+      building 'rpy2.rinterface_lib._bufferprotocol' extension
+      creating build/temp.linux-x86_64-cpython-310/src/rpy2/rinterface_lib
+      x86_64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g
+      -fwrapv -O2 -Wall -g -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer
+      -fstack-protector-strong -fstack-clash-protection -Wformat
+      -Werror=format-security -fcf-protection -g -fwrapv -O2 -fPIC
+      -I/scratch/ga442/.cache/uv/builds-v0/.tmpDnFAtf/include
+      -I/usr/include/python3.10 -c src/rpy2/rinterface_lib/_bufferprotocol.c -o
+      build/temp.linux-x86_64-cpython-310/src/rpy2/rinterface_lib/_bufferprotocol.o
+
+      [stderr]
+      /scratch/ga442/.cache/uv/builds-v0/.tmpDnFAtf/lib/python3.10/site-packages/setuptools/config/expand.py:126:
+      SetuptoolsWarning: File
+      '/scratch/ga442/.cache/uv/sdists-v9/pypi/rpy2-rinterface/3.6.6/7nVU5RRJ9kc7wuodSkq5o/src/README.md'
+      cannot be found
+        return '\n'.join(
+      /scratch/ga442/.cache/uv/builds-v0/.tmpDnFAtf/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:82:
+      SetuptoolsDeprecationWarning: `project.license` as a TOML table is
+      deprecated
+      !!
+
+
+      ********************************************************************************
+              Please use a simple string containing a SPDX expression for
+      `project.license`. You can also use `project.license-files`. (Both
+      options available on setuptools>=77.0.0).
+
+              By 2027-Feb-18, you need to update your project and remove
+      deprecated calls
+              or your builds will no longer be supported.
+
+              See
+      https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license
+      for details.
+
+      ********************************************************************************
+
+      !!
+        corresp(dist, value, root_dir)
+      file src/_rinterface_cffi_abi.py (for module _rinterface_cffi_abi) not
+      found
+      file src/_rinterface_cffi_abi.py (for module _rinterface_cffi_abi) not
+      found
+      src/rpy2/rinterface_lib/_bufferprotocol.c:2:10: fatal error: Python.h:
+      No such file or directory
+          2 | #include <Python.h>
+            |          ^~~~~~~~~~
+      compilation terminated.
+      error: command '/usr/bin/x86_64-linux-gnu-gcc' failed with exit code 1
+
+      hint: This error likely indicates that you need to install a library
+      that provides "Python.h" for `rpy2-rinterface@3.6.6`
+  help: `rpy2-rinterface` (v3.6.6) was included because `werm[notebooks]`
+        (v0.0.1) depends on `rpy2` (v3.6.7) which depends on `rpy2-rinterface`

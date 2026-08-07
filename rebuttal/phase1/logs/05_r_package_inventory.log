@@ -1,0 +1,10 @@
+charcoal FALSE
+changepoints FALSE
+inferchange FALSE
+moseg FALSE
+myglm2 FALSE
+fbi FALSE
+readr FALSE
+pracma FALSE
+devtools FALSE
+fnets FALSE

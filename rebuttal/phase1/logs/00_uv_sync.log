@@ -1,0 +1,206 @@
+Using CPython 3.10.20 interpreter at: /usr/bin/python3.10
+Creating virtual environment at: .venv
+   Building werm @ file:///scratch/ga442/gab-code-env/papers/WeightedERM-reference
+Downloading networkx (1.6MiB)
+Downloading numpy (16.0MiB)
+Downloading cuda-bindings (6.4MiB)
+Downloading triton (188.4MiB)
+Downloading torch (502.2MiB)
+Downloading scipy (35.9MiB)
+Downloading matplotlib (8.4MiB)
+Downloading jax (2.6MiB)
+Downloading ml-dtypes (4.8MiB)
+Downloading fonttools (4.7MiB)
+Downloading jaxlib (85.8MiB)
+Downloading nvidia-nvjitlink (38.9MiB)
+Downloading kiwisolver (1.6MiB)
+Downloading scikit-learn (9.2MiB)
+Downloading pillow (6.6MiB)
+ Downloaded networkx
+ Downloaded kiwisolver
+  × Failed to build `werm @
+  │ file:///scratch/ga442/gab-code-env/papers/WeightedERM-reference`
+  ├─▶ The build backend returned an error
+  ╰─▶ Call to `setuptools.build_meta.build_editable` failed (exit status: 1)
+
+      [stderr]
+      /scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:75:
+      _MissingDynamic: `readme` defined outside of `pyproject.toml` is
+      ignored.
+      !!
+
+
+      ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `readme = 'Reference implementation and notebooks for
+      WeightedERM (WERM), for high-dimensional change point detection.'`
+
+              According to the spec (see the link below), however, setuptools
+      CANNOT
+              consider this value unless `readme` is listed as `dynamic`.
+
+
+      https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `readme` under `dynamic`
+      or alternatively
+              remove the `[project]` table from your file and rely entirely on
+      other means of
+              configuration.
+
+      ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:75:
+      _MissingDynamic: `authors` defined outside of `pyproject.toml` is
+      ignored.
+      !!
+
+
+      ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `authors = 'Gabriel Arpino'`
+
+              According to the spec (see the link below), however, setuptools
+      CANNOT
+              consider this value unless `authors` is listed as `dynamic`.
+
+
+      https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `authors` under `dynamic`
+      or alternatively
+              remove the `[project]` table from your file and rely entirely on
+      other means of
+              configuration.
+
+      ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:75:
+      _MissingDynamic: `keywords` defined outside of `pyproject.toml` is
+      ignored.
+      !!
+
+
+      ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `keywords = ['python', 'changepoint detection', 'weighted erm']`
+
+              According to the spec (see the link below), however, setuptools
+      CANNOT
+              consider this value unless `keywords` is listed as `dynamic`.
+
+
+      https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `keywords` under `dynamic`
+      or alternatively
+              remove the `[project]` table from your file and rely entirely on
+      other means of
+              configuration.
+
+      ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:75:
+      _MissingDynamic: `classifiers` defined outside of `pyproject.toml` is
+      ignored.
+      !!
+
+
+      ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `classifiers = ['Development Status :: 3 - Alpha', 'Intended
+      Audience :: Science/Research', 'Programming Language :: Python ::
+      3', 'Programming Language :: Python :: 3.10', 'Operating System :: OS
+      Independent']`
+
+              According to the spec (see the link below), however, setuptools
+      CANNOT
+              consider this value unless `classifiers` is listed as `dynamic`.
+
+
+      https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `classifiers` under
+      `dynamic` or alternatively
+              remove the `[project]` table from your file and rely entirely on
+      other means of
+              configuration.
+
+      ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:82:
+      SetuptoolsWarning: `install_requires` overwritten in `pyproject.toml`
+      (dependencies)
+        corresp(dist, value, root_dir)
+      /scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:82:
+      SetuptoolsWarning: `extras_require` overwritten in `pyproject.toml`
+      (optional-dependencies)
+        corresp(dist, value, root_dir)
+      Traceback (most recent call last):
+        File "<string>", line 14, in <module>
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/build_meta.py",
+      line 481, in get_requires_for_build_editable
+          return self.get_requires_for_build_wheel(config_settings)
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/build_meta.py",
+      line 333, in get_requires_for_build_wheel
+          return self._get_build_requires(config_settings, requirements=[])
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/build_meta.py",
+      line 301, in _get_build_requires
+          self.run_setup()
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/build_meta.py",
+      line 317, in run_setup
+          exec(code, locals())
+        File "<string>", line 12, in <module>
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/__init__.py",
+      line 117, in setup
+          return distutils.core.setup(**attrs)  # type: ignore[return-value]
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/_distutils/core.py",
+      line 160, in setup
+          dist.parse_config_files()
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/_virtualenv.py",
+      line 20, in parse_config_files
+          result = old_parse_config_files(self, *args, **kwargs)
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/dist.py",
+      line 762, in parse_config_files
+          pyprojecttoml.apply_configuration(self, filename,
+      ignore_option_errors)
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/config/pyprojecttoml.py",
+      line 73, in apply_configuration
+          return _apply(dist, config, filepath)
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py",
+      line 54, in apply
+          _apply_project_table(dist, config, root_dir)
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py",
+      line 82, in _apply_project_table
+          corresp(dist, value, root_dir)
+        File
+      "/scratch/ga442/.cache/uv/builds-v0/.tmpeg5A3l/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py",
+      line 187, in _long_description
+          file = val.get("file") or ()
+      AttributeError: 'NoneType' object has no attribute 'get'
+
+      hint: This usually indicates a problem with the package or the build
+      environment.

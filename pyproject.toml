@@ -1,0 +1,32 @@
+[project]
+name = "WERM"
+version = "0.0.1"
+description = "Reference implementation and notebooks for WeightedERM"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+    "jax",
+    "jaxlib",
+    "jaxopt",
+    "joblib",
+    "matplotlib",
+    "numpy",
+    "scikit-learn",
+    "scipy",
+    "torch",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+notebooks = [
+    "ipykernel",
+    "kde-diffusion",
+    "kdepy",
+    "notebook",
+    "pandas",
+    "rpy2",
+    "seaborn",
+    "ucimlrepo",
+]
+
+[tool.uv]
+package = false
