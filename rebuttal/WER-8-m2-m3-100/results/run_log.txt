@@ -1,0 +1,37 @@
+WER-8 compact run log
+artifact_root: /scratch/ga442/gab-code-env/papers/WeightedERM-reference/rebuttal/WER-8-m2-m3-100/artifacts
+raw_records: 2400
+method_rows: 6400
+
+run: 20260808T162444Z_m2_3943953.json
+  workflow: m2
+  commit: 03ecdc6fd51f4fc58d110f5812cfb78d8cefa20b
+  command: /scratch/ga442/gab-code-env/papers/WeightedERM-reference/.venv-phase1/bin/python scripts/rebuttal/M2_upsample.py --workers 32
+  started_utc: 2026-08-08T16:24:44.386614+00:00
+  ended_utc: 2026-08-08T17:58:04.649614+00:00
+  effective_workers: 32
+  inner_threads: 1
+  seed_policy: SeedSequence([42, workflow code, parameter index, repetition])
+  task_count_started: 1600
+  exit_code: 0
+  competitor_dependency: {'available': False, 'note': "ModuleNotFoundError: No module named 'rpy2'"}
+
+run: 20260808T175848Z_m3_4109611.json
+  workflow: m3
+  commit: 03ecdc6fd51f4fc58d110f5812cfb78d8cefa20b
+  command: /scratch/ga442/gab-code-env/papers/WeightedERM-reference/.venv-phase1/bin/python scripts/rebuttal/M3_upsample.py --workers 32
+  started_utc: 2026-08-08T17:58:48.871184+00:00
+  ended_utc: 2026-08-08T18:15:26.823848+00:00
+  effective_workers: 32
+  inner_threads: 1
+  seed_policy: SeedSequence([42, workflow code, parameter index, repetition])
+  task_count_started: 800
+  exit_code: 0
+  competitor_dependency: {'available': False, 'note': "ModuleNotFoundError: No module named 'rpy2'"}
+
+method status totals:
+  m2/McScan/BLOCKED_DEPENDENCY: 1600
+  m2/WERM-unp/SUCCESS: 1600
+  m2/charcoal/BLOCKED_DEPENDENCY: 1600
+  m3/GLMBSA/BLOCKED_DEPENDENCY: 800
+  m3/WERM-CV/SUCCESS: 800

@@ -22,6 +22,16 @@ METHOD_STYLE = {
     "WERM-CV": ("WERM-CV", "#CC3311", "v", "-"),
 }
 
+plt.rcParams.update(
+    {
+        "font.family": "serif",
+        "font.serif": ["Computer Modern Roman", "Times New Roman", "DejaVu Serif"],
+        "mathtext.fontset": "cm",
+        "axes.linewidth": 1.5,
+        "savefig.dpi": 300,
+    }
+)
+
 
 def load_rows(artifact_root: Path) -> tuple[pd.DataFrame, list[dict]]:
     rows: list[dict] = []
@@ -93,15 +103,29 @@ def summarize(rows: pd.DataFrame) -> pd.DataFrame:
 
 
 def _errorbar(ax, summary: pd.DataFrame, method: str, x_column: str, metric: str):
-    data = summary[(summary.method == method) & summary[f"{metric}_mean"].notna()].sort_values("parameter_index")
+    if metric == "runtime":
+        mean_column, q25_column, q75_column = (
+            "runtime_mean_seconds",
+            "runtime_q25_seconds",
+            "runtime_q75_seconds",
+        )
+    else:
+        mean_column, q25_column, q75_column = (
+            f"{metric}_mean",
+            f"{metric}_q25",
+            f"{metric}_q75",
+        )
+    data = summary[(summary.method == method) & summary[mean_column].notna()].sort_values("parameter_index")
     if data.empty:
         return False
     label, color, marker, linestyle = METHOD_STYLE[method]
-    mean = data[f"{metric}_mean"].to_numpy(float)
-    q25 = data[f"{metric}_q25"].to_numpy(float)
-    q75 = data[f"{metric}_q75"].to_numpy(float)
+    mean = data[mean_column].to_numpy(float)
+    q25 = data[q25_column].to_numpy(float)
+    q75 = data[q75_column].to_numpy(float)
     ax.errorbar(
-        data[x_column], mean, yerr=np.vstack([mean - q25, q75 - mean]),
+        # Match the notebooks: asymmetric bar lengths are absolute distances
+        # from the mean to the 25th and 75th percentiles.
+        data[x_column], mean, yerr=np.vstack([np.abs(mean - q25), np.abs(q75 - mean)]),
         label=label, color=color, marker=marker, ls=linestyle,
         capsize=4, capthick=2, markersize=7, linewidth=3,
         markeredgewidth=1.5, markeredgecolor="white",
@@ -134,10 +158,17 @@ def make_figure(workflow: str, summary: pd.DataFrame, figures_dir: Path) -> None
         else:
             ax.set_ylim(bottom=0)
         ax.set_xlabel(x_label, fontsize=18)
+        if workflow == "m2":
+            ax.set_xticks(M2_DELTAS)
+        else:
+            ax.set_xticks(M3_KAPPAS)
+            ax.set_xticklabels([f"{value:.2f}" for value in M3_KAPPAS], rotation=45, ha="right")
         ax.set_ylabel(ylabel, fontsize=17)
-        ax.set_title(title, fontsize=18, pad=15)
+        ax.set_title(title, fontsize=18, pad=15, fontweight="bold")
         ax.spines[["top", "right"]].set_visible(False)
         ax.tick_params(axis="both", labelsize=12, width=1.3, length=5)
+        if workflow == "m3":
+            ax.tick_params(axis="x", labelsize=9)
 
     unavailable = [method for method in methods if method not in plotted]
     if unavailable:
@@ -149,8 +180,8 @@ def make_figure(workflow: str, summary: pd.DataFrame, figures_dir: Path) -> None
     handles, labels = axes[1].get_legend_handles_labels()
     if handles:
         fig.legend(handles, labels, loc="lower center", ncol=len(handles), fontsize=14, frameon=True)
-    fig.suptitle(f"{workflow.upper()}: 100-repetition exact-DP rerun", fontsize=20)
-    fig.tight_layout(rect=[0, 0.09, 1, 0.94])
+    fig.suptitle(f"{workflow.upper()}: 100-repetition exact-DP rerun", fontsize=20, fontweight="bold")
+    fig.tight_layout(rect=[0, 0.09, 1, 0.94], w_pad=4.0)
     figures_dir.mkdir(parents=True, exist_ok=True)
     stem = figures_dir / f"{workflow.upper()}_100_repetitions"
     fig.savefig(stem.with_suffix(".png"), dpi=300, bbox_inches="tight")

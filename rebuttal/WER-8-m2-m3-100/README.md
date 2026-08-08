@@ -1,8 +1,31 @@
 # WER-8: M2 and M3, 100-repetition exact-DP rerun
 
-Status: **IN PROGRESS**. The accepted exact-DP production path is merged at base commit
-`9b5d0036b71cb9b405775706817f65a720eceb24`. M2 and M3 are run sequentially;
-the figures and numeric conclusions below will be filled from the complete row-level audit.
+Status: **COMPLETE FOR AVAILABLE METHODS**. The accepted exact-DP production path is
+merged at base commit `9b5d0036b71cb9b405775706817f65a720eceb24`; the reruns used driver commit
+`03ecdc6fd51f4fc58d110f5812cfb78d8cefa20b`.
+
+## Results
+
+Every requested configuration has exactly 100 accounted repetitions.
+
+| Workflow | Accounted | WERM returned | Raised failures | Empty estimates | Wall time |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| M2 (16 deltas) | 1,600/1,600 | 1,600 | 0 | 139 (8.7%) | 93m 20s |
+| M3 (8 kappas) | 800/800 | 800 | 0 | 210 (26.2%) | 16m 38s |
+
+For M2, conditional mean normalized Hausdorff error was 0.252 at delta 0.5,
+reached 0.097 at delta 14.5, and was 0.100 at delta 15.5; mean selected
+changepoint count rose from 0.63 to 2.25. For M3, the conditional mean error
+was 0.215 at kappa 3.16 (37 nonempty estimates), 0.102 at kappa 31.62, and
+0.112 at kappa 44.72 (99 nonempty estimates). At kappa 1, 99/100 estimates
+were empty, so its single defined Hausdorff value is not a stable summary.
+
+`SUCCESS` means the production estimator returned without raising. Empty estimates
+remain successes but have undefined Hausdorff distance: the location panel excludes
+them, while the changepoint-count panel includes them as zero. No solver/tuning
+exception was raised. The current estimator API does not expose inner optimizer
+convergence flags, so silent optimizer non-convergence cannot be audited without an
+out-of-scope estimator change.
 
 ## Inspect
 
@@ -10,6 +33,8 @@ the figures and numeric conclusions below will be filled from the complete row-l
 - [M3 summary](results/m3_summary.csv)
 - [Per-repetition accounting](results/accounting.csv)
 - [Compact run log](results/run_log.txt)
+- [M2 paper-quality PDF](figures/M2_100_repetitions.pdf)
+- [M3 paper-quality PDF](figures/M3_100_repetitions.pdf)
 
 ![M2 results](figures/M2_100_repetitions.png)
 
@@ -41,8 +66,8 @@ honestly labelled unused by the logistic response generator.
 Run one experiment at a time, in the foreground:
 
 ```bash
-.venv-phase1/bin/python scripts/rebuttal/M2_upsample.py --workers 4
-.venv-phase1/bin/python scripts/rebuttal/M3_upsample.py --workers 4
+.venv-phase1/bin/python scripts/rebuttal/M2_upsample.py --workers 32
+.venv-phase1/bin/python scripts/rebuttal/M3_upsample.py --workers 32
 .venv-phase1/bin/python scripts/rebuttal/plot_WER8.py
 ```
 
