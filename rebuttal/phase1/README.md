@@ -8,6 +8,15 @@ bash scripts/rebuttal/setup_phase1.sh
 bash scripts/rebuttal/check_baseline.sh
 ```
 
+On this server, missing historical artifacts are checked read-only under
+`/scratch/ga442/Weighted-ERM`. An equivalent source tree can be selected with:
+
+```bash
+export WERM_HISTORICAL_ROOT=/path/to/Weighted-ERM
+```
+
+The setup and checks never write to or modify that historical tree.
+
 The environment is created in ignored directory `.venv-phase1`. Python and
 package versions from the local run are written to ignored file
 `rebuttal/phase1/.run.log`.

@@ -24,6 +24,9 @@ from WERM.estimators import weighted_erm
 
 
 ROOT = Path(__file__).resolve().parents[2]
+HISTORICAL_ROOT = Path(
+    os.environ.get("WERM_HISTORICAL_ROOT", "/scratch/ga442/Weighted-ERM")
+)
 
 
 def effective_workers(requested: int) -> tuple[int, int]:
@@ -141,15 +144,39 @@ def main() -> int:
     )
     print(f"M3: SMOKE (reduced logistic call, changepoints={m3.tolist()})")
 
-    myocardial_result = (
-        ROOT / "results/myocardial_infarction_posterior_exact_one_chgpt.pkl"
+    myocardial_candidates = (
+        ROOT / "results/myocardial_infarction_posterior_exact_one_chgpt.pkl",
+        HISTORICAL_ROOT
+        / "results/myocardial_infarction_posterior_exact_one_chgpt.pkl",
     )
-    if myocardial_result.exists():
-        print("Myocardial: SMOKE (archived posterior result is locally readable)")
-    else:
+    myocardial_result = next(
+        (path for path in myocardial_candidates if path.exists()), None
+    )
+    if myocardial_result is None:
         print(
             "Myocardial: BLOCKED "
-            "(UCI data are remote and the expected posterior result pickle is absent)"
+            "(UCI data are remote and no archived posterior result was found in "
+            "the reference or historical tree)"
+        )
+    else:
+        with myocardial_result.open("rb") as handle:
+            myocardial = pickle.load(handle)
+        required = {"posterior", "η_arr_subsampled", "chgpt_est", "L"}
+        missing = required.difference(myocardial)
+        if missing:
+            raise AssertionError(f"myocardial archive missing keys: {sorted(missing)}")
+        posterior = np.asarray(myocardial["posterior"], dtype=float)
+        eta = np.asarray(myocardial["η_arr_subsampled"], dtype=int)
+        if posterior.ndim != 1 or eta.shape != (posterior.size, 1):
+            raise AssertionError("myocardial posterior/configuration shape mismatch")
+        if not np.all(np.isfinite(posterior)):
+            raise AssertionError("myocardial posterior contains non-finite values")
+        print(
+            "Myocardial: SMOKE "
+            f"(read archived result from {myocardial_result}; "
+            f"posterior={posterior.shape}, eta={eta.shape}, "
+            f"chgpt_est={np.asarray(myocardial['chgpt_est']).tolist()}; "
+            "not a fresh reproduction)"
         )
 
     fred_pickle = ROOT / "FRED-MD data/fredmd_data.pkl"
@@ -159,9 +186,17 @@ def main() -> int:
     y_fred = np.asarray(fred["y"])
     if X_fred.shape[0] != y_fred.shape[0]:
         raise AssertionError("FRED-MD X/y row mismatch")
+    historical_fred_available = all(
+        (HISTORICAL_ROOT / relative_path).exists()
+        for relative_path in (
+            "FRED-MD data/fredmd.csv",
+            "FRED-MD data/fredmd_data.RData",
+        )
+    )
     print(
         "FRED-MD: SMOKE "
         f"(committed pickle loaded, X={X_fred.shape}, y={y_fred.shape}; "
+        f"historical raw/RData available={historical_fred_available}; "
         "R competitors not run)"
     )
     return 0
