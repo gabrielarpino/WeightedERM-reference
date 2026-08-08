@@ -21,4 +21,6 @@ uv pip compile \
   rebuttal/phase1/requirements.in
 ```
 
+The latest readable check log is saved at `results/test_output.txt`.
+
 See [baseline.md](baseline.md) for the five workflow classifications.

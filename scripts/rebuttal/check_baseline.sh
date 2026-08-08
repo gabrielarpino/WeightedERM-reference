@@ -15,6 +15,10 @@ export MKL_NUM_THREADS=1
 export VECLIB_MAXIMUM_THREADS=1
 export NUMEXPR_NUM_THREADS=1
 
+log_path="rebuttal/phase1/results/test_output.txt"
+mkdir -p "$(dirname "$log_path")"
+
 PYTHONPATH="$repo_root${PYTHONPATH:+:$PYTHONPATH}" \
   .venv-phase1/bin/python scripts/rebuttal/baseline_smoke.py \
-  --requested-workers "${WERM_PHASE1_WORKERS:-1}"
+  --requested-workers "${WERM_PHASE1_WORKERS:-1}" 2>&1 \
+  | tee "$log_path"
