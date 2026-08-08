@@ -1,6 +1,7 @@
 import WERM.gof
 import WERM.marginals
 import numpy as np
+import warnings
 import jax
 import jax
 import jax.numpy as jnp
@@ -13,9 +14,61 @@ from tqdm.auto import tqdm
 from tqdm import trange
 from joblib import Parallel, delayed
 
+def _exact_partition_search(
+    M,
+    Theta_hat,
+    y,
+    n,
+    L,
+    Delta_n,
+    gamma,
+    L_is_upper_bound,
+    brute_force,
+    partition_penalty,
+):
+    """Route production partition selection through the accepted exact DP."""
+    gamma_array = np.asarray(gamma)
+    if gamma_array.ndim != 0:
+        raise ValueError("gamma must be a finite scalar")
+    gamma = float(gamma_array)
+    if not np.isfinite(gamma):
+        raise ValueError("gamma must be finite")
+
+    if brute_force:
+        warnings.warn(
+            "brute_force is retained for API compatibility; production "
+            "estimators now use exact DP. Call chgpt_gof_bf_mem_eff directly "
+            "when a brute-force audit oracle is required.",
+            FutureWarning,
+            stacklevel=3,
+        )
+
+    if partition_penalty is None:
+        partition_penalty = WERM.gof.legacy_gamma_k_penalty(
+            n, L, Delta_n, gamma
+        )
+    elif gamma != 0.0:
+        raise ValueError(
+            "gamma and partition_penalty are alternative K-only penalties; "
+            "set gamma=0 when supplying partition_penalty"
+        )
+
+    result = WERM.gof.chgpt_gof_dp(
+        M,
+        Theta_hat,
+        y,
+        n,
+        L,
+        Delta_n,
+        L_is_upper_bound=L_is_upper_bound,
+        penalty=partition_penalty,
+    )
+    return result["changepoints"], result["total_objective"]
+
+
 ### --- HVI --- ###
 
-def HVI(X, y, M, L, pi, Delta_n, gamma, L_is_upper_bound=False, brute_force=False, return_gof=False, return_B_hat=False, num_EM_iters = 3, P_func=lambda beta : 0, inv_temp = 1.0, **kwargs):
+def HVI(X, y, M, L, pi, Delta_n, gamma, L_is_upper_bound=False, brute_force=False, return_gof=False, return_B_hat=False, num_EM_iters = 3, P_func=lambda beta : 0, inv_temp = 1.0, partition_penalty=None, **kwargs):
     """
     Heterogeneous Variational Inference
     """
@@ -133,15 +186,18 @@ def HVI(X, y, M, L, pi, Delta_n, gamma, L_is_upper_bound=False, brute_force=Fals
     # --- 2. Compute Change Point Estimates using Goodness-of-Fit ---
     Theta_hat = X @ B_hat
 
-    if brute_force and L > 1:
-        opt_chgpts, opt_gof = WERM.gof.chgpt_gof_bf_mem_eff(
-                M, Theta_hat, y, n, L, Delta_n, L_is_upper_bound=L_is_upper_bound,
-                γ=gamma, batch_size=4096, gof_opt_output=True
-            )
-    elif L > 1:
-        opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, Delta_n, γ=0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
-    else:
-        opt_chgpts, opt_gof = np.array([]), np.inf  # No change points, no goodness-of-fit
+    opt_chgpts, opt_gof = _exact_partition_search(
+        M,
+        Theta_hat,
+        y,
+        n,
+        L,
+        Delta_n,
+        gamma,
+        L_is_upper_bound,
+        brute_force,
+        partition_penalty,
+    )
         
 
     if return_gof:
@@ -449,7 +505,7 @@ def chgpt_two_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None):
     
     return best_gamma, best_chgpt_est
 
-def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force=False, return_gof=False, return_B_hat=False, P_func=lambda beta : 0, **kwargs):
+def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force=False, return_gof=False, return_B_hat=False, P_func=lambda beta : 0, partition_penalty=None, **kwargs):
     """
     Computes the change point estimate using the Weighted ERM method for a single L.
     (This function was provided as complete and is used as a helper).
@@ -541,19 +597,18 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
     # --- 2. Compute Change Point Estimates using Goodness-of-Fit ---
     Theta_hat = X @ B_hat
 
-    if brute_force and L > 1:
-        opt_chgpts, opt_gof = WERM.gof.chgpt_gof_bf_mem_eff(
-                M, Theta_hat, y, n, L, Delta_n, L_is_upper_bound=L_is_upper_bound,
-                γ=gamma, batch_size=4096, gof_opt_output=True
-            )
-    elif L > 1:
-        # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_binary_seg_mem_eff(M, Theta_hat, y, n, L, Delta_n, γ=gamma, min_window_size=30, gof_opt_output=True)
-        # opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, min_window_size=Delta_n, gamma=gamma, gof_opt_output=True, γ=gamma)
-        # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_dc(M, Theta_hat, y, n, L, Delta_n, γ=1.0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
-        # opt_chgpts, opt_gof = WERM.gof.chgpt_gof_divide_conquer(M, Theta_hat, y, n, L, Delta_n, γ=gamma, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
-        opt_chgpts, opt_gof = WERM.gof.chgpt_binary_segmentation(M, Theta_hat, y, n, L, Delta_n, γ=0, L_is_upper_bound=L_is_upper_bound, gof_opt_output=True)
-    else:
-        opt_chgpts, opt_gof = np.array([]), np.inf  # No change points, no goodness-of-fit
+    opt_chgpts, opt_gof = _exact_partition_search(
+        M,
+        Theta_hat,
+        y,
+        n,
+        L,
+        Delta_n,
+        gamma,
+        L_is_upper_bound,
+        brute_force,
+        partition_penalty,
+    )
         
 
     if return_gof:

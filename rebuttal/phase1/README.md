@@ -1,35 +1,47 @@
-# Phase 1 reproducibility setup
+# Phase 1 exact-DP production audit
 
-This first stacked change adds only the uv environment and reduced baseline
-checks. It does not execute or rewrite the research notebooks.
+**Overall status: PASS**
 
-```bash
-bash scripts/rebuttal/setup_phase1.sh
-bash scripts/rebuttal/check_baseline.sh
-```
+- DP/brute-force cases passed: **23 / 23**
+- Maximum objective difference: **0.000e+00**
+- Cases where DP was worse than greedy: **0**
+- Focused tests: **52 passed**
+- DP faster than brute force: **8 / 8** matched configurations (11.7x--302.2x)
+- Production route: **`weighted_erm` and `HVI` use exact DP**
+- Exact rerun: `bash scripts/rebuttal/check_phase1.sh`
 
-On this server, missing historical artifacts are checked read-only under
-`/scratch/ga442/Weighted-ERM`. An equivalent source tree can be selected with:
+![DP versus brute force](figures/01_dp_vs_bruteforce.png)
+![Greedy objective gap](figures/02_greedy_gap.png)
+![Measured runtime](figures/03_runtime.png)
+![K-only penalty selection](figures/04_penalty_selection.png)
+![Example partitions](figures/05_example_partitions.png)
 
-```bash
-export WERM_HISTORICAL_ROOT=/path/to/Weighted-ERM
-```
+## How to inspect this PR in five minutes
 
-The setup and checks never write to or modify that historical tree.
+1. Confirm all DP/brute-force rows pass in [cases.csv](results/cases.csv).
+2. Confirm there are no negative greedy gaps beyond `1e-9`.
+3. Look for points off the parity line and verify the marked K minimizes the penalized curve.
+4. Inspect the three partition panels for indexing mistakes.
+5. Confirm the production adapter calls DP and the legacy flag cannot select an oracle.
 
-The environment is created in ignored directory `.venv-phase1`. Python and
-package versions from the local run are written to ignored file
-`rebuttal/phase1/.run.log`.
+Measured repeats are in [timings.csv](results/timings.csv); command output is in
+[test_output.txt](results/test_output.txt). Promotion details are in
+[promotion.md](promotion.md); the pre-change workflow record is [baseline.md](baseline.md).
 
-To refresh the compiled lock deliberately:
+## Historical reference tree
 
-```bash
-uv pip compile \
-  --python-version 3.10 \
-  --output-file rebuttal/phase1/requirements.lock \
-  rebuttal/phase1/requirements.in
-```
+Artifacts not ported into this cleaner repository are checked read-only under
+`/scratch/ga442/Weighted-ERM` (override with `WERM_HISTORICAL_ROOT`). The
+Myocardial status is an archived-result `SMOKE`, based on structural validation
+of the historical posterior pickle; it is not a fresh reproduction. Historical
+FRED CSV/RData inputs were located but not rerun. No audit command writes to or
+modifies the historical tree, and no historical result pickle is copied into
+this repository. If that source tree is unavailable, Myocardial is `BLOCKED`.
 
-The latest readable check log is saved at `results/test_output.txt`.
-
-See [baseline.md](baseline.md) for the five workflow classifications.
+The accepted DP matches the live brute-force convention: `Delta` constrains
+adjacent internal changepoints but not endpoints, and K uses the first K columns
+of Z. The requested log-binomial penalty uses K-1 changepoints. No manuscript
+source is committed in this repository, so the formula was verified against the
+issue specification; the legacy helper separately matches the live gamma formula.
+The production adapter now routes `weighted_erm` and `HVI` through exact DP;
+CV, extended, elbow, posterior, and experiment paths delegate to those functions.
