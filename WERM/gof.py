@@ -669,6 +669,228 @@ def chgpt_gof_divide_conquer(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound=Fals
             return best_η
             return best_η
 
+### --- Exact dynamic-programming GoF candidate (not production dispatch) --- ###
+
+def zero_k_penalty(K):
+    """Return the zero partition penalty for integer segment count K."""
+    if not isinstance(K, (int, np.integer)) or K < 1:
+        raise ValueError("K must be a positive integer")
+    return 0.0
+
+
+def manuscript_log_binomial_k_penalty(n, penalty_weight):
+    """Build p(K) = penalty_weight * log binom(n - 1, K - 1)."""
+    if not isinstance(n, (int, np.integer)) or n < 1:
+        raise ValueError("n must be a positive integer")
+    if not np.isfinite(penalty_weight):
+        raise ValueError("penalty_weight must be finite")
+
+    def penalty(K):
+        if not isinstance(K, (int, np.integer)) or not 1 <= K <= n:
+            raise ValueError("K must be an integer in 1, ..., n")
+        # The issue specification uses K - 1 changepoints.  No manuscript
+        # source is committed here, so this is the formula that can be audited.
+        log_count = (
+            scipy.special.gammaln(n)
+            - scipy.special.gammaln(K)
+            - scipy.special.gammaln(n - K + 1)
+        )
+        return float(penalty_weight * log_count)
+
+    return penalty
+
+
+def legacy_gamma_k_penalty(n, Lmax, Delta, gamma):
+    """Build the K-only penalty used by the live brute-force implementation."""
+    for name, value in (("n", n), ("Lmax", Lmax), ("Delta", Delta)):
+        if not isinstance(value, (int, np.integer)) or value < 1:
+            raise ValueError(f"{name} must be a positive integer")
+    if not np.isfinite(gamma):
+        raise ValueError("gamma must be finite")
+
+    def penalty(K):
+        if not isinstance(K, (int, np.integer)) or not 1 <= K <= Lmax:
+            raise ValueError("K must be an integer in 1, ..., Lmax")
+        if K == 1:
+            return 0.0
+        changepoints = K - 1
+        effective_positions = (n - 1) - (changepoints - 1) * (Delta - 1)
+        if effective_positions < changepoints:
+            raise ValueError("K and Delta define an infeasible partition")
+        log_configurations = (
+            scipy.special.gammaln(effective_positions + 1)
+            - scipy.special.gammaln(changepoints + 1)
+            - scipy.special.gammaln(effective_positions - changepoints + 1)
+        )
+        # This matches gamma * log(Lmax * num_total_configs) in the live code.
+        return float(gamma * (np.log(Lmax) + log_configurations))
+
+    return penalty
+
+
+def table_k_penalty(values):
+    """Build a finite K-only penalty from a small mapping or sequence."""
+    if hasattr(values, "items"):
+        table = {int(K): float(value) for K, value in values.items()}
+    else:
+        table = {K: float(value) for K, value in enumerate(values, start=1)}
+    if not table or any(K < 1 or not np.isfinite(value) for K, value in table.items()):
+        raise ValueError("penalty table must contain finite values for positive K")
+
+    def penalty(K):
+        if K not in table:
+            raise ValueError(f"penalty table has no value for K={K}")
+        return table[K]
+
+    return penalty
+
+
+def _dp_loss_prefixes(M, Z, y, n, L):
+    """Evaluate observation losses once and return column-wise prefix sums."""
+    Z_array = np.asarray(Z)
+    y_array = np.asarray(y)
+    if Z_array.ndim == 1 and L == 1:
+        Z_array = Z_array.reshape(n, 1)
+    if Z_array.ndim != 2 or Z_array.shape[0] != n or Z_array.shape[1] < L:
+        raise ValueError("Z must have shape (n, at least L)")
+    if y_array.ndim != 1 or y_array.shape[0] != n:
+        raise ValueError("y must have shape (n,)")
+
+    losses = np.empty((n, L), dtype=float)
+    for column in range(L):
+        column_losses = np.asarray(M(Z_array[:, column], y_array), dtype=float)
+        if column_losses.shape != (n,):
+            raise ValueError("M must return one loss per observation")
+        losses[:, column] = column_losses
+    if not np.all(np.isfinite(losses)):
+        raise ValueError("M produced a non-finite loss")
+    return np.vstack([np.zeros((1, L)), np.cumsum(losses, axis=0)])
+
+
+def chgpt_gof_dp(
+    M,
+    Z,
+    y,
+    n,
+    L,
+    Delta,
+    *,
+    L_is_upper_bound=False,
+    penalty=None,
+):
+    """Exactly minimize the current partition objective by dynamic programming.
+
+    This candidate is intentionally not wired into ``weighted_erm``.  It matches
+    the brute-force feasible set: endpoints have no Delta restriction, adjacent
+    internal changepoints are at least Delta apart, and K uses ``Z[:, :K]``.
+    A penalty is either a callable receiving only integer K or a finite table.
+
+    Ties are deterministic: candidates are visited in increasing boundary order
+    and the first equal minimum is retained.
+
+    The recurrence uses O(L n^2) time and O(L n) memory.
+    """
+    for name, value in (("n", n), ("L", L), ("Delta", Delta)):
+        if not isinstance(value, (int, np.integer)) or value < 1:
+            raise ValueError(f"{name} must be a positive integer")
+    if L > n:
+        raise ValueError("L cannot exceed n")
+
+    if penalty is None:
+        penalty_function = zero_k_penalty
+    elif callable(penalty):
+        penalty_function = penalty
+    elif hasattr(penalty, "__iter__"):
+        penalty_function = table_k_penalty(penalty)
+    else:
+        raise TypeError("penalty must be a K-only callable or finite table")
+
+    prefixes = _dp_loss_prefixes(M, Z, y, n, L)
+
+    def segment_loss(start, end, column):
+        return prefixes[end, column] - prefixes[start, column]
+
+    # dp[k, t] is the best raw loss for observations 0, ..., t-1 using k
+    # segments when t will be an internal boundary.  Keeping t as a boundary
+    # state preserves the live code's lack of endpoint spacing.
+    dp = np.full((L, n), np.inf)
+    backpointer = np.full((L, n), -1, dtype=int)
+    if L > 1:
+        for t in range(1, n):
+            dp[1, t] = segment_loss(0, t, 0)
+        for j in range(2, L):
+            for t in range(1, n):
+                best = np.inf
+                best_previous = -1
+                for previous in range(1, t - Delta + 1):
+                    candidate = dp[j - 1, previous] + segment_loss(
+                        previous, t, j - 1
+                    )
+                    if candidate < best:
+                        best = candidate
+                        best_previous = previous
+                dp[j, t] = best
+                backpointer[j, t] = best_previous
+
+    raw_by_K = {}
+    changepoints_by_K = {}
+    raw_by_K[1] = float(segment_loss(0, n, 0))
+    changepoints_by_K[1] = np.array([], dtype=int)
+
+    for K in range(2, L + 1):
+        j = K - 1
+        best = np.inf
+        last_boundary = -1
+        for t in range(1, n):
+            candidate = dp[j, t] + segment_loss(t, n, K - 1)
+            if candidate < best:
+                best = candidate
+                last_boundary = t
+        if not np.isfinite(best):
+            raw_by_K[K] = np.inf
+            changepoints_by_K[K] = np.array([], dtype=int)
+            continue
+
+        changepoints = [last_boundary]
+        boundary = last_boundary
+        for current_j in range(j, 1, -1):
+            boundary = backpointer[current_j, boundary]
+            changepoints.append(boundary)
+        changepoints.reverse()
+        raw_by_K[K] = float(best)
+        changepoints_by_K[K] = np.asarray(changepoints, dtype=int)
+
+    penalty_by_K = {}
+    total_by_K = {}
+    for K in range(1, L + 1):
+        if not np.isfinite(raw_by_K[K]):
+            penalty_by_K[K] = np.nan
+            total_by_K[K] = np.inf
+            continue
+        value = float(penalty_function(int(K)))
+        if not np.isfinite(value):
+            raise ValueError("partition penalties must be finite")
+        penalty_by_K[K] = value
+        total_by_K[K] = raw_by_K[K] + value
+
+    candidate_K = range(1, L + 1) if L_is_upper_bound else (L,)
+    feasible_K = [K for K in candidate_K if np.isfinite(total_by_K[K])]
+    if not feasible_K:
+        raise ValueError("K and Delta define an infeasible partition")
+    selected_K = min(feasible_K, key=lambda K: (total_by_K[K], K))
+
+    return {
+        "changepoints": changepoints_by_K[selected_K].copy(),
+        "K": selected_K,
+        "raw_objective": raw_by_K[selected_K],
+        "penalty": penalty_by_K[selected_K],
+        "total_objective": total_by_K[selected_K],
+        "raw_by_K": raw_by_K,
+        "penalty_by_K": penalty_by_K,
+        "total_by_K": total_by_K,
+        "changepoints_by_K": changepoints_by_K,
+    }
+
 ### --- Memory efficient brute force GoF --- ###
 
 # --- Helper Function ---
