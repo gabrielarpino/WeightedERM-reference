@@ -1,0 +1,14 @@
+# Core dependencies mirrored from setup.py, plus Phase 1 checks.
+jax
+jaxlib
+jaxopt
+joblib
+matplotlib
+numpy
+pandas
+pytest
+scikit-learn
+scipy
+torch
+tqdm
+ucimlrepo

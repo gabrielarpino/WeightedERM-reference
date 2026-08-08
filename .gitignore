@@ -140,6 +140,7 @@ celerybeat-schedule
 
 # virtualenv
 .venv
+.venv-phase1/
 venv/
 ENV/
 
@@ -476,4 +477,7 @@ results/**/*.pkl
 
 # (optional, redundant) explicitly ignore results/ pickles
 results/*.pkl
+
+# Local Phase 1 environment/run provenance
+rebuttal/phase1/.run.log
 
