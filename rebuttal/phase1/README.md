@@ -1,26 +1,35 @@
-# Phase 1 reproducibility setup
+# Phase 1 exact-DP audit
 
-This first stacked change adds only the uv environment and reduced baseline
-checks. It does not execute or rewrite the research notebooks.
+**Overall status: PASS**
 
-```bash
-bash scripts/rebuttal/setup_phase1.sh
-bash scripts/rebuttal/check_baseline.sh
-```
+- DP/brute-force cases passed: **23 / 23**
+- Maximum objective difference: **0.000e+00**
+- Cases where DP was worse than greedy: **0**
+- Focused tests: **46 passed**
+- DP faster than brute force: **8 / 8** matched configurations (6.6x--291.6x)
+- Exact rerun: `bash scripts/rebuttal/check_phase1.sh`
 
-The environment is created in ignored directory `.venv-phase1`. Python and
-package versions from the local run are written to ignored file
-`rebuttal/phase1/.run.log`.
+![DP versus brute force](figures/01_dp_vs_bruteforce.png)
+![Greedy objective gap](figures/02_greedy_gap.png)
+![Measured runtime](figures/03_runtime.png)
+![K-only penalty selection](figures/04_penalty_selection.png)
+![Example partitions](figures/05_example_partitions.png)
 
-To refresh the compiled lock deliberately:
+## How to inspect this PR in five minutes
 
-```bash
-uv pip compile \
-  --python-version 3.10 \
-  --output-file rebuttal/phase1/requirements.lock \
-  rebuttal/phase1/requirements.in
-```
+1. Confirm all DP/brute-force rows pass in [cases.csv](results/cases.csv).
+2. Confirm there are no negative greedy gaps beyond `1e-9`.
+3. Look for points off the parity line and verify the marked K minimizes the penalized curve.
+4. Inspect the three partition panels for indexing mistakes.
+5. Scan the diff to confirm the production estimator dispatch is unchanged.
 
-The latest readable check log is saved at `results/test_output.txt`.
+Measured repeats are in [timings.csv](results/timings.csv); command output is in
+[test_output.txt](results/test_output.txt). The pre-change workflow record is in
+[baseline.md](baseline.md).
 
-See [baseline.md](baseline.md) for the five workflow classifications.
+The DP candidate matches the live brute-force convention: `Delta` constrains
+adjacent internal changepoints but not endpoints, and K uses the first K columns
+of Z. The requested log-binomial penalty uses K-1 changepoints. No manuscript
+source is committed in this repository, so the formula was verified against the
+issue specification; the legacy helper separately matches the live gamma formula.
+The production/default search path is unchanged.

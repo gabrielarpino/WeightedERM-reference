@@ -1,16 +1,30 @@
-WARNING:2026-08-08 02:53:22,447:jax._src.xla_bridge:794: An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+WARNING:2026-08-08 03:12:00,203:jax._src.xla_bridge:794: An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
 EFFECTIVE WORKERS: 1 (requested=1, affinity=48, cap=32)
 Starting brute-force search over 17 configurations, with L = 2 and k = 1 change points.
-Brute-force Search:   0%|          | 0/1 [00:00<?, ?it/s]Brute-force Search: 100%|██████████| 1/1 [00:00<00:00,  9.49it/s]Brute-force Search: 100%|██████████| 1/1 [00:00<00:00,  9.47it/s]
+Brute-force Search:   0%|          | 0/1 [00:00<?, ?it/s]Brute-force Search: 100%|██████████| 1/1 [00:00<00:00,  9.74it/s]Brute-force Search: 100%|██████████| 1/1 [00:00<00:00,  9.73it/s]
 Search complete. Optimal GoF score: 0.5504
 M1: SMOKE (reduced sparse-linear call, changepoints=[8])
 Starting brute-force search over 171 configurations, with L = 3 and k = 2 change points.
-Brute-force Search:   0%|          | 0/1 [00:00<?, ?it/s]Brute-force Search: 100%|██████████| 1/1 [00:00<00:00, 17.02it/s]
+Brute-force Search:   0%|          | 0/1 [00:00<?, ?it/s]Brute-force Search: 100%|██████████| 1/1 [00:00<00:00, 17.00it/s]
 Search complete. Optimal GoF score: 0.1495
 M2: SMOKE (reduced differential-sparsity call, changepoints=[11, 13])
 Starting brute-force search over 17 configurations, with L = 2 and k = 1 change points.
-Brute-force Search:   0%|          | 0/1 [00:00<?, ?it/s]Brute-force Search: 100%|██████████| 1/1 [00:00<00:00, 23.89it/s]
+Brute-force Search:   0%|          | 0/1 [00:00<?, ?it/s]Brute-force Search: 100%|██████████| 1/1 [00:00<00:00, 23.65it/s]
 Search complete. Optimal GoF score: 10.8361
 M3: SMOKE (reduced logistic call, changepoints=[7])
 Myocardial: BLOCKED (UCI data are remote and the expected posterior result pickle is absent)
 FRED-MD: SMOKE (committed pickle loaded, X=(773, 114), y=(773,); R competitors not run)
+..............................................                           [100%]
+=============================== warnings summary ===============================
+.venv-phase1/lib/python3.10/site-packages/jaxopt/__init__.py:59
+  /scratch/ga442/gab-code-env/papers/WeightedERM-reference/.venv-phase1/lib/python3.10/site-packages/jaxopt/__init__.py:59: DeprecationWarning: JAXopt is no longer maintained. See https://docs.jax.dev/en/latest/ for alternatives.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+46 passed, 1 warning in 2.33s
+WARNING:2026-08-08 03:12:05,676:jax._src.xla_bridge:794: An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+EFFECTIVE WORKERS: 1 (requested=1, affinity=48, cap=32)
+AUDIT MODE: quick, sequential, single-process timing
+DP/BRUTE CASES PASSED: 23/23
+MAXIMUM OBJECTIVE DIFFERENCE: 0.000e+00
+DP-WORSE-THAN-GREEDY CASES: 0
