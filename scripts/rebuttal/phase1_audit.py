@@ -457,7 +457,7 @@ def write_readme(root, rows, timing_rows, test_count):
         brute_median = np.median(grouped[(scenario, n, K, "brute force")])
         speedups.append(brute_median / dp_median)
     faster_count = sum(speedup > 1 for speedup in speedups)
-    content = f"""# Phase 1 exact-DP audit
+    content = f"""# Phase 1 exact-DP production audit
 
 **Overall status: {overall}**
 
@@ -466,6 +466,7 @@ def write_readme(root, rows, timing_rows, test_count):
 - Cases where DP was worse than greedy: **{worse}**
 - Focused tests: **{test_count} passed**
 - DP faster than brute force: **{faster_count} / {len(speedups)}** matched configurations ({min(speedups):.1f}x--{max(speedups):.1f}x)
+- Production route: **`weighted_erm` and `HVI` use exact DP**
 - Exact rerun: `bash scripts/rebuttal/check_phase1.sh`
 
 ![DP versus brute force](figures/01_dp_vs_bruteforce.png)
@@ -480,11 +481,11 @@ def write_readme(root, rows, timing_rows, test_count):
 2. Confirm there are no negative greedy gaps beyond `1e-9`.
 3. Look for points off the parity line and verify the marked K minimizes the penalized curve.
 4. Inspect the three partition panels for indexing mistakes.
-5. Scan the diff to confirm the production estimator dispatch is unchanged.
+5. Confirm the production adapter calls DP and the legacy flag cannot select an oracle.
 
 Measured repeats are in [timings.csv](results/timings.csv); command output is in
-[test_output.txt](results/test_output.txt). The pre-change workflow record is in
-[baseline.md](baseline.md).
+[test_output.txt](results/test_output.txt). Promotion details are in
+[promotion.md](promotion.md); the pre-change workflow record is [baseline.md](baseline.md).
 
 ## Historical reference tree
 
@@ -496,12 +497,13 @@ FRED CSV/RData inputs were located but not rerun. No audit command writes to or
 modifies the historical tree, and no historical result pickle is copied into
 this repository. If that source tree is unavailable, Myocardial is `BLOCKED`.
 
-The DP candidate matches the live brute-force convention: `Delta` constrains
+The accepted DP matches the live brute-force convention: `Delta` constrains
 adjacent internal changepoints but not endpoints, and K uses the first K columns
 of Z. The requested log-binomial penalty uses K-1 changepoints. No manuscript
 source is committed in this repository, so the formula was verified against the
 issue specification; the legacy helper separately matches the live gamma formula.
-The production/default search path is unchanged.
+The production adapter now routes `weighted_erm` and `HVI` through exact DP;
+CV, extended, elbow, posterior, and experiment paths delegate to those functions.
 """
     (root / "README.md").write_text(content, encoding="utf-8")
 

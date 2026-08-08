@@ -29,7 +29,7 @@ audit_status=0
 bash scripts/rebuttal/check_baseline.sh
 baseline_status=$?
 
-.venv-phase1/bin/python -m pytest -q tests/test_phase1_dp.py 2>&1 \
+.venv-phase1/bin/python -m pytest -q tests/test_phase1_dp.py tests/test_dp_default.py 2>&1 \
   | tee -a "$log_path"
 pytest_status=${PIPESTATUS[0]}
 

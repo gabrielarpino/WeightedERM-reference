@@ -669,7 +669,7 @@ def chgpt_gof_divide_conquer(M, Z, y, n, L, Delta, γ=1.0, L_is_upper_bound=Fals
             return best_η
             return best_η
 
-### --- Exact dynamic-programming GoF candidate (not production dispatch) --- ###
+### --- Exact dynamic-programming GoF search --- ###
 
 def zero_k_penalty(K):
     """Return the zero partition penalty for integer segment count K."""
@@ -780,8 +780,8 @@ def chgpt_gof_dp(
 ):
     """Exactly minimize the current partition objective by dynamic programming.
 
-    This candidate is intentionally not wired into ``weighted_erm``.  It matches
-    the brute-force feasible set: endpoints have no Delta restriction, adjacent
+    This search matches the brute-force feasible set: endpoints have no Delta
+    restriction, adjacent
     internal changepoints are at least Delta apart, and K uses ``Z[:, :K]``.
     A penalty is either a callable receiving only integer K or a finite table.
 
@@ -867,7 +867,12 @@ def chgpt_gof_dp(
             penalty_by_K[K] = np.nan
             total_by_K[K] = np.inf
             continue
-        value = float(penalty_function(int(K)))
+        try:
+            value = float(penalty_function(int(K)))
+        except TypeError as error:
+            raise TypeError(
+                "partition penalty must be callable as penalty(K) with integer K only"
+            ) from error
         if not np.isfinite(value):
             raise ValueError("partition penalties must be finite")
         penalty_by_K[K] = value

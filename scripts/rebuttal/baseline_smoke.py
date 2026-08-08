@@ -71,7 +71,7 @@ def run_weighted_erm_case(
         L=L,
         Delta_n=1,
         gamma=0.0,
-        brute_force=True,
+        brute_force=False,
         return_gof=True,
         P_func=penalty,
     )
@@ -94,6 +94,7 @@ def main() -> int:
         "EFFECTIVE WORKERS: "
         f"{workers} (requested={args.requested_workers}, affinity={available}, cap=32)"
     )
+    print("PARTITION SEARCH: exact DP production route")
 
     squared_loss = lambda prediction, outcome: jnp.square(prediction - outcome)
     logistic_loss = (
@@ -186,6 +187,23 @@ def main() -> int:
     y_fred = np.asarray(fred["y"])
     if X_fred.shape[0] != y_fred.shape[0]:
         raise AssertionError("FRED-MD X/y row mismatch")
+    fred_subset_n = 24
+    fred_subset_p = 6
+    fred_estimate, fred_objective = weighted_erm(
+        X=X_fred[:fred_subset_n, :fred_subset_p],
+        y=y_fred[:fred_subset_n],
+        M=squared_loss,
+        L=2,
+        Delta_n=1,
+        gamma=0.0,
+        return_gof=True,
+    )
+    fred_estimate = np.asarray(fred_estimate, dtype=int)
+    if fred_estimate.shape != (1,) or not np.isfinite(float(fred_objective)):
+        raise AssertionError(
+            "FRED-MD promoted-path subset returned an invalid estimate/objective"
+        )
+
     historical_fred_available = all(
         (HISTORICAL_ROOT / relative_path).exists()
         for relative_path in (
@@ -197,6 +215,8 @@ def main() -> int:
         "FRED-MD: SMOKE "
         f"(committed pickle loaded, X={X_fred.shape}, y={y_fred.shape}; "
         f"historical raw/RData available={historical_fred_available}; "
+        f"exact-DP subset n={fred_subset_n}, p={fred_subset_p}, "
+        f"changepoints={fred_estimate.tolist()}; "
         "R competitors not run)"
     )
     return 0
