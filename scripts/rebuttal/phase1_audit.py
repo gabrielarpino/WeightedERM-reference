@@ -486,6 +486,16 @@ Measured repeats are in [timings.csv](results/timings.csv); command output is in
 [test_output.txt](results/test_output.txt). The pre-change workflow record is in
 [baseline.md](baseline.md).
 
+## Historical reference tree
+
+Artifacts not ported into this cleaner repository are checked read-only under
+`/scratch/ga442/Weighted-ERM` (override with `WERM_HISTORICAL_ROOT`). The
+Myocardial status is an archived-result `SMOKE`, based on structural validation
+of the historical posterior pickle; it is not a fresh reproduction. Historical
+FRED CSV/RData inputs were located but not rerun. No audit command writes to or
+modifies the historical tree, and no historical result pickle is copied into
+this repository. If that source tree is unavailable, Myocardial is `BLOCKED`.
+
 The DP candidate matches the live brute-force convention: `Delta` constrains
 adjacent internal changepoints but not endpoints, and K uses the first K columns
 of Z. The requested log-binomial penalty uses K-1 changepoints. No manuscript
