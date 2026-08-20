@@ -33,7 +33,7 @@ def test_redo_notebooks_do_not_subtract_one_from_competitor_indices():
     assert "c - 1 for c" not in code
     assert "cp = cp - 1" not in code
     assert "cp < n-1" not in code
-    assert "cp[(cp > 0) & (cp < n)]" in code
+    assert "cp[(cp > 1) & (cp < n)]" in code
 
 
 def test_redo_notebooks_persist_uniform_status_and_raw_estimates():
