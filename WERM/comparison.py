@@ -65,6 +65,10 @@ def DCDP(X_unit, Y_unit, λ_list = [0.1, 1, 5, 10], γ_list = [100, 500, 1000]):
     TESTED.
     """
 
+    # DCDP's loss_func computes `Y - X @ beta` where `X @ beta` is (m, 1).
+    # A 1-D Y broadcasts to (m, m) and silently destroys the objective.
+    Y_unit = np.asarray(Y_unit).reshape(-1, 1)
+    assert Y_unit.ndim == 2 and Y_unit.shape[1] == 1, "DCDP requires Y of shape (n, 1)"
     n = Y_unit.shape[0]
     # The algorithm requires dividing the training set into two parts, 
     # so we do that here:
@@ -84,7 +88,7 @@ def DCDP(X_unit, Y_unit, λ_list = [0.1, 1, 5, 10], γ_list = [100, 500, 1000]):
     grid = np.floor(np.arange(1, grid_n + 1) * step).astype(int)
     cp_loc, obj = dcdp.dp_grid((Y_unit, X_unit), grid, best_lam, best_gamma)
     cp_loc_refined = dcdp.local_refine((Y_unit, X_unit), cp_loc)
-    return cp_loc_refined
+    return np.asarray(cp_loc_refined, dtype=int).reshape(-1)
 
 def DPDU(X_unit, Y_unit, λs = [0.01, 0.1, 1, 2], ζs = [10.0, 15.0, 20.0]):
     """ Dynamic Programming with Dynamic Updates (Xu, Wang, Zhao, Yu 2022).
