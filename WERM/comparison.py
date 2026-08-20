@@ -53,7 +53,9 @@ def DP(X_unit, Y_unit, Δ, λs = [0.01, 0.1, 0.5, 1, 2, 4], γs = [0.01, 0.1, 1,
         best_res = chgpts.DP_regression(np.array(Y_unit), np.array(X_unit),γ_min, λ_min, Δ)
         return best_res[1] # The final idx contains the chgpt estimate list
 
-def DCDP(X_unit, Y_unit, λ_list = [0.1, 1, 5, 10], γ_list = [100, 500, 1000]):
+def DCDP(X_unit, Y_unit,
+         λ_list = [0.01, 0.1, 1, 5, 10],
+         γ_list = list(np.logspace(0, 3, 7))):
     """ Divide and Conquer Dynamic Programming (DCDP) for changepoint detection (Li, Wang, Rinaldo 2023). 
     X_unit: n x p matrix of covariates, where n is the number of observations and p is the number of covariates. Entries i.i.d N(0, 1).
     Y_unit: n x 1 vector of responses. Assumes a sparse signal β with sparsity d₀.
@@ -83,10 +85,14 @@ def DCDP(X_unit, Y_unit, λ_list = [0.1, 1, 5, 10], γ_list = [100, 500, 1000]):
 
     # Run the algorithm on the full dataset and return the best changepoint
     best_lam, best_gamma = param_best
+    if best_gamma in (min(γ_list), max(γ_list)):
+        print(f"WARNING: DCDP selected gamma at grid boundary ({best_gamma}); widen γ_list")
+    n_half = len(Y_train)
+    gamma_full = best_gamma * (n / n_half)
     grid_n = min(dcdp.grid_n, n - 1)
     step = n / (grid_n + 1)
     grid = np.floor(np.arange(1, grid_n + 1) * step).astype(int)
-    cp_loc, obj = dcdp.dp_grid((Y_unit, X_unit), grid, best_lam, best_gamma)
+    cp_loc, obj = dcdp.dp_grid((Y_unit, X_unit), grid, best_lam, gamma_full)
     cp_loc_refined = dcdp.local_refine((Y_unit, X_unit), cp_loc)
     return np.asarray(cp_loc_refined, dtype=int).reshape(-1)
 
