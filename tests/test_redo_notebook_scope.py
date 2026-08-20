@@ -49,3 +49,19 @@ def test_redo_notebooks_persist_uniform_status_and_raw_estimates():
         assert "results['trial_records'] = parallel_results" in code
         assert "_summarize_setting(" in code
         assert "closest_point_distance(cp, true_chgpts)" not in code
+
+
+def test_redo_smoke_manifests_are_explicit_and_bounded():
+    m1 = _code("M1_upsample_redo.ipynb")
+    m2 = _code("M2_upsample_redo.ipynb")
+    m3 = _code("M3_upsample_redo.ipynb")
+    for code in (m1, m2, m3):
+        assert "SMOKE_MODE = os.environ.get('WERM_SMOKE') == '1'" in code
+        assert "num_trials = 5" in code
+        assert "min(int(os.environ.get('WERM_N_JOBS', '12')), 36)" in code
+        assert "filename.replace('.pkl', '_smoke.pkl')" in code
+    assert "delta_list = np.array([1.0, 3.0, 6.0])" in m1
+    assert "delta_list = np.array([0.5, 3.5, 9.5])" in m2
+    assert "kappa_list = np.array([1.0, 5.0, np.sqrt(1000.0)])" in m3
+    assert "γ_list = [100, 500, 1000]" not in m1
+    assert "except: \n" not in m1
