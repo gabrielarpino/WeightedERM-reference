@@ -34,3 +34,18 @@ def test_redo_notebooks_do_not_subtract_one_from_competitor_indices():
     assert "cp = cp - 1" not in code
     assert "cp < n-1" not in code
     assert "cp[(cp > 0) & (cp < n)]" in code
+
+
+def test_redo_notebooks_persist_uniform_status_and_raw_estimates():
+    for path in (
+        "M1_upsample_redo.ipynb",
+        "M2_upsample_redo.ipynb",
+        "M3_upsample_redo.ipynb",
+    ):
+        code = _code(path)
+        assert "_evaluate_changepoints(cp, true_chgpts, n)" in code
+        assert "raw_cp_{method_name}" in code
+        assert "status_{method_name}" in code
+        assert "results['trial_records'] = parallel_results" in code
+        assert "_summarize_setting(" in code
+        assert "closest_point_distance(cp, true_chgpts)" not in code
