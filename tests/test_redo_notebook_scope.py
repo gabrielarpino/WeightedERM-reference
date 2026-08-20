@@ -42,6 +42,14 @@ def test_m1_redo_maps_moseg_r_null_to_an_empty_estimate():
     assert "cp = np.array([], dtype=int)" in code
 
 
+def test_m2_redo_prewarms_charcoal_once_in_the_parent_process():
+    code = _code("M2_upsample_redo.ipynb")
+    assert code.index("charcoal_thresholds = {}") < code.index("Parallel(n_jobs=n_jobs")
+    assert "charcoal_thresholds[key] = WERM.comparison._get_charcoal_threshold(*key)" in code
+    assert "WERM.comparison._CHARCOAL_THRESH_CACHE[key] = charcoal_thresholds[key]" in code
+    assert "charcoal_thresholds=charcoal_thresholds" in code
+
+
 def test_redo_notebooks_persist_uniform_status_and_raw_estimates():
     for path in (
         "M1_upsample_redo.ipynb",
