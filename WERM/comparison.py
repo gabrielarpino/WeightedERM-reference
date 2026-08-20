@@ -41,13 +41,13 @@ def DP(X_unit, Y_unit, Δ, λs = [0.01, 0.1, 0.5, 1, 2, 4], γs = [0.01, 0.1, 1,
     
     with conversion.localconverter(converter):
         DP_res = chgpts.CV_search_DP_regression(np.array(Y_unit), np.array(X_unit), ro.FloatVector(γs), ro.FloatVector(λs), Δ, eps = 0.001)
-        DP_cpt_hat = DP_res[0]
-        DP_test_error = DP_res[2]
-        min_idx_unravel = np.array(np.unravel_index(np.argmin(DP_test_error, axis=None), (len(λs), len(γs)))).astype(int)
-        min_idx_flat = np.argmin(DP_test_error, axis=None)
-        λ_min = λs[min_idx_unravel[0]]
-        γ_min = γs[min_idx_unravel[1]]
-        DP_chgpt_est = DP_cpt_hat[int(min_idx_flat)]
+        test_error = np.asarray(DP_res[2])
+        assert test_error.shape == (len(γs), len(λs)), (
+            f"unexpected DP test_error shape {test_error.shape}, "
+            f"expected {(len(γs), len(λs))}"
+        )
+        gi, li = np.unravel_index(int(np.argmin(test_error)), test_error.shape)
+        γ_min, λ_min = γs[gi], λs[li]
 
         # Run DP on the whole dataset and return the best changepoint
         best_res = chgpts.DP_regression(np.array(Y_unit), np.array(X_unit),γ_min, λ_min, Δ)
@@ -111,27 +111,28 @@ def DPDU(X_unit, Y_unit, λs = [0.01, 0.1, 1, 2], ζs = [10.0, 15.0, 20.0]):
         DPDU_res = chgpts.CV_search_DPDU_regression(np.array(Y_unit), np.array(X_unit), 
                         ro.FloatVector(λs), ro.FloatVector(ζs), eps = 0.001)
 
-        # find the indices of gamma_set and lambda_set which minimizes the test error
-        test_error = np.array(DPDU_res[2])
-        cpt_hat = (DPDU_res[0])
-        B̂_list = (DPDU_res[4])
-        min_idx_unravel = np.array(np.unravel_index(np.argmin(test_error, axis=None), (len(λs), len(ζs)))).astype(int)
-        min_idx_flat = np.argmin(test_error, axis=None)
-        λ_min = λs[min_idx_unravel[0]]
-        ζ_min = ζs[min_idx_unravel[1]]
-        cpt_est_DPDU = cpt_hat[int(min_idx_flat)]
-        B̂_DPDU_original = B̂_list[int(min_idx_flat)]
+        test_error = np.asarray(DPDU_res[2])
+        assert test_error.shape == (len(ζs), len(λs)), (
+            f"unexpected DPDU test_error shape {test_error.shape}, "
+            f"expected {(len(ζs), len(λs))}"
+        )
 
-        # Refine changepoint estimate
+        zi, li = np.unravel_index(int(np.argmin(test_error)), test_error.shape)
+        ζ_min, λ_min = ζs[zi], λs[li]
+
+        # R stores the CV result matrices/lists in column-major order.
+        r_flat = li * len(ζs) + zi
+        cpt_est_DPDU = DPDU_res[0][r_flat]
+        B̂_DPDU = DPDU_res[4][r_flat]
+
+        # McScan Section D.2.1 returns the locally refined CV estimate.
         if len(cpt_est_DPDU) > 0:
-            cpt_LR = chgpts.local_refine_DPDU_regression(cpt_est_DPDU, 
-                B̂_DPDU_original, np.array(Y_unit), X_unit, w = 0.9)
-            cpt_est_DPDU = cpt_LR
-
-        # Compute the chgpt estimate on the full data
-        DPDU_res_full = chgpts.DPDU2_regression(np.array(Y_unit), np.array(X_unit), λ_min, ζ_min)
-        
-        return DPDU_res_full[-1] # The final index contains the chgpt estimate list
+            cpt_final = chgpts.local_refine_DPDU_regression(
+                cpt_est_DPDU, B̂_DPDU, np.array(Y_unit), X_unit, w=0.9
+            )
+        else:
+            cpt_final = cpt_est_DPDU
+        return np.asarray(cpt_final, dtype=int).reshape(-1)
 
 def MOSEG(X_unit, Y_unit, num_chgpts=None, ms=False, debug=False): 
     """ MOSEG (Cho, Owens 2024). """
