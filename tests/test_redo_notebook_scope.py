@@ -74,6 +74,9 @@ def test_redo_smoke_manifests_are_explicit_and_bounded():
         assert "num_trials = 5" in code
         assert "min(int(os.environ.get('WERM_N_JOBS', '12')), 36)" in code
         assert "filename.replace('.pkl', '_smoke.pkl')" in code
+    assert "n_jobs = max(1, min(int(os.environ.get('WERM_N_JOBS', '36')), 36))" in m1
+    assert "n_jobs = max(1, min(int(os.environ.get('WERM_N_JOBS', '32')), 36))" in m2
+    assert "n_jobs = max(1, min(int(os.environ.get('WERM_N_JOBS', '36')), 36))" in m3
     assert "delta_list = np.array([1.0, 3.0, 6.0])" in m1
     assert "delta_list = np.array([0.5, 3.5, 9.5])" in m2
     assert "kappa_list = np.array([1.0, 5.0, np.sqrt(1000.0)])" in m3
