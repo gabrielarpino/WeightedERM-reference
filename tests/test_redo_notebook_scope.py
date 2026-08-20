@@ -79,3 +79,45 @@ def test_redo_smoke_manifests_are_explicit_and_bounded():
     assert "kappa_list = np.array([1.0, 5.0, np.sqrt(1000.0)])" in m3
     assert "γ_list = [100, 500, 1000]" not in m1
     assert "except: \n" not in m1
+
+
+def test_joint_l1_werm_cv_is_additive_in_m1_and_m3_redo():
+    m1 = _code("M1_upsample_redo.ipynb")
+    m3 = _code("M3_upsample_redo.ipynb")
+    for code in (m1, m3):
+        assert "'WERM-L1-jointCV'" in code
+        assert "_weighted_erm_joint_cv(" in code
+        assert "l1_constants=(0.03, 0.1, 0.3, 1.0, 3.0, 10.0, 30.0)" in code
+        assert "selected_segments_WERM-L1-jointCV" in code
+        assert "selected_num_chgpts_WERM-L1-jointCV" in code
+        assert "selected_l1_constant_WERM-L1-jointCV" in code
+        assert "selected_l1_lambda_WERM-L1-jointCV" in code
+    assert "'WERM-unp'" in m1
+    assert "X=X_scaled, y=np.asarray(y), M=M, M_scorer=M_scorer" in m1
+    assert "delta_fraction=delta_fraction, standardize_y=True" in m1
+    assert "X=X_scaled, y=y_standardized" in m1
+    assert "'WERM-CV'" in m3
+    assert "X=X_scaled, y=y, M=M, M_scorer=M_scorer" in m3
+
+
+def test_redo_notebooks_end_with_saved_result_reload_and_plot_cells():
+    for path in (
+        "M1_upsample_redo.ipynb",
+        "M2_upsample_redo.ipynb",
+        "M3_upsample_redo.ipynb",
+    ):
+        notebook = json.loads(Path(path).read_text())
+        assert notebook["cells"][-2]["cell_type"] == "markdown"
+        assert "Load saved results and plot with tighter layout" in "".join(
+            notebook["cells"][-2]["source"]
+        )
+        plot_code = "".join(notebook["cells"][-1]["source"])
+        assert "plt.switch_backend(\"module://matplotlib_inline.backend_inline\")" in _code(path)
+        assert notebook["cells"][-1]["execution_count"] is not None
+        assert not any(output.get("output_type") == "error" for output in notebook["cells"][-1]["outputs"])
+        assert "with open(filename, 'rb')" in plot_code
+        assert "len(results['trial_records']) == _expected_trials" in plot_code
+        assert "plot_with_asymmetric_errors_publication()" in plot_code
+        assert "plot_with_confidence_bands_publication()" in plot_code
+        assert "plot_with_boxplots_publication()" in plot_code
+        assert "plot_changepoint_histograms_publication(" in plot_code
