@@ -26,6 +26,19 @@ inferchange_package = importr('inferchange') # McScan is a part of inferchange: 
 moseg_package = importr('moseg') # MOSEG package. 
 import WERM.DCDP_utils as DCDP_utils
 
+
+def _r_cv_matrix(value, expected_shape, method_name):
+    """Recover an R CV list-matrix after rpy2 drops its dimensions."""
+    array = np.asarray(value, dtype=float)
+    if array.shape == expected_shape:
+        return array
+    expected_size = int(np.prod(expected_shape))
+    assert array.size == expected_size, (
+        f"unexpected {method_name} test_error size {array.size}, "
+        f"expected {expected_size} for shape {expected_shape}"
+    )
+    return array.reshape(-1).reshape(expected_shape, order="F")
+
 def DP(X_unit, Y_unit, Δ, λs = [0.01, 0.1, 0.5, 1, 2, 4], γs = [0.01, 0.1, 1, 2, 4, 8, 16]):
     """ Dynamic Programming (DP) for changepoint regression (Rinaldo, Wang, Wen, Willett and Yu 2020) <arxiv:2010.10410>.
     X_unit: n x p matrix of covariates, where n is the number of observations and p is the number of covariates. Entries i.i.d N(0, 1).
@@ -41,10 +54,8 @@ def DP(X_unit, Y_unit, Δ, λs = [0.01, 0.1, 0.5, 1, 2, 4], γs = [0.01, 0.1, 1,
     
     with conversion.localconverter(converter):
         DP_res = chgpts.CV_search_DP_regression(np.array(Y_unit), np.array(X_unit), ro.FloatVector(γs), ro.FloatVector(λs), Δ, eps = 0.001)
-        test_error = np.asarray(DP_res[2])
-        assert test_error.shape == (len(γs), len(λs)), (
-            f"unexpected DP test_error shape {test_error.shape}, "
-            f"expected {(len(γs), len(λs))}"
+        test_error = _r_cv_matrix(
+            DP_res[2], (len(γs), len(λs)), method_name="DP"
         )
         gi, li = np.unravel_index(int(np.argmin(test_error)), test_error.shape)
         γ_min, λ_min = γs[gi], λs[li]
@@ -111,10 +122,8 @@ def DPDU(X_unit, Y_unit, λs = [0.01, 0.1, 1, 2], ζs = [10.0, 15.0, 20.0]):
         DPDU_res = chgpts.CV_search_DPDU_regression(np.array(Y_unit), np.array(X_unit), 
                         ro.FloatVector(λs), ro.FloatVector(ζs), eps = 0.001)
 
-        test_error = np.asarray(DPDU_res[2])
-        assert test_error.shape == (len(ζs), len(λs)), (
-            f"unexpected DPDU test_error shape {test_error.shape}, "
-            f"expected {(len(ζs), len(λs))}"
+        test_error = _r_cv_matrix(
+            DPDU_res[2], (len(ζs), len(λs)), method_name="DPDU"
         )
 
         zi, li = np.unravel_index(int(np.argmin(test_error)), test_error.shape)
