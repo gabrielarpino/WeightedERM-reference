@@ -306,17 +306,19 @@ def glm_bsa2(X, Y, kmax=2, c1=0.18, m1 = None, delta = 0.1, exact=False):
 
 def glm_bsa3(X, Y, kmax=2, c1=0.18, m1=None, delta=0.1, exact=False):
     """Run the repo-local myglm3 BSA without altering the legacy myglm2 adapter.
-
-    The automatic routine restores the original no-split candidate. The exact
+    The automatic routine restores the original no-split candidate. Here
+    ``kmax`` controls binary-segmentation passes; because every active interval
+    may split in a pass, it is not a strict changepoint-count cap. The exact
     routine is exposed only for compatibility and is not a true-count oracle.
     """
+
     n, _ = X.shape
     if m1 is None:
         m1 = int(np.ceil(n * delta))
 
     with conversion.localconverter(converter):
         if not exact:
-            print("Running myglm3 bsa_chgpt with at most kmax=", kmax, " chgpts.")
+            print("Running myglm3 bsa_chgpt with kmax=", kmax, " binary-segmentation passes (not a strict changepoint-count cap).")
             res = glm3_package.bsa_chgpt(X, Y, kmax, c1, m1, delta)
         else:
             print("Running myglm3 bsa_exactchgpt with kmax=", kmax, " chgpts.")
@@ -480,6 +482,9 @@ def run_charcoal(X_unit, Y_unit, σ, η_true):
         result = charcoal.not_cpreg(
             X_unit, Y_unit, thresh=threshold, verbose=False
         )
+
+    if result is ro.NULL:
+        return np.array([], dtype=int)
 
     if np.asarray(result[-1]).size == 0:
         return np.array([], dtype=int)

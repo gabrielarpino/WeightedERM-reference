@@ -40,6 +40,21 @@ def test_charcoal_uses_and_reuses_package_default_threshold(monkeypatch):
     assert all(call["verbose"] is False for call in fake.run_calls)
 
 
+def test_charcoal_maps_top_level_r_null_to_empty_estimate(monkeypatch):
+    fake = FakeCharcoal(final=[])
+    fake.not_cpreg = lambda X, y, **kwargs: comparison.ro.NULL
+    monkeypatch.setattr(comparison, "charcoal", fake)
+    comparison._CHARCOAL_THRESH_CACHE.clear()
+
+    cp = comparison.run_charcoal(
+        np.zeros((10, 3)), np.zeros(10), 1.0, np.array([5])
+    )
+
+    assert cp.shape == (0,)
+    assert cp.dtype == int
+
+
+
 def test_charcoal_distinguishes_inapplicable_and_nonempty(monkeypatch):
     fake = FakeCharcoal(final=[[4], [7]])
     monkeypatch.setattr(comparison, "charcoal", fake)
