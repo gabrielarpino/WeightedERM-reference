@@ -236,6 +236,7 @@ def MOSEG(X_unit, Y_unit, num_chgpts=None, ms=False, debug=False):
 
 # glm_package = importr('myglm') # associated with paper by Wang, Liu, Zhang, Liu 2023
 glm_package = importr('myglm2') # associated with paper by Wang, Liu, Zhang, Liu 2023, explicitly pass in lambda parameter into glmnet for more numerical stability
+glm3_package = importr('myglm3') # fidelity-repaired automatic BSA; see myglm-3/PROVENANCE.md
 
 # def glm_bsa(X_unit, Y_unit, kmax, c1, m1, delta):
 def glm_bsa(X, Y, kmax=3, delta=0.1, is_exact=False):
@@ -305,6 +306,29 @@ def glm_bsa2(X, Y, kmax=2, c1=0.18, m1 = None, delta = 0.1, exact=False):
         assert len(res) == 2, "Expected result to be a list of length 2."
         num_cps, cp_loc = res
     return cp_loc
+
+
+def glm_bsa3(X, Y, kmax=2, c1=0.18, m1=None, delta=0.1, exact=False):
+    """Run the repo-local myglm3 BSA without altering the legacy myglm2 adapter.
+
+    The automatic routine restores the original no-split candidate. The exact
+    routine is exposed only for compatibility and is not a true-count oracle.
+    """
+    n, _ = X.shape
+    if m1 is None:
+        m1 = int(np.ceil(n * delta))
+
+    with conversion.localconverter(converter):
+        if not exact:
+            print("Running myglm3 bsa_chgpt with at most kmax=", kmax, " chgpts.")
+            res = glm3_package.bsa_chgpt(X, Y, kmax, c1, m1, delta)
+        else:
+            print("Running myglm3 bsa_exactchgpt with kmax=", kmax, " chgpts.")
+            res = glm3_package.bsa_exactchgpt(X, Y, kmax, c1, m1, delta)
+        assert len(res) == 2, "Expected result to be a list of length 2."
+        _, cp_loc = res
+    return np.asarray(cp_loc, dtype=int).reshape(-1)
+
 
 ### --- Algorithms for sparse difference priors --- %%%
 

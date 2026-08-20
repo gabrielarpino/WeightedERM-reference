@@ -1,0 +1,17 @@
+Package: myglm3
+Title: Binary Segmentation for High-Dimensional Logistic Regression
+Version: 0.0.1
+Authors@R:
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: A locally maintained reconstruction of the myglm binary
+    segmentation routines for high-dimensional logistic regression. This
+    package restores the original no-split candidate in automatic binary
+    segmentation; see PROVENANCE.md for the source lineage.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    glmnet,
+    MASS
