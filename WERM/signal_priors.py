@@ -110,16 +110,18 @@ class SparseDiffSignal(SignalPrior):
         assert cov_seq.shape == (2**(self.L-1), self.L, self.L)
         return cov_seq
 
-    def sample(self, num_rows):
-        β_1 = nprandom.normal(loc=0, scale=np.sqrt(self.var_1), 
-                              size=(num_rows, 1))
+    def sample(self, num_rows, rng=None):
+        rng = nprandom if rng is None else rng
+        β_1 = rng.normal(
+            loc=0, scale=np.sqrt(self.var_1), size=(num_rows, 1)
+        )
         B = np.zeros((num_rows, self.L))
         B[:, 0] = β_1.reshape(-1)
         for l in range(1, self.L):
             β_2 = β_1.copy()
             # Add noise to β_2:
-            bern = nprandom.binomial(1, self.α, size=(num_rows, 1))
-            noise = nprandom.normal(loc=0, scale=self.σ_w, size=(num_rows, 1))
+            bern = rng.binomial(1, self.α, size=(num_rows, 1))
+            noise = rng.normal(loc=0, scale=self.σ_w, size=(num_rows, 1))
             β_2 = β_1 + bern * noise
             # rescale to same variance:
             β_2[bern == 1] = β_2[bern == 1] * self.η
@@ -144,12 +146,16 @@ class SparseGaussianSignal(SignalPrior):
         self.cov = δ * self.ρ_B
         # ρ_B[l,l] is the variance of the l-th signal.
 
-    def sample(self, num_rows):
+    def sample(self, num_rows, rng=None):
         """Returns signal matrix B of dim num_rows x L."""
-        bern = nprandom.binomial(1, self.α, size=(num_rows, self.L))
+        rng = nprandom if rng is None else rng
+        bern = rng.binomial(1, self.α, size=(num_rows, self.L))
         B = np.zeros((num_rows, self.L))
         for l in range(self.L):
-            B[bern[:, l] == 1, l] = np.random.randn(np.sum(bern[:, l])) * self.σ_l_arr[l]
+            count = np.sum(bern[:, l])
+            B[bern[:, l] == 1, l] = (
+                rng.standard_normal(count) * self.σ_l_arr[l]
+            )
         return B
 
 class GaussianSignal(SignalPrior):
