@@ -444,81 +444,51 @@ def run_charcoal_updated(X_unit, Y_unit, σ, η_true):
 
         return final_cp_est, haus
 
+_CHARCOAL_THRESH_CACHE = {}
+
+
+def _get_charcoal_threshold(n, p):
+    """Return charcoal's cached package-default threshold for an (n, p) design."""
+    if n <= p:
+        return None
+
+    key = (int(n), int(p))
+    if key not in _CHARCOAL_THRESH_CACHE:
+        no_intervals = n // 5
+        with conversion.localconverter(converter):
+            threshold = charcoal.getTestThreshold(
+                n,
+                p,
+                burnIn=0,
+                alpha=0.01 / no_intervals,
+                permSize=1000,
+                sigma=1.0,
+                b=1,
+                verbose=False,
+            )
+        _CHARCOAL_THRESH_CACHE[key] = float(threshold[0][0])
+    return _CHARCOAL_THRESH_CACHE[key]
+
+
 def run_charcoal(X_unit, Y_unit, σ, η_true):
-    """
-    X_unit is nxp, Y is nx1. AMP δ is n/p.
-    σ is AMP's noise level. charcoal uses noise level σ * sqrt(n).
-    η_true is the true chgpt locations.
-    
-    Compared to three methods above, this function returns 1/n*hausdorff 
-    distance from η_true directly, but can be modified to return the 
-    estimated changepoint locations.
-    """
-    
+    """Run charcoal with its Bonferroni-adjusted package-default threshold."""
+    del σ, η_true  # kept in the public signature for legacy call compatibility
+    n, p = X_unit.shape
+    assert len(Y_unit) == n
+    if n <= p:
+        # Complementary sketching requires n > p: this is not an empty estimate.
+        return None
+
+    threshold = _get_charcoal_threshold(n, p)
     with conversion.localconverter(converter):
-        (n, p) = X_unit.shape
-        assert len(Y_unit) == n
-        if n < p:
-            # GW22 needs n > p, otherwise charcoal crashes
-            return np.inf
+        result = charcoal.not_cpreg(
+            X_unit, Y_unit, thresh=threshold, verbose=False
+        )
 
-        # Obtain the threshold from getTestThreshold function, using default parameters
-        test_thresh = charcoal.getTestThreshold(n, p, burnIn=0, alpha=0.05, permSize=1000, sigma=σ, b=1, verbose=True)
-        print("Test threshold for charcoal:", test_thresh[0][0])
-        # Assert that threshold is a scalar
-        assert np.isscalar(test_thresh[0][0]), "Test threshold should be a scalar value."
-        # charcoal_res = charcoal.not_cpreg(X_unit, Y_unit, 
-        #                 sigma=σ, thresh=test_thresh[0][0], verbose=True)
-        charcoal_res = charcoal.not_cpreg(X_unit, Y_unit, 
-                        thresh=test_thresh[0][0], verbose=True) # Try passing in no sigma
+    if np.asarray(result[-1]).size == 0:
+        return np.array([], dtype=int)
+    return np.asarray([item[0] for item in result[-1]], dtype=int).reshape(-1)
 
-        # print("charcoal_res: ", charcoal_res)
-        # print("np.array(charcoal_res[-1]): ", np.array(charcoal_res[-1]))
-        if np.array(charcoal_res[-1]).size == 0: 
-            return np.array([])
-        else:
-            print("----- FOUND A CP! -----")
-            print("np.array(charcoal_res[-1]): ", np.array(charcoal_res[-1]))
-            cps = np.array([lis[0] for lis in charcoal_res[-1]])
-            return cps
-        # if False:
-        #     haus = np.inf
-        # # if charcoal_res == rpy2.rinterface.NULL:
-        # #     print("charcoal_res is NULL.")
-        # #     haus = np.inf
-        # #     return charcoal_res
-        # else: 
-        #     # return charcoal_res[-1]
-        #     # assert len(charcoal_res) == 5
-        #     stage_str_list = ["initial", "test_refine", "midpoint_refine", "final"]
-        #     stage_cp_list = [] # initial, test_refine, midpoint_refine, final estimate of chgpt indices
-        #     stage_hausdorff_list = []
-        #     for i_stage, stage_str in enumerate(stage_str_list):
-        #         print(f"========== {i_stage}/4 {stage_str} ==========")
-        #         if charcoal_res[i_stage+1] == rpy2.rinterface.NULL:
-        #             print("charcoal stage is NULL.")
-        #             stage_hausdorff_list.append(np.inf)
-        #         elif np.array(charcoal_res[i_stage+1]).size == 0: 
-        #             print("charcoal stage is empty.")
-        #             stage_hausdorff_list.append(np.inf)
-        #             stage_cp_list.append(np.array([]))
-        #         else:
-        #             print("----- FOUND A CP! -----")
-        #             # cp_stats = np.array(charcoal_res[i_stage+1]) 
-        #             cps = np.array([lis[0] for lis in charcoal_res[i_stage+1]])
-        #             stage_cp_list.append(cps)
-        #             print(f"cp (0-indexing i.e. Python indexing," + \
-        #                 f" idx of 1st observation of new signal): \ninitial={stage_cp_list[i_stage]},")
-        #             # Compare the estimated and true index of the first observation of the new signal 
-        #             # (with python indexing):
-        #             tmp_haus = 1/n * hausdorff(η_true, stage_cp_list[i_stage])
-        #             if tmp_haus == np.Inf:
-        #                 stage_hausdorff_list.append(np.inf)
-        #             else:
-        #                 stage_hausdorff_list.append(tmp_haus)
-        #         print(f"Normalised hausdorff distance: {stage_hausdorff_list[i_stage]}")
-        #     haus = stage_hausdorff_list[-1]
-        # return stage_cp_list[-1]  # Return the final estimated changepoints and hausdorff distance
 
 def run_mcscan(X_unit, Y_unit, num_chgpts = None, method='not'):
     """ Runs the McScan procedure from inferchange R package in this paper: https://arxiv.org/abs/2402.06915. 
