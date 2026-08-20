@@ -36,6 +36,12 @@ def test_redo_notebooks_do_not_subtract_one_from_competitor_indices():
     assert "cp[(cp > 1) & (cp < n)]" in code
 
 
+def test_m1_redo_maps_moseg_r_null_to_an_empty_estimate():
+    code = _code("M1_upsample_redo.ipynb")
+    assert "if cp is WERM.comparison.rpy2.rinterface.NULL:" in code
+    assert "cp = np.array([], dtype=int)" in code
+
+
 def test_redo_notebooks_persist_uniform_status_and_raw_estimates():
     for path in (
         "M1_upsample_redo.ipynb",
