@@ -134,103 +134,90 @@ def DPDU(X_unit, Y_unit, λs = [0.01, 0.1, 1, 2], ζs = [10.0, 15.0, 20.0]):
             cpt_final = cpt_est_DPDU
         return np.asarray(cpt_final, dtype=int).reshape(-1)
 
-def MOSEG(X_unit, Y_unit, num_chgpts=None, ms=False, debug=False): 
-    """ MOSEG (Cho, Owens 2024). """
-    
-    # Set up headless graphics at the start to prevent X11 errors
+def _moseg_getG(p, n):
+    """Port of moseg:::getG, the package's default bandwidth rule."""
+    err = 0.012
+    c = (-0.01538316, 0.02009430, 0.02669467)
+    out = np.exp(
+        err / c[0]
+        - (c[1] / c[0]) * np.log(np.log(p))
+        - (c[2] / c[0]) * np.log(np.log(n))
+    )
+    return int(round(out))
+
+
+def _moseg_default_Gset(p, n):
+    """Return the package default Gset clipped to moseg's n/2 constraint."""
+    G = _moseg_getG(p, n)
+    candidates = [int(round(g)) for g in (G, 4 / 3 * G, 5 / 3 * G)]
+    return sorted({min(g, n // 2) for g in candidates if g > 0})
+
+
+def MOSEG(X_unit, Y_unit, num_chgpts=None, ms=False, debug=False):
+    """Run MOSEG without silently changing routines after a failure."""
     ro.r('options(device = function(...) png(tempfile(), ...))')
-    
+
     try:
         with conversion.localconverter(converter):
-            # Get the number of observations for validation
-            if hasattr(X_unit, 'shape'):
-                n = X_unit.shape[0]  # For numpy arrays
-            else:
-                try:
-                    n = len(X_unit)
-                except:
-                    n = int(ro.r('length')(Y_unit)[0])
-            
+            n = X_unit.shape[0] if hasattr(X_unit, "shape") else len(X_unit)
             if debug:
                 print(f"Data dimensions: n={n}, num_chgpts={num_chgpts}")
-                if hasattr(X_unit, 'shape'):
-                    print(f"X shape: {X_unit.shape}")
-                if hasattr(Y_unit, 'shape'):
-                    print(f"Y shape: {Y_unit.shape}")
-            
-            # Validate num_chgpts constraint: G must be at most n/2
+            if n < 4:
+                raise ValueError(
+                    f"Insufficient data: only {n} observations. Need at least 4."
+                )
+
             max_chgpts = n // 2
             if num_chgpts is not None and num_chgpts > max_chgpts:
                 if debug:
-                    print(f"Warning: num_chgpts ({num_chgpts}) exceeds maximum allowed ({max_chgpts}). Setting to {max_chgpts}")
+                    print(
+                        f"Warning: num_chgpts ({num_chgpts}) exceeds "
+                        f"maximum ({max_chgpts}); clipping."
+                    )
                 num_chgpts = max_chgpts
-            
-            # Additional validation
-            if n < 4:
-                raise ValueError(f"Insufficient data: only {n} observations. Need at least 4.")
-            
             if num_chgpts is not None and num_chgpts <= 0:
                 if debug:
-                    print("Warning: num_chgpts <= 0, using cross-validation instead")
+                    print("Warning: num_chgpts <= 0, using cross-validation.")
                 num_chgpts = None
 
-            try:
-                if num_chgpts is not None:
-                    if not ms:
-                        # Method 1: Using underscore conversion (recommended)
-                        # rpy2 automatically converts underscores to dots in parameter names
-                        out = moseg_package.moseg(X_unit, Y_unit, n_cps=num_chgpts, do_scale=True, do_plot = False)
-                        
-                    else: 
-                        # Access the moseg.ms function using getattr
-                        moseg_ms = getattr(moseg_package, 'moseg.ms')
-                        
-                        # Create R vector for the multiscale parameters
-                        r_vector = ro.IntVector([40, 80])
-                        
-                        # Call the function with proper parameter handling
-                        out = moseg_ms(X_unit, Y_unit, r_vector, do_scale=False, do_plot=False)
+            if num_chgpts is not None:
+                if not ms:
+                    return moseg_package.moseg(
+                        X_unit,
+                        Y_unit,
+                        n_cps=num_chgpts,
+                        do_scale=True,
+                        do_plot=False,
+                    )
+                moseg_ms = getattr(moseg_package, "moseg.ms")
+                return moseg_ms(
+                    X_unit,
+                    Y_unit,
+                    ro.IntVector([40, 80]),
+                    do_scale=False,
+                    do_plot=False,
+                )
 
-                else:
-                    # Handle case where num_chgpts is None
-                    # You might want to use cross-validation or other methods
-                    if not ms:
-                        # Example: using default parameters or CV
-                        moseg_cv = getattr(moseg_package, 'moseg.cv')
-                        out = moseg_cv(X_unit, Y_unit, penalty=50, do_scale=False, do_plot=False)
-                    else:
-                        # moseg_ms_cv = getattr(moseg_package, 'moseg.ms.cv')
-                        moseg_ms_cv = moseg_package.moseg_ms_cv
+            if not ms:
+                moseg_cv = getattr(moseg_package, "moseg.cv")
+                return moseg_cv(
+                    X_unit, Y_unit, do_scale=False, do_plot=False
+                )
 
-                        # r_vector = ro.IntVector([50, 100, 150])
-                        # out = moseg_ms_cv(X_unit, Y_unit, r_vector, do_scale=False, do_plot=False)
-                        r_vector = ro.IntVector([40, 80]) # Allows us to work with delta = 1.0, otherwise there is an error
-                        out = moseg_ms_cv(X_unit, Y_unit, r_vector, do_plot=False)
-                        # out = moseg_ms_cv(X_unit, Y_unit, do_plot=False)
-
-            except Exception as e:
-                if debug:
-                    print(f"Error in MOSEG call: {e}")
-                # Fallback to cross-validation
-                try:
-                    # moseg_cv = getattr(moseg_package, 'moseg.ms.cv')
-                    moseg_cv = moseg_package.moseg_ms_cv
-                    r_vector = ro.IntVector([40, 80])
-                    out = moseg_cv(X_unit, Y_unit, r_vector, do_plot=False)
-                    # out = moseg_cv(X_unit, Y_unit, do_plot=False)
-                except Exception as e2:
-                    if debug:
-                        print(f"Fallback also failed: {e2}")
-                    raise e2
-
-            return out
-    
+            Gset = _moseg_default_Gset(X_unit.shape[1], X_unit.shape[0])
+            print(
+                "MOSEG effective Gset (package default, clipped to n/2): "
+                f"{Gset}"
+            )
+            return moseg_package.moseg_ms_cv(
+                X_unit, Y_unit, ro.IntVector(Gset), do_plot=False
+            )
     finally:
-        # Clean up graphics devices when done (even if an error occurs)
         try:
-            ro.r('graphics.off()')
-        except:
-            pass  # Ignore errors during cleanup
+            ro.r("graphics.off()")
+        except Exception:
+            pass
+
 
 ### --- Logistic Regression Wang, Liu, Zhang, Liu 2023 --- ###
 
