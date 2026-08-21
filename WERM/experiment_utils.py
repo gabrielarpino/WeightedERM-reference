@@ -265,3 +265,128 @@ def summarize_setting(haus, sizes, statuses):
         "not_applicable_rate": float(np.mean(statuses == "not_applicable")),
         "mean_size": float(np.nanmean(sizes)),
     }
+
+
+
+def glm_bsa3_cv(
+    X,
+    y,
+    kmax=2,
+    delta=0.1,
+    c1_candidates=(0.045, 0.09, 0.18, 0.36, 0.72),
+    num_folds=5,
+):
+    """Select myglm3's c1 by interlaced held-out prediction loss.
+
+    c1 is the only tuned quantity: kmax remains the automatic binary-
+    segmentation pass budget and delta remains the fixed minimum-segment
+    fraction. Every fold runs the unchanged myglm3 routine on training rows,
+    maps its compressed-time boundaries back to the original timeline, refits
+    segment coefficients with myglm3's exact glmnet penalty rule, and scores
+    unpenalized logistic loss on held-out rows. The selected c1 is then refit
+    once on the full data.
+    """
+    import WERM.comparison as comparison
+
+    X = np.asarray(X, dtype=float)
+    y = np.asarray(y, dtype=float).reshape(-1)
+    if X.ndim != 2 or X.shape[0] != y.size:
+        raise ValueError("X and y must have matching sample dimensions")
+    if int(kmax) < 1:
+        raise ValueError("kmax must be positive")
+    if not 0 < float(delta) < 1:
+        raise ValueError("delta must lie strictly between zero and one")
+    if int(num_folds) < 2 or int(num_folds) > len(y):
+        raise ValueError("num_folds must be between two and the sample size")
+
+    candidates = tuple(float(c1) for c1 in c1_candidates)
+    if not candidates or any(
+        not np.isfinite(c1) or c1 <= 0 for c1 in candidates
+    ):
+        raise ValueError("c1_candidates must contain finite positive values")
+
+    n = len(y)
+    folds = [
+        np.arange(v, n, int(num_folds), dtype=int)
+        for v in range(int(num_folds))
+    ]
+
+    def clean_cp(cp, sample_size):
+        if cp is None:
+            return np.array([], dtype=int)
+        cp = np.asarray(cp, dtype=int).reshape(-1)
+        return np.unique(cp[(cp > 1) & (cp < int(sample_size))])
+
+    def candidate_score(c1):
+        score = 0.0
+        try:
+            for fold_number, test_indices in enumerate(folds):
+                train_indices = np.sort(
+                    np.concatenate(
+                        [fold for i, fold in enumerate(folds) if i != fold_number]
+                    )
+                )
+                compressed_cp = clean_cp(
+                    comparison.glm_bsa3(
+                        X[train_indices],
+                        y[train_indices].reshape(-1, 1),
+                        kmax=int(kmax),
+                        c1=c1,
+                        m1=None,
+                        delta=float(delta),
+                        exact=False,
+                        quiet=True,
+                    ),
+                    len(train_indices),
+                )
+                mapped_cp = np.asarray(
+                    [train_indices[cp] for cp in compressed_cp], dtype=int
+                )
+                boundaries = np.concatenate(([0], mapped_cp, [n]))
+
+                assigned = np.zeros(test_indices.size, dtype=bool)
+                for start, end in zip(boundaries[:-1], boundaries[1:]):
+                    segment_train = train_indices[
+                        (train_indices >= start) & (train_indices < end)
+                    ]
+                    segment_test_mask = (
+                        (test_indices >= start) & (test_indices < end)
+                    )
+                    if segment_train.size == 0:
+                        raise ValueError("GLMBSA-CV produced an empty training segment")
+                    beta = comparison.glm_bsa3_segment_beta(
+                        X[segment_train], y[segment_train], c1
+                    )
+                    if np.any(segment_test_mask):
+                        eta = X[test_indices[segment_test_mask]] @ beta
+                        y_test = y[test_indices[segment_test_mask]]
+                        score += float(
+                            np.sum(np.logaddexp(0.0, eta) - y_test * eta)
+                        )
+                        assigned[segment_test_mask] = True
+                if not np.all(assigned):
+                    raise ValueError("GLMBSA-CV left held-out observations unscored")
+        except Exception as exc:
+            print(f"GLMBSA-CV c1={c1:g} failed: {exc}")
+            return np.inf
+        return score
+
+    scores = np.asarray([candidate_score(c1) for c1 in candidates], dtype=float)
+    if not np.any(np.isfinite(scores)):
+        raise RuntimeError("all GLMBSA-CV candidates failed")
+    best_index = int(np.argmin(scores))
+    best_c1 = candidates[best_index]
+    full_cp = clean_cp(
+        comparison.glm_bsa3(
+            X,
+            y.reshape(-1, 1),
+            kmax=int(kmax),
+            c1=best_c1,
+            m1=None,
+            delta=float(delta),
+            exact=False,
+            quiet=True,
+        ),
+        n,
+    )
+    return best_c1, full_cp, scores

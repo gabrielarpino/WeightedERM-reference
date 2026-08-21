@@ -103,6 +103,19 @@ def test_joint_l1_werm_cv_is_additive_in_m1_and_m3_redo():
     assert "X=X_scaled, y=y, M=M, M_scorer=M_scorer" in m3
 
 
+def test_glmbsa_cv_is_additive_in_m3_redo():
+    m3 = _code("M3_upsample_redo.ipynb")
+    assert "'GLMBSA'" in m3
+    assert "'GLMBSA-CV'" in m3
+    assert "_glm_bsa3_cv(" in m3
+    assert "glmbsa_c1_candidates = (0.045, 0.09, 0.18, 0.36, 0.72)" in m3
+    assert "selected_c1_GLMBSA-CV" in m3
+    assert "cv_scores_GLMBSA-CV" in m3
+    assert "'glmbsa_c1_candidates': np.array(glmbsa_c1_candidates)" in m3
+    assert "GLMBSA-CV kappa=" in m3
+
+
+
 def test_redo_notebooks_end_with_saved_result_reload_and_plot_cells():
     for path in (
         "M1_upsample_redo.ipynb",

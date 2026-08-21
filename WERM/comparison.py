@@ -234,6 +234,64 @@ def MOSEG(X_unit, Y_unit, num_chgpts=None, ms=False, debug=False):
 glm_package = importr('myglm2') # associated with paper by Wang, Liu, Zhang, Liu 2023, explicitly pass in lambda parameter into glmnet for more numerical stability
 glm3_package = importr('myglm3') # fidelity-repaired automatic BSA; see myglm-3/PROVENANCE.md
 
+
+# Validation refits for GLMBSA-CV use the same glmnet call as myglm3. Keeping
+# this as a small R helper avoids rpy2's ambiguous translation of R's
+# reserved-word lambda argument.
+_glm_bsa3_coef_r = ro.r(
+    """
+    function(X, Y, lam) {
+      fit <- glmnet::glmnet(
+        X, as.numeric(Y), intercept=FALSE, family="binomial", lambda=lam
+      )
+      as.vector(stats::coef(fit))[-1]
+    }
+    """
+)
+
+_glm_bsa3_quiet_r = ro.r(
+    """
+    function(X, Y, kmax, c1, m1, delta) {
+      suppressMessages(
+        myglm3::bsa_chgpt(X, Y, kmax, c1, m1, delta)
+      )
+    }
+    """
+)
+
+
+
+def glm_bsa3_lambda(c1, p, segment_length):
+    """Return myglm3's segment-specific glmnet penalty."""
+    c1 = float(c1)
+    p = int(p)
+    segment_length = int(segment_length)
+    if not np.isfinite(c1) or c1 <= 0:
+        raise ValueError("c1 must be finite and positive")
+    if p < 1 or segment_length < 1:
+        raise ValueError("p and segment_length must be positive")
+    log_term = np.log(2.0 * p)
+    return c1 * (
+        np.sqrt(2.0 * log_term / segment_length)
+        + log_term / segment_length
+    )
+
+
+def glm_bsa3_segment_beta(X, Y, c1):
+    """Fit one intercept-free logistic segment exactly as myglm3 does."""
+    X = np.asarray(X, dtype=float)
+    Y = np.asarray(Y, dtype=float).reshape(-1)
+    if X.ndim != 2 or X.shape[0] != Y.size:
+        raise ValueError("X and Y must have matching sample dimensions")
+    lam = glm_bsa3_lambda(c1, X.shape[1], X.shape[0])
+    with conversion.localconverter(converter):
+        beta = _glm_bsa3_coef_r(X, Y, lam)
+    beta = np.asarray(beta, dtype=float).reshape(-1)
+    if beta.size != X.shape[1] or not np.all(np.isfinite(beta)):
+        raise ValueError("glmnet returned invalid GLMBSA segment coefficients")
+    return beta
+
+
 # def glm_bsa(X_unit, Y_unit, kmax, c1, m1, delta):
 def glm_bsa(X, Y, kmax=3, delta=0.1, is_exact=False):
     """Efficient multiple change point detection for high-dimensional 
@@ -304,7 +362,9 @@ def glm_bsa2(X, Y, kmax=2, c1=0.18, m1 = None, delta = 0.1, exact=False):
     return cp_loc
 
 
-def glm_bsa3(X, Y, kmax=2, c1=0.18, m1=None, delta=0.1, exact=False):
+def glm_bsa3(
+    X, Y, kmax=2, c1=0.18, m1=None, delta=0.1, exact=False, quiet=False
+):
     """Run the repo-local myglm3 BSA without altering the legacy myglm2 adapter.
     The automatic routine restores the original no-split candidate. Here
     ``kmax`` controls binary-segmentation passes; because every active interval
@@ -318,8 +378,11 @@ def glm_bsa3(X, Y, kmax=2, c1=0.18, m1=None, delta=0.1, exact=False):
 
     with conversion.localconverter(converter):
         if not exact:
-            print("Running myglm3 bsa_chgpt with kmax=", kmax, " binary-segmentation passes (not a strict changepoint-count cap).")
-            res = glm3_package.bsa_chgpt(X, Y, kmax, c1, m1, delta)
+            if quiet:
+                res = _glm_bsa3_quiet_r(X, Y, kmax, c1, m1, delta)
+            else:
+                print("Running myglm3 bsa_chgpt with kmax=", kmax, " binary-segmentation passes (not a strict changepoint-count cap).")
+                res = glm3_package.bsa_chgpt(X, Y, kmax, c1, m1, delta)
         else:
             print("Running myglm3 bsa_exactchgpt with kmax=", kmax, " chgpts.")
             res = glm3_package.bsa_exactchgpt(X, Y, kmax, c1, m1, delta)
