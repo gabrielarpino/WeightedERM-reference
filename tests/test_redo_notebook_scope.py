@@ -42,12 +42,23 @@ def test_m1_redo_maps_moseg_r_null_to_an_empty_estimate():
     assert "cp = np.array([], dtype=int)" in code
 
 
-def test_m2_redo_prewarms_charcoal_once_in_the_parent_process():
+def test_m2_redo_persists_and_parallelizes_charcoal_calibration():
     code = _code("M2_upsample_redo.ipynb")
     assert code.index("charcoal_thresholds = {}") < code.index("Parallel(n_jobs=n_jobs")
-    assert "charcoal_thresholds[key] = WERM.comparison._get_charcoal_threshold(*key)" in code
+    assert "missing_charcoal_keys" in code
+    assert "delayed(_prewarm_charcoal_threshold)(key)" in code
+    assert "charcoal_threshold_cache_path.open('wb')" in code
     assert "WERM.comparison._CHARCOAL_THRESH_CACHE[key] = charcoal_thresholds[key]" in code
     assert "charcoal_thresholds=charcoal_thresholds" in code
+    assert "'charcoal_thresholds': charcoal_thresholds" in code
+
+
+def test_m2_redo_penalizes_charcoal_runtime_failures_transparently():
+    code = _code("M2_upsample_redo.ipynb")
+    assert "except WERM.comparison.rpy2.rinterface.RRuntimeError as exc:" in code
+    assert "trial_results['diagnostic_charcoal'] = str(exc)" in code
+    assert "cp = np.array([], dtype=int)" in code
+    assert "charcoal_internal_error_count" in code
 
 
 def test_redo_notebooks_persist_uniform_status_and_raw_estimates():
