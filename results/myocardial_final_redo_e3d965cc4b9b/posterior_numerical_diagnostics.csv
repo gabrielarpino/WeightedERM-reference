@@ -1,0 +1,2 @@
+"P(1), 512 draws / seed 42","P(1), 1024 draws / seed 123",Absolute difference in P(1),Conditional posterior TV difference,Largest age-specific probability difference,Full posterior TV difference (including null),Largest conditional CDF difference,"Max sampled-state equation residual, 512 draws","Max sampled-state equation residual, 1024 draws"
+0.4637399087420564,0.4827190434670559,0.018979134724999513,0.030629487176338836,0.009751731028209962,0.027863383794823955,0.01834810505666552,1.0936017552279148e-09,1.1077839962566439e-09

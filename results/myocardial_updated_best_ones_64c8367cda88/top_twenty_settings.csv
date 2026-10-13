@@ -1,0 +1,21 @@
+Rank,Auxiliary fit,Posterior fit,Intercept,Delta,Rho updates,Rho initialization,Matched logistic fits
+1,LS,Logistic FISTA 16 iterations,No,5,24,identity,No
+2,LS,Logistic FISTA 12 iterations,No,2,20,identity,No
+3,LS,Logistic FISTA 16 iterations,No,2,20,identity,No
+4,LS,Logistic L1 0.0001 (full solve),No,1,30,identity,No
+5,LS,Logistic L-BFGS 5 iterations,No,5,20,identity,No
+6,LS,Logistic L-BFGS 5 iterations,No,10,20,identity,No
+7,Logistic L1 0.0001 (full solve),Logistic L2 1.5e-06 (full solve),Yes,1,30,identity,No
+8,Logistic L1 0.0001 (full solve),Logistic L2 1.2e-06 (full solve),Yes,1,30,identity,No
+9,LS,Logistic L-BFGS 5 iterations,No,2,16,identity,No
+10,Logistic L1 0.0001 (full solve),Logistic L2 1e-06 (full solve),Yes,1,10,identity,No
+11,Logistic L1 0.0001 (full solve),Logistic L2 1e-06 (full solve),Yes,1,30,identity,No
+12,Logistic L1 0.0001 (full solve),Logistic L2 1.2e-06 (full solve),Yes,1,10,identity,No
+13,Logistic L1 0.0001 (full solve),Logistic L1 1e-05 (full solve),Yes,1,30,identity,No
+14,Logistic L1 0.0001 (full solve),Logistic L2 8e-07 (full solve),Yes,1,10,identity,No
+15,Logistic L1 0.0001 (full solve),Logistic L1 1e-05 (full solve),Yes,1,10,identity,No
+16,Logistic L1 0.0001 (full solve),Logistic L2 8e-07 (full solve),Yes,1,30,identity,No
+17,Logistic L1 0.0001 (full solve),Logistic L2 6e-07 (full solve),Yes,1,10,identity,No
+18,Logistic L1 0.0001 (full solve),Logistic L2 2e-06 (full solve),Yes,1,30,identity,No
+19,Logistic L1 0.0001 (full solve),Logistic L2 6e-07 (full solve),Yes,1,30,identity,No
+20,LS,Logistic L2 3.16227766017e-06 (full solve),No,1,30,identity,No

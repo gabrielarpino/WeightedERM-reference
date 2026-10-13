@@ -1,0 +1,46 @@
+{
+  "selection": "Exploratory: targets in both draws, then lowest mean TV to archive",
+  "centered_features": true,
+  "unpenalized_intercepts": true,
+  "Delta": 1,
+  "count_prior": [
+    0.5,
+    0.5
+  ],
+  "auxiliary_loss": "logistic",
+  "auxiliary_penalty": "l1",
+  "auxiliary_penalty_strength": 0.0001,
+  "rho_updates": 30,
+  "rho_damping": 0.25,
+  "rho": [
+    [
+      0.2862796945753812,
+      0.08243947668905242
+    ],
+    [
+      0.08243947668905242,
+      0.024041657623627317
+    ]
+  ],
+  "rho_moment_residual": 0.11350346025668347,
+  "posterior_loss": "logistic",
+  "posterior_penalty": "l2",
+  "posterior_penalty_strength": 1.5e-06,
+  "response_model": "global-prevalence calibrated logistic offsets",
+  "response_rate": 0.23167848699763594,
+  "P1_range": [
+    0.7176859802429055,
+    0.7472084795605244
+  ],
+  "mass_above55_min": 0.9999999999999801,
+  "mean_TV_to_archive": 0.2906731943937576,
+  "state_draws": [
+    512,
+    1024
+  ],
+  "state_seeds": [
+    42,
+    123
+  ],
+  "state_max_nfev": 100
+}

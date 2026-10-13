@@ -1,0 +1,49 @@
+{
+  "n": 1692,
+  "p": 110,
+  "Delta": 2,
+  "fit_budget": 16,
+  "auxiliary": "LS",
+  "posterior": "unpenalized logistic FISTA",
+  "intercept": false,
+  "rho_updates": 20,
+  "rho_start": "identity",
+  "damping": 0.25,
+  "eigenvalue_bounds": [
+    0.0001,
+    100
+  ],
+  "checks": [
+    [
+      9,
+      42
+    ],
+    [
+      10,
+      123
+    ]
+  ],
+  "state_max_nfev": 100,
+  "likelihood_quadrature": 160,
+  "eigenvalue_levels": [
+    0.8,
+    0.9,
+    1.0,
+    1.1,
+    1.2
+  ],
+  "count_prior": [
+    0.5,
+    0.5
+  ],
+  "files": {
+    "tools/myocardial_final_redo.py": "b65e2fd2e9720bf81d484484d3615378c21c2734da4eb5c5002cde2f0dbd7955",
+    "WERM/signal_strength.py": "2f784c6ed43b9102bcdab22efe918ea8b93076e08adf85aefb76464487767e67",
+    "WERM/myocardial_approximate.py": "86e1c1ad14f40f99305eecc605275dedf2ad01d77bd8b67586852510826585ec",
+    "WERM/myocardial_numerics.py": "3c04f2c239523fe2e61ed0766713bea3dfdf28366eed1399310e5e29f8b468e6",
+    "WERM/myocardial_early_stopping.py": "cfe037e7878a32e973ce516ec574241180c72f00b26dd1f7acbc452ef21feb7b",
+    "WERM/proximal.py": "89593d82e32db5e9380df2c05945cec4485b8ad49281e016ff13f81e24297632",
+    "tools/myocardial_exploration.py": "bfbc26d291cbb37c0e0cdd31fb89c36ff0c833179fc74077ad4afa16d3343fd3",
+    "results/myocardial_raw_uci579.csv": "dd9b1eba4265dc883e4bd289e074b5d43b804f084b24ade1d18dfc917d8be0d7"
+  }
+}

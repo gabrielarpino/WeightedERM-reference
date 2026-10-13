@@ -1,0 +1,4 @@
+weights,pilot_split,rank,min_eigenvalue,max_eigenvalue,infeasibility_certified
+Age-grid half-count,1166,3,-0.05871036097977527,-0.010726629837542292,True
+All-index half-count,1166,3,-0.037362311068822256,-0.009356277327794926,True
+Legacy exactly-one,1081,3,-0.032106470537131004,-0.00892126612172237,True

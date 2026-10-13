@@ -1,0 +1,3377 @@
+{
+  "configurations": [
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config000"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config001"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config002"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config003"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config004"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config005"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config006"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config007"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config008"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config009"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config010"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config011"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config012"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config013"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config014"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config015"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config016"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config017"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config018"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config019"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config020"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config021"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config022"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config023"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config024"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config025"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config026"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config027"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config028"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config029"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config030"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config031"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config032"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config033"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config034"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config035"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config036"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config037"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config038"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config039"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config040"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config041"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config042"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config043"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config044"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config045"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config046"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config047"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config048"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config049"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config050"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config051"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config052"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config053"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config054"
+    },
+    {
+      "Delta": 1,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config055"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config056"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config057"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config058"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config059"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config060"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config061"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config062"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config063"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config064"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config065"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config066"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config067"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config068"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config069"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config070"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config071"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config072"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config073"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config074"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config075"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config076"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config077"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config078"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config079"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config080"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config081"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config082"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config083"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config084"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config085"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config086"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config087"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config088"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config089"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config090"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config091"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config092"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config093"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config094"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config095"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config096"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config097"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config098"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config099"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config100"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config101"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config102"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config103"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config104"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config105"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config106"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config107"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config108"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config109"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config110"
+    },
+    {
+      "Delta": 1,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config111"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config112"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config113"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config114"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config115"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config116"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config117"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config118"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config119"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config120"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config121"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config122"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config123"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config124"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config125"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config126"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config127"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config128"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config129"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config130"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config131"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config132"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config133"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config134"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config135"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config136"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config137"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config138"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config139"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config140"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config141"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config142"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config143"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config144"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config145"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config146"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config147"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config148"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config149"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config150"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config151"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config152"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config153"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config154"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config155"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config156"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config157"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config158"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config159"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config160"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config161"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config162"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config163"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config164"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config165"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config166"
+    },
+    {
+      "Delta": 2,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config167"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config168"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config169"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config170"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config171"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config172"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config173"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config174"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config175"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config176"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config177"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config178"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config179"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config180"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config181"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config182"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config183"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config184"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config185"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config186"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config187"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config188"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config189"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config190"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config191"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config192"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config193"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config194"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config195"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config196"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config197"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config198"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config199"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config200"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config201"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config202"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config203"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config204"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config205"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config206"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config207"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config208"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config209"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config210"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config211"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config212"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config213"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config214"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config215"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config216"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config217"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config218"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config219"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config220"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config221"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config222"
+    },
+    {
+      "Delta": 2,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config223"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config224"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config225"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config226"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config227"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config228"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config229"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config230"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config231"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config232"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config233"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config234"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config235"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config236"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config237"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config238"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config239"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config240"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config241"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config242"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config243"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config244"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config245"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config246"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config247"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config248"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config249"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config250"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config251"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config252"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config253"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config254"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config255"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config256"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config257"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config258"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config259"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config260"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config261"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config262"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config263"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config264"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config265"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config266"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config267"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config268"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config269"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config270"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config271"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config272"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config273"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config274"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config275"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config276"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config277"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config278"
+    },
+    {
+      "Delta": 5,
+      "intercept": false,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config279"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config280"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config281"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config282"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config283"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config284"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config285"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config286"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config287"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config288"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config289"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config290"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config291"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config292"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config293"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config294"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config295"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config296"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config297"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config298"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config299"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config300"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config301"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config302"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config303"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config304"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config305"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config306"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "squared",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config307"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 8,
+      "id": "config308"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 16,
+      "id": "config309"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 20,
+      "id": "config310"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 30,
+      "id": "config311"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 50,
+      "id": "config312"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "fista",
+      "budget": 100,
+      "id": "config313"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 8,
+      "id": "config314"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 16,
+      "id": "config315"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 20,
+      "id": "config316"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 30,
+      "id": "config317"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 50,
+      "id": "config318"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "lbfgs",
+      "budget": 100,
+      "id": "config319"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 8,
+      "id": "config320"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 16,
+      "id": "config321"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 20,
+      "id": "config322"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 30,
+      "id": "config323"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 50,
+      "id": "config324"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "none",
+      "strength": 0.0,
+      "method": "gd",
+      "budget": 100,
+      "id": "config325"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config326"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config327"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config328"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config329"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l1",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config330"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-08,
+      "method": "full",
+      "budget": 0,
+      "id": "config331"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-06,
+      "method": "full",
+      "budget": 0,
+      "id": "config332"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 1e-05,
+      "method": "full",
+      "budget": 0,
+      "id": "config333"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.0001,
+      "method": "full",
+      "budget": 0,
+      "id": "config334"
+    },
+    {
+      "Delta": 5,
+      "intercept": true,
+      "aux_loss": "logistic",
+      "penalty": "l2",
+      "strength": 0.001,
+      "method": "full",
+      "budget": 0,
+      "id": "config335"
+    }
+  ],
+  "normalizations": [
+    "n",
+    "p"
+  ],
+  "primary_draws": 512,
+  "final_draws": 1024,
+  "final_seeds": [
+    123,
+    42
+  ],
+  "coefficient_gram": "slopes only, intercept excluded",
+  "segmented": "same pilot auxiliary loss, solver, penalty; full-data n or p divisor, no segment rewhitening",
+  "penalty_matching": "same family and strength in auxiliary and posterior; squared loss scale=2"
+}

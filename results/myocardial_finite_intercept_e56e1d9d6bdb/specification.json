@@ -1,0 +1,44 @@
+{
+  "methods": [
+    "fista",
+    "lbfgs",
+    "gd"
+  ],
+  "fit_steps": [
+    1,
+    3,
+    10,
+    30,
+    100
+  ],
+  "minimum_segments": [
+    1,
+    2,
+    5
+  ],
+  "rho_steps": [
+    1,
+    3,
+    10,
+    20,
+    30
+  ],
+  "intercept": true,
+  "penalty": "none",
+  "count_prior": [
+    0.5,
+    0.5
+  ],
+  "intercept_column": "1/sqrt(n)",
+  "coefficient_start": "zero slopes, weighted intercept-only logistic MLE",
+  "response_model": "prevalence-calibrated intercept model; finite-fit state equations are heuristic",
+  "files": {
+    "tools/myocardial_finite_intercept_sweep.py": "f7cde138352fb6c226f97c1be96eac3385ce3c2c2f54edd55b0fef1d42c617cd",
+    "WERM/myocardial_finite_intercept.py": "5521a4c421691b94d1b2bab9cbda8334fd3f3245cb4b1b2d584cda4526c3aa67",
+    "WERM/myocardial_intercept.py": "1a0454a56593654cffc909bd73851c68ee9ca5059270b651cdfad96caaf44d80",
+    "WERM/signal_strength.py": "2f784c6ed43b9102bcdab22efe918ea8b93076e08adf85aefb76464487767e67",
+    "WERM/myocardial_numerics.py": "3c04f2c239523fe2e61ed0766713bea3dfdf28366eed1399310e5e29f8b468e6",
+    "WERM/proximal.py": "89593d82e32db5e9380df2c05945cec4485b8ad49281e016ff13f81e24297632",
+    "results/myocardial_raw_uci579.csv": "dd9b1eba4265dc883e4bd289e074b5d43b804f084b24ade1d18dfc917d8be0d7"
+  }
+}

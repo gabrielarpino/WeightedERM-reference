@@ -1,0 +1,29 @@
+{
+  "spec": {
+    "Delta": 5,
+    "intercept": true,
+    "aux_loss": "squared",
+    "penalty": "none",
+    "strength": 0.0,
+    "method": "fista",
+    "budget": 30,
+    "id": "config283"
+  },
+  "mode": "whole",
+  "denominator": "p",
+  "count_prior": [
+    0.5,
+    0.5
+  ],
+  "draws": 1024,
+  "seed": 123,
+  "levels": [
+    0.8,
+    0.9,
+    1.0,
+    1.1,
+    1.2
+  ],
+  "source": "selected by mean TV to rank3",
+  "code_sha256": "10b39bd24f1bbc0c717bf8fb54960933feec928a91b37b5ce6f7f8848f9b771e"
+}

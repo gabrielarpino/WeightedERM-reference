@@ -1,0 +1,23 @@
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+Completed cell 2
+Completed cell 4
+Completed cell 6
+Completed cell 8
+Completed cell 10
+Completed cell 12
+Completed cell 14
+Completed cell 15
+Completed cell 16
+Completed cell 17
+Completed cell 19
+Completed cell 20
+Completed cell 21
+Completed cell 23
+Completed cell 24
+Completed cell 25
+Completed cell 27
+Completed cell 28
+Completed cell 30
+Completed cell 31
+Completed cell 32
+FINAL NOTEBOOK COMPLETE

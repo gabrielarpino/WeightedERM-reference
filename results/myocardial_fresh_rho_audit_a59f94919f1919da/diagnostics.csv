@@ -1,0 +1,2 @@
+accepted,optimizer_success,moment_Frobenius_residual,relative_moment_residual,min_rho_eigenvalue,correlation,boundary,jacobian_rank,quadrature_error
+False,False,0.012996891430978296,0.22455650775868014,2.6453839119255917e-13,-0.9999999999989996,True,3,0.0

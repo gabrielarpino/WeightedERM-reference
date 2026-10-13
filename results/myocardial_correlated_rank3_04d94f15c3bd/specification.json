@@ -1,0 +1,11 @@
+{
+  "target": "previous overall rank3, 1024 draws",
+  "source": "results/myocardial_final_redo_e3d965cc4b9b",
+  "candidate_count": 55,
+  "draws": 1024,
+  "primary_seed": 123,
+  "check_seed": 42,
+  "meaningful_correlation_cutoff": 0.05,
+  "selection": "TV to rank3 among abs(correlation)>=.05; no P1 filter",
+  "warning": "Outcome-targeted covariance sensitivity paths, not validated rho estimators"
+}

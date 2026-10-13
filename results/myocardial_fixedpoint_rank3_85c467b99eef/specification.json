@@ -1,0 +1,94 @@
+{
+  "deltas": [
+    1,
+    2,
+    5,
+    10,
+    20
+  ],
+  "fit_grid": [
+    [
+      "fista",
+      8
+    ],
+    [
+      "fista",
+      12
+    ],
+    [
+      "fista",
+      16
+    ],
+    [
+      "fista",
+      20
+    ],
+    [
+      "fista",
+      30
+    ],
+    [
+      "fista",
+      50
+    ],
+    [
+      "lbfgs",
+      3
+    ],
+    [
+      "lbfgs",
+      5
+    ],
+    [
+      "lbfgs",
+      10
+    ],
+    [
+      "lbfgs",
+      20
+    ],
+    [
+      "gd",
+      8
+    ],
+    [
+      "gd",
+      16
+    ],
+    [
+      "gd",
+      30
+    ],
+    [
+      "gd",
+      50
+    ]
+  ],
+  "rho_steps": [
+    1,
+    3,
+    5,
+    8,
+    12,
+    16,
+    20,
+    24,
+    30,
+    40
+  ],
+  "intercepts": [
+    false,
+    true
+  ],
+  "rho_start": "identity",
+  "damping": 0.25,
+  "eigenvalue_bounds": [
+    0.0001,
+    100
+  ],
+  "search_draws": 512,
+  "final_draws": 1024,
+  "posterior_auxiliary_policy": "LS: all logistic fits; logistic: matched plus FISTA16",
+  "screening": "all snapshots with abs correlation >=0.001 plus exact rank3 control",
+  "fingerprint": "725b899b022dfb74bccf024488a49c824a616fd0580bdfec47f683c036d33970"
+}

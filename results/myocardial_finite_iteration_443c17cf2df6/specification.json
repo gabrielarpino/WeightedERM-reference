@@ -1,0 +1,55 @@
+{
+  "fit_budgets": [
+    1,
+    3,
+    10,
+    30,
+    100,
+    300,
+    1000
+  ],
+  "deltas": [
+    1,
+    85,
+    169
+  ],
+  "rho_updates": [
+    1,
+    3,
+    10,
+    30
+  ],
+  "intercept": false,
+  "penalty": "none",
+  "fit_start": "zero",
+  "step": "reciprocal exact global weighted logistic curvature bound",
+  "auxiliary": "least squares or finite FISTA logistic",
+  "count_prior": [
+    0.5,
+    0.5
+  ],
+  "primary": {
+    "power": 8,
+    "budget": 60,
+    "seed": 42
+  },
+  "validation": [
+    {
+      "power": 9,
+      "budget": 100,
+      "seed": 42
+    },
+    {
+      "power": 10,
+      "budget": 100,
+      "seed": 123
+    }
+  ],
+  "files": {
+    "tools/myocardial_finite_iteration_exploration.py": "97e38debdc729ec73723b23cbada8a8038dc279ab236aeda929991c0b5222177",
+    "WERM/myocardial_early_stopping.py": "cfe037e7878a32e973ce516ec574241180c72f00b26dd1f7acbc452ef21feb7b",
+    "WERM/proximal.py": "89593d82e32db5e9380df2c05945cec4485b8ad49281e016ff13f81e24297632",
+    "WERM/myocardial_approximate.py": "86e1c1ad14f40f99305eecc605275dedf2ad01d77bd8b67586852510826585ec",
+    "WERM/signal_strength.py": "2f784c6ed43b9102bcdab22efe918ea8b93076e08adf85aefb76464487767e67"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "time": 1790625576.5982163,
+  "state": "complete",
+  "completed": [
+    "Myocardial Infarction Experiment - fixed point parameter search.ipynb",
+    "Myocardial Infarction Experiment - whole coefficient Gram top 20.ipynb",
+    "Myocardial Infarction Experiment - segmented coefficient Gram top 20.ipynb"
+  ],
+  "failed": {}
+}
