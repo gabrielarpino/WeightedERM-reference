@@ -1,0 +1,2845 @@
+{
+  "spec_digest": "8490596ee1d3",
+  "affinity": [
+    46,
+    47
+  ],
+  "protocol": "Trial0 only; same data, ten iterations, prior and seed; MC samples 16384 versus65536. No tuning or main-result replacement.",
+  "comparisons": [
+    {
+      "study": "unknown",
+      "covariance": "identity",
+      "delta": 3.5,
+      "trial": 0,
+      "n": 700,
+      "p": 200,
+      "seed": 1554082468,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 2,
+      "count_65536": 2,
+      "haus_16384": 0.03571428571428571,
+      "haus_65536": 0.09285714285714286,
+      "cp_16384": "[136, 375]",
+      "cp_65536": "[136, 285]",
+      "count_changed": false,
+      "cp_changed": true,
+      "haus_difference": 0.05714285714285715,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "unknown",
+      "covariance": "identity",
+      "delta": 11.5,
+      "trial": 0,
+      "n": 2300,
+      "p": 200,
+      "seed": 2183164218,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 2,
+      "count_65536": 2,
+      "haus_16384": 0.004347826086956522,
+      "haus_65536": 0.004347826086956522,
+      "cp_16384": "[450, 1152]",
+      "cp_65536": "[450, 1152]",
+      "count_changed": false,
+      "cp_changed": false,
+      "haus_difference": 0.0,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "unknown",
+      "covariance": "ar1",
+      "delta": 3.5,
+      "trial": 0,
+      "n": 700,
+      "p": 200,
+      "seed": 1554082468,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 3,
+      "count_65536": 3,
+      "haus_16384": 0.45,
+      "haus_65536": 0.45,
+      "cp_16384": "[1, 18, 35]",
+      "cp_65536": "[1, 18, 35]",
+      "count_changed": false,
+      "cp_changed": false,
+      "haus_difference": 0.0,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "unknown",
+      "covariance": "ar1",
+      "delta": 11.5,
+      "trial": 0,
+      "n": 2300,
+      "p": 200,
+      "seed": 2183164218,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 3,
+      "count_65536": 3,
+      "haus_16384": 0.17478260869565218,
+      "haus_65536": 0.4365217391304348,
+      "cp_16384": "[58, 115, 1145]",
+      "cp_65536": "[30, 89, 146]",
+      "count_changed": false,
+      "cp_changed": true,
+      "haus_difference": 0.2617391304347826,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "unknown",
+      "covariance": "m3",
+      "delta": 3.5,
+      "trial": 0,
+      "n": 700,
+      "p": 200,
+      "seed": 1554082468,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 2,
+      "count_65536": 2,
+      "haus_16384": 0.004285714285714286,
+      "haus_65536": 0.004285714285714286,
+      "cp_16384": "[141, 347]",
+      "cp_65536": "[141, 347]",
+      "count_changed": false,
+      "cp_changed": false,
+      "haus_difference": 0.0,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "unknown",
+      "covariance": "m3",
+      "delta": 11.5,
+      "trial": 0,
+      "n": 2300,
+      "p": 200,
+      "seed": 2183164218,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 3,
+      "count_65536": 3,
+      "haus_16384": 0.4373913043478261,
+      "haus_65536": 0.4373913043478261,
+      "cp_16384": "[24, 81, 144]",
+      "cp_65536": "[24, 81, 144]",
+      "count_changed": false,
+      "cp_changed": false,
+      "haus_difference": 0.0,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "known",
+      "covariance": "identity",
+      "delta": 3.5,
+      "trial": 0,
+      "n": 700,
+      "p": 200,
+      "seed": 619232370,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 3,
+      "count_65536": 3,
+      "haus_16384": 0.03857142857142857,
+      "haus_65536": 0.03857142857142857,
+      "cp_16384": "[174, 342, 490]",
+      "cp_65536": "[174, 342, 490]",
+      "count_changed": false,
+      "cp_changed": false,
+      "haus_difference": 0.0,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "known",
+      "covariance": "identity",
+      "delta": 11.5,
+      "trial": 0,
+      "n": 2300,
+      "p": 200,
+      "seed": 270168169,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 3,
+      "count_65536": 3,
+      "haus_16384": 0.0,
+      "haus_65536": 0.0,
+      "cp_16384": "[575, 1035, 1610]",
+      "cp_65536": "[575, 1035, 1610]",
+      "count_changed": false,
+      "cp_changed": false,
+      "haus_difference": 0.0,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "known",
+      "covariance": "ar1",
+      "delta": 3.5,
+      "trial": 0,
+      "n": 700,
+      "p": 200,
+      "seed": 619232370,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 3,
+      "count_65536": 3,
+      "haus_16384": 0.24285714285714285,
+      "haus_65536": 0.24285714285714285,
+      "cp_16384": "[5, 232, 595]",
+      "cp_65536": "[5, 232, 595]",
+      "count_changed": false,
+      "cp_changed": false,
+      "haus_difference": 0.0,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "known",
+      "covariance": "ar1",
+      "delta": 11.5,
+      "trial": 0,
+      "n": 2300,
+      "p": 200,
+      "seed": 270168169,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 3,
+      "count_65536": 3,
+      "haus_16384": 0.3491304347826087,
+      "haus_65536": 0.33869565217391306,
+      "cp_16384": "[7, 1838, 1895]",
+      "cp_65536": "[28, 1814, 1872]",
+      "count_changed": false,
+      "cp_changed": true,
+      "haus_difference": -0.010434782608695625,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "known",
+      "covariance": "m3",
+      "delta": 3.5,
+      "trial": 0,
+      "n": 700,
+      "p": 200,
+      "seed": 619232370,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 3,
+      "count_65536": 3,
+      "haus_16384": 0.002857142857142857,
+      "haus_65536": 0.002857142857142857,
+      "cp_16384": "[177, 313, 490]",
+      "cp_65536": "[177, 313, 490]",
+      "count_changed": false,
+      "cp_changed": false,
+      "haus_difference": 0.0,
+      "baseline_reproduction_match": true
+    },
+    {
+      "study": "known",
+      "covariance": "m3",
+      "delta": 11.5,
+      "trial": 0,
+      "n": 2300,
+      "p": 200,
+      "seed": 270168169,
+      "status_16384": "ok",
+      "status_65536": "ok",
+      "count_16384": 3,
+      "count_65536": 3,
+      "haus_16384": 0.0017391304347826088,
+      "haus_65536": 0.0017391304347826088,
+      "cp_16384": "[574, 1031, 1611]",
+      "cp_65536": "[574, 1031, 1611]",
+      "count_changed": false,
+      "cp_changed": false,
+      "haus_difference": 0.0,
+      "baseline_reproduction_match": true
+    }
+  ],
+  "details": [
+    {
+      "study": "unknown",
+      "covariance": "identity",
+      "delta": 3.5,
+      "trial": 0,
+      "truth": [
+        140,
+        350
+      ],
+      "latent_hash": "869f42c2e194d584902a67b2f23a5411a6deea6040c4b2a12109ce0f53e3893e",
+      "low": {
+        "status": "ok",
+        "cp": [
+          136,
+          375
+        ],
+        "count": 2,
+        "segments": 3,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": false,
+        "seed": 1554082468,
+        "design_transform": "none",
+        "negative_log_likelihood": 937.9957451910536,
+        "log_prior": -13.744671697974198,
+        "objective": 951.7404168890279,
+        "candidate_objectives": [
+          1474.8040643918262,
+          1003.4775702292359,
+          951.7404168890279,
+          957.1387171297869
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9488196485772533,
+            "B_rms": 0.7394337314929439,
+            "residual_rms": 0.3050729784859115,
+            "kappa_min_eigenvalue": 0.0013183593750353212
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.3956548339536588,
+            "B_rms": 0.8920192745653627,
+            "residual_rms": 0.41017873537274047,
+            "kappa_min_eigenvalue": 0.0035025189245804574
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.4851602587345286,
+            "B_rms": 0.914979698388973,
+            "residual_rms": 0.45530673957066115,
+            "kappa_min_eigenvalue": 0.005229613621739325
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.5014084718157088,
+            "B_rms": 0.9360976959771078,
+            "residual_rms": 0.49322022209067623,
+            "kappa_min_eigenvalue": 0.006359735189819943
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.5133645374540199,
+            "B_rms": 0.9477648186206428,
+            "residual_rms": 0.5237014891058427,
+            "kappa_min_eigenvalue": 0.006736986179340865
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.5185570034204889,
+            "B_rms": 0.9566510129728731,
+            "residual_rms": 0.5352147487419517,
+            "kappa_min_eigenvalue": 0.006928147328681697
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.5210351991114294,
+            "B_rms": 0.9618964344011556,
+            "residual_rms": 0.5381750105472081,
+            "kappa_min_eigenvalue": 0.007682874859000666
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.5225230565551567,
+            "B_rms": 0.963899337196313,
+            "residual_rms": 0.5486627868307239,
+            "kappa_min_eigenvalue": 0.007431201062365999
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.5233119464463187,
+            "B_rms": 0.9684241406147348,
+            "residual_rms": 0.5531032158453275,
+            "kappa_min_eigenvalue": 0.007679020840198512
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.5248838350276368,
+            "B_rms": 0.9599023122029855,
+            "residual_rms": 0.5573890373318838,
+            "kappa_min_eigenvalue": 0.007676392530466416
+          }
+        ],
+        "runtime_seconds": 1.2361840010271408,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.03571428571428571,
+        "haus_with_empty_one": 0.03571428571428571
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          136,
+          285
+        ],
+        "count": 2,
+        "segments": 3,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": false,
+        "seed": 1554082468,
+        "design_transform": "none",
+        "negative_log_likelihood": 938.1824244129753,
+        "log_prior": -13.744671697974198,
+        "objective": 951.9270961109495,
+        "candidate_objectives": [
+          1472.9459313098937,
+          1003.6284874096011,
+          951.9270961109495,
+          957.3247629062001
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9488196485772533,
+            "B_rms": 0.7382396660985167,
+            "residual_rms": 0.3050729784859115,
+            "kappa_min_eigenvalue": 0.0013228485186890476
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.3950494157274674,
+            "B_rms": 0.8904304268399128,
+            "residual_rms": 0.41080817268553593,
+            "kappa_min_eigenvalue": 0.003589413755704763
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.48423642137081935,
+            "B_rms": 0.9143247458440164,
+            "residual_rms": 0.4575136013217257,
+            "kappa_min_eigenvalue": 0.005254361987395236
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.5009545112754531,
+            "B_rms": 0.9387825736025437,
+            "residual_rms": 0.4951518078903558,
+            "kappa_min_eigenvalue": 0.006062795206179489
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.5147844444439051,
+            "B_rms": 0.9482575498227459,
+            "residual_rms": 0.5251279629448631,
+            "kappa_min_eigenvalue": 0.006867344203400501
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.5189303260449213,
+            "B_rms": 0.9544532250923982,
+            "residual_rms": 0.534137436952335,
+            "kappa_min_eigenvalue": 0.007484822543480422
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.5196504540990741,
+            "B_rms": 0.9594928939728862,
+            "residual_rms": 0.5432027734980004,
+            "kappa_min_eigenvalue": 0.007782350226532759
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.5208861461053497,
+            "B_rms": 0.965012303580825,
+            "residual_rms": 0.5523823545070492,
+            "kappa_min_eigenvalue": 0.007948800737342176
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.5241297098248451,
+            "B_rms": 0.9688302298050423,
+            "residual_rms": 0.5523602607134452,
+            "kappa_min_eigenvalue": 0.007792918205682321
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.5253465144371968,
+            "B_rms": 0.9671576398110086,
+            "residual_rms": 0.5562733126766798,
+            "kappa_min_eigenvalue": 0.007953406959472447
+          }
+        ],
+        "runtime_seconds": 1.1380176979582757,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.09285714285714286,
+        "haus_with_empty_one": 0.09285714285714286
+      }
+    },
+    {
+      "study": "unknown",
+      "covariance": "identity",
+      "delta": 11.5,
+      "trial": 0,
+      "truth": [
+        460,
+        1150
+      ],
+      "latent_hash": "ecd286b2404ffdb3aed1a1c498843497f85655b08f685660380f9cf1853533e6",
+      "low": {
+        "status": "ok",
+        "cp": [
+          450,
+          1152
+        ],
+        "count": 2,
+        "segments": 3,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": false,
+        "seed": 2183164218,
+        "design_transform": "none",
+        "negative_log_likelihood": 3351.1544964774903,
+        "log_prior": -16.123840318712258,
+        "objective": 3367.2783367962024,
+        "candidate_objectives": [
+          8349.556463616353,
+          5761.311589804503,
+          3367.2783367962024,
+          3374.034172364191
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9971910214498948,
+            "B_rms": 2.325899436077382,
+            "residual_rms": 0.3178756720095521,
+            "kappa_min_eigenvalue": 0.0042506929682621
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.6889916043989576,
+            "B_rms": 2.4633812524245378,
+            "residual_rms": 0.4969651995825741,
+            "kappa_min_eigenvalue": 0.021444793446961995
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.7314466759199046,
+            "B_rms": 2.891000782320832,
+            "residual_rms": 0.7514529476279136,
+            "kappa_min_eigenvalue": 0.0427165256116891
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.860327923977094,
+            "B_rms": 2.810424869774994,
+            "residual_rms": 0.9339770268347806,
+            "kappa_min_eigenvalue": 0.03812421511828572
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.8357207681598043,
+            "B_rms": 2.854979597089439,
+            "residual_rms": 1.0129019728838058,
+            "kappa_min_eigenvalue": 0.033373008569283436
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.8523076918751346,
+            "B_rms": 2.894139562278906,
+            "residual_rms": 1.0646856904169206,
+            "kappa_min_eigenvalue": 0.03205134372110301
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.8695428158305042,
+            "B_rms": 2.8387199510144434,
+            "residual_rms": 1.0988866256615881,
+            "kappa_min_eigenvalue": 0.031697394432796504
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.8582275844407655,
+            "B_rms": 2.7974911276384553,
+            "residual_rms": 1.1172929225831176,
+            "kappa_min_eigenvalue": 0.031469206858960014
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.8494981608975047,
+            "B_rms": 2.7677104477841814,
+            "residual_rms": 1.1254198427969002,
+            "kappa_min_eigenvalue": 0.03120532484035583
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.8341151291471265,
+            "B_rms": 2.86053390895727,
+            "residual_rms": 1.1392605861365765,
+            "kappa_min_eigenvalue": 0.03120300084557011
+          }
+        ],
+        "runtime_seconds": 0.9132032310008071,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.004347826086956522,
+        "haus_with_empty_one": 0.004347826086956522
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          450,
+          1152
+        ],
+        "count": 2,
+        "segments": 3,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": false,
+        "seed": 2183164218,
+        "design_transform": "none",
+        "negative_log_likelihood": 3390.46691042609,
+        "log_prior": -16.123840318712258,
+        "objective": 3406.5907507448023,
+        "candidate_objectives": [
+          8360.483978525866,
+          5750.704387735554,
+          3406.5907507448023,
+          3413.3512816950984
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9971910214498948,
+            "B_rms": 2.3188249829080747,
+            "residual_rms": 0.3178756720095521,
+            "kappa_min_eigenvalue": 0.004289535053718061
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.6869729590747121,
+            "B_rms": 2.4648745328479955,
+            "residual_rms": 0.5007615099350884,
+            "kappa_min_eigenvalue": 0.021854391955382385
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.7319524302343556,
+            "B_rms": 2.9029288383706433,
+            "residual_rms": 0.754210931545509,
+            "kappa_min_eigenvalue": 0.043756837231264736
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.8634977091265503,
+            "B_rms": 2.8083671862206865,
+            "residual_rms": 0.9258139902744387,
+            "kappa_min_eigenvalue": 0.03764052138233187
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.8356230051037579,
+            "B_rms": 2.8756763584390526,
+            "residual_rms": 1.0154851604878805,
+            "kappa_min_eigenvalue": 0.03330760868167056
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.8587323785084082,
+            "B_rms": 2.8890759349166317,
+            "residual_rms": 1.063699598012691,
+            "kappa_min_eigenvalue": 0.03188358479373808
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.8681985459836922,
+            "B_rms": 2.8458868191277307,
+            "residual_rms": 1.097370361516009,
+            "kappa_min_eigenvalue": 0.031248402363763115
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.8600811981921432,
+            "B_rms": 2.7663888387847084,
+            "residual_rms": 1.1139410817231292,
+            "kappa_min_eigenvalue": 0.03130584157891501
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.840594542366829,
+            "B_rms": 2.7997217701541817,
+            "residual_rms": 1.128770087881223,
+            "kappa_min_eigenvalue": 0.031107578927637648
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.843925561150172,
+            "B_rms": 2.8512610379233245,
+            "residual_rms": 1.1428096819487512,
+            "kappa_min_eigenvalue": 0.030889817221593414
+          }
+        ],
+        "runtime_seconds": 1.2169924980262294,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.004347826086956522,
+        "haus_with_empty_one": 0.004347826086956522
+      }
+    },
+    {
+      "study": "unknown",
+      "covariance": "ar1",
+      "delta": 3.5,
+      "trial": 0,
+      "truth": [
+        140,
+        350
+      ],
+      "latent_hash": "869f42c2e194d584902a67b2f23a5411a6deea6040c4b2a12109ce0f53e3893e",
+      "low": {
+        "status": "ok",
+        "cp": [
+          1,
+          18,
+          35
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": false,
+        "seed": 1554082468,
+        "design_transform": "none",
+        "negative_log_likelihood": 996.5500364400331,
+        "log_prior": -19.0984016490037,
+        "objective": 1015.6484380890367,
+        "candidate_objectives": [
+          1649.9356661938614,
+          1236.7609041769592,
+          1030.6943388834488,
+          1015.6484380890367
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9492954188849304,
+            "B_rms": 0.8404473204556907,
+            "residual_rms": 0.31439160070861805,
+            "kappa_min_eigenvalue": 0.0013183593750353212
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.5639581023356083,
+            "B_rms": 0.8353621700798526,
+            "residual_rms": 0.4161332889197857,
+            "kappa_min_eigenvalue": 0.0035025189245804574
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.4843969993515533,
+            "B_rms": 0.9872864531614494,
+            "residual_rms": 0.48473709070261956,
+            "kappa_min_eigenvalue": 0.005229613621739325
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.6370984129933719,
+            "B_rms": 0.9094235121996743,
+            "residual_rms": 0.512032025978202,
+            "kappa_min_eigenvalue": 0.006359735189819943
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.5354788379644565,
+            "B_rms": 1.0734316267240314,
+            "residual_rms": 0.5433911734424138,
+            "kappa_min_eigenvalue": 0.006736986179340865
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.7067795933282299,
+            "B_rms": 0.9365379014679511,
+            "residual_rms": 0.5915420647319136,
+            "kappa_min_eigenvalue": 0.006928147328681697
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.5443533365782947,
+            "B_rms": 1.0776429955098754,
+            "residual_rms": 0.5625168696225705,
+            "kappa_min_eigenvalue": 0.007682874859000666
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.7054190667515341,
+            "B_rms": 0.9796969936354131,
+            "residual_rms": 0.5914765297972131,
+            "kappa_min_eigenvalue": 0.007431201062365999
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.5890615447843629,
+            "B_rms": 1.0964446384497197,
+            "residual_rms": 0.6011442247173974,
+            "kappa_min_eigenvalue": 0.007679020840198512
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.7355875030831553,
+            "B_rms": 0.9588984104476186,
+            "residual_rms": 0.5919004659350813,
+            "kappa_min_eigenvalue": 0.007676392530466416
+          }
+        ],
+        "runtime_seconds": 0.3307457139599137,
+        "empty": false,
+        "correct_count": false,
+        "haus": 0.45,
+        "haus_with_empty_one": 0.45
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          1,
+          18,
+          35
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": false,
+        "seed": 1554082468,
+        "design_transform": "none",
+        "negative_log_likelihood": 996.5765955990364,
+        "log_prior": -19.0984016490037,
+        "objective": 1015.6749972480401,
+        "candidate_objectives": [
+          1649.2840860814229,
+          1234.4305779212555,
+          1031.5674843005268,
+          1015.6749972480401
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9492954188849304,
+            "B_rms": 0.8390973572381983,
+            "residual_rms": 0.31439160070861805,
+            "kappa_min_eigenvalue": 0.0013228485186890476
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.5630898695843387,
+            "B_rms": 0.8333565796221676,
+            "residual_rms": 0.41668652111693827,
+            "kappa_min_eigenvalue": 0.003589413755704763
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.48334644472008054,
+            "B_rms": 0.9857175223625206,
+            "residual_rms": 0.4866431646433795,
+            "kappa_min_eigenvalue": 0.005254361987395236
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.6356829405753455,
+            "B_rms": 0.9100687422261038,
+            "residual_rms": 0.5138808706351999,
+            "kappa_min_eigenvalue": 0.006062795206179489
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.5356001747695667,
+            "B_rms": 1.0723293102825506,
+            "residual_rms": 0.5450408761071608,
+            "kappa_min_eigenvalue": 0.006867344203400501
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.7051272344993408,
+            "B_rms": 0.9317962585284857,
+            "residual_rms": 0.5901882925769517,
+            "kappa_min_eigenvalue": 0.007484822543480422
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.5411509035718244,
+            "B_rms": 1.0745509339058779,
+            "residual_rms": 0.5668605939940916,
+            "kappa_min_eigenvalue": 0.007782350226532759
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.7032987706481042,
+            "B_rms": 0.9818505945725384,
+            "residual_rms": 0.5955407308353028,
+            "kappa_min_eigenvalue": 0.007948800737342176
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.5913628959674697,
+            "B_rms": 1.093984939254928,
+            "residual_rms": 0.6022576612811751,
+            "kappa_min_eigenvalue": 0.007792918205682321
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.7334499917949877,
+            "B_rms": 0.9601321702527544,
+            "residual_rms": 0.5894932976622923,
+            "kappa_min_eigenvalue": 0.007953406959472447
+          }
+        ],
+        "runtime_seconds": 1.0293001769459806,
+        "empty": false,
+        "correct_count": false,
+        "haus": 0.45,
+        "haus_with_empty_one": 0.45
+      }
+    },
+    {
+      "study": "unknown",
+      "covariance": "ar1",
+      "delta": 11.5,
+      "trial": 0,
+      "truth": [
+        460,
+        1150
+      ],
+      "latent_hash": "ecd286b2404ffdb3aed1a1c498843497f85655b08f685660380f9cf1853533e6",
+      "low": {
+        "status": "ok",
+        "cp": [
+          58,
+          115,
+          1145
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": false,
+        "seed": 2183164218,
+        "design_transform": "none",
+        "negative_log_likelihood": 4089.9340482148755,
+        "log_prior": -22.66402068883478,
+        "objective": 4112.598068903711,
+        "candidate_objectives": [
+          8705.703374718221,
+          7333.468975881411,
+          4418.893697957972,
+          4112.598068903711
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 1.0123756490423559,
+            "B_rms": 2.650169536915216,
+            "residual_rms": 0.31861733167451123,
+            "kappa_min_eigenvalue": 0.0042506929682621
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.9952350039602375,
+            "B_rms": 2.213467015684933,
+            "residual_rms": 0.5308751460139436,
+            "kappa_min_eigenvalue": 0.021444793446961995
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.7338461749765055,
+            "B_rms": 3.2020934728639463,
+            "residual_rms": 0.7608110962417974,
+            "kappa_min_eigenvalue": 0.0427165256116891
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 1.1332934649139754,
+            "B_rms": 2.6162284885760996,
+            "residual_rms": 1.000693791742646,
+            "kappa_min_eigenvalue": 0.03812421511828572
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.9533028690833609,
+            "B_rms": 2.8598204210555154,
+            "residual_rms": 1.085589443113499,
+            "kappa_min_eigenvalue": 0.033373008569283436
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 1.0434676044143345,
+            "B_rms": 2.512321273356095,
+            "residual_rms": 1.1488978910944208,
+            "kappa_min_eigenvalue": 0.03205134372110301
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.9040993422763692,
+            "B_rms": 2.9630015324292356,
+            "residual_rms": 1.1845142406535338,
+            "kappa_min_eigenvalue": 0.031697394432796504
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 1.0745086968303748,
+            "B_rms": 2.643550568819462,
+            "residual_rms": 1.17503047197191,
+            "kappa_min_eigenvalue": 0.031469206858960014
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.9724242369300796,
+            "B_rms": 2.9700578463339244,
+            "residual_rms": 1.1901517059589717,
+            "kappa_min_eigenvalue": 0.03120532484035583
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 1.0669679278498483,
+            "B_rms": 2.628664925237815,
+            "residual_rms": 1.2056001028780392,
+            "kappa_min_eigenvalue": 0.03120300084557011
+          }
+        ],
+        "runtime_seconds": 0.2923621530062519,
+        "empty": false,
+        "correct_count": false,
+        "haus": 0.17478260869565218,
+        "haus_with_empty_one": 0.17478260869565218
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          30,
+          89,
+          146
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": false,
+        "seed": 2183164218,
+        "design_transform": "none",
+        "negative_log_likelihood": 4198.054111196296,
+        "log_prior": -22.66402068883478,
+        "objective": 4220.718131885131,
+        "candidate_objectives": [
+          8665.02137864089,
+          7471.0521170810025,
+          4817.563142353935,
+          4220.718131885131
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 1.0123756490423559,
+            "B_rms": 2.6417855908436865,
+            "residual_rms": 0.31861733167451123,
+            "kappa_min_eigenvalue": 0.004289535053718061
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.9919983774539196,
+            "B_rms": 2.1965428788561074,
+            "residual_rms": 0.5345391258095108,
+            "kappa_min_eigenvalue": 0.021854391955382385
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.725372865727961,
+            "B_rms": 3.221485542790025,
+            "residual_rms": 0.7646312817224503,
+            "kappa_min_eigenvalue": 0.043756837231264736
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 1.1406868153107885,
+            "B_rms": 2.602620809709449,
+            "residual_rms": 0.9967117762388996,
+            "kappa_min_eigenvalue": 0.03764052138233187
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.9462991726535012,
+            "B_rms": 2.913344849699532,
+            "residual_rms": 1.0927795412812005,
+            "kappa_min_eigenvalue": 0.03330760868167056
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 1.0631088426553639,
+            "B_rms": 2.500910318960282,
+            "residual_rms": 1.1408578668638363,
+            "kappa_min_eigenvalue": 0.03188358479373808
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.9093375045386509,
+            "B_rms": 2.930273761361689,
+            "residual_rms": 1.1899191327722902,
+            "kappa_min_eigenvalue": 0.031248402363763115
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 1.068969499189259,
+            "B_rms": 2.6774037285611403,
+            "residual_rms": 1.1721996797658951,
+            "kappa_min_eigenvalue": 0.03130584157891501
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.9703355568667059,
+            "B_rms": 2.9846881622612758,
+            "residual_rms": 1.1893157186946344,
+            "kappa_min_eigenvalue": 0.031107578927637648
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 1.0857876855420487,
+            "B_rms": 2.595819616040279,
+            "residual_rms": 1.216076619387855,
+            "kappa_min_eigenvalue": 0.030889817221593414
+          }
+        ],
+        "runtime_seconds": 0.9998492340091616,
+        "empty": false,
+        "correct_count": false,
+        "haus": 0.4365217391304348,
+        "haus_with_empty_one": 0.4365217391304348
+      }
+    },
+    {
+      "study": "unknown",
+      "covariance": "m3",
+      "delta": 3.5,
+      "trial": 0,
+      "truth": [
+        140,
+        350
+      ],
+      "latent_hash": "869f42c2e194d584902a67b2f23a5411a6deea6040c4b2a12109ce0f53e3893e",
+      "low": {
+        "status": "ok",
+        "cp": [
+          141,
+          347
+        ],
+        "count": 2,
+        "segments": 3,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": false,
+        "seed": 1554082468,
+        "design_transform": "none",
+        "negative_log_likelihood": 913.5698086374791,
+        "log_prior": -13.744671697974198,
+        "objective": 927.3144803354534,
+        "candidate_objectives": [
+          1598.0722716022524,
+          1046.0699459615234,
+          927.3144803354534,
+          932.551732553991
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9506872224651011,
+            "B_rms": 0.854238425015198,
+            "residual_rms": 0.31927028776393024,
+            "kappa_min_eigenvalue": 0.0013183593750353212
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.5394732629637102,
+            "B_rms": 0.8971089159919579,
+            "residual_rms": 0.42626931787884614,
+            "kappa_min_eigenvalue": 0.0035025189245804574
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.526485641793967,
+            "B_rms": 0.9421357879004301,
+            "residual_rms": 0.4700260379823262,
+            "kappa_min_eigenvalue": 0.005229613621739325
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.5637376590962327,
+            "B_rms": 0.9521097843910517,
+            "residual_rms": 0.524628523649356,
+            "kappa_min_eigenvalue": 0.006359735189819943
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.5489479019348028,
+            "B_rms": 1.017489100369337,
+            "residual_rms": 0.5288779975079402,
+            "kappa_min_eigenvalue": 0.006736986179340865
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.6072269216418811,
+            "B_rms": 0.997694669470483,
+            "residual_rms": 0.5524662076957607,
+            "kappa_min_eigenvalue": 0.006928147328681697
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.5752679728549329,
+            "B_rms": 1.0318845172086142,
+            "residual_rms": 0.5518162481199252,
+            "kappa_min_eigenvalue": 0.007682874859000666
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.6134244287047673,
+            "B_rms": 0.9973062638139131,
+            "residual_rms": 0.554582203228635,
+            "kappa_min_eigenvalue": 0.007431201062365999
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.5778711614865156,
+            "B_rms": 1.0280182618732259,
+            "residual_rms": 0.5668654861078981,
+            "kappa_min_eigenvalue": 0.007679020840198512
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.6054590240320699,
+            "B_rms": 0.9870338199404408,
+            "residual_rms": 0.5707280627726858,
+            "kappa_min_eigenvalue": 0.007676392530466416
+          }
+        ],
+        "runtime_seconds": 0.25580581597751006,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.004285714285714286,
+        "haus_with_empty_one": 0.004285714285714286
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          141,
+          347
+        ],
+        "count": 2,
+        "segments": 3,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": false,
+        "seed": 1554082468,
+        "design_transform": "none",
+        "negative_log_likelihood": 912.7221088175838,
+        "log_prior": -13.744671697974198,
+        "objective": 926.4667805155581,
+        "candidate_objectives": [
+          1596.32111452013,
+          1043.4028939380682,
+          926.4667805155581,
+          931.6876643253494
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9506872224651011,
+            "B_rms": 0.8530431550196425,
+            "residual_rms": 0.31927028776393024,
+            "kappa_min_eigenvalue": 0.0013228485186890476
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.5388278370561592,
+            "B_rms": 0.8953382147708685,
+            "residual_rms": 0.4268669491342415,
+            "kappa_min_eigenvalue": 0.003589413755704763
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.5254449986820795,
+            "B_rms": 0.941366093801448,
+            "residual_rms": 0.47207284607221744,
+            "kappa_min_eigenvalue": 0.005254361987395236
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.5631858856248954,
+            "B_rms": 0.9545311638800755,
+            "residual_rms": 0.5263665972151919,
+            "kappa_min_eigenvalue": 0.006062795206179489
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.550537385806119,
+            "B_rms": 1.016138883129618,
+            "residual_rms": 0.530365111849861,
+            "kappa_min_eigenvalue": 0.006867344203400501
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.6056800645899031,
+            "B_rms": 0.9980048637733742,
+            "residual_rms": 0.5513961470025921,
+            "kappa_min_eigenvalue": 0.007484822543480422
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.5763832281274174,
+            "B_rms": 1.0241707981086676,
+            "residual_rms": 0.5556864771768565,
+            "kappa_min_eigenvalue": 0.007782350226532759
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.6079776878467162,
+            "B_rms": 0.9996182326507081,
+            "residual_rms": 0.558364046243838,
+            "kappa_min_eigenvalue": 0.007948800737342176
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.5805463407739465,
+            "B_rms": 1.0243982912302045,
+            "residual_rms": 0.5672586847575598,
+            "kappa_min_eigenvalue": 0.007792918205682321
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.6027915557437242,
+            "B_rms": 0.9950191924489784,
+            "residual_rms": 0.569583622001154,
+            "kappa_min_eigenvalue": 0.007953406959472447
+          }
+        ],
+        "runtime_seconds": 0.9577991680125706,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.004285714285714286,
+        "haus_with_empty_one": 0.004285714285714286
+      }
+    },
+    {
+      "study": "unknown",
+      "covariance": "m3",
+      "delta": 11.5,
+      "trial": 0,
+      "truth": [
+        460,
+        1150
+      ],
+      "latent_hash": "ecd286b2404ffdb3aed1a1c498843497f85655b08f685660380f9cf1853533e6",
+      "low": {
+        "status": "ok",
+        "cp": [
+          24,
+          81,
+          144
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": false,
+        "seed": 2183164218,
+        "design_transform": "none",
+        "negative_log_likelihood": 3565.1671252797487,
+        "log_prior": -22.66402068883478,
+        "objective": 3587.8311459685833,
+        "candidate_objectives": [
+          7943.777673432182,
+          5684.724705592964,
+          4321.862017948397,
+          3587.8311459685833
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9961324987539338,
+            "B_rms": 2.405746680446227,
+            "residual_rms": 0.31612001383278787,
+            "kappa_min_eigenvalue": 0.0042506929682621
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.8009444852497257,
+            "B_rms": 2.2915516977000747,
+            "residual_rms": 0.49820649356607677,
+            "kappa_min_eigenvalue": 0.021444793446961995
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.6990519473427618,
+            "B_rms": 2.978168004498586,
+            "residual_rms": 0.7621048496877938,
+            "kappa_min_eigenvalue": 0.0427165256116891
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.9452390905177422,
+            "B_rms": 2.4952664847679293,
+            "residual_rms": 0.9382672377219321,
+            "kappa_min_eigenvalue": 0.03812421511828572
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.7668813482349658,
+            "B_rms": 2.914696635913961,
+            "residual_rms": 1.0390234066659565,
+            "kappa_min_eigenvalue": 0.033373008569283436
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.9537208041434578,
+            "B_rms": 2.637412078484169,
+            "residual_rms": 1.0753383099388034,
+            "kappa_min_eigenvalue": 0.03205134372110301
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.8772290994108444,
+            "B_rms": 2.7446927403869075,
+            "residual_rms": 1.124176509917845,
+            "kappa_min_eigenvalue": 0.031697394432796504
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.9061684283362325,
+            "B_rms": 2.7585438488647127,
+            "residual_rms": 1.1275538220943808,
+            "kappa_min_eigenvalue": 0.031469206858960014
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.8829841512153386,
+            "B_rms": 2.902365544940835,
+            "residual_rms": 1.1231024016938453,
+            "kappa_min_eigenvalue": 0.03120532484035583
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.943628911054985,
+            "B_rms": 2.7410212118525883,
+            "residual_rms": 1.1472239410609666,
+            "kappa_min_eigenvalue": 0.03120300084557011
+          }
+        ],
+        "runtime_seconds": 0.2870218070456758,
+        "empty": false,
+        "correct_count": false,
+        "haus": 0.4373913043478261,
+        "haus_with_empty_one": 0.4373913043478261
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          24,
+          81,
+          144
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": false,
+        "seed": 2183164218,
+        "design_transform": "none",
+        "negative_log_likelihood": 3590.27188950227,
+        "log_prior": -22.66402068883478,
+        "objective": 3612.9359101911045,
+        "candidate_objectives": [
+          7939.14635285488,
+          5791.061578081084,
+          4540.326808049202,
+          3612.9359101911045
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9961324987539338,
+            "B_rms": 2.3985516582833637,
+            "residual_rms": 0.31612001383278787,
+            "kappa_min_eigenvalue": 0.004289535053718061
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.7985365106413883,
+            "B_rms": 2.287352241489077,
+            "residual_rms": 0.5018521464177154,
+            "kappa_min_eigenvalue": 0.021854391955382385
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.6975020489808518,
+            "B_rms": 2.9927762089063275,
+            "residual_rms": 0.7661511737879532,
+            "kappa_min_eigenvalue": 0.043756837231264736
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.9509205872969605,
+            "B_rms": 2.4986523454539733,
+            "residual_rms": 0.9330161816898078,
+            "kappa_min_eigenvalue": 0.03764052138233187
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.7686123980308106,
+            "B_rms": 2.927173044323925,
+            "residual_rms": 1.0449886539827824,
+            "kappa_min_eigenvalue": 0.03330760868167056
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.9583876512557976,
+            "B_rms": 2.6338193122365157,
+            "residual_rms": 1.075967398483365,
+            "kappa_min_eigenvalue": 0.03188358479373808
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.8761825796102626,
+            "B_rms": 2.7738992300700622,
+            "residual_rms": 1.1232654475083885,
+            "kappa_min_eigenvalue": 0.031248402363763115
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.9196827509510094,
+            "B_rms": 2.7136076247854346,
+            "residual_rms": 1.123107664108052,
+            "kappa_min_eigenvalue": 0.03130584157891501
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.8704303222702803,
+            "B_rms": 2.9162057892592905,
+            "residual_rms": 1.1248535645629198,
+            "kappa_min_eigenvalue": 0.031107578927637648
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.9525181504145813,
+            "B_rms": 2.723158196693936,
+            "residual_rms": 1.1460962386084368,
+            "kappa_min_eigenvalue": 0.030889817221593414
+          }
+        ],
+        "runtime_seconds": 0.9823735780082643,
+        "empty": false,
+        "correct_count": false,
+        "haus": 0.4373913043478261,
+        "haus_with_empty_one": 0.4373913043478261
+      }
+    },
+    {
+      "study": "known",
+      "covariance": "identity",
+      "delta": 3.5,
+      "trial": 0,
+      "truth": [
+        175,
+        315,
+        490
+      ],
+      "latent_hash": "7657c266381795c4a8caaaca42b09028ab0c88e03e9d191a485d5f9592bc2f6b",
+      "low": {
+        "status": "ok",
+        "cp": [
+          174,
+          342,
+          490
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": true,
+        "seed": 619232370,
+        "design_transform": "none",
+        "negative_log_likelihood": 811.656948720964,
+        "log_prior": -17.71210728788381,
+        "objective": 829.3690560088478,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          829.3690560088478
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 1.0516861116939313,
+            "B_rms": 0.9881165962396393,
+            "residual_rms": 0.32256377697973704,
+            "kappa_min_eigenvalue": 0.028350982538194684
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.5226610545805289,
+            "B_rms": 1.0750128201620932,
+            "residual_rms": 0.34476198933881697,
+            "kappa_min_eigenvalue": 0.06902629633548496
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.5657818957735752,
+            "B_rms": 1.1037520298331387,
+            "residual_rms": 0.34829115163941143,
+            "kappa_min_eigenvalue": 0.09350804746872285
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.5844932587339494,
+            "B_rms": 1.1015511959015598,
+            "residual_rms": 0.350782270621989,
+            "kappa_min_eigenvalue": 0.10860437329857911
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.5814598260181832,
+            "B_rms": 1.1108558629578964,
+            "residual_rms": 0.35543386262805005,
+            "kappa_min_eigenvalue": 0.11762480783617842
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.5874058204845404,
+            "B_rms": 1.1419422476664822,
+            "residual_rms": 0.357846497562606,
+            "kappa_min_eigenvalue": 0.11623782578281192
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.6026362193956877,
+            "B_rms": 1.1303138940474335,
+            "residual_rms": 0.3507911039365981,
+            "kappa_min_eigenvalue": 0.11738999098362539
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.5970008847859376,
+            "B_rms": 1.1206772945963324,
+            "residual_rms": 0.3494202773240808,
+            "kappa_min_eigenvalue": 0.11526341431969085
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.5919402405330315,
+            "B_rms": 1.1308131790980192,
+            "residual_rms": 0.3517372490822965,
+            "kappa_min_eigenvalue": 0.11538374896532722
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.5969872702917185,
+            "B_rms": 1.1283244418942335,
+            "residual_rms": 0.35044486634398714,
+            "kappa_min_eigenvalue": 0.11640930278016583
+          }
+        ],
+        "runtime_seconds": 0.27848788403207436,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.03857142857142857,
+        "haus_with_empty_one": 0.03857142857142857
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          174,
+          342,
+          490
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": true,
+        "seed": 619232370,
+        "design_transform": "none",
+        "negative_log_likelihood": 811.2312511431926,
+        "log_prior": -17.71210728788381,
+        "objective": 828.9433584310764,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          828.9433584310764
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 1.0516861116939313,
+            "B_rms": 0.9856381135111475,
+            "residual_rms": 0.32256377697973704,
+            "kappa_min_eigenvalue": 0.028660956298474122
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.5214341959438152,
+            "B_rms": 1.0759998860574906,
+            "residual_rms": 0.34567710052800044,
+            "kappa_min_eigenvalue": 0.06895474933186171
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.5662007912171204,
+            "B_rms": 1.1069474697668331,
+            "residual_rms": 0.34786353162417494,
+            "kappa_min_eigenvalue": 0.09494756445285389
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.5860929971615643,
+            "B_rms": 1.104882508603145,
+            "residual_rms": 0.349573282377842,
+            "kappa_min_eigenvalue": 0.10788810633777185
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.5833352741359287,
+            "B_rms": 1.117873213401452,
+            "residual_rms": 0.3532690267615555,
+            "kappa_min_eigenvalue": 0.1136339186135719
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.590943347814075,
+            "B_rms": 1.120191983221125,
+            "residual_rms": 0.3538245489016312,
+            "kappa_min_eigenvalue": 0.11595539138785142
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.5914895038001192,
+            "B_rms": 1.1280971599891494,
+            "residual_rms": 0.35423944735507573,
+            "kappa_min_eigenvalue": 0.11791541441769361
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.5957627893882795,
+            "B_rms": 1.1269010306037144,
+            "residual_rms": 0.35288708465181273,
+            "kappa_min_eigenvalue": 0.11930941972596942
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.5950337613796192,
+            "B_rms": 1.133976612982349,
+            "residual_rms": 0.3527856638637841,
+            "kappa_min_eigenvalue": 0.11856751603824459
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.5988030622462748,
+            "B_rms": 1.130998519253442,
+            "residual_rms": 0.3505398770898751,
+            "kappa_min_eigenvalue": 0.11809610899477418
+          }
+        ],
+        "runtime_seconds": 1.2018425280111842,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.03857142857142857,
+        "haus_with_empty_one": 0.03857142857142857
+      }
+    },
+    {
+      "study": "known",
+      "covariance": "identity",
+      "delta": 11.5,
+      "trial": 0,
+      "truth": [
+        575,
+        1035,
+        1610
+      ],
+      "latent_hash": "8345e75324801b0510ea22cf333a828c4bb9cea69b4bae96d59c9e88e9fb33cb",
+      "low": {
+        "status": "ok",
+        "cp": [
+          575,
+          1035,
+          1610
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": true,
+        "seed": 270168169,
+        "design_transform": "none",
+        "negative_log_likelihood": 1656.079070986242,
+        "log_prior": -21.277726327714888,
+        "objective": 1677.3567973139568,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          1677.3567973139568
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 1.005161938063739,
+            "B_rms": 2.5131093182847732,
+            "residual_rms": 0.319509367092582,
+            "kappa_min_eigenvalue": 0.08244767927939554
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.7368515386280744,
+            "B_rms": 3.1438602886983245,
+            "residual_rms": 0.3981794624620565,
+            "kappa_min_eigenvalue": 0.16386195422869676
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.9232167601696007,
+            "B_rms": 3.340504208032754,
+            "residual_rms": 0.46942632385841027,
+            "kappa_min_eigenvalue": 0.14197881651896235
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.9896452682887478,
+            "B_rms": 3.271636994610658,
+            "residual_rms": 0.5839171736698852,
+            "kappa_min_eigenvalue": 0.11990712046956149
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.9666632969291262,
+            "B_rms": 3.3149734926122423,
+            "residual_rms": 0.6907122919400176,
+            "kappa_min_eigenvalue": 0.10450759118572048
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.9828282844184061,
+            "B_rms": 3.247909443862594,
+            "residual_rms": 0.7573903514418165,
+            "kappa_min_eigenvalue": 0.0960426232150615
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.9611029683703501,
+            "B_rms": 3.3011184497472903,
+            "residual_rms": 0.8109464298981476,
+            "kappa_min_eigenvalue": 0.09177829995187058
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.9765772655069475,
+            "B_rms": 3.3629393738165767,
+            "residual_rms": 0.8345962354060658,
+            "kappa_min_eigenvalue": 0.09023483702458006
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.9931631561507923,
+            "B_rms": 3.3396676196268147,
+            "residual_rms": 0.84366744440665,
+            "kappa_min_eigenvalue": 0.08764595244670895
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.9878946531441739,
+            "B_rms": 3.287036117179584,
+            "residual_rms": 0.8675554271223305,
+            "kappa_min_eigenvalue": 0.08692350442684878
+          }
+        ],
+        "runtime_seconds": 0.319162220985163,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.0,
+        "haus_with_empty_one": 0.0
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          575,
+          1035,
+          1610
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": true,
+        "seed": 270168169,
+        "design_transform": "none",
+        "negative_log_likelihood": 1629.9163959466396,
+        "log_prior": -21.277726327714888,
+        "objective": 1651.1941222743544,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          1651.1941222743544
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 1.005161938063739,
+            "B_rms": 2.5093360441463264,
+            "residual_rms": 0.319509367092582,
+            "kappa_min_eigenvalue": 0.08327537322395784
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.7358235442317134,
+            "B_rms": 3.1368820715437598,
+            "residual_rms": 0.3987514956066942,
+            "kappa_min_eigenvalue": 0.1642610091002043
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.9211056531944037,
+            "B_rms": 3.3212145908638893,
+            "residual_rms": 0.4708102969214227,
+            "kappa_min_eigenvalue": 0.1404035087059405
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.9839089338990749,
+            "B_rms": 3.2688306151656614,
+            "residual_rms": 0.5842889664388122,
+            "kappa_min_eigenvalue": 0.1192210027426653
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.9659414673390653,
+            "B_rms": 3.283571495344355,
+            "residual_rms": 0.691310505621699,
+            "kappa_min_eigenvalue": 0.10592803888516049
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.9730863161947544,
+            "B_rms": 3.3334382928629904,
+            "residual_rms": 0.7563157505695491,
+            "kappa_min_eigenvalue": 0.09784531935486794
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.9859584274515583,
+            "B_rms": 3.341992304271937,
+            "residual_rms": 0.8050534806533534,
+            "kappa_min_eigenvalue": 0.0934624950862457
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.9885417432438423,
+            "B_rms": 3.3266727289443683,
+            "residual_rms": 0.8312901567196735,
+            "kappa_min_eigenvalue": 0.0910669664696959
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.9829647596642214,
+            "B_rms": 3.305448861982969,
+            "residual_rms": 0.8479127547712244,
+            "kappa_min_eigenvalue": 0.08887934672785987
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.9776890045286397,
+            "B_rms": 3.3391126021166686,
+            "residual_rms": 0.8626061553802892,
+            "kappa_min_eigenvalue": 0.08724237562295332
+          }
+        ],
+        "runtime_seconds": 1.1105298170004971,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.0,
+        "haus_with_empty_one": 0.0
+      }
+    },
+    {
+      "study": "known",
+      "covariance": "ar1",
+      "delta": 3.5,
+      "trial": 0,
+      "truth": [
+        175,
+        315,
+        490
+      ],
+      "latent_hash": "7657c266381795c4a8caaaca42b09028ab0c88e03e9d191a485d5f9592bc2f6b",
+      "low": {
+        "status": "ok",
+        "cp": [
+          5,
+          232,
+          595
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": true,
+        "seed": 619232370,
+        "design_transform": "none",
+        "negative_log_likelihood": 998.1237960139556,
+        "log_prior": -17.71210728788381,
+        "objective": 1015.8359033018394,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          1015.8359033018394
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 1.0755287288009763,
+            "B_rms": 1.067709257418068,
+            "residual_rms": 0.32268483365430506,
+            "kappa_min_eigenvalue": 0.028350982538194684
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.7039922409035074,
+            "B_rms": 0.9676183158639369,
+            "residual_rms": 0.33305942126729227,
+            "kappa_min_eigenvalue": 0.06902629633548496
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.5596708918114588,
+            "B_rms": 1.161368480339257,
+            "residual_rms": 0.3687653356137812,
+            "kappa_min_eigenvalue": 0.09350804746872285
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.7226256662692254,
+            "B_rms": 1.0333672480084775,
+            "residual_rms": 0.3531025734261492,
+            "kappa_min_eigenvalue": 0.10860437329857911
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.5994980105314528,
+            "B_rms": 1.187585569318683,
+            "residual_rms": 0.38626173062397834,
+            "kappa_min_eigenvalue": 0.11762480783617842
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.7472739099227794,
+            "B_rms": 1.1040133342235798,
+            "residual_rms": 0.3740535433513189,
+            "kappa_min_eigenvalue": 0.11623782578281192
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.6659132660143718,
+            "B_rms": 1.2342720000680143,
+            "residual_rms": 0.40000010726457086,
+            "kappa_min_eigenvalue": 0.11738999098362539
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.7972188082853059,
+            "B_rms": 1.1239460248926434,
+            "residual_rms": 0.38750874701328175,
+            "kappa_min_eigenvalue": 0.11526341431969085
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.7028614395262878,
+            "B_rms": 1.2629382545399206,
+            "residual_rms": 0.41686716541212404,
+            "kappa_min_eigenvalue": 0.11538374896532722
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.8428840084779364,
+            "B_rms": 1.1398461507885993,
+            "residual_rms": 0.40499680548517886,
+            "kappa_min_eigenvalue": 0.11640930278016583
+          }
+        ],
+        "runtime_seconds": 0.27907774900086224,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.24285714285714285,
+        "haus_with_empty_one": 0.24285714285714285
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          5,
+          232,
+          595
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": true,
+        "seed": 619232370,
+        "design_transform": "none",
+        "negative_log_likelihood": 997.9575757343157,
+        "log_prior": -17.71210728788381,
+        "objective": 1015.6696830221995,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          1015.6696830221995
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 1.0755287288009763,
+            "B_rms": 1.0646704288891822,
+            "residual_rms": 0.32268483365430506,
+            "kappa_min_eigenvalue": 0.028660956298474122
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.7021118065596181,
+            "B_rms": 0.9699261015705821,
+            "residual_rms": 0.3338675767496252,
+            "kappa_min_eigenvalue": 0.06895474933186171
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.5616942889445851,
+            "B_rms": 1.1618584743619975,
+            "residual_rms": 0.3679072327472467,
+            "kappa_min_eigenvalue": 0.09494756445285389
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.7223364342705233,
+            "B_rms": 1.0361802141643277,
+            "residual_rms": 0.351772263355026,
+            "kappa_min_eigenvalue": 0.10788810633777185
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.6002227980637855,
+            "B_rms": 1.194906571523439,
+            "residual_rms": 0.38342592635612216,
+            "kappa_min_eigenvalue": 0.1136339186135719
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.751652867141246,
+            "B_rms": 1.0831744155817322,
+            "residual_rms": 0.37020023939805635,
+            "kappa_min_eigenvalue": 0.11595539138785142
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.6526453837948596,
+            "B_rms": 1.231095918335966,
+            "residual_rms": 0.4028734954819054,
+            "kappa_min_eigenvalue": 0.11791541441769361
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.7959221088879813,
+            "B_rms": 1.1233296372457513,
+            "residual_rms": 0.3897128403163912,
+            "kappa_min_eigenvalue": 0.11930941972596942
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.702024183064784,
+            "B_rms": 1.2711537387152883,
+            "residual_rms": 0.4191662383121023,
+            "kappa_min_eigenvalue": 0.11856751603824459
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.8491452540972698,
+            "B_rms": 1.1450438483922658,
+            "residual_rms": 0.4059794909434356,
+            "kappa_min_eigenvalue": 0.11809610899477418
+          }
+        ],
+        "runtime_seconds": 0.9916037939838134,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.24285714285714285,
+        "haus_with_empty_one": 0.24285714285714285
+      }
+    },
+    {
+      "study": "known",
+      "covariance": "ar1",
+      "delta": 11.5,
+      "trial": 0,
+      "truth": [
+        575,
+        1035,
+        1610
+      ],
+      "latent_hash": "8345e75324801b0510ea22cf333a828c4bb9cea69b4bae96d59c9e88e9fb33cb",
+      "low": {
+        "status": "ok",
+        "cp": [
+          7,
+          1838,
+          1895
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": true,
+        "seed": 270168169,
+        "design_transform": "none",
+        "negative_log_likelihood": 7603.733995599927,
+        "log_prior": -21.277726327714888,
+        "objective": 7625.011721927642,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          7625.011721927642
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9825793714147759,
+            "B_rms": 2.678170564603948,
+            "residual_rms": 0.31225949384085333,
+            "kappa_min_eigenvalue": 0.08244767927939554
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 1.0061773489684638,
+            "B_rms": 2.558156038714337,
+            "residual_rms": 0.41182037106611996,
+            "kappa_min_eigenvalue": 0.16386195422869676
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.8281576987834739,
+            "B_rms": 3.2138922173555535,
+            "residual_rms": 0.6295476500467155,
+            "kappa_min_eigenvalue": 0.14197881651896235
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 1.1714489218891497,
+            "B_rms": 2.4754717255411,
+            "residual_rms": 0.7603743384630828,
+            "kappa_min_eigenvalue": 0.11990712046956149
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.8340177071682786,
+            "B_rms": 2.756893098165454,
+            "residual_rms": 1.0168878418996807,
+            "kappa_min_eigenvalue": 0.10450759118572048
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 1.0236715761550859,
+            "B_rms": 2.2865275734436583,
+            "residual_rms": 1.097051050725712,
+            "kappa_min_eigenvalue": 0.0960426232150615
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.7719886905992649,
+            "B_rms": 3.3068514076127853,
+            "residual_rms": 1.3609855802335586,
+            "kappa_min_eigenvalue": 0.09177829995187058
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 1.2468646468615825,
+            "B_rms": 2.73240494630813,
+            "residual_rms": 1.416814981142194,
+            "kappa_min_eigenvalue": 0.09023483702458006
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.9794501882678934,
+            "B_rms": 4.2869933398547815,
+            "residual_rms": 1.672213926762818,
+            "kappa_min_eigenvalue": 0.08764595244670895
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 1.71249357828931,
+            "B_rms": 2.942934935038331,
+            "residual_rms": 1.5603131918453361,
+            "kappa_min_eigenvalue": 0.08692350442684878
+          }
+        ],
+        "runtime_seconds": 0.2659876889665611,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.3491304347826087,
+        "haus_with_empty_one": 0.3491304347826087
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          28,
+          1814,
+          1872
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": true,
+        "seed": 270168169,
+        "design_transform": "none",
+        "negative_log_likelihood": 8358.657239536613,
+        "log_prior": -21.277726327714888,
+        "objective": 8379.934965864328,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          8379.934965864328
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9825793714147759,
+            "B_rms": 2.674138357579863,
+            "residual_rms": 0.31225949384085333,
+            "kappa_min_eigenvalue": 0.08327537322395784
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 1.0047522675225284,
+            "B_rms": 2.5521738356327255,
+            "residual_rms": 0.41206675705023094,
+            "kappa_min_eigenvalue": 0.1642610091002043
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.8264843592862484,
+            "B_rms": 3.200894477795147,
+            "residual_rms": 0.6306525102436576,
+            "kappa_min_eigenvalue": 0.1404035087059405
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 1.1653573638856236,
+            "B_rms": 2.4573594375052545,
+            "residual_rms": 0.7619970913053248,
+            "kappa_min_eigenvalue": 0.1192210027426653
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.8260953182758478,
+            "B_rms": 2.7785995311392204,
+            "residual_rms": 1.0254156592009789,
+            "kappa_min_eigenvalue": 0.10592803888516049
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 1.0335638570973977,
+            "B_rms": 2.369910711431971,
+            "residual_rms": 1.112783378835134,
+            "kappa_min_eigenvalue": 0.09784531935486794
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.8041919044425628,
+            "B_rms": 3.313557060105603,
+            "residual_rms": 1.358584050346201,
+            "kappa_min_eigenvalue": 0.0934624950862457
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 1.2494677615010683,
+            "B_rms": 2.6516345895947864,
+            "residual_rms": 1.394830460942563,
+            "kappa_min_eigenvalue": 0.0910669664696959
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.9329338117622422,
+            "B_rms": 3.91942322206433,
+            "residual_rms": 1.652612492187231,
+            "kappa_min_eigenvalue": 0.08887934672785987
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 1.5401050680352806,
+            "B_rms": 2.92257100750809,
+            "residual_rms": 1.6404231722715974,
+            "kappa_min_eigenvalue": 0.08724237562295332
+          }
+        ],
+        "runtime_seconds": 1.2518836989765987,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.33869565217391306,
+        "haus_with_empty_one": 0.33869565217391306
+      }
+    },
+    {
+      "study": "known",
+      "covariance": "m3",
+      "delta": 3.5,
+      "trial": 0,
+      "truth": [
+        175,
+        315,
+        490
+      ],
+      "latent_hash": "7657c266381795c4a8caaaca42b09028ab0c88e03e9d191a485d5f9592bc2f6b",
+      "low": {
+        "status": "ok",
+        "cp": [
+          177,
+          313,
+          490
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": true,
+        "seed": 619232370,
+        "design_transform": "none",
+        "negative_log_likelihood": 825.4451467020809,
+        "log_prior": -17.71210728788381,
+        "objective": 843.1572539899647,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          843.1572539899647
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 1.059671205415305,
+            "B_rms": 1.0440997198961883,
+            "residual_rms": 0.32686791981554986,
+            "kappa_min_eigenvalue": 0.028350982538194684
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.6257617233599246,
+            "B_rms": 1.0394586530369163,
+            "residual_rms": 0.34179470808879,
+            "kappa_min_eigenvalue": 0.06902629633548496
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.5875645145765446,
+            "B_rms": 1.1219539420588245,
+            "residual_rms": 0.35499682591340354,
+            "kappa_min_eigenvalue": 0.09350804746872285
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.6487111690555395,
+            "B_rms": 1.078772192322392,
+            "residual_rms": 0.35111654047377816,
+            "kappa_min_eigenvalue": 0.10860437329857911
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.6081096762185848,
+            "B_rms": 1.128567380749661,
+            "residual_rms": 0.36167322390361656,
+            "kappa_min_eigenvalue": 0.11762480783617842
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.6495056776438592,
+            "B_rms": 1.1063350478852487,
+            "residual_rms": 0.356801804492484,
+            "kappa_min_eigenvalue": 0.11623782578281192
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.6251432754965476,
+            "B_rms": 1.136395847008738,
+            "residual_rms": 0.35739986864732176,
+            "kappa_min_eigenvalue": 0.11738999098362539
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.6524270078590122,
+            "B_rms": 1.0888093379946353,
+            "residual_rms": 0.35157795832777083,
+            "kappa_min_eigenvalue": 0.11526341431969085
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.6154930750472463,
+            "B_rms": 1.142411741624432,
+            "residual_rms": 0.3603878317324193,
+            "kappa_min_eigenvalue": 0.11538374896532722
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.6580963611552503,
+            "B_rms": 1.0956541987259547,
+            "residual_rms": 0.3538490280438866,
+            "kappa_min_eigenvalue": 0.11640930278016583
+          }
+        ],
+        "runtime_seconds": 0.3617241820320487,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.002857142857142857,
+        "haus_with_empty_one": 0.002857142857142857
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          177,
+          313,
+          490
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": true,
+        "seed": 619232370,
+        "design_transform": "none",
+        "negative_log_likelihood": 824.918121242559,
+        "log_prior": -17.71210728788381,
+        "objective": 842.6302285304428,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          842.6302285304428
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 1.059671205415305,
+            "B_rms": 1.0417971425862993,
+            "residual_rms": 0.32686791981554986,
+            "kappa_min_eigenvalue": 0.028660956298474122
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.6246372843316702,
+            "B_rms": 1.040963150927146,
+            "residual_rms": 0.34267344428345,
+            "kappa_min_eigenvalue": 0.06895474933186171
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.5882515757998635,
+            "B_rms": 1.125680852341184,
+            "residual_rms": 0.3546399563871324,
+            "kappa_min_eigenvalue": 0.09494756445285389
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 0.6515668716939532,
+            "B_rms": 1.0806643081064222,
+            "residual_rms": 0.35007517816883804,
+            "kappa_min_eigenvalue": 0.10788810633777185
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.6082768485680206,
+            "B_rms": 1.1364194610608576,
+            "residual_rms": 0.3599470460314577,
+            "kappa_min_eigenvalue": 0.1136339186135719
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.6541297189165814,
+            "B_rms": 1.0845384947878012,
+            "residual_rms": 0.35299083034573775,
+            "kappa_min_eigenvalue": 0.11595539138785142
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.6121328405698158,
+            "B_rms": 1.1383559929495253,
+            "residual_rms": 0.3613285558204221,
+            "kappa_min_eigenvalue": 0.11791541441769361
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.655310666271808,
+            "B_rms": 1.0928204866009763,
+            "residual_rms": 0.35455670271323664,
+            "kappa_min_eigenvalue": 0.11930941972596942
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.617214473193301,
+            "B_rms": 1.146390617738913,
+            "residual_rms": 0.3616150429551119,
+            "kappa_min_eigenvalue": 0.11856751603824459
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 0.6607076333159128,
+            "B_rms": 1.0968309348471454,
+            "residual_rms": 0.35394688399095237,
+            "kappa_min_eigenvalue": 0.11809610899477418
+          }
+        ],
+        "runtime_seconds": 1.3139761749771424,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.002857142857142857,
+        "haus_with_empty_one": 0.002857142857142857
+      }
+    },
+    {
+      "study": "known",
+      "covariance": "m3",
+      "delta": 11.5,
+      "trial": 0,
+      "truth": [
+        575,
+        1035,
+        1610
+      ],
+      "latent_hash": "8345e75324801b0510ea22cf333a828c4bb9cea69b4bae96d59c9e88e9fb33cb",
+      "low": {
+        "status": "ok",
+        "cp": [
+          574,
+          1031,
+          1611
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 16384,
+        "fixed_count": true,
+        "seed": 270168169,
+        "design_transform": "none",
+        "negative_log_likelihood": 4742.7965761903615,
+        "log_prior": -21.277726327714888,
+        "objective": 4764.074302518076,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          4764.074302518076
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9885257580918493,
+            "B_rms": 2.7198110005007488,
+            "residual_rms": 0.32080263276976917,
+            "kappa_min_eigenvalue": 0.08244767927939554
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.920280931690592,
+            "B_rms": 2.8370007660175958,
+            "residual_rms": 0.4007007535185343,
+            "kappa_min_eigenvalue": 0.16386195422869676
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.8888954404469449,
+            "B_rms": 3.175313802450905,
+            "residual_rms": 0.5341044658619825,
+            "kappa_min_eigenvalue": 0.14197881651896235
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 1.031391820604145,
+            "B_rms": 2.8298167772723715,
+            "residual_rms": 0.6963918453969037,
+            "kappa_min_eigenvalue": 0.11990712046956149
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.9341465516895372,
+            "B_rms": 2.8103377247834835,
+            "residual_rms": 0.9270660634198356,
+            "kappa_min_eigenvalue": 0.10450759118572048
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.9717597130901647,
+            "B_rms": 2.3256624103389405,
+            "residual_rms": 1.045912416249876,
+            "kappa_min_eigenvalue": 0.0960426232150615
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.7799438014221679,
+            "B_rms": 2.7831422959913694,
+            "residual_rms": 1.2160256072587896,
+            "kappa_min_eigenvalue": 0.09177829995187058
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.9331785780675099,
+            "B_rms": 2.554459048980954,
+            "residual_rms": 1.2031909902888736,
+            "kappa_min_eigenvalue": 0.09023483702458006
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.8154163503759868,
+            "B_rms": 3.094989308024804,
+            "residual_rms": 1.2682117336501733,
+            "kappa_min_eigenvalue": 0.08764595244670895
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 1.053018531888238,
+            "B_rms": 2.6060446449724033,
+            "residual_rms": 1.2622766606019762,
+            "kappa_min_eigenvalue": 0.08692350442684878
+          }
+        ],
+        "runtime_seconds": 0.32259501999942586,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.0017391304347826088,
+        "haus_with_empty_one": 0.0017391304347826088
+      },
+      "high": {
+        "status": "ok",
+        "cp": [
+          574,
+          1031,
+          1611
+        ],
+        "count": 3,
+        "segments": 4,
+        "iterations_requested": 10,
+        "iterations_completed": 10,
+        "mc_samples": 65536,
+        "fixed_count": true,
+        "seed": 270168169,
+        "design_transform": "none",
+        "negative_log_likelihood": 4842.540012502014,
+        "log_prior": -21.277726327714888,
+        "objective": 4863.817738829729,
+        "candidate_objectives": [
+          Infinity,
+          Infinity,
+          Infinity,
+          4863.817738829729
+        ],
+        "diagnostics": [
+          {
+            "iteration": 0,
+            "theta_rms": 0.9885257580918493,
+            "B_rms": 2.715526568640649,
+            "residual_rms": 0.32080263276976917,
+            "kappa_min_eigenvalue": 0.08327537322395784
+          },
+          {
+            "iteration": 1,
+            "theta_rms": 0.9187713917532654,
+            "B_rms": 2.827527101314677,
+            "residual_rms": 0.40092648500659706,
+            "kappa_min_eigenvalue": 0.1642610091002043
+          },
+          {
+            "iteration": 2,
+            "theta_rms": 0.8858040963041531,
+            "B_rms": 3.151672475564877,
+            "residual_rms": 0.5347259525513386,
+            "kappa_min_eigenvalue": 0.1404035087059405
+          },
+          {
+            "iteration": 3,
+            "theta_rms": 1.0228446737942274,
+            "B_rms": 2.8194766668397246,
+            "residual_rms": 0.6967869275897872,
+            "kappa_min_eigenvalue": 0.1192210027426653
+          },
+          {
+            "iteration": 4,
+            "theta_rms": 0.9273939326274755,
+            "B_rms": 2.793898190133916,
+            "residual_rms": 0.9258025171157314,
+            "kappa_min_eigenvalue": 0.10592803888516049
+          },
+          {
+            "iteration": 5,
+            "theta_rms": 0.9637442470678609,
+            "B_rms": 2.388377763481685,
+            "residual_rms": 1.0475162273070064,
+            "kappa_min_eigenvalue": 0.09784531935486794
+          },
+          {
+            "iteration": 6,
+            "theta_rms": 0.7975780045098397,
+            "B_rms": 2.769150565634957,
+            "residual_rms": 1.1995562204418153,
+            "kappa_min_eigenvalue": 0.0934624950862457
+          },
+          {
+            "iteration": 7,
+            "theta_rms": 0.9289910862017755,
+            "B_rms": 2.571998161490421,
+            "residual_rms": 1.208105816276831,
+            "kappa_min_eigenvalue": 0.0910669664696959
+          },
+          {
+            "iteration": 8,
+            "theta_rms": 0.8236612972545494,
+            "B_rms": 3.084630690904089,
+            "residual_rms": 1.287043870222417,
+            "kappa_min_eigenvalue": 0.08887934672785987
+          },
+          {
+            "iteration": 9,
+            "theta_rms": 1.0470114396239725,
+            "B_rms": 2.7191572164965967,
+            "residual_rms": 1.269432836648241,
+            "kappa_min_eigenvalue": 0.08724237562295332
+          }
+        ],
+        "runtime_seconds": 1.1653521860134788,
+        "empty": false,
+        "correct_count": true,
+        "haus": 0.0017391304347826088,
+        "haus_with_empty_one": 0.0017391304347826088
+      }
+    }
+  ],
+  "seconds": 18.679855823516846
+}

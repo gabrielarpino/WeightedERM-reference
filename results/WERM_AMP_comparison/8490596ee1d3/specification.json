@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "seed": 20261109,
+  "p": 200,
+  "trials": 100,
+  "deltas": [
+    1.5,
+    3.5,
+    7.5,
+    11.5
+  ],
+  "covariances": [
+    "identity",
+    "ar1",
+    "m3"
+  ],
+  "studies": [
+    "unknown",
+    "known"
+  ],
+  "max_segments": 4,
+  "unknown_truth": [
+    0.2,
+    0.5
+  ],
+  "known_truth": [
+    0.25,
+    0.45,
+    0.7
+  ],
+  "noise_std": 0.31622776601683794,
+  "coefficient_variance": "delta",
+  "ar1_correlation": 0.4,
+  "m3_df": 10,
+  "m3_seed": 42,
+  "folds": 10,
+  "separation_fraction": 0.025,
+  "minimum_gap_fraction": 0.02,
+  "endpoint_minimum": 1,
+  "gamma": 6.0,
+  "amp_iterations": 10,
+  "amp_mc_samples": 16384,
+  "coefficient_loss": "squared",
+  "coefficient_penalty": "none",
+  "cv_validation_loss": "absolute",
+  "penalty": "RSS_K + gamma * log binomial(n-1,K-1); separate fixed-K fits",
+  "marginal_weights": "exact finite-n uniform admissible configurations conditional on K",
+  "amp_configuration_prior": "uniform K=1..L then uniform admissible configurations",
+  "whitening": false,
+  "response_standardization": false,
+  "sources_sha256": {
+    "tools/werm_amp_experiment.py": "dfbea8ad063d2824b467c32f254f7a7456a0e420467bf0b517bca838755a96dc",
+    "tools/werm_amp_adapter.py": "11329ff1c9dd214cc6c93a578678f3b1635d75312443491025708c6a782e1439",
+    "tools/werm_amp_partition.py": "d860085f8c5bd07854eeaecbc282612dd98b25276354a028be057fc0026a22c4",
+    "WERM/proximal.py": "89593d82e32db5e9380df2c05945cec4485b8ad49281e016ff13f81e24297632"
+  },
+  "amp_sources_sha256": {
+    "amp/DCDP_utils.py": "be129ff3ab6df042c88a5bdc3e240a96278466e5e17a71b6ebd2f313b31d81ca",
+    "amp/__init__.py": "6a17e0c529a274b847b630df925bd5ab20d8b7c64dcf2e1d01f2f96572227d29",
+    "amp/changepoint_jax.py": "af601eded38a5c11e5fc3aa58af6dbe457efe4176afd640aab49d069f523f177",
+    "amp/changepoint_jax_modified.py": "f46349192bf202a5b72af059901ac340fba22e6309b9bacae9409110baab11b8",
+    "amp/comparison.py": "41919ea1807b4cd2ede7fee43c542b6290f7faaeecc47a9f73194ee88fea8c14",
+    "amp/covariances.py": "b72478f687175566799263dcedac2af615fac4c77e3cf4b0b17cc9beea813038",
+    "amp/exact_posterior.py": "5e948867915c05014b3853ff772da49123559164a7ecdbe38b044993a7bb7f46",
+    "amp/fully_separable.py": "78835a50fe09172bd59710e37cff6681b0529ec09db0744244fb210df95fd67c",
+    "amp/gof.py": "da485d084a9b51022b200bb31c52cb8d0822811765151eea911e5052fc4845f4",
+    "amp/marginal_separable_jax.py": "3224f27b2609ecb57ee62b23c716ea461484ee5af9281c6b342c3825c098f233",
+    "amp/marginal_separable_jax_linear.py": "fe5943033f9edbcb786bbb34d4565d6a45541c4568ff36afb846c5e608b12eda",
+    "amp/marginal_separable_jax_logistic.py": "8fdd953256b8512bf1f96f7271a93c9e2bdeadc47d2a451ff2d2a4d3d9da892b",
+    "amp/marginal_separable_jax_relu.py": "845ffdcbd7e1eb47d080eb0ffd834f496ed32b25df2a07d5868341a6a82843f1",
+    "amp/performance_measures.py": "924ad9101375527b2e8eaf90d75e975bb008572a6de2e16239c27f8e8cadbb9d",
+    "amp/posterior.py": "1d51d51a8883ccaeb66d639f4cdb176e05469442387ce72053b1b9ceb9ba3f95",
+    "amp/posterior_linear.py": "3dab47b50e33530beb4b5e6c502909e67e543c0953b9f90bec782c31d734b788",
+    "amp/posterior_logistic.py": "79c7d80c37859d3d4a4f8ff599d344855f45bb7c9834c29bc8e7da9139138c22",
+    "amp/posterior_relu.py": "d313a3aad50629076d1154fcc28ad46f38fbdd5313f042ec164ffcd869efd9de",
+    "amp/sep_GAMP_template.py": "34069c86e9420cbb902de6a9989447466c4252fa656ff2cc551ec0a990772faf",
+    "amp/signal_configuration.py": "4df9478e6d4a5d0ae7b5375e6ff5d160ddfbcae197fdf86c6d7a1dfab886e8f5",
+    "amp/signal_priors.py": "9855bf4bba22df7727952599891ace1fecec273a53bba0afbe97e197d0b7635c"
+  },
+  "versions": {
+    "numpy": "2.2.5",
+    "scipy": "1.15.3",
+    "jax": "0.4.35",
+    "jaxlib": "0.4.35",
+    "pandas": "2.3.1"
+  }
+}
