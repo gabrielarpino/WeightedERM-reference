@@ -709,7 +709,7 @@ Use the saved 100 paired trials with $p=200$, known $L=4$ and true locations
 $(0.25,0.45,0.70)n$. The three separate Hausdorff panels have a common vertical
 scale and follow the canonical M1--M3 plotting style; points are means and
 bars span the first and third quartiles. The histogram rows are
-$\delta\in\{3.5,11.5\}$, with WERM and AMP columns paired within each covariance.
+$\delta\in\{7.5,11.5\}$, with WERM and AMP columns paired within each covariance.
 Black dashed lines mark the true locations. Histograms use the canonical
 12-bin density and Gaussian KDE conventions.
 

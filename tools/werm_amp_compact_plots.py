@@ -21,7 +21,7 @@ DEFAULT_ROOT = (Path(__file__).resolve().parents[1]
 COVARIANCES = ('identity', 'ar1', 'm3')
 METHODS = ('WERM', 'AMP')
 DELTAS = (1.5, 3.5, 7.5, 11.5)
-HISTOGRAM_DELTAS = (3.5, 11.5)
+HISTOGRAM_DELTAS = (7.5, 11.5)
 LABELS = {'WERM': r'\textbf{WERM}', 'AMP': 'AMP'}
 
 
@@ -229,7 +229,8 @@ def _histogram(groups, truth, output_dir, artifacts):
     for index, covariance in enumerate(COVARIANCES):
         left = axes[0, 2*index].get_position().x0
         right = axes[0, 2*index+1].get_position().x1
-        fig.text((left+right)/2, .97, COVARIANCE_TITLES[covariance],
+        title = 'random orthogonal' if covariance == 'm3' else COVARIANCE_TITLES[covariance]
+        fig.text((left+right)/2, .97, title,
                  ha='center', va='top', fontsize=18)
     fig.text(.51, .01, 'Fractional location', ha='center', va='bottom', fontsize=18)
     fig.text(.015, .49, 'Density', va='center', rotation='vertical', fontsize=18)
