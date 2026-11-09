@@ -6,7 +6,7 @@ import sys
 import nbformat as nbf
 
 
-def build(destination=None, spacing_roots=None):
+def build(destination=None, spacing_roots=None, t20_roots=None):
     root = Path(__file__).resolve().parents[1]
     destination = Path(destination) if destination else root / "WERM_AMP_comparison.ipynb"
     previous = nbf.read(destination, as_version=4) if destination.exists() else None
@@ -16,6 +16,12 @@ def build(destination=None, spacing_roots=None):
     spacing_roots = {str(key): str(value) for key, value in spacing_roots.items()}
     if not set(spacing_roots).issubset({'20', '10'}):
         raise ValueError('Spacing roots must be keyed by denominator 20 or 10.')
+    if t20_roots is None:
+        t20_roots = (previous.metadata.get('werm_amp_t20_roots', {})
+                     if previous is not None else {})
+    t20_roots = {str(key): str(value) for key, value in t20_roots.items()}
+    if not set(t20_roots).issubset({'20', '10'}):
+        raise ValueError('T=20 roots must be keyed by denominator 20 or 10.')
     md, code = nbf.v4.new_markdown_cell, nbf.v4.new_code_cell
     cells = [
         md(r"""# WERM and AMP: change points with Gaussian regression signals
@@ -32,6 +38,11 @@ their unknown-count truth is $(0.25,0.50)n$, whereas the original reference
 uses $(0.20,0.50)n$. The repeats use the corrected AMP label support described
 below. Original unknown-count results should not be treated as results of that
 corrected implementation.
+
+A final section repeats the two corrected larger-gap studies with **20 AMP
+iterations**, using the same datasets, initializations and Monte Carlo seeds.
+Their WERM fits are reused unchanged, so the new comparison isolates the AMP
+iteration budget. The earlier sections retain their $T=10$ outputs.
 
 The main comparison uses an unknown change-point count. A supplementary
 fixed-count comparison isolates localization. The working dimension is
@@ -527,6 +538,168 @@ if larger_gap_tables:
 else:
     print('No larger-gap trials to summarize yet.')
 """),
+    ])
+    cells.extend([
+        md(r"""## AMP with $T=20$ iterations
+
+Repeat both corrected larger-gap studies with **20 AMP iterations**. The
+Gaussian denoiser, label prior/search, 16,384 Monte Carlo draws per iteration,
+and covariance-unaware state calibration are unchanged. AMP is still supplied
+neither $\Sigma$ nor an estimate of it, and no whitening is performed.
+
+Each $T=20$ fit uses the same dataset, initialization seed and Monte Carlo
+stream as its $T=10$ counterpart. The first ten iterations therefore follow the
+same trajectory; the new estimate is taken after the prescribed twentieth
+iteration, without selecting an intermediate iterate. **WERM results are
+copied from the matching $T=10$ trial**, since its estimators do not depend on
+the AMP iteration budget.
+
+Both gaps, all three covariance matrices, all four sampling ratios, and both
+count scenarios are retained, with 100 paired trials per setting. The unknown
+truth remains $(0.25,0.50)n$ and the known-count truth remains
+$(0.25,0.45,0.70)n$. The following cells load saved results only; they do not
+launch new fits. Empty estimates and failed fits retain the explicit treatment
+used above. The figures use all available trials and do not assume that more
+iterations improve performance."""),
+        code("""# Read-only by default; set RUN_AMP20=True to run or resume the dedicated driver.
+from tools import werm_amp_iterations as iteration_experiment
+
+RUN_AMP20 = False
+T20_ROOT_HINTS = __T20_ROOTS__
+T20_ROOTS, T20_PAYLOADS, T20_SUMMARIES = {}, {}, {}
+prepared_iteration_roots = None
+for denominator in (20, 10):
+    hint = os.environ.get(f'WERM_AMP_T20_RESULTS_DIR_GAP{denominator}')
+    hint = hint or T20_ROOT_HINTS.get(str(denominator))
+    if hint:
+        run_root = Path(hint)
+        if not run_root.is_absolute():
+            run_root = experiment.ROOT / run_root
+    else:
+        if prepared_iteration_roots is None:
+            prepared_iteration_roots = iteration_experiment.prepare_iterations()
+        run_root = prepared_iteration_roots[denominator]
+    saved = json.loads((run_root / 'specification.json').read_text())
+    baseline = SPACING_PAYLOADS[denominator]['specification']
+    if baseline['amp_iterations'] != 10 or saved['amp_iterations'] != 20:
+        raise ValueError(f'Expected paired T=10/T=20 runs for gap n/{denominator}')
+    compared_t10 = {key: value for key, value in baseline.items() if key != 'amp_iterations'}
+    compared_t20 = {key: value for key, value in saved.items() if key != 'amp_iterations'}
+    if compared_t10 != compared_t20:
+        raise ValueError('T=20 settings or algorithm sources differ beyond iteration count.')
+    T20_ROOTS[denominator] = run_root
+if RUN_AMP20:
+    iteration_experiment.run_iterations(T20_ROOTS, jobs=JOBS)
+for denominator, run_root in T20_ROOTS.items():
+    T20_PAYLOADS[denominator] = experiment.load_results(run_root)
+    T20_SUMMARIES[denominator] = experiment.summarize(T20_PAYLOADS[denominator])
+    print(f'T=20, Delta=n/{denominator}: {run_root}')
+    print(json.dumps(experiment.status(run_root), indent=2))
+if not RUN_AMP20:
+    print('No additional fits launched by these notebook cells.')
+""".replace('__T20_ROOTS__', repr(t20_roots))),
+    ])
+    for denominator in (20, 10):
+        cells.extend([
+            md(r"""### $T=20$, $\Delta_n=n/__DIVISOR__$
+
+The summary below records the actual trial counts and success/empty/failure
+rates for this run. The following figures compare **WERM+CV, WERM+P and
+AMP ($T=20$)** for unknown count, and **WERM and AMP ($T=20$)** for known
+$L=4$. WERM curves use the unchanged paired $T=10$ results.""".replace('__DIVISOR__', str(denominator))),
+            code("""t20_root = T20_ROOTS[__DIVISOR__]
+t20_payload = T20_PAYLOADS[__DIVISOR__]
+t20_summary = T20_SUMMARIES[__DIVISOR__]
+t20_status = experiment.status(t20_root)
+print('T=20, Delta=n/__DIVISOR__:', json.dumps(t20_status, indent=2))
+display({key: t20_payload['specification'][key] for key in settings_to_show})
+display(t20_summary.round(5))
+if not t20_status['complete']:
+    print('PARTIAL SNAPSHOT: inspect trial counts before comparing iteration budgets.')
+if not t20_summary.empty:
+    t20_summary.to_csv(t20_root / 'notebook_summary.csv', index=False)
+""".replace('__DIVISOR__', str(denominator))),
+            md(r"""#### $T=20$, $\Delta_n=n/__DIVISOR__$: unknown count
+
+True changes are at $(0.25,0.50)n$. The metric panels and histograms use the
+same definitions and styling as the preceding $T=10$ comparison.""".replace('__DIVISOR__', str(denominator))),
+            code("""payload = T20_PAYLOADS[__DIVISOR__]
+if payload['records']:
+    for path in experiment.plot_study(payload, study='unknown',
+            output_dir=T20_ROOTS[__DIVISOR__] / 'figures' / 'unknown'):
+        print('T=20, Delta=n/__DIVISOR__ — unknown count:', path.name)
+        display(Image(filename=str(path)))
+else:
+    print('No completed T=20, n/__DIVISOR__ trials yet.')
+""".replace('__DIVISOR__', str(denominator))),
+            md(r"""#### $T=20$, $\Delta_n=n/__DIVISOR__$: known count
+
+Both methods return exactly three boundaries ($L=4$), with true locations
+$(0.25,0.45,0.70)n$. This comparison isolates localization.""".replace('__DIVISOR__', str(denominator))),
+            code("""payload = T20_PAYLOADS[__DIVISOR__]
+if payload['records']:
+    for path in experiment.plot_study(payload, study='known',
+            output_dir=T20_ROOTS[__DIVISOR__] / 'figures' / 'known'):
+        print('T=20, Delta=n/__DIVISOR__ — known count:', path.name)
+        display(Image(filename=str(path)))
+else:
+    print('No completed T=20, n/__DIVISOR__ trials yet.')
+""".replace('__DIVISOR__', str(denominator))),
+        ])
+    cells.extend([
+        md(r"""### Direct comparison of AMP iteration budgets
+
+The direct plots compare $T=10$ and $T=20$ across the four sampling ratios;
+each figure contains all three covariance settings. The following table gives
+the corresponding values at the largest sampling ratio. Each comparison uses
+the same completed $T=20$ datasets at both budgets, including in partial
+snapshots. Localization means condition on successful, nonempty estimates;
+empty and failure rates are reported alongside them. Counts include valid
+empty estimates as zero. The paired Hausdorff difference shown separately uses
+only trials with successful nonempty estimates at both budgets. These
+comparisons contain AMP only, because the WERM results were reused without
+modification."""),
+        code("""for denominator in (20, 10):
+    before, after = SPACING_PAYLOADS[denominator], T20_PAYLOADS[denominator]
+    if not before['records'] or not after['records']:
+        print(f'No paired iteration-budget plots yet for Delta=n/{denominator}.')
+        continue
+    for study in ('unknown', 'known'):
+        for path in iteration_experiment.plot_amp_iteration_comparison(
+                before, after, study=study,
+                output_dir=T20_ROOTS[denominator] / 'figures' / 'iterations'):
+            print(f'Delta=n/{denominator}, {study}: AMP T=10 versus T=20')
+            display(Image(filename=str(path)))
+"""),
+        code("""iteration_tables, paired_difference_tables = [], []
+for denominator in (20, 10):
+    paired = iteration_experiment.paired_summary(
+        SPACING_PAYLOADS[denominator], T20_PAYLOADS[denominator])
+    if paired.empty:
+        continue
+    largest = max(T20_PAYLOADS[denominator]['specification']['deltas'])
+    endpoint_paired = paired.loc[paired['delta'].eq(largest)].copy()
+    metric_names = ['successes', 'nonempty_successes', 'failure_rate', 'mean_haus',
+                    'mean_count', 'correct_count_rate', 'empty_rate']
+    for iterations in (10, 20):
+        names = [f'{key}_T{iterations}' for key in metric_names]
+        endpoint = endpoint_paired[['study', 'covariance', 'trials', *names]].copy()
+        endpoint = endpoint.rename(columns={f'{key}_T{iterations}': key for key in metric_names})
+        endpoint.insert(0, 'AMP iterations', iterations)
+        endpoint.insert(0, 'separation', f'n/{denominator}')
+        iteration_tables.append(endpoint)
+    differences = endpoint_paired[['study', 'covariance', 'trials', 'n_common_nonempty',
+        'mean_paired_haus_T20_minus_T10', 'changed_locations_rate_common_successful']].copy()
+    differences.insert(0, 'separation', f'n/{denominator}')
+    paired_difference_tables.append(differences)
+if iteration_tables:
+    display(pd.concat(iteration_tables, ignore_index=True).round(5))
+    print('Paired Hausdorff differences: negative values favor T=20; '
+          'only the common nonempty subset contributes.')
+    display(pd.concat(paired_difference_tables, ignore_index=True).round(5))
+else:
+    print('No AMP iteration-comparison results available yet.')
+"""),
         reproducibility,
     ])
     # Preserve the original reference outputs and stable cell IDs until the
@@ -544,9 +717,10 @@ else:
     for cell in cells:
         if cell.cell_type == 'code' and any(marker in cell.source for marker in (
                 'UNKNOWN_FIGURES = experiment.plot_study(',
-                'KNOWN_FIGURES = experiment.plot_study(')):
+                'KNOWN_FIGURES = experiment.plot_study(',
+                'payload = SPACING_PAYLOADS[')) and 'experiment.plot_study(' in cell.source:
             tags = list(cell.metadata.get('tags', []))
-            for tag in ('baseline-plots', 'skip-execution'):
+            for tag in ('baseline-plots', 'existing-plots', 'skip-execution'):
                 if tag not in tags:
                     tags.append(tag)
             cell.metadata['tags'] = tags
@@ -560,6 +734,7 @@ else:
             },
             'language_info': {'name': 'python', 'version': sys.version.split()[0]},
             'werm_amp_spacing_roots': spacing_roots,
+            'werm_amp_t20_roots': t20_roots,
         },
     )
     nbf.validate(notebook)

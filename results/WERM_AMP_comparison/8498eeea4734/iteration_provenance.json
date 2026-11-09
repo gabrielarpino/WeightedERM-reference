@@ -1,0 +1,7 @@
+{
+  "reference_root": "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/results/WERM_AMP_comparison/e8c4b4c6af5f",
+  "amp_iterations": 20,
+  "werm": "copied without refitting from paired T=10 records",
+  "amp": "rerun from the same initialization and Monte Carlo seed",
+  "driver_sha256": "0951dd00d2d2a5e42e66163bd30d79e23700259fdf13d7ffe59dd512a5d65de5"
+}

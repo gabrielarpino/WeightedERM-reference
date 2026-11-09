@@ -1,0 +1,11 @@
+{
+  "gap_divisor": 10,
+  "paired_datasets": 2400,
+  "amp_successes": 2400,
+  "amp_failures": 0,
+  "amp_empty_estimates": 51,
+  "exact_first_ten_trajectories": 2400,
+  "werm_results_identical": true,
+  "data_and_seeds_identical": true,
+  "only_parameter_change": "amp_iterations: 10 -> 20"
+}
