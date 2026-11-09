@@ -119,6 +119,68 @@ def test_cv_matches_existing_audited_protocol_and_penalty_uses_upper_bound_fit()
                                [penalty(k) for k in range(1,5)])
 
 
+@pytest.mark.parametrize('n,p,zero_response', [(103, 8, False), (100, 45, False),
+                                             (103, 8, True)])
+def test_cv_matches_canonical_native_procedure_with_identical_priors(
+        monkeypatch, n, p, zero_response):
+    """Check actual M2 CV, isolating its different prior construction.
+
+    Cases cover unequal fold sizes, underdetermined segment refits and exact
+    count ties. Only the native estimator's marginal weights are supplied;
+    its fitting, partition search, refits, scoring and selection run unchanged.
+    """
+    import WERM.estimators
+    from WERM.experiment_utils import weighted_erm_joint_cv
+
+    rng = np.random.default_rng(1731)
+    spec = dict(exp.DEFAULT_SPEC, p=p, separation_fraction=1/10)
+    X = rng.normal(size=(n, p))/np.sqrt(n)
+    beta = rng.normal(size=(p, 3))*np.sqrt(n/p)
+    labels = np.searchsorted([round(.25*n), round(.5*n)], np.arange(n),
+                             side='right')
+    y = (np.zeros(n) if zero_response else
+         np.sum(X*beta[:, labels].T, axis=1)+rng.normal(scale=.3, size=n))
+    sizes = {n, *[n-len(range(fold, n, 10)) for fold in range(10)]}
+    weights = {(m, k): prior_marginals(m, k, exp.minimum_gap(m, spec),
+                                      fixed_count=True)
+               for m in sizes for k in range(1, 5)}
+    weights[n, 'werm_upper'] = prior_marginals(n, 4, exp.minimum_gap(n, spec))
+    native_estimator = WERM.estimators.weighted_erm
+    native_calls = []
+
+    def native_with_matching_prior(*args, **kwargs):
+        m, k = len(kwargs['y']), kwargs['L']
+        assert kwargs['coefficient_penalty'] == 'none'
+        assert kwargs['coefficient_lambda'] == 0.
+        assert kwargs['gamma'] == 0.
+        assert not kwargs['L_is_upper_bound']
+        assert kwargs['Delta_n'] == exp.minimum_gap(m, spec)
+        native_calls.append((m, k))
+        return native_estimator(*args, **kwargs, marginal_weights=weights[m, k])
+
+    monkeypatch.setattr(WERM.estimators, 'weighted_erm', native_with_matching_prior)
+    pair, cp, diagnostics = weighted_erm_joint_cv(
+        X, y, lambda a, b: (a-b)**2, lambda a, b: np.abs(a-b),
+        Lmax=4, delta_fraction=1/10, l1_constants=(0.,), penalty_norm='none',
+        coefficient_loss='least_squares', num_folds=10, n_jobs=1,
+        standardize_y=False, selection_strategy='exhaustive',
+        return_diagnostics=True)
+    actual = exp.fit_werm_methods(X, y, weights, spec)['WERM+CV']
+    np.testing.assert_allclose(actual['cv_scores'], np.asarray(diagnostics['scores'])/n,
+                               rtol=1e-9, atol=1e-9)
+    np.testing.assert_array_equal(actual['cp'], cp)
+    assert actual['segments'] == pair[0]
+    assert pair[1] == 0.
+    assert len(native_calls) == 4*10+1
+    assert native_calls[-1] == (n, pair[0])
+    if p == 45:
+        assert actual['min_refit_rows'] < p
+    if zero_response:
+        assert actual['segments'] == 1
+        assert actual['cp'].size == 0
+        np.testing.assert_array_equal(actual['cv_scores'], np.zeros(4))
+
+
 @pytest.mark.parametrize('gamma', [0., 6., 1.e6])
 def test_penalized_werm_matches_enumeration_with_one_shared_fit(gamma):
     rng = np.random.default_rng(20261109)
