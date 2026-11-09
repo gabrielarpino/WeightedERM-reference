@@ -7,6 +7,7 @@ import numpy as np
 import pytest
 
 from tools.werm_amp_partition import (
+    amp_map_partition, amp_prior_marginals, amp_signal_label_subsets,
     log_partition_counts, map_partition, partition_minimize, prior_marginals,
 )
 
@@ -86,3 +87,76 @@ def test_infeasible_count_and_invalid_inputs_are_rejected():
         partition_minimize(np.zeros((12, 4)), 1.5)
     with pytest.raises(ValueError):
         map_partition(np.array([[np.nan]]), 1)
+
+
+@pytest.mark.parametrize('n,L,gap', [(9, 4, 1), (12, 4, 3), (8, 3, 5), (1, 1, 2)])
+def test_amp_marginals_and_map_match_one_joint_enumerated_prior(n, L, gap):
+    rng = np.random.default_rng(451 + n)
+    ll = rng.normal(size=(n, L))
+    phi = np.zeros((L, n))
+    count_probabilities = np.zeros(L)
+    candidates = []
+    for K in range(1, L + 1):
+        configs = configurations(n, K, gap)
+        # Independently spell out the source MAP support, not the production
+        # helper, so this test catches missing constant or skipped labels.
+        label_sets = ([(j,) for j in range(L)] if K == 1 else
+                      [(0, *tail) for tail in combinations(range(1, L), K - 1)])
+        assert amp_signal_label_subsets(L, K) == label_sets
+        probability = 1 / (L * len(configs) * len(label_sets))
+        for cp in configs:
+            for labels in label_sets:
+                assigned = np.asarray(labels)[np.searchsorted(cp, np.arange(n), side='right')]
+                phi[assigned, np.arange(n)] += probability
+                count_probabilities[K - 1] += probability
+                objective = -float(ll[np.arange(n), assigned].sum()) - log(probability)
+                candidates.append((objective, cp, labels, K))
+    np.testing.assert_allclose(count_probabilities, np.ones(L) / L, atol=1e-14)
+    np.testing.assert_allclose(amp_prior_marginals(n, L, gap), phi, atol=1e-14)
+    np.testing.assert_allclose(phi.sum(axis=0), 1., atol=1e-14)
+    best = min(candidates, key=lambda c: c[0])
+    actual = amp_map_partition(ll, gap)
+    np.testing.assert_allclose(actual['objective'], best[0], atol=1e-12)
+    np.testing.assert_array_equal(actual['cp'], best[1])
+    assert actual['selected_signal_labels'] == best[2]
+    assert actual['segments'] == best[3]
+
+
+def test_amp_no_change_prior_mass_is_balanced_and_search_can_use_last_signal():
+    L, n, gap = 4, 30, 3
+    phi = amp_prior_marginals(n, L, gap)
+    # At observation 0 all multi-segment configurations use signal 0;
+    # no-change probability 1/L is shared equally among all L signals.
+    np.testing.assert_allclose(phi[:, 0], [13/16, 1/16, 1/16, 1/16])
+    assert np.all(phi >= 1 / L**2 - 1e-14)
+    ll = np.full((n, L), -100.)
+    ll[:, 3] = 0.
+    selected = amp_map_partition(ll, gap)
+    assert selected['count'] == 0
+    assert selected['selected_signal_labels'] == (3,)
+    np.testing.assert_allclose(selected['log_prior'], -2 * log(L))
+
+
+def test_amp_can_skip_an_unused_signal_without_adding_a_false_change():
+    n, L, gap = 30, 4, 3
+    truth, labels = [8, 19], (0, 1, 3)
+    assigned = np.asarray(labels)[np.searchsorted(truth, np.arange(n), side='right')]
+    ll = np.full((n, L), -20.)
+    ll[np.arange(n), assigned] = 0.
+    selected = amp_map_partition(ll, gap)
+    assert selected['count'] == 2
+    assert selected['selected_signal_labels'] == labels
+    np.testing.assert_array_equal(selected['cp'], truth)
+
+
+def test_known_count_amp_weights_and_search_are_exactly_unchanged():
+    rng = np.random.default_rng(891)
+    n, L, gap = 71, 4, 7
+    np.testing.assert_array_equal(amp_prior_marginals(n,L,gap,True),
+                                   prior_marginals(n,L,gap,True))
+    ll = rng.normal(size=(n,L))
+    before, after = map_partition(ll,gap,True), amp_map_partition(ll,gap,True)
+    np.testing.assert_array_equal(before['cp'], after['cp'])
+    np.testing.assert_array_equal(before['candidate_objectives'], after['candidate_objectives'])
+    assert before['objective'] == after['objective']
+    assert after['selected_signal_labels'] == (0,1,2,3)

@@ -12,6 +12,7 @@ search are exact on the integer observation grid, without enumeration or
 interpolation.
 """
 
+from itertools import combinations
 from math import comb, log
 
 import numpy as np
@@ -168,3 +169,88 @@ def map_partition(log_likelihood, gap, fixed_count=False):
                        log_prior=log_prior, objective=float(objectives[K - 1]))
     winner = int(np.argmin(objectives)) + 1
     return dict(fits[winner], candidate_objectives=objectives)
+
+
+def amp_signal_label_subsets(L, K):
+    """Signal-label support used by the source AMP posterior search.
+
+    A no-change configuration may use any one of the L working signals.
+    For K>=2, the first signal is 0 and subsequent signals form an increasing
+    (K-1)-subset of 1,...,L-1. Thus an unused working signal may be skipped;
+    reaching signal 3 does not require introducing a segment for signal 2.
+
+    This is the support of upstream ``eta_to_psi_jax_combinations_mapped``.
+    Its prior-marginal helper does not consistently cover the K=1,2 cases;
+    the AMP-specific functions below use this same support for both steps.
+    """
+    _, L, _ = _dimensions(1, L, 1)
+    _, K, _ = _dimensions(1, K, 1)
+    if K > L:
+        raise ValueError('K cannot exceed the number of working signals L')
+    if K == 1:
+        return [(label,) for label in range(L)]
+    return [(0, *tail) for tail in combinations(range(1, L), K - 1)]
+
+
+def amp_prior_marginals(n, L, gap, fixed_count=False):
+    """Exact AMP marginals for a consistent count/location/label prior.
+
+    Unknown K is uniform on 1,...,L. Conditional on K, admissible boundary
+    sets and the label tuples in ``amp_signal_label_subsets`` are each uniform
+    and independent. The no-change mass is consequently shared across all
+    working signals, rather than assigned entirely to the first signal.
+    Fixed K=L is identical to the ordinary ordered-label prior.
+    """
+    n, L, gap = _dimensions(n, L, gap)
+    if fixed_count:
+        return prior_marginals(n, L, gap, fixed_count=True)
+    if not _partition_count(n, L, gap):
+        raise ValueError('Infeasible maximum segment count and minimum spacing')
+    phi = np.zeros((L, n))
+    for K in range(1, L + 1):
+        conditional = _conditional_marginals(n, K, gap)
+        label_sets = amp_signal_label_subsets(L, K)
+        for labels in label_sets:
+            phi[list(labels)] += conditional / (L * len(label_sets))
+    phi /= phi.sum(axis=0, keepdims=True)
+    return phi
+
+
+def amp_map_partition(log_likelihood, gap, fixed_count=False):
+    """Exact joint MAP using the same AMP prior as ``amp_prior_marginals``.
+
+    Unknown-count objectives include log(L)+log(N_K)+log(number of label
+    tuples), so allowing additional label tuples does not change the total
+    prior mass assigned to a candidate count. No true count, true labels or
+    true boundaries are inputs. With K=L this reduces to ``map_partition``.
+    """
+    ll = np.asarray(log_likelihood, dtype=float)
+    if ll.ndim != 2 or not np.isfinite(ll).all():
+        raise ValueError('log_likelihood must be a finite two-dimensional matrix')
+    n, L, gap = _dimensions(*ll.shape, gap)
+    if fixed_count:
+        result = map_partition(ll, gap, fixed_count=True)
+        return dict(result, selected_signal_labels=tuple(range(L)),
+                    configuration_support='source_MAP_signal_labels')
+    logs = log_partition_counts(n, L, gap)
+    if not np.isfinite(logs[-1]):
+        raise ValueError('Infeasible maximum segment count and minimum spacing')
+    objectives = np.full(L, np.inf)
+    winners = {}
+    for K in range(1, L + 1):
+        label_sets = amp_signal_label_subsets(L, K)
+        log_prior = -log(L) - float(logs[K - 1]) - log(len(label_sets))
+        for labels in label_sets:
+            cp = partition_minimize(-ll[:, list(labels)], gap)
+            assigned = np.asarray(labels)[np.searchsorted(cp, np.arange(n), side='right')]
+            negative_log_likelihood = -float(ll[np.arange(n), assigned].sum())
+            objective = negative_log_likelihood - log_prior
+            if objective < objectives[K - 1]:
+                objectives[K - 1] = objective
+                winners[K] = dict(cp=cp, count=K - 1, segments=K,
+                    selected_signal_labels=labels,
+                    negative_log_likelihood=negative_log_likelihood,
+                    log_prior=log_prior, objective=objective)
+    winner = int(np.argmin(objectives)) + 1
+    return dict(winners[winner], candidate_objectives=objectives,
+                configuration_support='source_MAP_signal_labels')

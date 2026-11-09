@@ -7,8 +7,11 @@ currently passes the noise standard deviation as a constant observation
 offset), and the final pseudo-data are paired with their *input* state.
 
 Unlike the upstream exhaustive posterior, configuration MAP is computed by
-exact dynamic programming.  No true coefficients or true boundaries enter
-this module.  The Gaussian prior and noise variance are supplied parameters.
+exact dynamic programming. Its signal-label support matches the source MAP:
+unused signals may be skipped and a no-change configuration can use any
+working signal. The experiment supplies marginal weights from this same
+count/location/label prior. No true coefficients or true boundaries enter
+this module. The Gaussian prior and noise variance are supplied parameters.
 """
 
 from __future__ import annotations
@@ -79,7 +82,8 @@ def source_metadata():
     return {"path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
             "recursion": "GAMP_gaussian_clean", "denoiser": "Gaussian posterior mean",
             "corrections": ["Gaussian noise in output-channel MC",
-                            "final pseudo-data/state iteration alignment"],
+                            "final pseudo-data/state iteration alignment",
+                            "consistent marginal and MAP signal-label support"],
             "design_transform": "none"}
 
 
@@ -162,11 +166,12 @@ def fit_amp(X, y, delta, noise_std, prior_cov, phi, gap, seed,
 
     ``X`` is used unchanged.  Its model normalization is Sigma/n; for unit
     marginal prediction variance the experiment uses prior_cov=delta*I.
-    ``phi`` is (L,n) under the same feasible-partition/count prior as MAP.
+    ``phi`` is (L,n), supplied by ``amp_prior_marginals`` under the same
+    feasible-partition/count/signal-label prior as MAP.
     A failed or incomplete run has cp/count=None and status='failed'; it is
     never silently substituted by a better earlier iterate.
     """
-    from tools.werm_amp_partition import map_partition
+    from tools.werm_amp_partition import amp_map_partition
     start = time.perf_counter()
     X = np.asarray(X, dtype=float)
     y = np.asarray(y, dtype=float).reshape(-1, 1)
@@ -201,7 +206,8 @@ def fit_amp(X, y, delta, noise_std, prior_cov, phi, gap, seed,
     result = {"status": "failed", "cp": None, "count": None, "segments": None,
               "iterations_requested": int(iterations), "iterations_completed": 0,
               "mc_samples": int(mc_samples), "fixed_count": bool(fixed_count),
-              "seed": int(seed), "design_transform": "none"}
+              "seed": int(seed), "design_transform": "none",
+              "configuration_support": "source_MAP_signal_labels"}
     try:
         source = load_amp_source(amp_root)
         import jax.numpy as jnp
@@ -240,7 +246,7 @@ def fit_amp(X, y, delta, noise_std, prior_cov, phi, gap, seed,
             result["iterations_completed"] = t + 1
         ll = _finite("posterior row loglik", gaussian_row_loglik(
             theta, y, rho, noise_std, posterior_nu, posterior_kappa))
-        selected = map_partition(ll, gap, fixed_count=fixed_count)
+        selected = amp_map_partition(ll, gap, fixed_count=fixed_count)
         result.update(selected)
         result["status"] = "ok"
         if return_details:

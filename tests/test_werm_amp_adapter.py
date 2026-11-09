@@ -5,13 +5,13 @@ from scipy.stats import multivariate_normal
 from tools.werm_amp_adapter import (
     _normalized, fit_amp, gaussian_row_loglik, load_amp_source, output_state_mc,
 )
-from tools.werm_amp_partition import prior_marginals
+from tools.werm_amp_partition import amp_prior_marginals, prior_marginals
 
 
 def test_initial_output_state_matches_analytic_gaussian_expectation():
     source = load_amp_source()
     n, L = 80, 3
-    phi = prior_marginals(n, L, 4)
+    phi = amp_prior_marginals(n, L, 4)
     rho = np.eye(L)
     actual = output_state_mc(source, phi, rho, np.sqrt(.1), np.zeros((L, L)),
                              rho, np.random.default_rng(33), mc_samples=32768)
@@ -49,7 +49,7 @@ def test_final_pseudodata_state_alignment_and_unmodified_design():
     X[:, 1] += .7 * X[:, 0]  # deliberately correlated; no whitening allowed
     original = X.copy()
     y = rng.normal(size=n)
-    phi = prior_marginals(n, L, gap)
+    phi = amp_prior_marginals(n, L, gap)
     result = fit_amp(X, y, delta, np.sqrt(.1), delta * np.eye(L), phi,
                      gap, seed, iterations=1, mc_samples=1024, return_details=True)
     assert result["status"] == "ok"
@@ -76,5 +76,7 @@ def test_known_count_and_trial_reproducibility():
     second = fit_amp(*args, iterations=2, mc_samples=1024, fixed_count=True)
     assert first["status"] == second["status"] == "ok"
     assert first["count"] == second["count"] == L - 1
+    assert first['selected_signal_labels'] == tuple(range(L))
+    assert first['configuration_support'] == 'source_MAP_signal_labels'
     np.testing.assert_array_equal(first["cp"], second["cp"])
     np.testing.assert_allclose(first["candidate_objectives"], second["candidate_objectives"])

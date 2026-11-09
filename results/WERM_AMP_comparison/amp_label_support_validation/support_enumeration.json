@@ -1,0 +1,9 @@
+{
+  "n": 7,
+  "L": 4,
+  "gap": 2,
+  "source_configurations": 56,
+  "source_support_equal": true,
+  "marginal_max_error": 5.551115123125783e-16,
+  "random_map_comparisons": 20
+}

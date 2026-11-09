@@ -29,7 +29,7 @@ import numpy as np
 import pandas as pd
 from scipy.special import gammaln
 from WERM.proximal import fit_weighted
-from tools.werm_amp_partition import prior_marginals, partition_minimize
+from tools.werm_amp_partition import prior_marginals, amp_prior_marginals, partition_minimize
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SPEC = dict(
@@ -45,7 +45,9 @@ DEFAULT_SPEC = dict(
     cv_validation_loss='absolute',
     penalty='RSS_K + gamma * log binomial(n-1,K-1); separate fixed-K fits',
     marginal_weights='exact finite-n uniform admissible configurations conditional on K',
-    amp_configuration_prior='uniform K=1..L then uniform admissible configurations',
+    amp_configuration_prior=('uniform K=1..L, uniform admissible boundaries, '
+        'uniform source label subsets: any constant label for K=1; '
+        'label 0 then increasing subsets for K>=2'),
     whitening=False, response_standardization=False,
 )
 METHOD_STYLES = {
@@ -121,7 +123,7 @@ def prepare(spec=None):
                 gap = minimum_gap(m, cfg)
                 for k in range(1,cfg['max_segments']+1):
                     weights[m,k] = prior_marginals(m,k,gap,fixed_count=True)
-            weights[n,'mixture'] = prior_marginals(n,cfg['max_segments'],
+            weights[n,'mixture'] = amp_prior_marginals(n,cfg['max_segments'],
                                                   minimum_gap(n,cfg),fixed_count=False)
         atomic_pickle(root/'weights.pkl', weights)
         matrices = covariance_matrices(cfg)

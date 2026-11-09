@@ -1,0 +1,25 @@
+{
+  "paired_datasets": 2400,
+  "reference_datasets_verified": 1200,
+  "reference_latent_draws_verified": 2400,
+  "data_identical_across_spacings": true,
+  "amp_seeds_identical": true,
+  "only_specification_change": "separation_fraction",
+  "amp_receives_design_covariance": false,
+  "runs": {
+    "20": {
+      "root": "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/results/WERM_AMP_comparison/7a5275632c7b",
+      "completed": 2400,
+      "expected": 2400,
+      "complete": true,
+      "failed_fits": 0
+    },
+    "10": {
+      "root": "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/results/WERM_AMP_comparison/e8c4b4c6af5f",
+      "completed": 2400,
+      "expected": 2400,
+      "complete": true,
+      "failed_fits": 0
+    }
+  }
+}

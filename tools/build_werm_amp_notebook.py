@@ -1,13 +1,21 @@
 """Create the WERM/AMP comparison notebook without launching experiments."""
 from pathlib import Path
+import copy
 import sys
 
 import nbformat as nbf
 
 
-def build(destination=None):
+def build(destination=None, spacing_roots=None):
     root = Path(__file__).resolve().parents[1]
     destination = Path(destination) if destination else root / "WERM_AMP_comparison.ipynb"
+    previous = nbf.read(destination, as_version=4) if destination.exists() else None
+    if spacing_roots is None:
+        spacing_roots = (previous.metadata.get('werm_amp_spacing_roots', {})
+                         if previous is not None else {})
+    spacing_roots = {str(key): str(value) for key, value in spacing_roots.items()}
+    if not set(spacing_roots).issubset({'20', '10'}):
+        raise ValueError('Spacing roots must be keyed by denominator 20 or 10.')
     md, code = nbf.v4.new_markdown_cell, nbf.v4.new_code_cell
     cells = [
         md(r"""# WERM and AMP: change points with Gaussian regression signals
@@ -15,6 +23,15 @@ def build(destination=None):
 Compare **WERM+CV, WERM+P and AMP** in the linear model as the sampling ratio
 $\delta=n/p$ increases, under three covariate covariances. All methods receive
 the same $(X,y)$ within each trial. **The covariates are not whitened.**
+
+The original $\Delta_n=n/40$ comparison is retained as an **archival reference**:
+its unknown-count AMP results used superseded prefix-label handling. Two separate
+sections below repeat both count settings with **$\Delta_n=n/20$** and
+**$\Delta_n=n/10$**. These two repeats share the same data and random seeds;
+their unknown-count truth is $(0.25,0.50)n$, whereas the original reference
+uses $(0.20,0.50)n$. The repeats use the corrected AMP label support described
+below. Original unknown-count results should not be treated as results of that
+corrected implementation.
 
 The main comparison uses an unknown change-point count. A supplementary
 fixed-count comparison isolates localization. The working dimension is
@@ -26,8 +43,9 @@ $p=200$. The full design targets **100 paired trials per ratio, covariance and c
 
 | Comparison | True fractional locations | Working segment count |
 |---|---|---|
-| Unknown count | $(0.20,0.50)$ | $K\in\{1,2,3,4\}$ |
-| Known count | $(0.25,0.45,0.70)$ | exactly $K=4$ |
+| Original $n/40$ unknown count | $(0.20,0.50)$ | $K\in\{1,2,3,4\}$ |
+| New $n/20$ and $n/10$ unknown count | $(0.25,0.50)$ | $K\in\{1,2,3,4\}$ |
+| Known count, all separations | $(0.25,0.45,0.70)$ | exactly $K=4$ |
 
 The question is whether the ordinary Gaussian AMP procedure performs differently
 under isotropic and correlated designs relative to WERM. No ranking is imposed
@@ -57,9 +75,20 @@ $X=Z\operatorname{chol}(\Sigma)^\top/\sqrt n$, with independent standard Gaussia
 entries in $Z$. Every method is given this same unwhitened design and unstandardized
 response. AMP is given the matched Gaussian coefficient prior and noise variance;
 its ordinary denoiser is not replaced by a covariance-aware or whitened method.
+**AMP is not supplied $\Sigma$, its eigenvalues, or a covariance estimate.**
+Its Gaussian coefficient prior is $\delta I_L$ in every covariance setting, and
+its state updates retain the isotropic-design calibration. Across covariance
+settings, only the data-generating mechanism changes; AMP receives the resulting
+raw $X,y$ and the same prior, noise level, location constraints and iteration count.
 True locations and realized coefficient vectors are used only to generate data
 and evaluate performance, not to fit the estimators."""),
-        md(r"""## Estimators and admissible partitions
+        md(r"""## Estimators and admissible partitions: archival $n/40$ reference
+
+This section records the original run. Its unknown-count AMP adapter restricted
+the working labels to $(0,\ldots,K-1)$ for each $K$. That restriction differed
+from the supplied AMP method and is corrected in the two new studies below.
+The original figures and their saved source specification are retained for
+traceability; the current implementation is not used to rerun this archive.
 
 At fitting sample size $m$, use the M2 separation
 $$\Delta_m=\max\{\lceil m/50\rceil,\lfloor m/40\rfloor,1\}.$$
@@ -116,7 +145,7 @@ cross-validation nor a count penalty is needed. Some short least-squares refits
 are underdetermined at these ratios; they use the numerical least-squares solver
 used by M2. This is an empirical comparison, without an SE overlay or a claim
 that all segment refits satisfy an overdetermined-theory condition."""),
-        code("""# This cell prepares a reproducible run location; it does not launch trials.
+        code("""# Load the pinned archival run; do not prepare a new run with current sources.
 import os
 for key in ('OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'MKL_NUM_THREADS'):
     os.environ.setdefault(key, '1')
@@ -127,20 +156,22 @@ from IPython.display import Image, display
 from tools import werm_amp_experiment as experiment
 
 RESULTS_DIR = os.environ.get('WERM_AMP_RESULTS_DIR')
-ROOT = Path(RESULTS_DIR).resolve() if RESULTS_DIR else experiment.prepare()
+ROOT = (Path(RESULTS_DIR).resolve() if RESULTS_DIR else
+        experiment.ROOT / 'results/WERM_AMP_comparison/8490596ee1d3')
 if RESULTS_DIR:
     print('OVERRIDE: displaying the saved run at WERM_AMP_RESULTS_DIR.')
     print('A pilot or partial run is not the full 100-trial design described above.')
 print('Results and checkpoints:', ROOT)
 print(json.dumps(experiment.status(ROOT), indent=2, default=str))
 """),
-        md("""## Running and resuming
+        md("""## Loading the archival reference
 
-The next cell is deliberately disabled by default. Set `RUN_EXPERIMENT=True`
-to compute missing trials and resume compatible checkpoints. Use
-`WERM_AMP_JOBS` to control parallel workers. To refresh an ongoing run's plots,
-leave the switch false and rerun the snapshot and plotting cells below.
-Executing the notebook to refresh outputs therefore does not start another run.
+The next cell remains disabled. The original run is pinned to its saved result
+directory, and its sources differ from the corrected implementation used below.
+Its source-hash guard will reject an attempt to append current-implementation
+results to that archive. Use the separate larger-gap controls below for the
+new studies. `WERM_AMP_JOBS` controls workers when those studies are launched.
+Refreshing this notebook does not start experiments by default.
 The saved specification and trial checkpoints determine which results are loaded;
 results from different designs are not pooled. `WERM_AMP_RESULTS_DIR` can point to
 a separate pilot directory; its actual saved settings are displayed below.
@@ -201,7 +232,7 @@ display(SUMMARY.round(5))
 if not SUMMARY.empty:
     SUMMARY.to_csv(ROOT / 'notebook_summary.csv', index=False)
 """),
-        md(r"""## 1. Unknown number of change points
+        md(r"""## Original $n/40$ reference: unknown number of change points
 
 True changes are at $(0.20,0.50)n$. Each covariance has its own Hausdorff,
 selected-count and location-histogram panels for **WERM+CV, WERM+P and AMP**.
@@ -215,7 +246,7 @@ The complete ratio range and every available trial are retained."""),
 else:
     print('No completed trial snapshots yet. Refresh this cell after the run starts.')
 """),
-        md(r"""## 2. Known number of change points
+        md(r"""## Original $n/40$ reference: known number of change points
 
 True changes are at $(0.25,0.45,0.70)n$, with exactly four working segments.
 Compare fixed-count **WERM** and **AMP** to isolate their location estimates.
@@ -230,7 +261,7 @@ the same conventions as above."""),
 else:
     print('No completed trial snapshots yet.')
 """),
-        md(r"""## AMP Monte Carlo resolution check
+        md(r"""## Original $n/40$ reference: AMP Monte Carlo resolution check
 
 A separate numerical check uses **12 prechosen trial-0 datasets**: both
 comparisons, all three covariances, and $\delta\in\{3.5,11.5\}$. It compares
@@ -268,7 +299,11 @@ if RESOLUTION_FILE.exists():
 else:
     print('No saved resolution check for this run; no additional fits launched.')
 """),
-        md(r"""## Reading the completed comparison
+        md(r"""## Reading the archival $n/40$ comparison
+
+These observations describe the original saved outputs, including its
+superseded unknown-count AMP label restriction. They are not conclusions about
+the corrected AMP implementation used in the new studies below.
 
 The known-count experiment shows a clear covariance contrast at the larger
 sampling ratios: AMP localizes more accurately under the identity covariance,
@@ -316,6 +351,205 @@ correlation are observations from this experiment, not a predetermined outcome
 or a theorem. The mild AR(1) and M3 covariance choices are matched to existing
 paper experiments and are not selected after observing the methods' ranking."""),
     ]
+    reproducibility = cells.pop()
+    cells.extend([
+        md(r"""## Correcting AMP's unknown-count label support
+
+The original local adapter restricted a $K$-segment AMP path to working labels
+$(0,\ldots,K-1)$. This concentrated the no-change prior on label zero and did
+not match the configuration support in `AMP_chgpt_reg`. The two new studies use
+that supplied method's label convention:
+
+- For $K=1$ (no change), any one of the $L$ working labels may remain constant.
+- For $K\ge2$, the first segment has label zero and subsequent labels form an
+  increasing subset of $\{1,\ldots,L-1\}$.
+
+The prior is uniform on $K\in\{1,\ldots,L\}$, then uniform on the permitted
+label sequences and admissible locations conditional on $K$. Thus the number
+of label choices is $a_1=L$ and $a_K=\binom{L-1}{K-1}$ for $K\ge2$. Both the
+AMP marginal probabilities and its MAP search use this same support; the latter
+includes the corresponding $\log a_K$ prior term. The location spacing remains
+the shared M2 convention specified below. In the known-count case $K=L=4$,
+the label sequence is uniquely $(0,1,2,3)$.
+
+This corrects the prior construction and the admissible label paths in the
+posterior search. The Gaussian denoiser, state recursion, **10 iterations**,
+and absence of any covariance input or whitening remain unchanged. The saved
+validation tables below, when present, are read without launching extra fits."""),
+        code("""LABEL_VALIDATION_DIR = (experiment.ROOT / 'results' /
+                        'WERM_AMP_comparison' / 'amp_label_support_validation')
+validation_files = sorted(LABEL_VALIDATION_DIR.glob('*.csv'))
+if validation_files:
+    import pandas as pd
+    for validation_file in validation_files:
+        print(validation_file.name)
+        display(pd.read_csv(validation_file).round(6))
+else:
+    print('No saved label-support validation tables at', LABEL_VALIDATION_DIR)
+"""),
+        md(r"""## Repeats with larger minimum separation
+
+The following two studies use $\Delta_n=n/20$ and $\Delta_n=n/10$, with
+**unknown-count true locations $(0.25,0.50)n$ in both**. Each repeats both the
+unknown-count comparison and the known four-segment comparison, with all three
+covariance matrices, all four sampling ratios, and 100 paired trials per
+setting. The known-count locations remain $(0.25,0.45,0.70)n$.
+
+The two repeats share identical datasets and AMP initialization/Monte Carlo
+seeds; only the gap and its associated location prior differ between them.
+Relative to the original $n/40$ reference, the unknown-count study changes
+the separation, the first true location (from $0.20n$ to $0.25n$), and the
+AMP label-support handling corrected above. Its comparison with that reference
+therefore does not isolate separation alone. Coefficient vectors, latent design
+draws, noise draws and AMP seeds
+retain their original seeding convention.
+
+For denominator $q\in\{20,10\}$ and a training sample of size $m$, the integer
+gap is $\Delta_m=\max\{\lceil m/50\rceil,\lfloor m/q\rfloor,1\}$.
+Thus the full-data gaps are exactly $n/q$ for the sample sizes used here;
+fold-local gaps follow the same rounding convention as the original CV code.
+The exact prior marginals are recomputed for each gap and training sample size.
+The end segments remain nonempty, as in the reference experiment.
+
+AMP still uses **10 iterations**, 16,384 Monte Carlo draws per iteration,
+the same Gaussian denoiser, and no covariance input or whitening. WERM+P keeps
+$\gamma=6$, and WERM+CV keeps the same 10-fold procedure. The figures below
+use their own saved results; the original $n/40$ conclusions and numerical
+resolution check are not assumed to apply to these larger-gap studies."""),
+        code("""# Load the two larger-gap runs; no fits are launched by default.
+SPACING_ROOT_HINTS = __ROOTS__
+SPACING_ROOTS, SPACING_PAYLOADS, SPACING_SUMMARIES = {}, {}, {}
+RUN_SPACING_EXPERIMENTS = False
+
+for denominator in (20, 10):
+    hint = os.environ.get(f'WERM_AMP_RESULTS_DIR_GAP{denominator}')
+    hint = hint or SPACING_ROOT_HINTS.get(str(denominator))
+    if hint:
+        run_root = Path(hint)
+        if not run_root.is_absolute():
+            run_root = experiment.ROOT / run_root
+    else:
+        run_root = experiment.prepare({'separation_fraction': 1 / denominator,
+                                       'unknown_truth': [.25, .50]})
+    saved = json.loads((run_root / 'specification.json').read_text())
+    if saved['separation_fraction'] != 1 / denominator:
+        raise ValueError(f'Incorrect separation in {run_root}')
+    if saved['unknown_truth'] != [.25, .50]:
+        raise ValueError(f'Incorrect unknown-count truth in {run_root}')
+    if 'uniform source label subsets:' not in saved.get('amp_configuration_prior', ''):
+        raise ValueError(f'Run predates the AMP label-support correction: {run_root}')
+    if RUN_SPACING_EXPERIMENTS:
+        experiment.run(run_root, jobs=JOBS)  # verifies source hashes before fitting
+    SPACING_ROOTS[denominator] = run_root
+    SPACING_PAYLOADS[denominator] = experiment.load_results(run_root)
+    SPACING_SUMMARIES[denominator] = experiment.summarize(SPACING_PAYLOADS[denominator])
+    print(f'Delta=n/{denominator}: {run_root}')
+    print(json.dumps(experiment.status(run_root), indent=2))
+if not RUN_SPACING_EXPERIMENTS:
+    print('Larger-gap sections only load snapshots; no fits launched.')
+""".replace('__ROOTS__', repr(spacing_roots))),
+    ])
+    for denominator in (20, 10):
+        cells.extend([
+            md(r"""## Repeat with $\Delta_n=n/__DIVISOR__$
+
+This section displays the separate $n/__DIVISOR__$ run. Means and quartiles,
+conditional Hausdorff errors, empty estimates and failed fits retain the
+definitions above. The summary includes every completed trial and identifies
+partial snapshots explicitly.""".replace('__DIVISOR__', str(denominator))),
+            code("""spacing_root = SPACING_ROOTS[__DIVISOR__]
+spacing_payload = SPACING_PAYLOADS[__DIVISOR__]
+spacing_summary = SPACING_SUMMARIES[__DIVISOR__]
+spacing_status = experiment.status(spacing_root)
+print('Delta=n/__DIVISOR__:', json.dumps(spacing_status, indent=2))
+print('Saved settings:')
+settings_to_show = ['p', 'trials', 'deltas', 'covariances', 'unknown_truth',
+    'known_truth', 'max_segments', 'separation_fraction', 'minimum_gap_fraction',
+    'endpoint_minimum', 'folds', 'gamma', 'noise_std', 'amp_iterations',
+    'amp_mc_samples', 'amp_configuration_prior', 'whitening', 'response_standardization']
+display({key: spacing_payload['specification'][key] for key in settings_to_show})
+display(spacing_summary.round(5))
+if not spacing_status['complete']:
+    print('PARTIAL SNAPSHOT: inspect the trial counts before interpreting the curves.')
+if not spacing_summary.empty:
+    spacing_summary.to_csv(spacing_root / 'notebook_summary.csv', index=False)
+""".replace('__DIVISOR__', str(denominator))),
+            md(r"""### $\Delta_n=n/__DIVISOR__$: unknown number of change points
+
+True locations are $(0.25,0.50)n$, and the search permits zero to three
+changes. Compare **WERM+CV, WERM+P and AMP** on the same datasets. Each covariance
+is shown with its Hausdorff/count curves and the four sampling-ratio histogram
+rows; the count reference is two.""".replace('__DIVISOR__', str(denominator))),
+            code("""payload = SPACING_PAYLOADS[__DIVISOR__]
+if payload['records']:
+    for path in experiment.plot_study(payload, study='unknown',
+            output_dir=SPACING_ROOTS[__DIVISOR__] / 'figures' / 'unknown'):
+        print('Delta=n/__DIVISOR__ — unknown count:', path.name)
+        display(Image(filename=str(path)))
+else:
+    print('No completed n/__DIVISOR__ trials yet; refresh after checkpoints are available.')
+""".replace('__DIVISOR__', str(denominator))),
+            md(r"""### $\Delta_n=n/__DIVISOR__$: known number of change points
+
+True locations remain $(0.25,0.45,0.70)n$. Both **WERM** and **AMP** must return
+exactly three boundaries ($L=4$). These curves assess localization without CV
+or count selection; the count panel verifies the required output size.""".replace('__DIVISOR__', str(denominator))),
+            code("""payload = SPACING_PAYLOADS[__DIVISOR__]
+if payload['records']:
+    for path in experiment.plot_study(payload, study='known',
+            output_dir=SPACING_ROOTS[__DIVISOR__] / 'figures' / 'known'):
+        print('Delta=n/__DIVISOR__ — known count:', path.name)
+        display(Image(filename=str(path)))
+else:
+    print('No completed n/__DIVISOR__ trials yet.')
+""".replace('__DIVISOR__', str(denominator))),
+        ])
+    cells.extend([
+        md(r"""## Larger-gap comparison at the largest sampling ratio
+
+The table below is generated from the two loaded repeat studies. It retains
+both localization and count diagnostics, rather than selecting a preferred
+separation or covariance after observing the results. The original $n/40$
+result remains available above. `mean_haus` conditions on successful nonempty
+fits; empty and failure rates must be read with it."""),
+        code("""import pandas as pd
+larger_gap_tables = []
+for denominator, summary in SPACING_SUMMARIES.items():
+    if not summary.empty:
+        largest = max(SPACING_PAYLOADS[denominator]['specification']['deltas'])
+        endpoint = summary.loc[summary['delta'].eq(largest),
+            ['study', 'covariance', 'method', 'trials', 'successes', 'failure_rate',
+             'mean_haus', 'mean_count', 'correct_count_rate', 'empty_rate']].copy()
+        endpoint.insert(0, 'separation', f'n/{denominator}')
+        larger_gap_tables.append(endpoint)
+if larger_gap_tables:
+    display(pd.concat(larger_gap_tables, ignore_index=True).round(5))
+else:
+    print('No larger-gap trials to summarize yet.')
+"""),
+        reproducibility,
+    ])
+    # Preserve the original reference outputs and stable cell IDs until the
+    # caller deliberately executes the new notebook snapshot.
+    if previous is not None:
+        old_by_source = {(cell.cell_type, cell.source): cell for cell in previous.cells}
+        preserved_ids = {old_by_source[cell.cell_type, cell.source].id
+                         for cell in cells if (cell.cell_type, cell.source) in old_by_source}
+        for index, cell in enumerate(cells):
+            old = old_by_source.get((cell.cell_type, cell.source))
+            if old is not None:
+                cells[index] = copy.deepcopy(old)
+            elif index < len(previous.cells) and previous.cells[index].id not in preserved_ids:
+                cell.id = previous.cells[index].id
+    for cell in cells:
+        if cell.cell_type == 'code' and any(marker in cell.source for marker in (
+                'UNKNOWN_FIGURES = experiment.plot_study(',
+                'KNOWN_FIGURES = experiment.plot_study(')):
+            tags = list(cell.metadata.get('tags', []))
+            for tag in ('baseline-plots', 'skip-execution'):
+                if tag not in tags:
+                    tags.append(tag)
+            cell.metadata['tags'] = tags
     notebook = nbf.v4.new_notebook(
         cells=cells,
         metadata={
@@ -325,6 +559,7 @@ paper experiments and are not selected after observing the methods' ranking.""")
                 'name': 'weighted-erm',
             },
             'language_info': {'name': 'python', 'version': sys.version.split()[0]},
+            'werm_amp_spacing_roots': spacing_roots,
         },
     )
     nbf.validate(notebook)

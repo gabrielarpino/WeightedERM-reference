@@ -1,0 +1,457 @@
+[
+  {
+    "gap_denominator": 20,
+    "covariance": "identity",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      186,
+      351
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.015714285714285715,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "identity",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      186,
+      351
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.015714285714285715,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "ar1",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      185,
+      370
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.02857142857142857,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "ar1",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      185,
+      370
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.02857142857142857,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "m3",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      183,
+      350
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.011428571428571429,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "m3",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      183,
+      350
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.011428571428571429,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "identity",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      576,
+      1150
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "identity",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      576,
+      1150
+    ],
+    "labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "ar1",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      582,
+      1237
+    ],
+    "labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.03782608695652174,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "ar1",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      582,
+      1312
+    ],
+    "labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.07043478260869565,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "m3",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      2,
+      2291
+    ],
+    "labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.4960869565217391,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 20,
+    "covariance": "m3",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      344,
+      2291
+    ],
+    "labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.4960869565217391,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "identity",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      186,
+      358
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.015714285714285715,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "identity",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      186,
+      358
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.015714285714285715,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "ar1",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      185,
+      370
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.02857142857142857,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "ar1",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      185,
+      370
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.02857142857142857,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "m3",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      183,
+      350
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.011428571428571429,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "m3",
+    "delta": 3.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      183,
+      350
+    ],
+    "labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.011428571428571429,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "identity",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      576,
+      1152
+    ],
+    "labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0008695652173913044,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "identity",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      576,
+      1150
+    ],
+    "labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "ar1",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [
+      582,
+      1411,
+      2281
+    ],
+    "labels": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "count": 3,
+    "haus": 0.4917391304347826,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "ar1",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      575,
+      1331,
+      2281
+    ],
+    "labels": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "count": 3,
+    "haus": 0.4917391304347826,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "m3",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 16384,
+    "cp": [],
+    "labels": [
+      2
+    ],
+    "count": 0,
+    "haus": NaN,
+    "status": "ok"
+  },
+  {
+    "gap_denominator": 10,
+    "covariance": "m3",
+    "delta": 11.5,
+    "trial": 0,
+    "mc_samples": 65536,
+    "cp": [
+      1,
+      2143
+    ],
+    "labels": [
+      0,
+      2,
+      3
+    ],
+    "count": 2,
+    "haus": 0.4317391304347826,
+    "status": "ok"
+  }
+]

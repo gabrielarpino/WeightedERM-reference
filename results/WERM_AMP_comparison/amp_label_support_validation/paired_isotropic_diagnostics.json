@@ -1,0 +1,2195 @@
+[
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 0,
+    "variant": "legacy_prefix",
+    "data_hash": "eedfab7d816faac169b870cb0025956ffbeae504ee8984f36e4bc76cdc9ee95f",
+    "amp_seed": 2908345794,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      191,
+      750
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.12266666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 0,
+    "variant": "corrected_source_support",
+    "data_hash": "eedfab7d816faac169b870cb0025956ffbeae504ee8984f36e4bc76cdc9ee95f",
+    "amp_seed": 2908345794,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      750
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 1,
+    "variant": "legacy_prefix",
+    "data_hash": "9213c3745fa9fcbe1220e9c1b15f09bae8d39901115c2a80e734fd0c40e4bcaa",
+    "amp_seed": 3380469887,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      2,
+      743
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.24866666666666667,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 1,
+    "variant": "corrected_source_support",
+    "data_hash": "9213c3745fa9fcbe1220e9c1b15f09bae8d39901115c2a80e734fd0c40e4bcaa",
+    "amp_seed": 3380469887,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      749
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0006666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 2,
+    "variant": "legacy_prefix",
+    "data_hash": "1836afc620a7b91941f554897bcb836364b09deb5206cfc122affc4da1db95f4",
+    "amp_seed": 3435474503,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      185,
+      744
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.12666666666666668,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 2,
+    "variant": "corrected_source_support",
+    "data_hash": "1836afc620a7b91941f554897bcb836364b09deb5206cfc122affc4da1db95f4",
+    "amp_seed": 3435474503,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      750
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 3,
+    "variant": "legacy_prefix",
+    "data_hash": "c8ad91932a4531a9a11a6ff245ea4159f71d4e0c0584a4c84dd00c6a00b5d000",
+    "amp_seed": 2631155398,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      230,
+      750
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.09666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 3,
+    "variant": "corrected_source_support",
+    "data_hash": "c8ad91932a4531a9a11a6ff245ea4159f71d4e0c0584a4c84dd00c6a00b5d000",
+    "amp_seed": 2631155398,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      750
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 4,
+    "variant": "legacy_prefix",
+    "data_hash": "12ef996e10e783bf4a30897ff6df23187eefbdf32ee7437966fa8c1174342680",
+    "amp_seed": 1202434604,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      378,
+      750
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.002,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 4,
+    "variant": "corrected_source_support",
+    "data_hash": "12ef996e10e783bf4a30897ff6df23187eefbdf32ee7437966fa8c1174342680",
+    "amp_seed": 1202434604,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      749
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0006666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 5,
+    "variant": "legacy_prefix",
+    "data_hash": "4a6b614050fbcb1a79d8e6355ae94bc998e7fd624104b47c346ed74ae4d33dd8",
+    "amp_seed": 2902416697,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      374,
+      750
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0006666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 5,
+    "variant": "corrected_source_support",
+    "data_hash": "4a6b614050fbcb1a79d8e6355ae94bc998e7fd624104b47c346ed74ae4d33dd8",
+    "amp_seed": 2902416697,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      750
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 6,
+    "variant": "legacy_prefix",
+    "data_hash": "fb16d291e3cf57c54a05e6eaf4db7148788d575432048c0d8f6bbf89d17fe568",
+    "amp_seed": 1169888166,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      363,
+      752
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.008,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 6,
+    "variant": "corrected_source_support",
+    "data_hash": "fb16d291e3cf57c54a05e6eaf4db7148788d575432048c0d8f6bbf89d17fe568",
+    "amp_seed": 1169888166,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      377,
+      749
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0013333333333333333,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 7,
+    "variant": "legacy_prefix",
+    "data_hash": "88c2ac1cd7f96b1740968eebcdf848086349d5b0aa5af1666adb148af0ad853a",
+    "amp_seed": 1736792181,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      376,
+      746
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0026666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 7,
+    "variant": "corrected_source_support",
+    "data_hash": "88c2ac1cd7f96b1740968eebcdf848086349d5b0aa5af1666adb148af0ad853a",
+    "amp_seed": 1736792181,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      376,
+      745
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0033333333333333335,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 8,
+    "variant": "legacy_prefix",
+    "data_hash": "b72974ff97f804820d52408ed5eca261d308a51885979bd2747c4014305a5bef",
+    "amp_seed": 1419474403,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      358,
+      749
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.011333333333333334,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 8,
+    "variant": "corrected_source_support",
+    "data_hash": "b72974ff97f804820d52408ed5eca261d308a51885979bd2747c4014305a5bef",
+    "amp_seed": 1419474403,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      369,
+      749
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.004,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 9,
+    "variant": "legacy_prefix",
+    "data_hash": "ac36accab14a9e58f89113c3c327f18391f60cdb5f23ead7a665146c26bd1a8c",
+    "amp_seed": 4012602974,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      751
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0006666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 7.5,
+    "trial": 9,
+    "variant": "corrected_source_support",
+    "data_hash": "ac36accab14a9e58f89113c3c327f18391f60cdb5f23ead7a665146c26bd1a8c",
+    "amp_seed": 4012602974,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      376,
+      744
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.004,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 0,
+    "variant": "legacy_prefix",
+    "data_hash": "8cf3e56846be06b8dfc295ddb894c08d48b239f031eb7fc0c5d5369018eac97a",
+    "amp_seed": 2183164218,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1152
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0008695652173913044,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 0,
+    "variant": "corrected_source_support",
+    "data_hash": "8cf3e56846be06b8dfc295ddb894c08d48b239f031eb7fc0c5d5369018eac97a",
+    "amp_seed": 2183164218,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      576,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 1,
+    "variant": "legacy_prefix",
+    "data_hash": "c902a3d6990999990f4bdeedc111c3e00e35170691e6724b0bc87f0c4cc1c81b",
+    "amp_seed": 1810995048,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      566,
+      1150
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.00391304347826087,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 1,
+    "variant": "corrected_source_support",
+    "data_hash": "c902a3d6990999990f4bdeedc111c3e00e35170691e6724b0bc87f0c4cc1c81b",
+    "amp_seed": 1810995048,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 2,
+    "variant": "legacy_prefix",
+    "data_hash": "284ab1d22f02390dad01c3016fd8528bce81eea8348262343b2be4423e6ca4c3",
+    "amp_seed": 2843470914,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1150
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 2,
+    "variant": "corrected_source_support",
+    "data_hash": "284ab1d22f02390dad01c3016fd8528bce81eea8348262343b2be4423e6ca4c3",
+    "amp_seed": 2843470914,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 3,
+    "variant": "legacy_prefix",
+    "data_hash": "dc62eb7429789835975e2d93ba52b6c4291af714db97cbcb56a6fb0fd0d27f15",
+    "amp_seed": 2415655357,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      27,
+      584,
+      700
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.2382608695652174,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 3,
+    "variant": "corrected_source_support",
+    "data_hash": "dc62eb7429789835975e2d93ba52b6c4291af714db97cbcb56a6fb0fd0d27f15",
+    "amp_seed": 2415655357,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      577,
+      1151
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0008695652173913044,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 4,
+    "variant": "legacy_prefix",
+    "data_hash": "616287966914e4db9dec13f48058d69724d7603e6542189bbc932d1635c2fb63",
+    "amp_seed": 3042278074,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      542,
+      1151
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.014347826086956521,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 4,
+    "variant": "corrected_source_support",
+    "data_hash": "616287966914e4db9dec13f48058d69724d7603e6542189bbc932d1635c2fb63",
+    "amp_seed": 3042278074,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      577,
+      1149
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0008695652173913044,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 5,
+    "variant": "legacy_prefix",
+    "data_hash": "1416c4ebb8f2c925cddfcfbced67482d6f1e8226498e9ed69450b75fe26ff534",
+    "amp_seed": 3721569836,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      1,
+      128,
+      243
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.3943478260869565,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 5,
+    "variant": "corrected_source_support",
+    "data_hash": "1416c4ebb8f2c925cddfcfbced67482d6f1e8226498e9ed69450b75fe26ff534",
+    "amp_seed": 3721569836,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      573,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0008695652173913044,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 6,
+    "variant": "legacy_prefix",
+    "data_hash": "42f60a688296774822a437b7676417d8f242b4251ab2c027b5b320b3ace78b17",
+    "amp_seed": 3543065936,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      511,
+      1151,
+      1394
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.10608695652173913,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 6,
+    "variant": "corrected_source_support",
+    "data_hash": "42f60a688296774822a437b7676417d8f242b4251ab2c027b5b320b3ace78b17",
+    "amp_seed": 3543065936,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      576,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 7,
+    "variant": "legacy_prefix",
+    "data_hash": "8f892ff9417e987388fe98c7b553856e7893f55b52e804c3e9a6cb308031ee7f",
+    "amp_seed": 2126103868,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      566,
+      1150,
+      1533
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.16652173913043478,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 7,
+    "variant": "corrected_source_support",
+    "data_hash": "8f892ff9417e987388fe98c7b553856e7893f55b52e804c3e9a6cb308031ee7f",
+    "amp_seed": 2126103868,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 8,
+    "variant": "legacy_prefix",
+    "data_hash": "c55d5994cd92dc30877986bd16bf4121bb4af7bbba31682c6d808aef135d0232",
+    "amp_seed": 3288286850,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      567,
+      1151
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0034782608695652175,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 8,
+    "variant": "corrected_source_support",
+    "data_hash": "c55d5994cd92dc30877986bd16bf4121bb4af7bbba31682c6d808aef135d0232",
+    "amp_seed": 3288286850,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 9,
+    "variant": "legacy_prefix",
+    "data_hash": "54d72cc3939546bb8a6bee3161a3c2703c41ca0853bcb9a81f8b05b17fd8cd51",
+    "amp_seed": 2468599548,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1142
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0034782608695652175,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 9,
+    "variant": "corrected_source_support",
+    "data_hash": "54d72cc3939546bb8a6bee3161a3c2703c41ca0853bcb9a81f8b05b17fd8cd51",
+    "amp_seed": 2468599548,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1143
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.003043478260869565,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 0,
+    "variant": "legacy_prefix",
+    "data_hash": "eedfab7d816faac169b870cb0025956ffbeae504ee8984f36e4bc76cdc9ee95f",
+    "amp_seed": 2908345794,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      750
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 0,
+    "variant": "corrected_source_support",
+    "data_hash": "eedfab7d816faac169b870cb0025956ffbeae504ee8984f36e4bc76cdc9ee95f",
+    "amp_seed": 2908345794,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      750
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 1,
+    "variant": "legacy_prefix",
+    "data_hash": "9213c3745fa9fcbe1220e9c1b15f09bae8d39901115c2a80e734fd0c40e4bcaa",
+    "amp_seed": 3380469887,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      2,
+      743
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.24866666666666667,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 1,
+    "variant": "corrected_source_support",
+    "data_hash": "9213c3745fa9fcbe1220e9c1b15f09bae8d39901115c2a80e734fd0c40e4bcaa",
+    "amp_seed": 3380469887,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      747
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.002,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 2,
+    "variant": "legacy_prefix",
+    "data_hash": "1836afc620a7b91941f554897bcb836364b09deb5206cfc122affc4da1db95f4",
+    "amp_seed": 3435474503,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      373,
+      744
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.004,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 2,
+    "variant": "corrected_source_support",
+    "data_hash": "1836afc620a7b91941f554897bcb836364b09deb5206cfc122affc4da1db95f4",
+    "amp_seed": 3435474503,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      751
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0006666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 3,
+    "variant": "legacy_prefix",
+    "data_hash": "c8ad91932a4531a9a11a6ff245ea4159f71d4e0c0584a4c84dd00c6a00b5d000",
+    "amp_seed": 2631155398,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      230,
+      750
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.09666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 3,
+    "variant": "corrected_source_support",
+    "data_hash": "c8ad91932a4531a9a11a6ff245ea4159f71d4e0c0584a4c84dd00c6a00b5d000",
+    "amp_seed": 2631155398,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      374,
+      750
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0006666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 4,
+    "variant": "legacy_prefix",
+    "data_hash": "12ef996e10e783bf4a30897ff6df23187eefbdf32ee7437966fa8c1174342680",
+    "amp_seed": 1202434604,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      378,
+      749
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.002,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 4,
+    "variant": "corrected_source_support",
+    "data_hash": "12ef996e10e783bf4a30897ff6df23187eefbdf32ee7437966fa8c1174342680",
+    "amp_seed": 1202434604,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      749
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0006666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 5,
+    "variant": "legacy_prefix",
+    "data_hash": "4a6b614050fbcb1a79d8e6355ae94bc998e7fd624104b47c346ed74ae4d33dd8",
+    "amp_seed": 2902416697,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      374,
+      750
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0006666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 5,
+    "variant": "corrected_source_support",
+    "data_hash": "4a6b614050fbcb1a79d8e6355ae94bc998e7fd624104b47c346ed74ae4d33dd8",
+    "amp_seed": 2902416697,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      750
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 6,
+    "variant": "legacy_prefix",
+    "data_hash": "fb16d291e3cf57c54a05e6eaf4db7148788d575432048c0d8f6bbf89d17fe568",
+    "amp_seed": 1169888166,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      371,
+      751
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0026666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 6,
+    "variant": "corrected_source_support",
+    "data_hash": "fb16d291e3cf57c54a05e6eaf4db7148788d575432048c0d8f6bbf89d17fe568",
+    "amp_seed": 1169888166,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      377,
+      749
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0013333333333333333,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 7,
+    "variant": "legacy_prefix",
+    "data_hash": "88c2ac1cd7f96b1740968eebcdf848086349d5b0aa5af1666adb148af0ad853a",
+    "amp_seed": 1736792181,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      376,
+      747
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.002,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 7,
+    "variant": "corrected_source_support",
+    "data_hash": "88c2ac1cd7f96b1740968eebcdf848086349d5b0aa5af1666adb148af0ad853a",
+    "amp_seed": 1736792181,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      376,
+      745
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0033333333333333335,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 8,
+    "variant": "legacy_prefix",
+    "data_hash": "b72974ff97f804820d52408ed5eca261d308a51885979bd2747c4014305a5bef",
+    "amp_seed": 1419474403,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      358,
+      749
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.011333333333333334,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 8,
+    "variant": "corrected_source_support",
+    "data_hash": "b72974ff97f804820d52408ed5eca261d308a51885979bd2747c4014305a5bef",
+    "amp_seed": 1419474403,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      369,
+      749
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.004,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 9,
+    "variant": "legacy_prefix",
+    "data_hash": "ac36accab14a9e58f89113c3c327f18391f60cdb5f23ead7a665146c26bd1a8c",
+    "amp_seed": 4012602974,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      375,
+      751
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0006666666666666666,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 7.5,
+    "trial": 9,
+    "variant": "corrected_source_support",
+    "data_hash": "ac36accab14a9e58f89113c3c327f18391f60cdb5f23ead7a665146c26bd1a8c",
+    "amp_seed": 4012602974,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      375,
+      750
+    ],
+    "cp": [
+      376,
+      744
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.004,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 0,
+    "variant": "legacy_prefix",
+    "data_hash": "8cf3e56846be06b8dfc295ddb894c08d48b239f031eb7fc0c5d5369018eac97a",
+    "amp_seed": 2183164218,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1152
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0008695652173913044,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 0,
+    "variant": "corrected_source_support",
+    "data_hash": "8cf3e56846be06b8dfc295ddb894c08d48b239f031eb7fc0c5d5369018eac97a",
+    "amp_seed": 2183164218,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      576,
+      1152
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0008695652173913044,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 1,
+    "variant": "legacy_prefix",
+    "data_hash": "c902a3d6990999990f4bdeedc111c3e00e35170691e6724b0bc87f0c4cc1c81b",
+    "amp_seed": 1810995048,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      576,
+      1150
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 1,
+    "variant": "corrected_source_support",
+    "data_hash": "c902a3d6990999990f4bdeedc111c3e00e35170691e6724b0bc87f0c4cc1c81b",
+    "amp_seed": 1810995048,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 2,
+    "variant": "legacy_prefix",
+    "data_hash": "284ab1d22f02390dad01c3016fd8528bce81eea8348262343b2be4423e6ca4c3",
+    "amp_seed": 2843470914,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1153
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0013043478260869566,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 2,
+    "variant": "corrected_source_support",
+    "data_hash": "284ab1d22f02390dad01c3016fd8528bce81eea8348262343b2be4423e6ca4c3",
+    "amp_seed": 2843470914,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 3,
+    "variant": "legacy_prefix",
+    "data_hash": "dc62eb7429789835975e2d93ba52b6c4291af714db97cbcb56a6fb0fd0d27f15",
+    "amp_seed": 2415655357,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      574,
+      1157,
+      2286
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.49391304347826087,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 3,
+    "variant": "corrected_source_support",
+    "data_hash": "dc62eb7429789835975e2d93ba52b6c4291af714db97cbcb56a6fb0fd0d27f15",
+    "amp_seed": 2415655357,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      577,
+      1151
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0008695652173913044,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 4,
+    "variant": "legacy_prefix",
+    "data_hash": "616287966914e4db9dec13f48058d69724d7603e6542189bbc932d1635c2fb63",
+    "amp_seed": 3042278074,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      570,
+      1149
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.002173913043478261,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 4,
+    "variant": "corrected_source_support",
+    "data_hash": "616287966914e4db9dec13f48058d69724d7603e6542189bbc932d1635c2fb63",
+    "amp_seed": 3042278074,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1149
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 5,
+    "variant": "legacy_prefix",
+    "data_hash": "1416c4ebb8f2c925cddfcfbced67482d6f1e8226498e9ed69450b75fe26ff534",
+    "amp_seed": 3721569836,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      572,
+      1150
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0013043478260869566,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 5,
+    "variant": "corrected_source_support",
+    "data_hash": "1416c4ebb8f2c925cddfcfbced67482d6f1e8226498e9ed69450b75fe26ff534",
+    "amp_seed": 3721569836,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      573,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0008695652173913044,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 6,
+    "variant": "legacy_prefix",
+    "data_hash": "42f60a688296774822a437b7676417d8f242b4251ab2c027b5b320b3ace78b17",
+    "amp_seed": 3543065936,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1150,
+      2182
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.44869565217391305,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 6,
+    "variant": "corrected_source_support",
+    "data_hash": "42f60a688296774822a437b7676417d8f242b4251ab2c027b5b320b3ace78b17",
+    "amp_seed": 3543065936,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      576,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      3
+    ],
+    "count": 2,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 7,
+    "variant": "legacy_prefix",
+    "data_hash": "8f892ff9417e987388fe98c7b553856e7893f55b52e804c3e9a6cb308031ee7f",
+    "amp_seed": 2126103868,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      574,
+      1150
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 7,
+    "variant": "corrected_source_support",
+    "data_hash": "8f892ff9417e987388fe98c7b553856e7893f55b52e804c3e9a6cb308031ee7f",
+    "amp_seed": 2126103868,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1150,
+      2107
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "count": 3,
+    "haus": 0.4160869565217391,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 8,
+    "variant": "legacy_prefix",
+    "data_hash": "c55d5994cd92dc30877986bd16bf4121bb4af7bbba31682c6d808aef135d0232",
+    "amp_seed": 3288286850,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      576,
+      1151,
+      2267
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.4856521739130435,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 8,
+    "variant": "corrected_source_support",
+    "data_hash": "c55d5994cd92dc30877986bd16bf4121bb4af7bbba31682c6d808aef135d0232",
+    "amp_seed": 3288286850,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1150
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 9,
+    "variant": "legacy_prefix",
+    "data_hash": "54d72cc3939546bb8a6bee3161a3c2703c41ca0853bcb9a81f8b05b17fd8cd51",
+    "amp_seed": 2468599548,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1142
+    ],
+    "selected_signal_labels": null,
+    "count": 2,
+    "haus": 0.0034782608695652175,
+    "status": "ok"
+  },
+  {
+    "study": "unknown",
+    "covariance": "identity",
+    "gap_divisor": 10,
+    "delta": 11.5,
+    "trial": 9,
+    "variant": "corrected_source_support",
+    "data_hash": "54d72cc3939546bb8a6bee3161a3c2703c41ca0853bcb9a81f8b05b17fd8cd51",
+    "amp_seed": 2468599548,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1150
+    ],
+    "cp": [
+      575,
+      1143
+    ],
+    "selected_signal_labels": [
+      0,
+      1,
+      2
+    ],
+    "count": 2,
+    "haus": 0.003043478260869565,
+    "status": "ok"
+  },
+  {
+    "study": "known",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 0,
+    "variant": "legacy_prefix",
+    "data_hash": "5e6bb1a34365037d91381658e61973dbbb186c75b8d0f0ff2a765359c92fb4f4",
+    "amp_seed": 270168169,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1035,
+      1610
+    ],
+    "cp": [
+      575,
+      1035,
+      1611
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "study": "known",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 0,
+    "variant": "corrected_source_support",
+    "data_hash": "5e6bb1a34365037d91381658e61973dbbb186c75b8d0f0ff2a765359c92fb4f4",
+    "amp_seed": 270168169,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1035,
+      1610
+    ],
+    "cp": [
+      575,
+      1035,
+      1611
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.0004347826086956522,
+    "status": "ok"
+  },
+  {
+    "study": "known",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 1,
+    "variant": "legacy_prefix",
+    "data_hash": "b17162e81637bc09eb3956da31231eebdf299ef188e1225fa1d0a7e49b7da14c",
+    "amp_seed": 2815128859,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1035,
+      1610
+    ],
+    "cp": [
+      575,
+      1035,
+      1610
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.0,
+    "status": "ok"
+  },
+  {
+    "study": "known",
+    "covariance": "identity",
+    "gap_divisor": 20,
+    "delta": 11.5,
+    "trial": 1,
+    "variant": "corrected_source_support",
+    "data_hash": "b17162e81637bc09eb3956da31231eebdf299ef188e1225fa1d0a7e49b7da14c",
+    "amp_seed": 2815128859,
+    "iterations": 10,
+    "mc_samples": 16384,
+    "truth": [
+      575,
+      1035,
+      1610
+    ],
+    "cp": [
+      575,
+      1035,
+      1610
+    ],
+    "selected_signal_labels": null,
+    "count": 3,
+    "haus": 0.0,
+    "status": "ok"
+  }
+]

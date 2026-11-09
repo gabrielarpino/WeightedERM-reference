@@ -1,0 +1,20 @@
+{
+  "identity": {
+    "min_eigenvalue": 1.0,
+    "max_eigenvalue": 1.0,
+    "condition": 1.0,
+    "trace": 200.0
+  },
+  "ar1": {
+    "min_eigenvalue": 0.42859291778246555,
+    "max_eigenvalue": 2.3327084844452233,
+    "condition": 5.442713557924917,
+    "trace": 200.0
+  },
+  "m3": {
+    "min_eigenvalue": 0.24137924925141196,
+    "max_eigenvalue": 2.29972405915495,
+    "condition": 9.527430656475465,
+    "trace": 200.0
+  }
+}

@@ -1,0 +1,11 @@
+study,gap_divisor,delta,variant,trials,mean_haus,mean_count,correct_count_rate
+known,20,11.5,corrected_source_support,2,0.0002173913043478261,3.0,1.0
+known,20,11.5,legacy_prefix,2,0.0002173913043478261,3.0,1.0
+unknown,10,7.5,corrected_source_support,10,0.0016666666666666666,2.0,1.0
+unknown,10,7.5,legacy_prefix,10,0.03686666666666667,2.0,1.0
+unknown,10,11.5,corrected_source_support,10,0.04226086956521739,2.1,0.9
+unknown,10,11.5,legacy_prefix,10,0.14382608695652174,2.3,0.7
+unknown,20,7.5,corrected_source_support,10,0.0014,2.0,1.0
+unknown,20,7.5,legacy_prefix,10,0.062,2.0,1.0
+unknown,20,11.5,corrected_source_support,10,0.0006521739130434783,2.0,1.0
+unknown,20,11.5,legacy_prefix,10,0.0931304347826087,2.4,0.6

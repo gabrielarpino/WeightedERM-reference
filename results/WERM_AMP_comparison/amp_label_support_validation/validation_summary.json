@@ -1,0 +1,27 @@
+{
+  "purpose": "Independent validation of the corrected prior and configuration search; no outcome-based tuning",
+  "source_support": "K=1: all constant working labels; K>=2: first label0, followed by all increasing subsets",
+  "production_vs_independent_prior_grids": 3,
+  "production_vs_independent_random_map_checks": 20,
+  "paired_unknown_datasets": 40,
+  "paired_known_datasets": 2,
+  "all_10_iterations": true,
+  "known_outputs_bitwise_unchanged": [
+    "cp",
+    "theta",
+    "B",
+    "row_loglik",
+    "posterior_nu",
+    "posterior_kappa"
+  ],
+  "stable_gaussian_score": {
+    "trials": 10,
+    "all_locations_unchanged": true,
+    "max_relative_g_difference": 1.514371223575559e-13,
+    "max_covariance_condition": 190.77571628830643
+  },
+  "production_source_sha256": {
+    "tools/werm_amp_partition.py": "38786243d05925991f8abe6fc4707ae924eb372cb0cc71c33e47cdd6f673de78",
+    "tools/werm_amp_adapter.py": "80768b2decae86f147510b772863f2cadd14f35f8960bb93983603b2f1f26b6e"
+  }
+}
