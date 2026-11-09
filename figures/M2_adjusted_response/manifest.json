@@ -1,0 +1,102 @@
+{
+  "sources_sha256": {
+    "results/M2_adjusted_comparison/unknown_030_055_27ab19f1cb75/unknown.pkl": "676837bee3fbc63197c951a0ce0f27794e4f9410861a8ef87dc07616b57a252b",
+    "results/M2_adjusted_comparison/ecd9d5c2529d/known.pkl": "d0ce389b85815b4dc8b882f4c7fac6fd61ea190e2a59c734de92bf7a494b1745"
+  },
+  "figures": [
+    {
+      "name": "unknown_haus_line",
+      "size_inches": [
+        5.0,
+        4.0
+      ],
+      "legends": 0
+    },
+    {
+      "name": "unknown_count_line",
+      "size_inches": [
+        5.0,
+        4.0
+      ],
+      "legends": 1
+    },
+    {
+      "name": "unknown_histograms_delta1p5_7p5",
+      "size_inches": [
+        5.0,
+        4.0
+      ],
+      "legends": 0
+    },
+    {
+      "name": "known_haus_line",
+      "size_inches": [
+        5.0,
+        4.0
+      ],
+      "legends": 0
+    },
+    {
+      "name": "known_count_line",
+      "size_inches": [
+        5.0,
+        4.0
+      ],
+      "legends": 1
+    },
+    {
+      "name": "known_histograms_delta1p5_7p5",
+      "size_inches": [
+        5.0,
+        4.0
+      ],
+      "legends": 0
+    }
+  ],
+  "histograms": {
+    "unknown": {
+      "deltas": [
+        1.5,
+        7.5
+      ],
+      "pooled_change_points": [
+        [
+          201,
+          32
+        ],
+        [
+          203,
+          207
+        ]
+      ],
+      "maximum_density": 18.051242236024795,
+      "density_limit": 20.0,
+      "bins": 12,
+      "kde_bandwidth_cv_folds": 5
+    },
+    "known": {
+      "deltas": [
+        1.5,
+        7.5
+      ],
+      "pooled_change_points": [
+        [
+          300,
+          300
+        ],
+        [
+          300,
+          300
+        ]
+      ],
+      "maximum_density": 11.913283110162741,
+      "density_limit": 18.0,
+      "bins": 12,
+      "kde_bandwidth_cv_folds": 5
+    }
+  },
+  "error_bars": "Absolute distances of the mean to the first and third quartiles; not confidence intervals.",
+  "hausdorff": "Conditional on a nonempty estimated change-point set, as in the source notebook.",
+  "known_count": "Exactly three change points in every trial; both curves coincide.",
+  "export_script_sha256": "2cbe24fa1bddb1c75685085d8f5d959310fefb556b38842a96a02ac32aa80cb2"
+}
