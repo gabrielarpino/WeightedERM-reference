@@ -780,6 +780,22 @@ COMPACT_UNKNOWN_FIGURES = export_compact_unknown(
 for path in COMPACT_UNKNOWN_FIGURES:
     display(Image(filename=str(path), width=1450 if path == COMPACT_UNKNOWN_FIGURES[-1] else 480))
 """),
+        md(r"""## Five-column unknown-count histogram: original locations
+
+Use the completed $\Delta_n=n/10$, $T=10$ experiment with true locations
+$(0.25,0.50)n$. Rows show $\delta=7.5$ and $11.5$. Columns show **WERM+CV
+(AR(1)), WERM+P (AR(1)), AMP isotropic, AMP AR(1), and AMP random orthogonal**,
+in that order. Each panel uses the same saved estimates and histogram/KDE
+conventions as the original-location comparison above."""),
+        code("""from IPython.display import Image, display
+from tools import werm_amp_experiment as experiment
+from tools.werm_amp_compact_unknown_plots import export_five_column_unknown_histogram
+
+ORIGINAL_FIVE_COLUMN_ROOT = experiment.ROOT / 'results/WERM_AMP_comparison/7b64ccb1c8c6'
+ORIGINAL_FIVE_COLUMN_HISTOGRAM = export_five_column_unknown_histogram(
+    ORIGINAL_FIVE_COLUMN_ROOT, expected_truth=(.25, .50))
+display(Image(filename=str(ORIGINAL_FIVE_COLUMN_HISTOGRAM), width=1150))
+"""),
         md(r"""## Relocated unknown-count comparison: true locations $(0.45,0.75)n$
 
 Repeat the corrected unknown-count experiment with true change points at
