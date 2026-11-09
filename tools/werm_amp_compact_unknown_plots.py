@@ -8,13 +8,16 @@ from pathlib import Path
 import csv
 import hashlib
 import json
+from math import comb, log
 
 import numpy as np
 
-from tools.werm_amp_compact_plots import DEFAULT_ROOT, _export, _sha256
-from tools.werm_amp_experiment import COVARIANCE_TITLES, METHOD_STYLES, load_results
+from tools.werm_amp_compact_plots import _export, _sha256
+from tools.werm_amp_experiment import COVARIANCE_TITLES, METHOD_STYLES, WERM_P_VERSION, load_results
 
 
+DEFAULT_ROOT = (Path(__file__).resolve().parents[1]
+                / 'results/WERM_AMP_comparison/7b64ccb1c8c6')
 COVARIANCES = ('identity', 'ar1', 'm3')
 METHODS = ('WERM+CV', 'WERM+P', 'AMP')
 DELTAS = (1.5, 3.5, 7.5, 11.5)
@@ -43,7 +46,8 @@ def _validated_groups(root, expected_truth=(.25, .50)):
     required = {'p': 200, 'trials': 100, 'max_segments': 4, 'amp_iterations': 10,
                 'folds': 10, 'gamma': 6., 'whitening': False,
                 'response_standardization': False, 'coefficient_loss': 'squared',
-                'coefficient_penalty': 'none', 'cv_validation_loss': 'absolute'}
+                'coefficient_penalty': 'none', 'cv_validation_loss': 'absolute',
+                'werm_p_version': WERM_P_VERSION, 'penalty_search_loss': 'half squared'}
     for key, expected in required.items():
         if spec.get(key) != expected:
             raise ValueError(f'Expected {key}={expected!r}; found {spec.get(key)!r}')
@@ -97,6 +101,17 @@ def _validated_groups(root, expected_truth=(.25, .50)):
                     raise ValueError(f'Incorrect normalized Hausdorff metric: {trial_key}, {method}')
             elif not np.isnan(fit['haus']):
                 raise ValueError(f'Empty estimate must have undefined Hausdorff: {trial_key}, {method}')
+            if method == 'WERM+P':
+                expected_penalties = np.array([6*log(comb(n-1,k-1)) for k in range(1,5)])
+                if (fit.get('coefficient_fit_scheme') != WERM_P_VERSION
+                        or fit.get('search_loss') != 'half squared'
+                        or not np.allclose(fit['candidate_penalties'], expected_penalties,
+                                           rtol=1e-10, atol=1e-10)
+                        or not np.allclose(fit['candidate_total'],
+                                           fit['candidate_raw']+expected_penalties)
+                        or fit['segments'] != int(np.argmin(fit['candidate_total']))+1
+                        or not np.array_equal(cp, fit['candidate_cp'][fit['segments']-1])):
+                    raise ValueError(f'Expected corrected single-fit WERM+P: {trial_key}')
             if method == 'AMP' and (fit.get('iterations_requested') != 10
                                     or fit.get('iterations_completed') != 10
                                     or fit.get('fixed_count') is not False
@@ -130,8 +145,8 @@ def _summary(groups):
                 nonempty = [f for f in successful if len(f['cp'])]
                 counts = np.asarray([f['count'] for f in successful], dtype=float)
                 haus = np.asarray([f['haus'] for f in nonempty], dtype=float)
-                if not len(haus) or not np.isfinite(haus).all():
-                    raise ValueError(f'No finite Hausdorff summary: {covariance}, {delta}, {method}')
+                if not np.isfinite(haus).all():
+                    raise ValueError(f'Invalid nonempty Hausdorff value: {covariance}, {delta}, {method}')
                 row = dict(covariance=covariance, delta=delta, method=method,
                     trials=len(fits), successes=len(successful), failures=len(fits)-len(successful),
                     nonempty_successes=len(nonempty), empty_estimates=len(successful)-len(nonempty),
@@ -139,6 +154,12 @@ def _summary(groups):
                     empty_rate=(len(successful)-len(nonempty))/len(fits),
                     correct_count_rate=sum(f['correct_count'] for f in successful)/len(fits))
                 for name, values in (('haus', haus), ('count', counts)):
+                    if not len(values):
+                        # All-empty estimates have no conditional Hausdorff
+                        # value. Keep nulls in the audit and gaps in the curve.
+                        row.update({f'{name}_{stat}': None
+                                    for stat in ('mean', 'q25', 'median', 'q75')})
+                        continue
                     q25, median, q75 = np.quantile(values, [.25, .5, .75])
                     row.update({f'{name}_mean': float(values.mean()),
                                 f'{name}_q25': float(q25), f'{name}_median': float(median),
@@ -151,7 +172,8 @@ def _metric_plots(summary, output_dir, artifacts):
     import matplotlib.pyplot as plt
     from matplotlib.ticker import MaxNLocator
 
-    upper = 1.08 * max(max(row['haus_mean'], row['haus_q75']) for row in summary)
+    upper = 1.08 * max(row[key] for row in summary
+                      for key in ('haus_mean', 'haus_q75') if row[key] is not None)
     paths = []
     for metric in ('haus', 'count'):
         for index, covariance in enumerate(COVARIANCES):
@@ -160,8 +182,9 @@ def _metric_plots(summary, output_dir, artifacts):
                 rows = [row for row in summary
                         if row['covariance'] == covariance and row['method'] == method]
                 x = [row['delta'] for row in rows]
-                q25 = [row[f'{metric}_q25'] for row in rows]
-                q75 = [row[f'{metric}_q75'] for row in rows]
+                q25 = np.asarray([row[f'{metric}_q25'] for row in rows], dtype=float)
+                q75 = np.asarray([row[f'{metric}_q75'] for row in rows], dtype=float)
+                means = np.asarray([row[f'{metric}_mean'] for row in rows], dtype=float)
                 color, marker, line = METHOD_STYLES[method]
                 # Quartile endpoints remain at their actual positions, including
                 # when a discrete/skewed sample has its mean outside the IQR.
@@ -169,7 +192,7 @@ def _metric_plots(summary, output_dir, artifacts):
                 for quantile in (q25, q75):
                     ax.plot(x, quantile, ls='none', marker='_', markersize=8,
                             markeredgewidth=2, color=color, alpha=.8)
-                ax.plot(x, [row[f'{metric}_mean'] for row in rows], label=LABELS[method],
+                ax.plot(x, means, label=LABELS[method],
                         color=color, marker=marker, ls=line, linewidth=3.5,
                         markersize=8, markeredgewidth=2, markeredgecolor='white', alpha=.8)
             ax.set(xlabel=r'$\delta=n/p$', title=TITLES[covariance])
@@ -292,7 +315,8 @@ def export_compact_unknown(root=DEFAULT_ROOT, output_dir=None, *, expected_truth
         selected_deltas=list(DELTAS), histogram_deltas=list(HISTOGRAM_DELTAS),
         covariance_titles=TITLES,
         hausdorff_convention='Mean and actual 25th/75th percentiles of normalized Hausdorff '
-            'distance conditional on a successful nonempty estimate; empties are undefined.',
+            'distance conditional on a successful nonempty estimate; empties are undefined. '
+            'Groups with no nonempty estimate have null summaries and no Hausdorff point.',
         count_convention='Mean and actual 25th/75th percentiles over all successful estimates, '
             'including empty estimates as zero; the true count is two.',
         histogram_convention='Successful fits pooled as cp/n; canonical 12 data-range bins and '

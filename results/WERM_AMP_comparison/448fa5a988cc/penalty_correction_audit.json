@@ -1,0 +1,288 @@
+{
+  "status": "passed",
+  "corrected_root": "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/results/WERM_AMP_comparison/448fa5a988cc",
+  "previous_root": "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/results/WERM_AMP_comparison/c5ad60d064f7",
+  "unknown_truth": [
+    0.45,
+    0.75
+  ],
+  "datasets_checked": 1200,
+  "trials_per_covariance_ratio": 100,
+  "successful_method_fits": 3600,
+  "failed_method_fits": 0,
+  "data_hash_matches": 1200,
+  "latent_hash_matches": 1200,
+  "unchanged_cv_counts_locations_scores_and_fold_scores": 1200,
+  "unchanged_amp_counts_locations_seed_and_hausdorff": 1200,
+  "werm_p_version": "upper_bound_half_squared_v1",
+  "gamma": 6,
+  "exact_log_binomial_penalties_verified": 1200,
+  "conditional_cv_and_amp_weights_unchanged": true,
+  "werm_upper_weights_equal_uniform_conditional_count_mixture": true,
+  "covariance_matrices_unchanged": true,
+  "current_source_hashes_verified": true,
+  "changed_algorithm_sources": [
+    "tools/werm_amp_experiment.py"
+  ],
+  "werm_p_changed_count": 582,
+  "werm_p_changed_location_set": 1185,
+  "empty_estimates": {
+    "WERM+CV": 40,
+    "WERM+P": 310,
+    "AMP": 12
+  },
+  "groups": [
+    {
+      "covariance": "identity",
+      "delta": 1.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 0,
+        "WERM+P": 100,
+        "AMP": 0
+      }
+    },
+    {
+      "covariance": "identity",
+      "delta": 3.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 14,
+        "WERM+P": 3,
+        "AMP": 0
+      }
+    },
+    {
+      "covariance": "identity",
+      "delta": 7.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 0,
+        "WERM+P": 0,
+        "AMP": 0
+      }
+    },
+    {
+      "covariance": "identity",
+      "delta": 11.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 0,
+        "WERM+P": 0,
+        "AMP": 0
+      }
+    },
+    {
+      "covariance": "ar1",
+      "delta": 1.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 0,
+        "WERM+P": 100,
+        "AMP": 0
+      }
+    },
+    {
+      "covariance": "ar1",
+      "delta": 3.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 15,
+        "WERM+P": 4,
+        "AMP": 0
+      }
+    },
+    {
+      "covariance": "ar1",
+      "delta": 7.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 0,
+        "WERM+P": 0,
+        "AMP": 7
+      }
+    },
+    {
+      "covariance": "ar1",
+      "delta": 11.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 0,
+        "WERM+P": 0,
+        "AMP": 5
+      }
+    },
+    {
+      "covariance": "m3",
+      "delta": 1.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 0,
+        "WERM+P": 100,
+        "AMP": 0
+      }
+    },
+    {
+      "covariance": "m3",
+      "delta": 3.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 11,
+        "WERM+P": 3,
+        "AMP": 0
+      }
+    },
+    {
+      "covariance": "m3",
+      "delta": 7.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 0,
+        "WERM+P": 0,
+        "AMP": 0
+      }
+    },
+    {
+      "covariance": "m3",
+      "delta": 11.5,
+      "trials": 100,
+      "empty_estimates": {
+        "WERM+CV": 0,
+        "WERM+P": 0,
+        "AMP": 0
+      }
+    }
+  ],
+  "native_validation_method": "weighted_erm with explicit upper-bound weights, half-squared loss, gamma=0 and manuscript_log_binomial_k_penalty(n,6); capture native DP for all K",
+  "native_validation_datasets": 12,
+  "native_checks": [
+    {
+      "covariance": "identity",
+      "delta": 1.5,
+      "trial": 0,
+      "segments": 1,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 1.3145040611561853e-13,
+      "maximum_total_cost_difference": 1.2789769243681803e-13
+    },
+    {
+      "covariance": "identity",
+      "delta": 3.5,
+      "trial": 0,
+      "segments": 3,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 3.552713678800501e-13,
+      "maximum_total_cost_difference": 3.694822225952521e-13
+    },
+    {
+      "covariance": "identity",
+      "delta": 7.5,
+      "trial": 0,
+      "segments": 4,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 1.0231815394945443e-12,
+      "maximum_total_cost_difference": 1.0231815394945443e-12
+    },
+    {
+      "covariance": "identity",
+      "delta": 11.5,
+      "trial": 0,
+      "segments": 4,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 2.3874235921539366e-12,
+      "maximum_total_cost_difference": 2.3874235921539366e-12
+    },
+    {
+      "covariance": "ar1",
+      "delta": 1.5,
+      "trial": 0,
+      "segments": 1,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 5.1514348342607263e-14,
+      "maximum_total_cost_difference": 4.263256414560601e-14
+    },
+    {
+      "covariance": "ar1",
+      "delta": 3.5,
+      "trial": 0,
+      "segments": 3,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 3.126388037344441e-13,
+      "maximum_total_cost_difference": 3.126388037344441e-13
+    },
+    {
+      "covariance": "ar1",
+      "delta": 7.5,
+      "trial": 0,
+      "segments": 4,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 1.5347723092418164e-12,
+      "maximum_total_cost_difference": 1.5347723092418164e-12
+    },
+    {
+      "covariance": "ar1",
+      "delta": 11.5,
+      "trial": 0,
+      "segments": 4,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 7.958078640513122e-13,
+      "maximum_total_cost_difference": 7.958078640513122e-13
+    },
+    {
+      "covariance": "m3",
+      "delta": 1.5,
+      "trial": 0,
+      "segments": 1,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 6.146194664324867e-13,
+      "maximum_total_cost_difference": 6.110667527536862e-13
+    },
+    {
+      "covariance": "m3",
+      "delta": 3.5,
+      "trial": 0,
+      "segments": 3,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 1.1368683772161603e-13,
+      "maximum_total_cost_difference": 1.1368683772161603e-13
+    },
+    {
+      "covariance": "m3",
+      "delta": 7.5,
+      "trial": 0,
+      "segments": 4,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 5.684341886080801e-13,
+      "maximum_total_cost_difference": 5.684341886080801e-13
+    },
+    {
+      "covariance": "m3",
+      "delta": 11.5,
+      "trial": 0,
+      "segments": 4,
+      "data_hash_verified": true,
+      "every_count_locations_match": true,
+      "maximum_raw_cost_difference": 2.7853275241795927e-12,
+      "maximum_total_cost_difference": 2.7853275241795927e-12
+    }
+  ],
+  "max_native_raw_cost_difference": 2.7853275241795927e-12,
+  "max_native_total_cost_difference": 2.7853275241795927e-12,
+  "validator_source_sha256": {
+    "WERM/estimators.py": "afe032330c94333ad4a3df9bb7cac8630f22cadb6fcb74ddbdb8de07e7210de7",
+    "WERM/gof.py": "f667d015f78ccb86d50639cf2caa27ae4ffd221d93a0e7612a12d4558c36445b",
+    "WERM/proximal.py": "89593d82e32db5e9380df2c05945cec4485b8ad49281e016ff13f81e24297632"
+  },
+  "audit_seconds": 5.903507585986517
+}

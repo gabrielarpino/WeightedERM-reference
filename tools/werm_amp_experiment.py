@@ -32,6 +32,7 @@ from WERM.proximal import fit_weighted
 from tools.werm_amp_partition import prior_marginals, amp_prior_marginals, partition_minimize
 
 ROOT = Path(__file__).resolve().parents[1]
+WERM_P_VERSION = 'upper_bound_half_squared_v1'
 DEFAULT_SPEC = dict(
     schema=1, seed=20261109, p=200, trials=100,
     deltas=[1.5, 3.5, 7.5, 11.5], covariances=['identity', 'ar1', 'm3'],
@@ -43,8 +44,11 @@ DEFAULT_SPEC = dict(
     endpoint_minimum=1, gamma=6., amp_iterations=10, amp_mc_samples=16384,
     coefficient_loss='squared', coefficient_penalty='none',
     cv_validation_loss='absolute',
-    penalty='RSS_K + gamma * log binomial(n-1,K-1); separate fixed-K fits',
-    marginal_weights='exact finite-n uniform admissible configurations conditional on K',
+    werm_p_version=WERM_P_VERSION,
+    penalty='0.5 * RSS_K + gamma * log binomial(n-1,K-1); shared upper-bound fit',
+    penalty_search_loss='half squared',
+    penalty_prior='uniform K=1..L, uniform admissible locations conditional on K, prefix labels',
+    marginal_weights='exact finite-n conditional-K weights for CV; upper-bound mixture for WERM+P',
     amp_configuration_prior=('uniform K=1..L, uniform admissible boundaries, '
         'uniform source label subsets: any constant label for K=1; '
         'label 0 then increasing subsets for K>=2'),
@@ -88,6 +92,11 @@ def prepare(spec=None):
     cfg = dict(DEFAULT_SPEC)
     if spec is not None:
         cfg.update(spec)
+    for key in ('werm_p_version', 'penalty', 'penalty_search_loss',
+                'penalty_prior', 'marginal_weights'):
+        if cfg[key] != DEFAULT_SPEC[key]:
+            raise ValueError(f'Unsupported WERM+P convention in {key}; '
+                             'prepare a new specification for the corrected upper-bound fit.')
     assert cfg['p'] >= 1 and cfg['trials'] >= 1
     assert cfg['max_segments'] == 4 and cfg['folds'] == 10
     assert set(cfg['studies']) <= {'unknown', 'known'}
@@ -125,6 +134,9 @@ def prepare(spec=None):
                     weights[m,k] = prior_marginals(m,k,gap,fixed_count=True)
             weights[n,'mixture'] = amp_prior_marginals(n,cfg['max_segments'],
                                                   minimum_gap(n,cfg),fixed_count=False)
+            # WERM uses prefix labels; AMP's label-subset mixture is different.
+            weights[n,'werm_upper'] = prior_marginals(n,cfg['max_segments'],
+                                                    minimum_gap(n,cfg),fixed_count=False)
         atomic_pickle(root/'weights.pkl', weights)
         matrices = covariance_matrices(cfg)
         atomic_pickle(root/'covariances.pkl', matrices)
@@ -154,8 +166,8 @@ def generate_data(spec, study, covariance, delta, trial, matrices=None):
     return X,y,truth,latent_hash
 
 
-def least_squares(X,y,w):
-    fit = fit_weighted(X,y,w,loss='least_squares',loss_scale=2.,
+def least_squares(X,y,w,*,loss_scale=2.):
+    fit = fit_weighted(X,y,w,loss='least_squares',loss_scale=loss_scale,
                        penalty='none',penalty_strength=0.)
     if not fit.converged or not np.isfinite(fit.coef).all():
         raise RuntimeError(f'Least-squares KKT failure: {fit.kkt_violation}')
@@ -171,8 +183,40 @@ def fixed_werm(X,y,phi,gap):
                 raw_loss=float(losses[np.arange(len(y)),labels].sum()))
 
 
+def penalized_werm(X,y,phi,gap,gamma):
+    """Fit once with upper-bound weights, then search .5*RSS + log penalty.
+
+    Each candidate K uses the first K columns of the same L-column estimate,
+    as in E_L_upper_bound. The weights are WERM's count-mixture marginals,
+    not AMP's different label-subset mixture or CV's conditional-K weights.
+    """
+    n = len(y)
+    phi = np.asarray(phi,dtype=float)
+    if (phi.ndim != 2 or phi.shape[1] != n or not np.isfinite(phi).all()
+            or np.any(phi < 0) or not np.allclose(phi.sum(axis=0),1.)
+            or np.any(phi.sum(axis=1) <= 0)):
+        raise ValueError('Expected upper-bound occupancy probabilities with positive row masses')
+    L = len(phi)
+    B = np.column_stack([least_squares(X,y,w/w.sum(),loss_scale=1.) for w in phi])
+    losses = .5*(X@B-y[:,None])**2
+    fits = []
+    for k in range(1,L+1):
+        cp = partition_minimize(losses[:,:k],gap)
+        labels = np.searchsorted(cp,np.arange(n),side='right')
+        fits.append(dict(cp=cp,count=k-1,segments=k,
+                         raw_loss=float(losses[np.arange(n),labels].sum())))
+    penalties = np.asarray([gamma*(gammaln(n)-gammaln(k)-gammaln(n-k+1))
+                            for k in range(1,L+1)])
+    raw = np.asarray([fit['raw_loss'] for fit in fits])
+    total = raw+penalties
+    return dict(fits[int(total.argmin())],status='ok',candidate_raw=raw,
+                candidate_penalties=penalties,candidate_total=total,
+                candidate_cp=[fit['cp'] for fit in fits],
+                coefficient_fit_scheme=WERM_P_VERSION,search_loss='half squared')
+
+
 def fit_werm_methods(X,y,weights,spec,known=False):
-    """Canonical M2 squared-loss CV and fixed-count penalty comparison."""
+    """Canonical M2 CV and single-fit upper-bound WERM+P with half-squared loss."""
     n,p = X.shape
     L,folds = spec['max_segments'],spec['folds']
     gap = minimum_gap(n,spec)
@@ -200,14 +244,10 @@ def fit_werm_methods(X,y,weights,spec,known=False):
     totals = scores.sum(axis=1)
     if not np.isfinite(totals).all():
         raise RuntimeError('Nonfinite CV scores')
-    penalties = np.asarray([spec['gamma']*(gammaln(n)-gammaln(k)-gammaln(n-k+1))
-                            for k in range(1,L+1)])
-    objective = np.asarray([f['raw_loss'] for f in full])+penalties
-    a,b = int(totals.argmin()),int(objective.argmin())
+    a = int(totals.argmin())
     return {'WERM+CV':dict(full[a],status='ok',cv_scores=totals/n,
                          fold_scores=scores,min_refit_rows=min_refit_rows),
-            'WERM+P':dict(full[b],status='ok',candidate_raw=np.array([f['raw_loss'] for f in full]),
-                         candidate_penalties=penalties,candidate_total=objective)}
+            'WERM+P':penalized_werm(X,y,weights[n,'werm_upper'],gap,spec['gamma'])}
 
 
 def add_metrics(fit,truth,n):

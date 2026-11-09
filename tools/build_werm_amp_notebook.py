@@ -29,6 +29,11 @@ def build(destination=None, spacing_roots=None, t20_roots=None):
     cells = [
         md(r"""# WERM and AMP: change points with Gaussian regression signals
 
+> **WERM+P correction:** Earlier WERM+P curves are retained as archival results
+> and are superseded. The compact unknown-count and relocated sections at the
+> end use the corrected single upper-bound fit and half-squared search loss
+> with $\gamma=6$.
+
 Compare **WERM+CV, WERM+P and AMP** in the linear model as the sampling ratio
 $\delta=n/p$ increases, under three covariate covariances. All methods receive
 the same $(X,y)$ within each trial. **The covariates are not whitened.**
@@ -724,37 +729,69 @@ for path in COMPACT_KNOWN_FIGURES:
 """),
         md(r"""## Compact unknown-count figures: $\Delta_n=n/10$, $T=10$
 
-Use the saved 100 paired trials with $p=200$, true locations $(0.25,0.50)n$
+Use the corrected 100 paired trials with $p=200$, true locations $(0.25,0.50)n$
 and an upper bound of $L=4$ segments. Compare **WERM+CV** (10 folds),
-**WERM+P** ($\gamma=6$) and **AMP** (10 iterations). Three Hausdorff panels and
-three count panels follow the same canonical M1--M3 style, with a common scale
+**WERM+P** ($\gamma=6$) and **AMP** (10 iterations).
+
+WERM+P fits the $L$ weighted least-squares regressions **once**, using occupancy
+weights from a uniform prior on $K=1,\ldots,L$ and uniform admissible locations
+conditional on $K$. It then searches using the first $K$ columns of that same
+$L$-column fit, minimizing
+$$\frac12\sum_{i=1}^n(y_i-\widehat\theta_{i,\psi_i})^2
+  +6\log\binom{n-1}{K-1},\qquad 1\le K\le L.$$
+Coefficients are not refitted for each candidate $K$. This is the upper-bound
+search-penalty convention of `E_L_upper_bound.ipynb`; WERM+CV retains its
+candidate-specific fits and absolute held-out loss.
+
+Three Hausdorff panels and three count panels follow the canonical M1--M3
+style, with a common scale
 within each metric. Points are means and bars span the first and third
 quartiles; the dotted count reference marks the true two change points.
 
-Hausdorff summaries use successful, nonempty estimates. Counts include valid
+Hausdorff summaries use successful, nonempty estimates. A sampling ratio with
+no successful nonempty estimates has no Hausdorff point. Counts include valid
 empty estimates as zero; failure and empty-estimate counts are retained in the
 saved summary. The histogram has two rows ($\delta=7.5,11.5$) and nine columns:
 WERM+CV, WERM+P and AMP within each covariance. It pools estimated locations
 and uses the same 12-bin density and Gaussian KDE conventions as above, with
 black dashed lines at the true locations.
 
-This cell exports PDF and PNG figures from the completed run to
-`figures/compact_unknown`; it does not launch new trials."""),
-        code("""from IPython.display import Image, display
+The corrected run is saved separately under
+`results/WERM_AMP_comparison/7b64ccb1c8c6`, with PDF and PNG figures in
+`figures/compact_unknown`. The next cell reads completed results by default;
+enable `RUN_CORRECTED_EXPERIMENT` to resume or reproduce this run."""),
+        code("""import json
+from IPython.display import Image, display
+from tools import werm_amp_experiment as experiment
 from tools.werm_amp_compact_unknown_plots import export_compact_unknown
 
-COMPACT_UNKNOWN_FIGURES = export_compact_unknown()
+CORRECTED_ROOT = experiment.ROOT / 'results/WERM_AMP_comparison/7b64ccb1c8c6'
+RUN_CORRECTED_EXPERIMENT = False
+if RUN_CORRECTED_EXPERIMENT:
+    saved_spec = json.loads((CORRECTED_ROOT / 'specification.json').read_text())
+    if experiment.prepare(saved_spec) != CORRECTED_ROOT:
+        raise RuntimeError('Current sources or versions differ from the saved run.')
+    experiment.run(CORRECTED_ROOT, jobs=16)
+if not experiment.status(CORRECTED_ROOT)['complete']:
+    raise RuntimeError('Corrected study is incomplete; resume it before exporting all 100 trials.')
+
+COMPACT_UNKNOWN_FIGURES = export_compact_unknown(
+    CORRECTED_ROOT, expected_truth=(.25, .50))
 for path in COMPACT_UNKNOWN_FIGURES:
     display(Image(filename=str(path), width=1450 if path == COMPACT_UNKNOWN_FIGURES[-1] else 480))
 """),
         md(r"""## Relocated unknown-count comparison: true locations $(0.45,0.75)n$
 
-Repeat the preceding unknown-count experiment with true change points at
+Repeat the corrected unknown-count experiment with true change points at
 $(0.45,0.75)n$. All other settings remain fixed: $p=200$,
 $\delta\in\{1.5,3.5,7.5,11.5\}$, $\Delta_n=n/10$, upper bound $L=4$,
 100 paired trials per setting, 10-fold WERM+CV, WERM+P with $\gamma=6$,
-and AMP with $T=10$. The three covariances, coefficient/noise distributions,
-prior weights and AMP settings are unchanged; no method receives whitened
+and AMP with $T=10$. WERM+P again fits the upper-bound mixture-weighted
+regressions once and searches the first $K$ columns of that same $L$-column
+fit using half-squared loss plus $6\log\binom{n-1}{K-1}$; there is no
+candidate-wise coefficient refit. The three covariances,
+coefficient/noise distributions, prior weights and AMP settings are unchanged
+from the corrected comparison above; no method receives whitened
 data or the true locations. This rerun uses the same latent draws and AMP
 seeds as the preceding experiment, with the response regenerated for the new
 locations.
@@ -763,17 +800,18 @@ The three Hausdorff panels, three count panels and two-row histogram retain
 the preceding plotting conventions. Histogram rows are $\delta=7.5,11.5$;
 black dashed lines now mark $0.45$ and $0.75$. Hausdorff summaries condition
 on successful nonempty estimates; count summaries include empty estimates
-as zero. Full diagnostics are retained in the saved summary and audit.
+as zero. A sampling ratio with no successful nonempty estimates has no
+Hausdorff point. Full diagnostics are retained in the saved summary and audit.
 
 Results and PDF/PNG figures are saved separately under
-`results/WERM_AMP_comparison/c5ad60d064f7`. The next cell reads this completed
+`results/WERM_AMP_comparison/448fa5a988cc`. The next cell reads this completed
 run by default; enable `RUN_RELOCATED_EXPERIMENT` to resume or reproduce it."""),
         code("""import json
 from IPython.display import Image, display
 from tools import werm_amp_experiment as experiment
 from tools.werm_amp_compact_unknown_plots import export_compact_unknown
 
-RELOCATED_ROOT = experiment.ROOT / 'results/WERM_AMP_comparison/c5ad60d064f7'
+RELOCATED_ROOT = experiment.ROOT / 'results/WERM_AMP_comparison/448fa5a988cc'
 RUN_RELOCATED_EXPERIMENT = False
 if RUN_RELOCATED_EXPERIMENT:
     saved_spec = json.loads((RELOCATED_ROOT / 'specification.json').read_text())
