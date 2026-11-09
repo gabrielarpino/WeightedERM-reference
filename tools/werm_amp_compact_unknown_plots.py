@@ -25,11 +25,21 @@ LABELS = {'WERM+CV': r'\textbf{WERM+CV}',
           'WERM+P': r'\textbf{WERM+P}', 'AMP': 'AMP'}
 
 
-def _validated_groups(root):
+def _validated_groups(root, expected_truth=(.25, .50)):
     """Require the complete paired unknown-count study and validate its metrics."""
+    expected_truth = np.asarray(expected_truth, dtype=float)
+    if (expected_truth.shape != (2,) or not np.isfinite(expected_truth).all()
+            or not np.all((expected_truth > 0) & (expected_truth < 1))
+            or not np.all(np.diff(expected_truth) > 0)):
+        raise ValueError('expected_truth must contain two increasing finite fractions in (0, 1)')
     root = Path(root)
     payload = load_results(root)
     spec = payload['specification']
+    saved_truth = np.asarray(spec.get('unknown_truth'), dtype=float)
+    if (saved_truth.shape != (2,)
+            or not np.allclose(saved_truth, expected_truth, rtol=0, atol=1e-12)):
+        raise ValueError(f'Expected unknown_truth={expected_truth.tolist()}; '
+                         f'found {spec.get("unknown_truth")!r}')
     required = {'p': 200, 'trials': 100, 'max_segments': 4, 'amp_iterations': 10,
                 'folds': 10, 'gamma': 6., 'whitening': False,
                 'response_standardization': False, 'coefficient_loss': 'squared',
@@ -40,7 +50,6 @@ def _validated_groups(root):
     if (tuple(spec['deltas']) != DELTAS
             or set(spec['covariances']) != set(COVARIANCES)
             or not np.isclose(spec['separation_fraction'], .1)
-            or not np.allclose(spec['unknown_truth'], [.25, .50])
             or not np.isclose(spec['ar1_correlation'], .4)
             or 'uniform source label subsets:' not in spec['amp_configuration_prior']):
         raise ValueError('Expected the corrected n/10, unknown-count comparison')
@@ -242,12 +251,14 @@ def _histogram(groups, truth, output_dir, artifacts):
     return path, audit
 
 
-def export_compact_unknown(root=DEFAULT_ROOT, output_dir=None):
+def export_compact_unknown(root=DEFAULT_ROOT, output_dir=None, *, expected_truth=(.25, .50)):
     """Export three Hausdorff panels, three count panels and a 2-by-9 histogram.
 
     PNG paths are returned in that order, with identity, AR(1), random orthogonal
     order within each metric. Every PNG has a PDF companion. Summary CSV and
     audit JSON retain the success/empty/failure denominators and source hashes.
+    ``expected_truth`` explicitly selects the two fractional change-point
+    locations required in the saved specification; it does not modify results.
     """
     import matplotlib.pyplot as plt
     from tools.consistent_plotting import CANONICAL_STYLE
@@ -255,7 +266,7 @@ def export_compact_unknown(root=DEFAULT_ROOT, output_dir=None):
     root = Path(root).resolve()
     output_dir = (Path(output_dir).resolve() if output_dir is not None
                   else root / 'figures' / 'compact_unknown')
-    spec, groups, input_hashes = _validated_groups(root)
+    spec, groups, input_hashes = _validated_groups(root, expected_truth=expected_truth)
     summary = _summary(groups)
     output_dir.mkdir(parents=True, exist_ok=True)
     audit_path = output_dir / 'compact_unknown_audit.json'

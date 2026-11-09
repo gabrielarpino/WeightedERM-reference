@@ -747,6 +747,47 @@ COMPACT_UNKNOWN_FIGURES = export_compact_unknown()
 for path in COMPACT_UNKNOWN_FIGURES:
     display(Image(filename=str(path), width=1450 if path == COMPACT_UNKNOWN_FIGURES[-1] else 480))
 """),
+        md(r"""## Relocated unknown-count comparison: true locations $(0.45,0.75)n$
+
+Repeat the preceding unknown-count experiment with true change points at
+$(0.45,0.75)n$. All other settings remain fixed: $p=200$,
+$\delta\in\{1.5,3.5,7.5,11.5\}$, $\Delta_n=n/10$, upper bound $L=4$,
+100 paired trials per setting, 10-fold WERM+CV, WERM+P with $\gamma=6$,
+and AMP with $T=10$. The three covariances, coefficient/noise distributions,
+prior weights and AMP settings are unchanged; no method receives whitened
+data or the true locations. This rerun uses the same latent draws and AMP
+seeds as the preceding experiment, with the response regenerated for the new
+locations.
+
+The three Hausdorff panels, three count panels and two-row histogram retain
+the preceding plotting conventions. Histogram rows are $\delta=7.5,11.5$;
+black dashed lines now mark $0.45$ and $0.75$. Hausdorff summaries condition
+on successful nonempty estimates; count summaries include empty estimates
+as zero. Full diagnostics are retained in the saved summary and audit.
+
+Results and PDF/PNG figures are saved separately under
+`results/WERM_AMP_comparison/c5ad60d064f7`. The next cell reads this completed
+run by default; enable `RUN_RELOCATED_EXPERIMENT` to resume or reproduce it."""),
+        code("""import json
+from IPython.display import Image, display
+from tools import werm_amp_experiment as experiment
+from tools.werm_amp_compact_unknown_plots import export_compact_unknown
+
+RELOCATED_ROOT = experiment.ROOT / 'results/WERM_AMP_comparison/c5ad60d064f7'
+RUN_RELOCATED_EXPERIMENT = False
+if RUN_RELOCATED_EXPERIMENT:
+    saved_spec = json.loads((RELOCATED_ROOT / 'specification.json').read_text())
+    if experiment.prepare(saved_spec) != RELOCATED_ROOT:
+        raise RuntimeError('Current sources or versions differ from the saved run.')
+    experiment.run(RELOCATED_ROOT, jobs=16)
+if not experiment.status(RELOCATED_ROOT)['complete']:
+    raise RuntimeError('Relocated study is incomplete; resume it before exporting all 100 trials.')
+
+RELOCATED_FIGURES = export_compact_unknown(
+    RELOCATED_ROOT, expected_truth=(.45, .75))
+for path in RELOCATED_FIGURES:
+    display(Image(filename=str(path), width=1450 if path == RELOCATED_FIGURES[-1] else 480))
+"""),
         reproducibility,
     ])
     # Preserve the original reference outputs and stable cell IDs until the

@@ -1,0 +1,41 @@
+{
+  "reference_root": "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/results/WERM_AMP_comparison/e8c4b4c6af5f",
+  "relocated_root": "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/results/WERM_AMP_comparison/c5ad60d064f7",
+  "specification_changes": {
+    "unknown_truth": [
+      [
+        0.25,
+        0.5
+      ],
+      [
+        0.45,
+        0.75
+      ]
+    ],
+    "studies": [
+      [
+        "unknown",
+        "known"
+      ],
+      [
+        "unknown"
+      ]
+    ]
+  },
+  "paired_datasets": 1200,
+  "latent_draws_matched": 1200,
+  "amp_seeds_matched": 1200,
+  "data_hashes_changed": 1200,
+  "weights_identical": true,
+  "covariance_matrices_identical": true,
+  "algorithm_sources_identical": true,
+  "reference_record_signature_sha256": "94d8cb2ed15e5e6f8077e46df93a6282f3fd06cf31faedf5006e6a2b4c8bebe9",
+  "unknown_truth": [
+    0.45,
+    0.75
+  ],
+  "completed": 1200,
+  "expected": 1200,
+  "complete": true,
+  "failed_fits": 0
+}
