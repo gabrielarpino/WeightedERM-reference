@@ -722,6 +722,31 @@ COMPACT_KNOWN_FIGURES = export_compact_known()
 for path in COMPACT_KNOWN_FIGURES:
     display(Image(filename=str(path), width=1100 if path == COMPACT_KNOWN_FIGURES[-1] else 480))
 """),
+        md(r"""## Compact unknown-count figures: $\Delta_n=n/10$, $T=10$
+
+Use the saved 100 paired trials with $p=200$, true locations $(0.25,0.50)n$
+and an upper bound of $L=4$ segments. Compare **WERM+CV** (10 folds),
+**WERM+P** ($\gamma=6$) and **AMP** (10 iterations). Three Hausdorff panels and
+three count panels follow the same canonical M1--M3 style, with a common scale
+within each metric. Points are means and bars span the first and third
+quartiles; the dotted count reference marks the true two change points.
+
+Hausdorff summaries use successful, nonempty estimates. Counts include valid
+empty estimates as zero; failure and empty-estimate counts are retained in the
+saved summary. The histogram has two rows ($\delta=7.5,11.5$) and nine columns:
+WERM+CV, WERM+P and AMP within each covariance. It pools estimated locations
+and uses the same 12-bin density and Gaussian KDE conventions as above, with
+black dashed lines at the true locations.
+
+This cell exports PDF and PNG figures from the completed run to
+`figures/compact_unknown`; it does not launch new trials."""),
+        code("""from IPython.display import Image, display
+from tools.werm_amp_compact_unknown_plots import export_compact_unknown
+
+COMPACT_UNKNOWN_FIGURES = export_compact_unknown()
+for path in COMPACT_UNKNOWN_FIGURES:
+    display(Image(filename=str(path), width=1450 if path == COMPACT_UNKNOWN_FIGURES[-1] else 480))
+"""),
         reproducibility,
     ])
     # Preserve the original reference outputs and stable cell IDs until the
