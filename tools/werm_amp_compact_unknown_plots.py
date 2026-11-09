@@ -26,6 +26,8 @@ HISTOGRAM_DENSITY_LIMIT = 24.
 TITLES = {**COVARIANCE_TITLES, 'm3': 'random orthogonal'}
 LABELS = {'WERM+CV': r'\textbf{WERM+CV}',
           'WERM+P': r'\textbf{WERM+P}', 'AMP': 'AMP'}
+FIVE_COLUMN_HISTOGRAM = (('ar1', 'WERM+CV'), ('ar1', 'WERM+P'),
+                         ('identity', 'AMP'), ('ar1', 'AMP'), ('m3', 'AMP'))
 
 
 def _validated_groups(root, expected_truth=(.25, .50)):
@@ -212,18 +214,22 @@ def _metric_plots(summary, output_dir, artifacts):
     return paths
 
 
-def _histogram(groups, truth, output_dir, artifacts):
+def _histogram(groups, truth, output_dir, artifacts, *, columns=None,
+               stem='unknown_gap10_T10_hist'):
     import matplotlib.pyplot as plt
     from sklearn.model_selection import GridSearchCV
     from sklearn.neighbors import KernelDensity
 
-    fig, axes = plt.subplots(2, 9, figsize=(22.5, 4.4), sharex=True, sharey=True)
-    fig.subplots_adjust(left=.04, right=.975, bottom=.18, top=.80,
+    grouped_covariances = columns is None
+    columns = tuple((c, m) for c in COVARIANCES for m in METHODS) if columns is None else tuple(columns)
+    ncols = len(columns)
+    fig, axes = plt.subplots(2, ncols, figsize=(2.5*ncols, 4.4), sharex=True, sharey=True)
+    fig.subplots_adjust(left=.04 if grouped_covariances else .06,
+                        right=.975 if grouped_covariances else .96, bottom=.18, top=.80,
                         wspace=.05, hspace=.08)
     audit = []
     for row, delta in enumerate(HISTOGRAM_DELTAS):
-        for column, (covariance, method) in enumerate(
-                (c, m) for c in COVARIANCES for m in METHODS):
+        for column, (covariance, method) in enumerate(columns):
             ax = axes[row, column]
             records = groups[covariance, delta]
             fits = [record['methods'][method] for record in records]
@@ -252,7 +258,7 @@ def _histogram(groups, truth, output_dir, artifacts):
                 ax.spines[spine].set_linewidth(1)
             if row == 0:
                 ax.set_title(LABELS[method], fontsize=18, pad=8)
-            if column == 8:
+            if column == ncols-1:
                 ax.text(1.05, .5, rf'$\delta={delta:g}$', transform=ax.transAxes,
                         rotation=90, va='center', ha='left', fontsize=18)
             peak = float(max(hist.max(), density.max()))
@@ -264,14 +270,46 @@ def _histogram(groups, truth, output_dir, artifacts):
                 kde_bandwidth=float(cv.best_params_['bandwidth']),
                 maximum_density=peak, display_limit=HISTOGRAM_DENSITY_LIMIT,
                 density_clipped=peak > HISTOGRAM_DENSITY_LIMIT))
-    for index, covariance in enumerate(COVARIANCES):
-        left = axes[0, 3*index].get_position().x0
-        right = axes[0, 3*index+2].get_position().x1
-        fig.text((left+right)/2, .97, TITLES[covariance], ha='center', va='top', fontsize=18)
+    if grouped_covariances:
+        for index, covariance in enumerate(COVARIANCES):
+            left = axes[0, 3*index].get_position().x0
+            right = axes[0, 3*index+2].get_position().x1
+            fig.text((left+right)/2, .97, TITLES[covariance], ha='center', va='top', fontsize=18)
+    else:
+        headings = {'identity': 'isotropic', 'ar1': 'AR(1)', 'm3': 'random orthogonal'}
+        for column, (covariance, _) in enumerate(columns):
+            box = axes[0, column].get_position()
+            fig.text((box.x0+box.x1)/2, .97, headings[covariance],
+                     ha='center', va='top', fontsize=18)
     fig.text(.51, .01, 'Fractional location', ha='center', va='bottom', fontsize=18)
     fig.text(.01, .49, 'Density', va='center', rotation='vertical', fontsize=18)
-    path = _export(fig, output_dir, 'unknown_gap10_T10_hist', artifacts)
+    path = _export(fig, output_dir, stem, artifacts)
     return path, audit
+
+
+def export_five_column_unknown_histogram(root, output_dir=None, *, expected_truth=(.45, .75)):
+    """Export AR(1) WERM+CV/P and all three AMP designs as a 2-by-5 histogram."""
+    import matplotlib.pyplot as plt
+    from tools.consistent_plotting import CANONICAL_STYLE
+
+    root = Path(root).resolve()
+    output_dir = (Path(output_dir).resolve() if output_dir is not None
+                  else root / 'figures' / 'compact_unknown')
+    spec, groups, input_hashes = _validated_groups(root, expected_truth=expected_truth)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    artifacts = []
+    with plt.rc_context(CANONICAL_STYLE):
+        path, histograms = _histogram(groups, spec['unknown_truth'], output_dir, artifacts,
+            columns=FIVE_COLUMN_HISTOGRAM, stem='unknown_gap10_T10_hist_five_columns')
+    for filename, digest in input_hashes.items():
+        if _sha256(root / filename) != digest:
+            raise ValueError(f'Saved input changed during plotting: {filename}')
+    audit = dict(root=str(root), truth=spec['unknown_truth'],
+        columns=[dict(covariance=c, method=m) for c, m in FIVE_COLUMN_HISTOGRAM],
+        histogram_deltas=list(HISTOGRAM_DELTAS), histograms=histograms,
+        input_sha256=input_hashes, figures=artifacts)
+    (output_dir / 'five_column_histogram_sources.json').write_text(json.dumps(audit, indent=2)+'\n')
+    return path
 
 
 def export_compact_unknown(root=DEFAULT_ROOT, output_dir=None, *, expected_truth=(.25, .50)):

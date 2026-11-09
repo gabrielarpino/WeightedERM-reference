@@ -826,6 +826,22 @@ RELOCATED_FIGURES = export_compact_unknown(
 for path in RELOCATED_FIGURES:
     display(Image(filename=str(path), width=1450 if path == RELOCATED_FIGURES[-1] else 480))
 """),
+        md(r"""## Five-column unknown-count histogram
+
+Use the same completed $\Delta_n=n/10$, $T=10$ experiment with true locations
+$(0.45,0.75)n$. Rows show $\delta=7.5$ and $11.5$. Columns show **WERM+CV
+(AR(1)), WERM+P (AR(1)), AMP isotropic, AMP AR(1), and AMP random orthogonal**,
+in that order. Each panel uses all 100 trials from its indicated design and the
+same histogram/KDE conventions as above. This cell only renders saved estimates."""),
+        code("""from IPython.display import Image, display
+from tools import werm_amp_experiment as experiment
+from tools.werm_amp_compact_unknown_plots import export_five_column_unknown_histogram
+
+FIVE_COLUMN_HISTOGRAM_ROOT = experiment.ROOT / 'results/WERM_AMP_comparison/448fa5a988cc'
+FIVE_COLUMN_HISTOGRAM = export_five_column_unknown_histogram(
+    FIVE_COLUMN_HISTOGRAM_ROOT, expected_truth=(.45, .75))
+display(Image(filename=str(FIVE_COLUMN_HISTOGRAM), width=1150))
+"""),
         reproducibility,
     ])
     # Preserve the original reference outputs and stable cell IDs until the
