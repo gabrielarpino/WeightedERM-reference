@@ -22,6 +22,9 @@ def build(destination=None, spacing_roots=None, t20_roots=None):
     t20_roots = {str(key): str(value) for key, value in t20_roots.items()}
     if not set(t20_roots).issubset({'20', '10'}):
         raise ValueError('T=20 roots must be keyed by denominator 20 or 10.')
+    # Notebook JSON sorts metadata keys; retain the original cell's study order
+    # so rebuilding does not discard outputs for a reordered dictionary literal.
+    t20_roots = {key: t20_roots[key] for key in ('20', '10') if key in t20_roots}
     md, code = nbf.v4.new_markdown_cell, nbf.v4.new_code_cell
     cells = [
         md(r"""# WERM and AMP: change points with Gaussian regression signals
@@ -700,6 +703,25 @@ if iteration_tables:
 else:
     print('No AMP iteration-comparison results available yet.')
 """),
+        md(r"""## Compact known-count figures: $\Delta_n=n/10$, $T=10$
+
+Use the saved 100 paired trials with $p=200$, known $L=4$ and true locations
+$(0.25,0.45,0.70)n$. The three separate Hausdorff panels have a common vertical
+scale and follow the canonical M1--M3 plotting style; points are means and
+bars span the first and third quartiles. The histogram rows are
+$\delta\in\{3.5,11.5\}$, with WERM and AMP columns paired within each covariance.
+Black dashed lines mark the true locations. Histograms use the canonical
+12-bin density and Gaussian KDE conventions.
+
+This cell only exports figures from the completed $T=10$ run. PDF and PNG
+versions are saved in its `figures/compact_known` directory."""),
+        code("""from IPython.display import Image, display
+from tools.werm_amp_compact_plots import export_compact_known
+
+COMPACT_KNOWN_FIGURES = export_compact_known()
+for path in COMPACT_KNOWN_FIGURES:
+    display(Image(filename=str(path), width=1100 if path == COMPACT_KNOWN_FIGURES[-1] else 480))
+"""),
         reproducibility,
     ])
     # Preserve the original reference outputs and stable cell IDs until the
@@ -732,7 +754,9 @@ else:
                 'language': 'python',
                 'name': 'weighted-erm',
             },
-            'language_info': {'name': 'python', 'version': sys.version.split()[0]},
+            'language_info': (copy.deepcopy(previous.metadata['language_info'])
+                if previous is not None and 'language_info' in previous.metadata
+                else {'name': 'python', 'version': sys.version.split()[0]}),
             'werm_amp_spacing_roots': spacing_roots,
             'werm_amp_t20_roots': t20_roots,
         },
