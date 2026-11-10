@@ -1539,11 +1539,11 @@
       "files": {
         "pdf": {
           "path": "unknown_gap10_T10_hist_five_columns.pdf",
-          "sha256": "71ad95228843a14dc604b96d13d02a1443885680b7bc1f606271fd8f9bfd8a52"
+          "sha256": "283c7e37ca5e7387f7af7c81a0edcfe4ade3213def96cc9a103c0afe81096bda"
         },
         "png": {
           "path": "unknown_gap10_T10_hist_five_columns.png",
-          "sha256": "5d4a47754d47a09b17a9ec0a10ae3ba2b17bf27a3f49a6b68dcd8a591a2f1b48"
+          "sha256": "b23f0f91fdb4fe41fcfb57de7d5537ef71e29cb6ed4cdbc5b94db6b00e795bee"
         }
       },
       "axes": [

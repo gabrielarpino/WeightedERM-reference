@@ -28,6 +28,7 @@ LABELS = {'WERM+CV': r'\textbf{WERM+CV}',
           'WERM+P': r'\textbf{WERM+P}', 'AMP': 'AMP'}
 FIVE_COLUMN_HISTOGRAM = (('ar1', 'WERM+CV'), ('ar1', 'WERM+P'),
                          ('identity', 'AMP'), ('ar1', 'AMP'), ('m3', 'AMP'))
+PAPER_COVARIANCE_TITLES = {'identity': 'isotropic', 'ar1': 'AR(1)', 'm3': 'orthogonal'}
 
 
 def _validated_groups(root, expected_truth=(.25, .50)):
@@ -170,14 +171,15 @@ def _summary(groups):
     return rows
 
 
-def _metric_plots(summary, output_dir, artifacts):
+def _metric_plots(summary, output_dir, artifacts, *, metrics=('haus', 'count'), titles=None):
     import matplotlib.pyplot as plt
     from matplotlib.ticker import MaxNLocator
 
     upper = 1.08 * max(row[key] for row in summary
                       for key in ('haus_mean', 'haus_q75') if row[key] is not None)
+    titles = TITLES if titles is None else titles
     paths = []
-    for metric in ('haus', 'count'):
+    for metric in metrics:
         for index, covariance in enumerate(COVARIANCES):
             fig, ax = plt.subplots(figsize=(5., 4.))
             for method in METHODS:
@@ -197,7 +199,7 @@ def _metric_plots(summary, output_dir, artifacts):
                 ax.plot(x, means, label=LABELS[method],
                         color=color, marker=marker, ls=line, linewidth=3.5,
                         markersize=8, markeredgewidth=2, markeredgecolor='white', alpha=.8)
-            ax.set(xlabel=r'$\delta=n/p$', title=TITLES[covariance])
+            ax.set(xlabel=r'$\delta=n/p$', title=titles[covariance])
             ax.set_xticks(DELTAS, [f'{value:g}' for value in DELTAS])
             ax.tick_params(axis='both', which='major', width=1.5, length=6, labelsize=14)
             if metric == 'haus':
@@ -252,7 +254,7 @@ def _histogram(groups, truth, output_dir, artifacts, *, columns=None,
                 ax.axvline(cp, color='black', ls='--', lw=2, alpha=.9, zorder=10)
             ax.set(xlim=(0, 1), ylim=(0, HISTOGRAM_DENSITY_LIMIT))
             ax.set_xticks(truth, [f'${cp:.2f}$' for cp in truth])
-            ax.set_yticks([0, 8, 16, 24])
+            ax.set_yticks([0, 8, 16, 24] if grouped_covariances else [0, 12, 24])
             ax.tick_params(width=1, length=4, labelsize=14)
             for spine in ('left', 'bottom'):
                 ax.spines[spine].set_linewidth(1)
@@ -276,7 +278,7 @@ def _histogram(groups, truth, output_dir, artifacts, *, columns=None,
             right = axes[0, 3*index+2].get_position().x1
             fig.text((left+right)/2, .97, TITLES[covariance], ha='center', va='top', fontsize=18)
     else:
-        headings = {'identity': 'isotropic', 'ar1': 'AR(1)', 'm3': 'random orthogonal'}
+        headings = PAPER_COVARIANCE_TITLES
         for column, (covariance, _) in enumerate(columns):
             box = axes[0, column].get_position()
             fig.text((box.x0+box.x1)/2, .97, headings[covariance],
@@ -310,6 +312,34 @@ def export_five_column_unknown_histogram(root, output_dir=None, *, expected_trut
         input_sha256=input_hashes, figures=artifacts)
     (output_dir / 'five_column_histogram_sources.json').write_text(json.dumps(audit, indent=2)+'\n')
     return path
+
+
+def export_paper_unknown_panels(root, *, expected_truth):
+    """Export the three count panels and five-column histogram for the appendix."""
+    import matplotlib.pyplot as plt
+    from tools.consistent_plotting import CANONICAL_STYLE
+
+    root = Path(root).resolve()
+    output_dir = root / 'figures' / 'amp_appendix'
+    spec, groups, input_hashes = _validated_groups(root, expected_truth=expected_truth)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    artifacts = []
+    with plt.rc_context(CANONICAL_STYLE):
+        paths = _metric_plots(_summary(groups), output_dir, artifacts,
+                              metrics=('count',), titles=PAPER_COVARIANCE_TITLES)
+        histogram, histograms = _histogram(groups, spec['unknown_truth'], output_dir, artifacts,
+            columns=FIVE_COLUMN_HISTOGRAM, stem='unknown_gap10_T10_hist_five_columns')
+        paths.append(histogram)
+    for filename, digest in input_hashes.items():
+        if _sha256(root / filename) != digest:
+            raise ValueError(f'Saved input changed during plotting: {filename}')
+    audit = dict(root=str(root), truth=spec['unknown_truth'],
+        covariance_titles=PAPER_COVARIANCE_TITLES, histogram_y_ticks=[0, 12, 24],
+        histogram_columns=[dict(covariance=c, method=m) for c, m in FIVE_COLUMN_HISTOGRAM],
+        histogram_deltas=list(HISTOGRAM_DELTAS), histograms=histograms,
+        input_sha256=input_hashes, figures=artifacts)
+    (output_dir / 'figure_sources.json').write_text(json.dumps(audit, indent=2)+'\n')
+    return paths
 
 
 def export_compact_unknown(root=DEFAULT_ROOT, output_dir=None, *, expected_truth=(.25, .50)):

@@ -784,7 +784,7 @@ for path in COMPACT_UNKNOWN_FIGURES:
 
 Use the completed $\Delta_n=n/10$, $T=10$ experiment with true locations
 $(0.25,0.50)n$. Rows show $\delta=7.5$ and $11.5$. Columns show **WERM+CV
-(AR(1)), WERM+P (AR(1)), AMP isotropic, AMP AR(1), and AMP random orthogonal**,
+(AR(1)), WERM+P (AR(1)), AMP isotropic, AMP AR(1), and AMP orthogonal**,
 in that order. Each panel uses the same saved estimates and histogram/KDE
 conventions as the original-location comparison above."""),
         code("""from IPython.display import Image, display
@@ -846,7 +846,7 @@ for path in RELOCATED_FIGURES:
 
 Use the same completed $\Delta_n=n/10$, $T=10$ experiment with true locations
 $(0.45,0.75)n$. Rows show $\delta=7.5$ and $11.5$. Columns show **WERM+CV
-(AR(1)), WERM+P (AR(1)), AMP isotropic, AMP AR(1), and AMP random orthogonal**,
+(AR(1)), WERM+P (AR(1)), AMP isotropic, AMP AR(1), and AMP orthogonal**,
 in that order. Each panel uses all 100 trials from its indicated design and the
 same histogram/KDE conventions as above. This cell only renders saved estimates."""),
         code("""from IPython.display import Image, display
