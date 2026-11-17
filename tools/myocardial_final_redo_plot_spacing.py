@@ -34,8 +34,8 @@ def update():
     verify=nb.v4.new_code_cell("""import numpy as np
 np.testing.assert_allclose(ax.get_xlim(),[26,95.1])
 np.testing.assert_allclose(fig.get_size_inches(),[12,2])
-assert fig.dpi==72 and ax.xaxis.label.get_fontsize()==22
-assert all(t.get_fontsize()==22 for t in ax.get_xticklabels()+ax.get_yticklabels())
+assert fig.dpi==72 and ax.xaxis.label.get_fontsize()==18
+assert all(t.get_fontsize()==14 for t in ax.get_xticklabels()+ax.get_yticklabels())
 assert plt.rcParams['text.usetex'] and plt.rcParams['font.serif']==['Times New Roman']
 assert len(ax.containers[0].markerline.get_xdata())==len(baseline['ages'])
 """)

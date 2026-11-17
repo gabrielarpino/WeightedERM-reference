@@ -2,6 +2,7 @@
 from pathlib import Path
 import copy
 import nbformat as nb
+from tools.final_notebook_presentation import normalize_presentation
 
 NAME='Myocardial Infarction Experiment - final_final.ipynb'
 
@@ -71,7 +72,9 @@ under `results/myocardial_final_final_v1/paper_assets` in addition to inline dis
         "for filename in ['baseline_probabilities_1024','sensitivity_summary_1024']:\n    t=pd.read_csv(rank_root/(filename+'.csv'));t.to_csv(assets/('rank3_'+filename+'.csv'),index=False);t.to_latex(assets/('rank3_'+filename+'.tex'),index=False,float_format='%.6f')\n"
         "print('All three canonical analyses and publication exports complete:',assets)"))
     for c in cells:
-        if c.cell_type=='code':compile(c.source,NAME,'exec')
+        if c.cell_type=='code':
+            c.source=normalize_presentation(c.source)
+            compile(c.source,NAME,'exec')
     out=nb.v4.new_notebook(cells=cells,metadata=old.metadata)
     nb.validate(out);nb.write(out,NAME)
     print(NAME)

@@ -1,0 +1,495 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/E_PRIOR_jointconfigs_actualgap_100paired_seed20260916.pkl": "4ce74e9395e47eff4b27793c011dfc44d9f6ee15c8d3719c6df505558671ca09"
+  },
+  "figures": [
+    {
+      "name": "prior_location_line",
+      "description": "",
+      "size_inches": [
+        4.694898937598715,
+        3.7881569729199382
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.21563656396207367,
+            0.12853439176925507,
+            0.7321481473824287,
+            0.8189656082307449
+          ],
+          "xlabel": "",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.0006155473250355151,
+            0.14258373023144502
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prior_location_box",
+      "description": "",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.0097,
+            0.2037
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pooled_prior",
+      "description": "",
+      "size_inches": [
+        5.91732295558323,
+        1.5
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        1.5
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.31,
+            0.2573529411764706,
+            0.49000000000000005
+          ],
+          "xlabel": "Fractional location",
+          "ylabel": "Prior prob.",
+          "title": "Bad",
+          "ylim": [
+            -0.00021755580779417327,
+            0.004568671963677638
+          ]
+        },
+        {
+          "bounds": [
+            0.4188235294117647,
+            0.31,
+            0.25735294117647056,
+            0.49000000000000005
+          ],
+          "xlabel": "Fractional location",
+          "ylabel": "",
+          "title": "Neutral",
+          "ylim": [
+            -0.00021755580779417327,
+            0.004568671963677638
+          ]
+        },
+        {
+          "bounds": [
+            0.7276470588235294,
+            0.31,
+            0.25735294117647056,
+            0.49000000000000005
+          ],
+          "xlabel": "Fractional location",
+          "ylabel": "",
+          "title": "Good",
+          "ylim": [
+            -0.00021755580779417327,
+            0.004568671963677638
+          ]
+        }
+      ]
+    },
+    {
+      "name": "signal_marginals",
+      "description": "",
+      "size_inches": [
+        5.91732295558323,
+        1.85
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        1.85
+      ],
+      "canonical_m1": false,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.27,
+            0.2573529411764706,
+            0.57
+          ],
+          "xlabel": "Fractional location",
+          "ylabel": "Sample weight",
+          "title": "Bad",
+          "ylim": [
+            -0.05,
+            1.05
+          ]
+        },
+        {
+          "bounds": [
+            0.4188235294117647,
+            0.27,
+            0.25735294117647056,
+            0.57
+          ],
+          "xlabel": "Fractional location",
+          "ylabel": "",
+          "title": "Neutral",
+          "ylim": [
+            -0.05,
+            1.05
+          ]
+        },
+        {
+          "bounds": [
+            0.7276470588235294,
+            0.27,
+            0.25735294117647056,
+            0.57
+          ],
+          "xlabel": "Fractional location",
+          "ylabel": "",
+          "title": "Good",
+          "ylim": [
+            -0.05,
+            1.05
+          ]
+        }
+      ]
+    },
+    {
+      "name": "joint_configuration_priors",
+      "description": "",
+      "size_inches": [
+        5.91732295558323,
+        2.6
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        2.6
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11000000000000003,
+            0.32,
+            0.24999999999999994,
+            0.568973361113772
+          ],
+          "xlabel": "Fractional location",
+          "ylabel": "Fractional location",
+          "title": "Bad",
+          "ylim": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "bounds": [
+            0.405,
+            0.32,
+            0.25,
+            0.568973361113772
+          ],
+          "xlabel": "Fractional location",
+          "ylabel": "",
+          "title": "Neutral",
+          "ylim": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "bounds": [
+            0.7,
+            0.32,
+            0.25,
+            0.568973361113772
+          ],
+          "xlabel": "Fractional location",
+          "ylabel": "",
+          "title": "Good",
+          "ylim": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.1,
+            0.25,
+            0.035
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "bounds": [
+            0.40499999999999997,
+            0.1,
+            0.25000000000000006,
+            0.035
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "bounds": [
+            0.7,
+            0.1,
+            0.25,
+            0.035
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prior_estimated_locations",
+      "description": "Change-point location histograms: canonical M1 bins, KDE, ticks and layout.",
+      "size_inches": [
+        6.837499999999999,
+        2.205851390618514
+      ],
+      "canvas_inches": [
+        7.5,
+        2.2
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.125,
+            0.28,
+            0.25,
+            0.5
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "Bad",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.3875,
+            0.28,
+            0.24999999999999994,
+            0.5
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "Neutral",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.6499999999999999,
+            0.28,
+            0.25,
+            0.5
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "Good",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prior_ordered_estimates",
+      "description": "Change-point location histograms: canonical M1 bins, KDE, ticks and layout.",
+      "size_inches": [
+        6.740157837403896,
+        4.339851390618514
+      ],
+      "canvas_inches": [
+        7.5,
+        4.4
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.125,
+            0.5338461538461539,
+            0.25,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "Bad",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.3875,
+            0.5338461538461539,
+            0.24999999999999994,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "Neutral",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.6499999999999999,
+            0.5338461538461539,
+            0.25,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "Good",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.16000000000000003,
+            0.25,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.3875,
+            0.16000000000000003,
+            0.24999999999999994,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.6499999999999999,
+            0.16000000000000003,
+            0.25,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        }
+      ]
+    }
+  ]
+}

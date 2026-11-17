@@ -1,0 +1,4 @@
+folds,delta,epsilon,selected CPs,dates,CV improvement vs zero (%)
+2,0.025,1.0,0,,0.0
+5,0.025,0.75,0,,0.0
+2,0.03333333333333333,1.0,0,,0.0

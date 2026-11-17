@@ -1,0 +1,949 @@
+{
+  "audits": [
+    {
+      "base": "/tmp/werm-linear-model-upload-vlqbplnm",
+      "changes": [
+        {
+          "old": "JRSSB/figures/marginals/marginal_viz_L3_unif_Lub.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_unif_Lub.pgf",
+          "sha256": "52b020aeee9a69c8b557544a9c9bf14b5bf220ec3f140c9a1f328ee7fd4ad19b"
+        },
+        {
+          "old": "JRSSB/figures/marginals/marginal_viz_L3_unif_Lub.pdf",
+          "new": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_unif_Lub.pdf",
+          "sha256": "a82818f82499d6f6a1f19c64f53d62caa44120146010557f7196b3672c58d34c"
+        },
+        {
+          "old": "JRSSB/figures/marginals/marginal_viz_L2_unif_Lub_new3.pdf",
+          "new": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L2_unif_Lub_new3.pdf",
+          "sha256": "37b2d55114507ebd111ea8d8efc7104f1d6495d8470f62610c41ab1f1182959f"
+        },
+        {
+          "old": "JRSSB/figures/SE_est_match/new_log_SE_match__loc.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/SE_est_match/new_log_SE_match__loc.pgf",
+          "sha256": "ae8760ec74d7225b49317da1141507d9a05349112f917202fe2cb81d5349823e"
+        },
+        {
+          "old": "JRSSB/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_loc.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_loc.pgf",
+          "sha256": "db00630a6ac48b5fafc9912fc6ac74280ba595c6f11de7cca8041cb4e4c65995"
+        },
+        {
+          "old": "JRSSB/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_size.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_size.pgf",
+          "sha256": "bdfcbca3c74f3faa7be402f79bb2ecdfd73f6b521cfc78cf3151f338bc6fa409"
+        },
+        {
+          "old": "JRSSB/figures/posterior/SE_match_posterior_Ls_comparison.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/posterior/SE_match_posterior_Ls_comparison.pgf",
+          "sha256": "49b99889b0b93acaef6cbe2a316e5aba63142e7451f1b8eeda501673329dfd10"
+        },
+        {
+          "old": "JRSSB/figures/posterior/SE_match_posterior_new_shorter_Ls_comparison_newvarepsilon.pdf",
+          "new": "JRSSB-revision-rebuttal/figures/posterior/SE_match_posterior_new_shorter_Ls_comparison_newvarepsilon.pdf",
+          "sha256": "2a68690c4511b3eab508d18c47ae5735942fb5fea2920593c52c5482c0e33a9a"
+        },
+        {
+          "old": "JRSSB/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "34b3f4cac758bba5b2c6fbd4ccf5523005638a9b795a5978cfe6cb41d5b17bd8"
+        },
+        {
+          "old": "JRSSB/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "a83df890352114da3d7971c5b922c315fb6b567c6a77a5e6909502d5615d3966"
+        },
+        {
+          "old": "JRSSB/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "3854395d9c6bcc66ee2b79e1dff2f61e6f27194f200750d876738d9ec83b10dc"
+        },
+        {
+          "old": "JRSSB/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "1869f299095785aaf8be1c695ba4ddf3b3e64b9c074ed241b0642fdd2b211043"
+        },
+        {
+          "old": "JRSSB/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "489fb7b709df466a7b16bfcc6c8bf1fe7ca3c064b389e5b4268987be80d8bee0"
+        },
+        {
+          "old": "JRSSB/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "8b557704c116bdd5fb51c8d785c6557fc6275df5f4e30d177aaa16fbb0600b0c"
+        },
+        {
+          "old": "JRSSB/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "b07f5b4854a0a9e4a05b0bfc3b55e8feaa875f56944d317a1e1932b8fff2e73c"
+        },
+        {
+          "old": "JRSSB/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "a8ce7738ad13d7d79056b0f328973dddd8bef8c3b5ea0b44311f0fc4a378a351"
+        },
+        {
+          "old": "JRSSB/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_location_boxplots.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_location_boxplots.pgf",
+          "sha256": "4f9127be09a6a8057e30bdb967d6ffec1c832ad426754277068823499d014ab2"
+        },
+        {
+          "old": "JRSSB/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_size_asymmetric_errors.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_size_asymmetric_errors.pgf",
+          "sha256": "cf96eede038ac3c45b0ceb71e92e10c6a02e6c28b744ca18bac7c38f0320c1aa"
+        },
+        {
+          "old": "JRSSB/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "b07f5b4854a0a9e4a05b0bfc3b55e8feaa875f56944d317a1e1932b8fff2e73c"
+        },
+        {
+          "old": "JRSSB/figures/marginals/marginal_viz_L3_twostate.pdf",
+          "new": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_twostate.pdf",
+          "sha256": "836cea9b8a614f49d794f590404dc3382607e8ac3ce550c84d1eddf77c3654d6"
+        },
+        {
+          "old": "JRSSB/figures/TwoStatevsUnif/h_laplace_loc.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/TwoStatevsUnif/h_laplace_loc.pgf",
+          "sha256": "8c0b452cdd1966d6ab03d3440c615066721e8923d80c4bac0ed04bf73530d01b"
+        },
+        {
+          "old": "JRSSB/figures/SE_est_match/h_laplace_SEmatch.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/SE_est_match/h_laplace_SEmatch.pgf",
+          "sha256": "68fe0f3a132a103237deec8d198b5914d780eca7c4c1b7970584f0bb62ec45a8"
+        }
+      ],
+      "references": [
+        {
+          "line": 234,
+          "path": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_unif_Lub.pgf",
+          "active": false
+        },
+        {
+          "line": 235,
+          "path": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_unif_Lub.pdf",
+          "active": true
+        },
+        {
+          "line": 241,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1a/location_asymmetric_errors.pgf",
+          "active": true
+        },
+        {
+          "line": 242,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1a/location_asymmetric_errors.pdf",
+          "active": false
+        },
+        {
+          "line": 250,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1a/runtime_asymmetric_errors.pgf",
+          "active": true
+        },
+        {
+          "line": 251,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1a/runtime_asymmetric_errors.pdf",
+          "active": false
+        },
+        {
+          "line": 339,
+          "path": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L2_unif_Lub_new3.pdf",
+          "active": true
+        },
+        {
+          "line": 345,
+          "path": "JRSSB-revision-rebuttal/figures/SE_est_match/new_log_SE_match__loc.pgf",
+          "active": false
+        },
+        {
+          "line": 346,
+          "path": "JRSSB-revision-rebuttal/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_loc.pgf",
+          "active": true
+        },
+        {
+          "line": 354,
+          "path": "JRSSB-revision-rebuttal/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_size.pgf",
+          "active": true
+        },
+        {
+          "line": 639,
+          "path": "JRSSB-revision-rebuttal/figures/linear_model/linear_model_limit.pdf",
+          "active": false
+        },
+        {
+          "line": 647,
+          "path": "JRSSB-revision-rebuttal/figures/linear_model/linear_model_limit_1x4.pdf",
+          "active": true
+        },
+        {
+          "line": 838,
+          "path": "JRSSB-revision-rebuttal/figures/posterior/SE_match_posterior_Ls_comparison.pgf",
+          "active": false
+        },
+        {
+          "line": 839,
+          "path": "JRSSB-revision-rebuttal/figures/posterior/SE_match_posterior_new_shorter_Ls_comparison_newvarepsilon.pdf",
+          "active": true
+        },
+        {
+          "line": 909,
+          "path": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 910,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1/location.pgf",
+          "active": true
+        },
+        {
+          "line": 917,
+          "path": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 918,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1/size.pgf",
+          "active": true
+        },
+        {
+          "line": 925,
+          "path": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 926,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1/runtime.pgf",
+          "active": true
+        },
+        {
+          "line": 938,
+          "path": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 939,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1/chgpt_histograms.pgf",
+          "active": true
+        },
+        {
+          "line": 970,
+          "path": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 971,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M2/location.pgf",
+          "active": true
+        },
+        {
+          "line": 978,
+          "path": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 979,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M2/size.pgf",
+          "active": true
+        },
+        {
+          "line": 986,
+          "path": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 987,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M2/runtime.pgf",
+          "active": true
+        },
+        {
+          "line": 999,
+          "path": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 1000,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M2/chgpt_histograms.pgf",
+          "active": true
+        },
+        {
+          "line": 1020,
+          "path": "JRSSB-revision-rebuttal/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_location_boxplots.pgf",
+          "active": false
+        },
+        {
+          "line": 1021,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M3/delta6/location_boxplots.pgf",
+          "active": true
+        },
+        {
+          "line": 1028,
+          "path": "JRSSB-revision-rebuttal/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_size_asymmetric_errors.pgf",
+          "active": false
+        },
+        {
+          "line": 1029,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M3/delta6/size_asymmetric_errors.pgf",
+          "active": true
+        },
+        {
+          "line": 1036,
+          "path": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 1037,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M3/delta6/runtime_boxplots.pgf",
+          "active": true
+        },
+        {
+          "line": 1059,
+          "path": "JRSSB-revision-rebuttal/figures/myocardial/myocardial_conditional_posterior_final_redo.pdf",
+          "active": true
+        },
+        {
+          "line": 3648,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M1/M1b_dense_gaussian_ls_haus_box.pdf",
+          "active": true
+        },
+        {
+          "line": 3654,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M1/M1b_dense_gaussian_ls_size_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3672,
+          "path": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_twostate.pdf",
+          "active": true
+        },
+        {
+          "line": 3680,
+          "path": "JRSSB-revision-rebuttal/figures/TwoStatevsUnif/h_laplace_loc.pgf",
+          "active": true
+        },
+        {
+          "line": 3692,
+          "path": "JRSSB-revision-rebuttal/figures/SE_est_match/h_laplace_SEmatch.pgf",
+          "active": true
+        },
+        {
+          "line": 3724,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/E_search_penalty_M3/M3_histogram.pdf",
+          "active": false
+        },
+        {
+          "line": 3726,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/E_search_penalty_M3/M3_correct_count_frequency.pdf",
+          "active": false
+        },
+        {
+          "line": 3748,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_haus_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3752,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_size_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3756,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_runtime_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3759,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_runtime_line.pdf",
+          "active": false
+        },
+        {
+          "line": 3766,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_hist.pdf",
+          "active": false
+        },
+        {
+          "line": 3788,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_matched_presentation/matched_upper_L_haus_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3792,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_matched_presentation/matched_upper_L_count_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3796,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_matched_presentation/matched_upper_L_histograms_L3_L6.pdf",
+          "active": true
+        },
+        {
+          "line": 3801,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_gap20_alternative/gapb_upper_L_haus_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3805,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_gap20_alternative/gapb_upper_L_count_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3809,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_gap20_alternative/gapb_upper_L_histograms_L3_L6.pdf",
+          "active": true
+        },
+        {
+          "line": 3823,
+          "path": "JRSSB-revision-rebuttal/figures/E_PRIOR_compact/pooled_prior_and_marginals_compact.pdf",
+          "active": true
+        },
+        {
+          "line": 3833,
+          "path": "JRSSB-revision-rebuttal/figures/E_PRIOR_compact/prior_location_box_compact.pdf",
+          "active": true
+        },
+        {
+          "line": 3837,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/E_PRIOR/prior_estimated_locations.pdf",
+          "active": true
+        },
+        {
+          "line": 3877,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/original_identity_count.pdf",
+          "active": true
+        },
+        {
+          "line": 3878,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/original_ar1_count.pdf",
+          "active": true
+        },
+        {
+          "line": 3879,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/original_m3_count.pdf",
+          "active": true
+        },
+        {
+          "line": 3881,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/original_hist.pdf",
+          "active": true
+        },
+        {
+          "line": 3888,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_identity_count.pdf",
+          "active": true
+        },
+        {
+          "line": 3889,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_ar1_count.pdf",
+          "active": true
+        },
+        {
+          "line": 3890,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_m3_count.pdf",
+          "active": true
+        },
+        {
+          "line": 3892,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_hist.pdf",
+          "active": true
+        }
+      ]
+    },
+    {
+      "base": "/scratch/ga442/gab-code-env/papers/WERM-paper",
+      "changes": [
+        {
+          "old": "JRSSB/figures/marginals/marginal_viz_L3_unif_Lub.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_unif_Lub.pgf",
+          "sha256": "52b020aeee9a69c8b557544a9c9bf14b5bf220ec3f140c9a1f328ee7fd4ad19b"
+        },
+        {
+          "old": "JRSSB/figures/marginals/marginal_viz_L3_unif_Lub.pdf",
+          "new": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_unif_Lub.pdf",
+          "sha256": "a82818f82499d6f6a1f19c64f53d62caa44120146010557f7196b3672c58d34c"
+        },
+        {
+          "old": "JRSSB/figures/marginals/marginal_viz_L2_unif_Lub_new3.pdf",
+          "new": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L2_unif_Lub_new3.pdf",
+          "sha256": "37b2d55114507ebd111ea8d8efc7104f1d6495d8470f62610c41ab1f1182959f"
+        },
+        {
+          "old": "JRSSB/figures/SE_est_match/new_log_SE_match__loc.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/SE_est_match/new_log_SE_match__loc.pgf",
+          "sha256": "ae8760ec74d7225b49317da1141507d9a05349112f917202fe2cb81d5349823e"
+        },
+        {
+          "old": "JRSSB/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_loc.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_loc.pgf",
+          "sha256": "db00630a6ac48b5fafc9912fc6ac74280ba595c6f11de7cca8041cb4e4c65995"
+        },
+        {
+          "old": "JRSSB/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_size.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_size.pgf",
+          "sha256": "bdfcbca3c74f3faa7be402f79bb2ecdfd73f6b521cfc78cf3151f338bc6fa409"
+        },
+        {
+          "old": "JRSSB/figures/posterior/SE_match_posterior_Ls_comparison.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/posterior/SE_match_posterior_Ls_comparison.pgf",
+          "sha256": "49b99889b0b93acaef6cbe2a316e5aba63142e7451f1b8eeda501673329dfd10"
+        },
+        {
+          "old": "JRSSB/figures/posterior/SE_match_posterior_new_shorter_Ls_comparison_newvarepsilon.pdf",
+          "new": "JRSSB-revision-rebuttal/figures/posterior/SE_match_posterior_new_shorter_Ls_comparison_newvarepsilon.pdf",
+          "sha256": "2a68690c4511b3eab508d18c47ae5735942fb5fea2920593c52c5482c0e33a9a"
+        },
+        {
+          "old": "JRSSB/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "34b3f4cac758bba5b2c6fbd4ccf5523005638a9b795a5978cfe6cb41d5b17bd8"
+        },
+        {
+          "old": "JRSSB/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "a83df890352114da3d7971c5b922c315fb6b567c6a77a5e6909502d5615d3966"
+        },
+        {
+          "old": "JRSSB/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "3854395d9c6bcc66ee2b79e1dff2f61e6f27194f200750d876738d9ec83b10dc"
+        },
+        {
+          "old": "JRSSB/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "1869f299095785aaf8be1c695ba4ddf3b3e64b9c074ed241b0642fdd2b211043"
+        },
+        {
+          "old": "JRSSB/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "489fb7b709df466a7b16bfcc6c8bf1fe7ca3c064b389e5b4268987be80d8bee0"
+        },
+        {
+          "old": "JRSSB/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "8b557704c116bdd5fb51c8d785c6557fc6275df5f4e30d177aaa16fbb0600b0c"
+        },
+        {
+          "old": "JRSSB/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "b07f5b4854a0a9e4a05b0bfc3b55e8feaa875f56944d317a1e1932b8fff2e73c"
+        },
+        {
+          "old": "JRSSB/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "a8ce7738ad13d7d79056b0f328973dddd8bef8c3b5ea0b44311f0fc4a378a351"
+        },
+        {
+          "old": "JRSSB/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_location_boxplots.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_location_boxplots.pgf",
+          "sha256": "4f9127be09a6a8057e30bdb967d6ffec1c832ad426754277068823499d014ab2"
+        },
+        {
+          "old": "JRSSB/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_size_asymmetric_errors.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_size_asymmetric_errors.pgf",
+          "sha256": "cf96eede038ac3c45b0ceb71e92e10c6a02e6c28b744ca18bac7c38f0320c1aa"
+        },
+        {
+          "old": "JRSSB/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "sha256": "b07f5b4854a0a9e4a05b0bfc3b55e8feaa875f56944d317a1e1932b8fff2e73c"
+        },
+        {
+          "old": "JRSSB/figures/marginals/marginal_viz_L3_twostate.pdf",
+          "new": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_twostate.pdf",
+          "sha256": "836cea9b8a614f49d794f590404dc3382607e8ac3ce550c84d1eddf77c3654d6"
+        },
+        {
+          "old": "JRSSB/figures/TwoStatevsUnif/h_laplace_loc.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/TwoStatevsUnif/h_laplace_loc.pgf",
+          "sha256": "8c0b452cdd1966d6ab03d3440c615066721e8923d80c4bac0ed04bf73530d01b"
+        },
+        {
+          "old": "JRSSB/figures/SE_est_match/h_laplace_SEmatch.pgf",
+          "new": "JRSSB-revision-rebuttal/figures/SE_est_match/h_laplace_SEmatch.pgf",
+          "sha256": "68fe0f3a132a103237deec8d198b5914d780eca7c4c1b7970584f0bb62ec45a8"
+        }
+      ],
+      "references": [
+        {
+          "line": 234,
+          "path": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_unif_Lub.pgf",
+          "active": false
+        },
+        {
+          "line": 235,
+          "path": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_unif_Lub.pdf",
+          "active": true
+        },
+        {
+          "line": 241,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1a/location_asymmetric_errors.pgf",
+          "active": true
+        },
+        {
+          "line": 242,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1a/location_asymmetric_errors.pdf",
+          "active": false
+        },
+        {
+          "line": 250,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1a/runtime_asymmetric_errors.pgf",
+          "active": true
+        },
+        {
+          "line": 251,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1a/runtime_asymmetric_errors.pdf",
+          "active": false
+        },
+        {
+          "line": 339,
+          "path": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L2_unif_Lub_new3.pdf",
+          "active": true
+        },
+        {
+          "line": 345,
+          "path": "JRSSB-revision-rebuttal/figures/SE_est_match/new_log_SE_match__loc.pgf",
+          "active": false
+        },
+        {
+          "line": 346,
+          "path": "JRSSB-revision-rebuttal/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_loc.pgf",
+          "active": true
+        },
+        {
+          "line": 354,
+          "path": "JRSSB-revision-rebuttal/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_size.pgf",
+          "active": true
+        },
+        {
+          "line": 639,
+          "path": "JRSSB-revision-rebuttal/figures/linear_model/linear_model_limit.pdf",
+          "active": true
+        },
+        {
+          "line": 647,
+          "path": "JRSSB-revision-rebuttal/figures/linear_model/linear_model_limit_1x4.pdf",
+          "active": true
+        },
+        {
+          "line": 838,
+          "path": "JRSSB-revision-rebuttal/figures/posterior/SE_match_posterior_Ls_comparison.pgf",
+          "active": false
+        },
+        {
+          "line": 839,
+          "path": "JRSSB-revision-rebuttal/figures/posterior/SE_match_posterior_new_shorter_Ls_comparison_newvarepsilon.pdf",
+          "active": true
+        },
+        {
+          "line": 907,
+          "path": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 908,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1/location.pgf",
+          "active": true
+        },
+        {
+          "line": 915,
+          "path": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 916,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1/size.pgf",
+          "active": true
+        },
+        {
+          "line": 923,
+          "path": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 924,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1/runtime.pgf",
+          "active": true
+        },
+        {
+          "line": 936,
+          "path": "JRSSB-revision-rebuttal/figures/M1b/new/M1b_newcolors_alpha03_035065_McScan_MOSEG_DPDU_DCDP_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 937,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M1/chgpt_histograms.pgf",
+          "active": true
+        },
+        {
+          "line": 968,
+          "path": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_location_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 969,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M2/location.pgf",
+          "active": true
+        },
+        {
+          "line": 976,
+          "path": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_size_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 977,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M2/size.pgf",
+          "active": true
+        },
+        {
+          "line": 984,
+          "path": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 985,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M2/runtime.pgf",
+          "active": true
+        },
+        {
+          "line": 997,
+          "path": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_chgpt_histograms_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 998,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M2/chgpt_histograms.pgf",
+          "active": true
+        },
+        {
+          "line": 1018,
+          "path": "JRSSB-revision-rebuttal/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_location_boxplots.pgf",
+          "active": false
+        },
+        {
+          "line": 1019,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M3/delta6/location_boxplots.pgf",
+          "active": true
+        },
+        {
+          "line": 1026,
+          "path": "JRSSB-revision-rebuttal/figures/M3d/M3d_GLMBSA_WERM-CV_results_p200_L4_fixeddelta3.0_noisestd0.7745966692414834_kappa_100_316_500_707_1000_2236_3162_4472_size_asymmetric_errors.pgf",
+          "active": false
+        },
+        {
+          "line": 1027,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M3/delta6/size_asymmetric_errors.pgf",
+          "active": true
+        },
+        {
+          "line": 1034,
+          "path": "JRSSB-revision-rebuttal/figures/M2/new/M2c_extended_moredeltas_newcolors_alpha03_0205_McScan_charcoal_WERM-unp_runtime_p200_L4_noisestd0.31622776601683794_seed42.pgf",
+          "active": false
+        },
+        {
+          "line": 1035,
+          "path": "JRSSB-revision-rebuttal/figures/synthetic-final/M3/delta6/runtime_boxplots.pgf",
+          "active": true
+        },
+        {
+          "line": 1057,
+          "path": "JRSSB-revision-rebuttal/figures/myocardial/myocardial_conditional_posterior_final_redo.pdf",
+          "active": true
+        },
+        {
+          "line": 3762,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M1/M1b_dense_gaussian_ls_haus_box.pdf",
+          "active": true
+        },
+        {
+          "line": 3768,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M1/M1b_dense_gaussian_ls_size_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3786,
+          "path": "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_twostate.pdf",
+          "active": true
+        },
+        {
+          "line": 3794,
+          "path": "JRSSB-revision-rebuttal/figures/TwoStatevsUnif/h_laplace_loc.pgf",
+          "active": true
+        },
+        {
+          "line": 3806,
+          "path": "JRSSB-revision-rebuttal/figures/SE_est_match/h_laplace_SEmatch.pgf",
+          "active": true
+        },
+        {
+          "line": 3838,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/E_search_penalty_M3/M3_histogram.pdf",
+          "active": false
+        },
+        {
+          "line": 3840,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/E_search_penalty_M3/M3_correct_count_frequency.pdf",
+          "active": false
+        },
+        {
+          "line": 3862,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_haus_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3866,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_size_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3870,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_runtime_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3873,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_runtime_line.pdf",
+          "active": false
+        },
+        {
+          "line": 3880,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_hist.pdf",
+          "active": false
+        },
+        {
+          "line": 3902,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_matched_presentation/matched_upper_L_haus_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3906,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_matched_presentation/matched_upper_L_count_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3910,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_matched_presentation/matched_upper_L_histograms_L3_L6.pdf",
+          "active": true
+        },
+        {
+          "line": 3915,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_gap20_alternative/gapb_upper_L_haus_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3919,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_gap20_alternative/gapb_upper_L_count_line.pdf",
+          "active": true
+        },
+        {
+          "line": 3923,
+          "path": "JRSSB-revision-rebuttal/figures/E_L_gap20_alternative/gapb_upper_L_histograms_L3_L6.pdf",
+          "active": true
+        },
+        {
+          "line": 3937,
+          "path": "JRSSB-revision-rebuttal/figures/E_PRIOR_compact/pooled_prior_and_marginals_compact.pdf",
+          "active": true
+        },
+        {
+          "line": 3947,
+          "path": "JRSSB-revision-rebuttal/figures/E_PRIOR_compact/prior_location_box_compact.pdf",
+          "active": true
+        },
+        {
+          "line": 3951,
+          "path": "JRSSB-revision-rebuttal/figures/consistent_20261103/E_PRIOR/prior_estimated_locations.pdf",
+          "active": true
+        },
+        {
+          "line": 3988,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/original_identity_count.pdf",
+          "active": true
+        },
+        {
+          "line": 3989,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/original_ar1_count.pdf",
+          "active": true
+        },
+        {
+          "line": 3990,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/original_m3_count.pdf",
+          "active": true
+        },
+        {
+          "line": 3992,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/original_hist.pdf",
+          "active": true
+        },
+        {
+          "line": 3999,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_identity_count.pdf",
+          "active": true
+        },
+        {
+          "line": 4000,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_ar1_count.pdf",
+          "active": true
+        },
+        {
+          "line": 4001,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_m3_count.pdf",
+          "active": true
+        },
+        {
+          "line": 4003,
+          "path": "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_hist.pdf",
+          "active": true
+        }
+      ]
+    }
+  ],
+  "build_directory": "/tmp/jrssb-local-figure-build-f1gfuljv",
+  "stage": "/tmp/werm-linear-model-upload-vlqbplnm",
+  "build_success": true,
+  "compiled_figure_inputs": [
+    "JRSSB-revision-rebuttal/figures/AMP_comparison/original_ar1_count.pdf",
+    "JRSSB-revision-rebuttal/figures/AMP_comparison/original_hist.pdf",
+    "JRSSB-revision-rebuttal/figures/AMP_comparison/original_identity_count.pdf",
+    "JRSSB-revision-rebuttal/figures/AMP_comparison/original_m3_count.pdf",
+    "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_ar1_count.pdf",
+    "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_hist.pdf",
+    "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_identity_count.pdf",
+    "JRSSB-revision-rebuttal/figures/AMP_comparison/relocated_m3_count.pdf",
+    "JRSSB-revision-rebuttal/figures/E_L_gap20_alternative/gapb_upper_L_count_line.pdf",
+    "JRSSB-revision-rebuttal/figures/E_L_gap20_alternative/gapb_upper_L_haus_line.pdf",
+    "JRSSB-revision-rebuttal/figures/E_L_gap20_alternative/gapb_upper_L_histograms_L3_L6.pdf",
+    "JRSSB-revision-rebuttal/figures/E_L_matched_presentation/matched_upper_L_count_line.pdf",
+    "JRSSB-revision-rebuttal/figures/E_L_matched_presentation/matched_upper_L_haus_line.pdf",
+    "JRSSB-revision-rebuttal/figures/E_L_matched_presentation/matched_upper_L_histograms_L3_L6.pdf",
+    "JRSSB-revision-rebuttal/figures/E_PRIOR_compact/pooled_prior_and_marginals_compact.pdf",
+    "JRSSB-revision-rebuttal/figures/E_PRIOR_compact/prior_location_box_compact.pdf",
+    "JRSSB-revision-rebuttal/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_loc.pgf",
+    "JRSSB-revision-rebuttal/figures/SE_est_match/WERM_SE_match_est_logistic_Lub_L2_new5_size.pgf",
+    "JRSSB-revision-rebuttal/figures/SE_est_match/h_laplace_SEmatch.pgf",
+    "JRSSB-revision-rebuttal/figures/TwoStatevsUnif/h_laplace_loc.pgf",
+    "JRSSB-revision-rebuttal/figures/consistent_20261103/E_PRIOR/prior_estimated_locations.pdf",
+    "JRSSB-revision-rebuttal/figures/consistent_20261103/M1/M1b_dense_gaussian_ls_haus_box.pdf",
+    "JRSSB-revision-rebuttal/figures/consistent_20261103/M1/M1b_dense_gaussian_ls_size_line.pdf",
+    "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_haus_line.pdf",
+    "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_runtime_line.pdf",
+    "JRSSB-revision-rebuttal/figures/consistent_20261103/M2/M2_fresh_size_line.pdf",
+    "JRSSB-revision-rebuttal/figures/linear_model/linear_model_limit_1x4.pdf",
+    "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L2_unif_Lub_new3.pdf",
+    "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_twostate.pdf",
+    "JRSSB-revision-rebuttal/figures/marginals/marginal_viz_L3_unif_Lub.pdf",
+    "JRSSB-revision-rebuttal/figures/myocardial/myocardial_conditional_posterior_final_redo.pdf",
+    "JRSSB-revision-rebuttal/figures/posterior/SE_match_posterior_new_shorter_Ls_comparison_newvarepsilon.pdf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M1/chgpt_histograms.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M1/location.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M1/runtime.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M1/size.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M1a/location_asymmetric_errors.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M1a/runtime_asymmetric_errors.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M2/chgpt_histograms.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M2/location.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M2/runtime.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M2/size.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M3/delta6/location_boxplots.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M3/delta6/runtime_boxplots.pgf",
+    "JRSSB-revision-rebuttal/figures/synthetic-final/M3/delta6/size_asymmetric_errors.pgf"
+  ],
+  "overleaf_commit": "3d481a056e4db41809817de0529e3ad6a605affc"
+}

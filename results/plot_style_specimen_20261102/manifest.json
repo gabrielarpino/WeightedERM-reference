@@ -1,0 +1,133 @@
+{
+  "source_sha256": {
+    "results/M2_upsample_final_alpha03_seed42_100trials.pkl": "022aaf03ca82691d529a61679fde3abf3871bd4ca00955e5dbff164e79c156c7",
+    "results/M3_usample_final_delta3_alpha01_GLMBSA_WERM-L1_fullCV2_seed42_100trials.pkl": "c253105eff4b52a531e2c9e3323ab0d77acf50d01505528ac21fafe40e6277e5",
+    "results/E_PRIOR_jointconfigs_actualgap_100paired_seed20260916.pkl": "4ce74e9395e47eff4b27793c011dfc44d9f6ee15c8d3719c6df505558671ca09",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_100_100_q10_seed123.pkl": "55cb04a823f6fb57be1c0caef2a5e25ab35ec00e2ebba1a0a5ea0d9681f290eb"
+  },
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 200
+  },
+  "text_width_tex_pt": 427.64493,
+  "figures": [
+    {
+      "name": "m2_counts",
+      "inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "axes": [
+        [
+          0.19,
+          0.22999999999999998,
+          0.79,
+          0.74
+        ]
+      ]
+    },
+    {
+      "name": "m3_location",
+      "inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "axes": [
+        [
+          0.19,
+          0.22999999999999998,
+          0.79,
+          0.74
+        ]
+      ]
+    },
+    {
+      "name": "prior_triptych",
+      "inches": [
+        5.91732295558323,
+        1.5
+      ],
+      "axes": [
+        [
+          0.11,
+          0.31,
+          0.2573529411764706,
+          0.49000000000000005
+        ],
+        [
+          0.4188235294117647,
+          0.31,
+          0.25735294117647056,
+          0.49000000000000005
+        ],
+        [
+          0.7276470588235294,
+          0.31,
+          0.25735294117647056,
+          0.49000000000000005
+        ]
+      ]
+    },
+    {
+      "name": "location_histograms",
+      "inches": [
+        5.91732295558323,
+        1.5
+      ],
+      "axes": [
+        [
+          0.11,
+          0.27,
+          0.282258064516129,
+          0.53
+        ],
+        [
+          0.40637096774193543,
+          0.27,
+          0.28225806451612906,
+          0.53
+        ],
+        [
+          0.702741935483871,
+          0.27,
+          0.282258064516129,
+          0.53
+        ]
+      ]
+    },
+    {
+      "name": "myocardial_posterior",
+      "inches": [
+        5.91732295558323,
+        1.18
+      ],
+      "axes": [
+        [
+          0.11,
+          0.39,
+          0.875,
+          0.57
+        ]
+      ]
+    }
+  ]
+}

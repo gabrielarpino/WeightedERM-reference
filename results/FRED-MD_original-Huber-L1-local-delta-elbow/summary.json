@@ -1,0 +1,2072 @@
+{
+  "dataset": {
+    "n": 773,
+    "p": 114,
+    "start": "1960-01",
+    "end": "2024-05"
+  },
+  "setting": {
+    "loss": "Huber-eps1.35",
+    "penalty": "l1",
+    "intercept": false,
+    "folds": 2,
+    "constants": [
+      0.15,
+      0.3,
+      0.5,
+      0.75,
+      1.0,
+      2.0
+    ],
+    "segment_counts": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "score_loss": "absolute_loss"
+  },
+  "elbow_rule": "maximum distance to endpoint line",
+  "records": [
+    {
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "n/30",
+      "minimum_segment_length": 25,
+      "cv_selected_segments": 1,
+      "cv_selected_change_points": 0,
+      "cv_selected_constant": 0.15,
+      "cv_change_points": [],
+      "cv_dates": [],
+      "cv_mae": 0.5382894980391462,
+      "zero_cp_cv_mae": 0.5382894980391462,
+      "cv_improvement_vs_zero_pct": 0.0,
+      "conditional_C_elbow": {
+        "selected_segments": 2,
+        "selected_change_points": 1,
+        "selected_constant": 0.15,
+        "change_points": [
+          435
+        ],
+        "dates": [
+          "1996-04"
+        ],
+        "gofs": [
+          174.44075696619012,
+          156.75056726927153,
+          173.05493621484396,
+          163.62246478615853,
+          153.85871603877075
+        ],
+        "distances": [
+          -Infinity,
+          0.43097902432703045,
+          0.305942793848203,
+          0.15866199970090536,
+          -Infinity
+        ],
+        "curve": [
+          {
+            "segments": 1,
+            "constant": 0.15,
+            "change_points": [],
+            "dates": [],
+            "gof": 174.44075696619012
+          },
+          {
+            "segments": 2,
+            "constant": 0.15,
+            "change_points": [
+              435
+            ],
+            "dates": [
+              "1996-04"
+            ],
+            "gof": 156.75056726927153
+          },
+          {
+            "segments": 3,
+            "constant": 0.3,
+            "change_points": [
+              276,
+              593
+            ],
+            "dates": [
+              "1983-01",
+              "2009-06"
+            ],
+            "gof": 173.05493621484396
+          },
+          {
+            "segments": 4,
+            "constant": 0.3,
+            "change_points": [
+              154,
+              593,
+              618
+            ],
+            "dates": [
+              "1972-11",
+              "2009-06",
+              "2011-07"
+            ],
+            "gof": 163.62246478615853
+          },
+          {
+            "segments": 5,
+            "constant": 0.3,
+            "change_points": [
+              157,
+              384,
+              440,
+              609
+            ],
+            "dates": [
+              "1973-02",
+              "1992-01",
+              "1996-09",
+              "2010-10"
+            ],
+            "gof": 153.85871603877075
+          }
+        ]
+      },
+      "fixed_C_0.3_elbow": {
+        "selected_segments": 2,
+        "selected_change_points": 1,
+        "selected_constant": 0.3,
+        "change_points": [
+          593
+        ],
+        "dates": [
+          "2009-06"
+        ],
+        "gofs": [
+          197.47285495751987,
+          181.59625565345098,
+          172.91615879198503,
+          163.6330418077635,
+          155.602940288602
+        ],
+        "distances": [
+          -Infinity,
+          0.09135021919222146,
+          0.06116458816290701,
+          0.04116287132028526,
+          -Infinity
+        ],
+        "curve": [
+          {
+            "segments": 1,
+            "constant": 0.3,
+            "change_points": [],
+            "dates": [],
+            "gof": 197.47285495751987
+          },
+          {
+            "segments": 2,
+            "constant": 0.3,
+            "change_points": [
+              593
+            ],
+            "dates": [
+              "2009-06"
+            ],
+            "gof": 181.59625565345098
+          },
+          {
+            "segments": 3,
+            "constant": 0.3,
+            "change_points": [
+              276,
+              593
+            ],
+            "dates": [
+              "1983-01",
+              "2009-06"
+            ],
+            "gof": 172.91615879198503
+          },
+          {
+            "segments": 4,
+            "constant": 0.3,
+            "change_points": [
+              154,
+              593,
+              618
+            ],
+            "dates": [
+              "1972-11",
+              "2009-06",
+              "2011-07"
+            ],
+            "gof": 163.6330418077635
+          },
+          {
+            "segments": 5,
+            "constant": 0.3,
+            "change_points": [
+              128,
+              384,
+              440,
+              609
+            ],
+            "dates": [
+              "1970-09",
+              "1992-01",
+              "1996-09",
+              "2010-10"
+            ],
+            "gof": 155.602940288602
+          }
+        ]
+      },
+      "candidate_scores": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 416.09778198426,
+          "cv_mean": 0.5382894980391462
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 444.8824636997416,
+          "cv_mean": 0.5755271199220461
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 453.1892096480865,
+          "cv_mean": 0.5862732336973951
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 455.84655470228984,
+          "cv_mean": 0.5897109375191331
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 455.67235153998934,
+          "cv_mean": 0.5894855776713963
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 2.0,
+          "cv_total": 455.4103247657387,
+          "cv_mean": 0.5891466038366607
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 416.5521744753531,
+          "cv_mean": 0.5388773279111942
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 416.6486600740848,
+          "cv_mean": 0.5390021475732015
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 441.108132229753,
+          "cv_mean": 0.5706444142687619
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 447.66086518360225,
+          "cv_mean": 0.5791214297329913
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 448.96229025153514,
+          "cv_mean": 0.5808050326669277
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 2.0,
+          "cv_total": 452.8703128583812,
+          "cv_mean": 0.5858606893381387
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 437.1409831947192,
+          "cv_mean": 0.5655122680397402
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 432.34445405046984,
+          "cv_mean": 0.5593071850588226
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 437.85948372640553,
+          "cv_mean": 0.5664417641997485
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 447.5631165767543,
+          "cv_mean": 0.5789949761665644
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 447.6694693087387,
+          "cv_mean": 0.5791325605546426
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 2.0,
+          "cv_total": 454.3279755992161,
+          "cv_mean": 0.5877464108657388
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 453.11915605248475,
+          "cv_mean": 0.586182608088596
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 418.87927345289154,
+          "cv_mean": 0.541887805243068
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 436.5152438759833,
+          "cv_mean": 0.5647027734488788
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 441.0714482891449,
+          "cv_mean": 0.5705969576832405
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 449.1552843451938,
+          "cv_mean": 0.5810547016108587
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 2.0,
+          "cv_total": 452.26650522013597,
+          "cv_mean": 0.585079566908326
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 442.9006148239149,
+          "cv_mean": 0.5729632792029947
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 422.37765388270896,
+          "cv_mean": 0.5464135237809947
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 438.5003057384688,
+          "cv_mean": 0.5672707706836595
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 445.2246193763419,
+          "cv_mean": 0.5759697533975963
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 459.0685631649736,
+          "cv_mean": 0.5938791244048818
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 2.0,
+          "cv_total": 454.68983486809407,
+          "cv_mean": 0.5882145341113766
+        }
+      ]
+    },
+    {
+      "delta_fraction": 0.03571428571428571,
+      "delta_label": "n/28",
+      "minimum_segment_length": 27,
+      "cv_selected_segments": 4,
+      "cv_selected_change_points": 3,
+      "cv_selected_constant": 0.3,
+      "cv_change_points": [
+        154,
+        593,
+        662
+      ],
+      "cv_dates": [
+        "1972-11",
+        "2009-06",
+        "2015-03"
+      ],
+      "cv_mae": 0.5379943510283706,
+      "zero_cp_cv_mae": 0.5382894980391462,
+      "cv_improvement_vs_zero_pct": 0.054830534842454696,
+      "conditional_C_elbow": {
+        "selected_segments": 2,
+        "selected_change_points": 1,
+        "selected_constant": 0.15,
+        "change_points": [
+          435
+        ],
+        "dates": [
+          "1996-04"
+        ],
+        "gofs": [
+          174.44075696619012,
+          156.76293658570015,
+          173.00882812212956,
+          164.1794007316495,
+          156.05048283135974
+        ],
+        "distances": [
+          -Infinity,
+          0.5029362103401289,
+          0.2984956688655612,
+          0.1357805253767144,
+          -Infinity
+        ],
+        "curve": [
+          {
+            "segments": 1,
+            "constant": 0.15,
+            "change_points": [],
+            "dates": [],
+            "gof": 174.44075696619012
+          },
+          {
+            "segments": 2,
+            "constant": 0.15,
+            "change_points": [
+              435
+            ],
+            "dates": [
+              "1996-04"
+            ],
+            "gof": 156.76293658570015
+          },
+          {
+            "segments": 3,
+            "constant": 0.3,
+            "change_points": [
+              276,
+              593
+            ],
+            "dates": [
+              "1983-01",
+              "2009-06"
+            ],
+            "gof": 173.00882812212956
+          },
+          {
+            "segments": 4,
+            "constant": 0.3,
+            "change_points": [
+              154,
+              593,
+              662
+            ],
+            "dates": [
+              "1972-11",
+              "2009-06",
+              "2015-03"
+            ],
+            "gof": 164.1794007316495
+          },
+          {
+            "segments": 5,
+            "constant": 0.3,
+            "change_points": [
+              128,
+              384,
+              440,
+              609
+            ],
+            "dates": [
+              "1970-09",
+              "1992-01",
+              "1996-09",
+              "2010-10"
+            ],
+            "gof": 156.05048283135974
+          }
+        ]
+      },
+      "fixed_C_0.3_elbow": {
+        "selected_segments": 2,
+        "selected_change_points": 1,
+        "selected_constant": 0.3,
+        "change_points": [
+          593
+        ],
+        "dates": [
+          "2009-06"
+        ],
+        "gofs": [
+          197.47285495751987,
+          181.40276290411867,
+          172.950061793944,
+          163.76190332637094,
+          155.54368816900552
+        ],
+        "distances": [
+          -Infinity,
+          0.0942344393287422,
+          0.060006779277538266,
+          0.038182105608415194,
+          -Infinity
+        ],
+        "curve": [
+          {
+            "segments": 1,
+            "constant": 0.3,
+            "change_points": [],
+            "dates": [],
+            "gof": 197.47285495751987
+          },
+          {
+            "segments": 2,
+            "constant": 0.3,
+            "change_points": [
+              593
+            ],
+            "dates": [
+              "2009-06"
+            ],
+            "gof": 181.40276290411867
+          },
+          {
+            "segments": 3,
+            "constant": 0.3,
+            "change_points": [
+              276,
+              593
+            ],
+            "dates": [
+              "1983-01",
+              "2009-06"
+            ],
+            "gof": 172.950061793944
+          },
+          {
+            "segments": 4,
+            "constant": 0.3,
+            "change_points": [
+              154,
+              593,
+              662
+            ],
+            "dates": [
+              "1972-11",
+              "2009-06",
+              "2015-03"
+            ],
+            "gof": 163.76190332637094
+          },
+          {
+            "segments": 5,
+            "constant": 0.3,
+            "change_points": [
+              157,
+              384,
+              440,
+              609
+            ],
+            "dates": [
+              "1973-02",
+              "1992-01",
+              "1996-09",
+              "2010-10"
+            ],
+            "gof": 155.54368816900552
+          }
+        ]
+      },
+      "candidate_scores": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 416.09778198426,
+          "cv_mean": 0.5382894980391462
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 444.8824636997416,
+          "cv_mean": 0.5755271199220461
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 453.1892096480865,
+          "cv_mean": 0.5862732336973951
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 455.84655470228984,
+          "cv_mean": 0.5897109375191331
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 455.67235153998934,
+          "cv_mean": 0.5894855776713963
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 2.0,
+          "cv_total": 455.4103247657387,
+          "cv_mean": 0.5891466038366607
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 416.5521744753531,
+          "cv_mean": 0.5388773279111942
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 416.6486600740848,
+          "cv_mean": 0.5390021475732015
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 442.8155067679336,
+          "cv_mean": 0.5728531782250111
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 447.66086518360225,
+          "cv_mean": 0.5791214297329913
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 448.96229025153514,
+          "cv_mean": 0.5808050326669277
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 2.0,
+          "cv_total": 452.8703128583812,
+          "cv_mean": 0.5858606893381387
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 437.1409831947192,
+          "cv_mean": 0.5655122680397402
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 427.26966947529365,
+          "cv_mean": 0.5527421338619581
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 437.85948372640553,
+          "cv_mean": 0.5664417641997485
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 445.4012570121703,
+          "cv_mean": 0.5761982626289396
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 447.6694693087387,
+          "cv_mean": 0.5791325605546426
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 2.0,
+          "cv_total": 454.3279755992161,
+          "cv_mean": 0.5877464108657388
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 453.11915605248475,
+          "cv_mean": 0.586182608088596
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 415.86963334493043,
+          "cv_mean": 0.5379943510283706
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 436.74935510208024,
+          "cv_mean": 0.565005634025977
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 440.6233357034894,
+          "cv_mean": 0.5700172518803226
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 449.3372269895507,
+          "cv_mean": 0.5812900737251626
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 2.0,
+          "cv_total": 453.55398547208137,
+          "cv_mean": 0.5867451299768194
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 442.9006148239149,
+          "cv_mean": 0.5729632792029947
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 426.5949444275149,
+          "cv_mean": 0.551869268340899
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 439.32746661743386,
+          "cv_mean": 0.5683408365037954
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 445.2246193763419,
+          "cv_mean": 0.5759697533975963
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 452.3212076633255,
+          "cv_mean": 0.585150333329011
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 2.0,
+          "cv_total": 454.92971543207534,
+          "cv_mean": 0.5885248582562423
+        }
+      ]
+    },
+    {
+      "delta_fraction": 0.04,
+      "delta_label": "n/25",
+      "minimum_segment_length": 30,
+      "cv_selected_segments": 1,
+      "cv_selected_change_points": 0,
+      "cv_selected_constant": 0.15,
+      "cv_change_points": [],
+      "cv_dates": [],
+      "cv_mae": 0.5382894980391462,
+      "zero_cp_cv_mae": 0.5382894980391462,
+      "cv_improvement_vs_zero_pct": 0.0,
+      "conditional_C_elbow": {
+        "selected_segments": 2,
+        "selected_change_points": 1,
+        "selected_constant": 0.15,
+        "change_points": [
+          435
+        ],
+        "dates": [
+          "1996-04"
+        ],
+        "gofs": [
+          174.44075696619012,
+          156.74807347089524,
+          173.00423301323536,
+          164.17976487879437,
+          153.5202708361942
+        ],
+        "distances": [
+          -Infinity,
+          0.42123122857146644,
+          0.30499926894622525,
+          0.1835113245277696,
+          -Infinity
+        ],
+        "curve": [
+          {
+            "segments": 1,
+            "constant": 0.15,
+            "change_points": [],
+            "dates": [],
+            "gof": 174.44075696619012
+          },
+          {
+            "segments": 2,
+            "constant": 0.15,
+            "change_points": [
+              435
+            ],
+            "dates": [
+              "1996-04"
+            ],
+            "gof": 156.74807347089524
+          },
+          {
+            "segments": 3,
+            "constant": 0.3,
+            "change_points": [
+              276,
+              593
+            ],
+            "dates": [
+              "1983-01",
+              "2009-06"
+            ],
+            "gof": 173.00423301323536
+          },
+          {
+            "segments": 4,
+            "constant": 0.3,
+            "change_points": [
+              154,
+              593,
+              662
+            ],
+            "dates": [
+              "1972-11",
+              "2009-06",
+              "2015-03"
+            ],
+            "gof": 164.17976487879437
+          },
+          {
+            "segments": 5,
+            "constant": 0.3,
+            "change_points": [
+              157,
+              384,
+              440,
+              609
+            ],
+            "dates": [
+              "1973-02",
+              "1992-01",
+              "1996-09",
+              "2010-10"
+            ],
+            "gof": 153.5202708361942
+          }
+        ]
+      },
+      "fixed_C_0.3_elbow": {
+        "selected_segments": 2,
+        "selected_change_points": 1,
+        "selected_constant": 0.3,
+        "change_points": [
+          593
+        ],
+        "dates": [
+          "2009-06"
+        ],
+        "gofs": [
+          197.47285495751987,
+          182.22273875328796,
+          173.0054653942709,
+          163.7716735445497,
+          153.9495963824291
+        ],
+        "distances": [
+          -Infinity,
+          0.07098647627955636,
+          0.04395951732139319,
+          0.017200928360658417,
+          -Infinity
+        ],
+        "curve": [
+          {
+            "segments": 1,
+            "constant": 0.3,
+            "change_points": [],
+            "dates": [],
+            "gof": 197.47285495751987
+          },
+          {
+            "segments": 2,
+            "constant": 0.3,
+            "change_points": [
+              593
+            ],
+            "dates": [
+              "2009-06"
+            ],
+            "gof": 182.22273875328796
+          },
+          {
+            "segments": 3,
+            "constant": 0.3,
+            "change_points": [
+              276,
+              593
+            ],
+            "dates": [
+              "1983-01",
+              "2009-06"
+            ],
+            "gof": 173.0054653942709
+          },
+          {
+            "segments": 4,
+            "constant": 0.3,
+            "change_points": [
+              154,
+              593,
+              662
+            ],
+            "dates": [
+              "1972-11",
+              "2009-06",
+              "2015-03"
+            ],
+            "gof": 163.7716735445497
+          },
+          {
+            "segments": 5,
+            "constant": 0.3,
+            "change_points": [
+              128,
+              384,
+              440,
+              609
+            ],
+            "dates": [
+              "1970-09",
+              "1992-01",
+              "1996-09",
+              "2010-10"
+            ],
+            "gof": 153.9495963824291
+          }
+        ]
+      },
+      "candidate_scores": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 416.09778198426,
+          "cv_mean": 0.5382894980391462
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 444.8824636997416,
+          "cv_mean": 0.5755271199220461
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 453.1892096480865,
+          "cv_mean": 0.5862732336973951
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 455.84655470228984,
+          "cv_mean": 0.5897109375191331
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 455.67235153998934,
+          "cv_mean": 0.5894855776713963
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 2.0,
+          "cv_total": 455.4103247657387,
+          "cv_mean": 0.5891466038366607
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 416.5521744753531,
+          "cv_mean": 0.5388773279111942
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 416.6486600740848,
+          "cv_mean": 0.5390021475732015
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 441.108132229753,
+          "cv_mean": 0.5706444142687619
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 447.66086518360225,
+          "cv_mean": 0.5791214297329913
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 448.96229025153514,
+          "cv_mean": 0.5808050326669277
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 2.0,
+          "cv_total": 453.9853583752325,
+          "cv_mean": 0.5873031803043112
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 430.4570506721737,
+          "cv_mean": 0.5568655248022946
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 426.0394857136706,
+          "cv_mean": 0.5511506930319154
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 437.85948372640553,
+          "cv_mean": 0.5664417641997485
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 443.67285408295425,
+          "cv_mean": 0.5739622950620366
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 447.6694693087387,
+          "cv_mean": 0.5791325605546426
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 2.0,
+          "cv_total": 454.3279755992161,
+          "cv_mean": 0.5877464108657388
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 453.11915605248475,
+          "cv_mean": 0.586182608088596
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 420.62853230900123,
+          "cv_mean": 0.5441507533104802
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 438.2746497075218,
+          "cv_mean": 0.5669788482632883
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 442.77169305724095,
+          "cv_mean": 0.5727964981335588
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 449.0614497976758,
+          "cv_mean": 0.5809333115105767
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 2.0,
+          "cv_total": 451.6946979303355,
+          "cv_mean": 0.5843398420832283
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 448.90543682469547,
+          "cv_mean": 0.5807314836024521
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 426.3195924673296,
+          "cv_mean": 0.5515130562319916
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 439.71866027137423,
+          "cv_mean": 0.568846908501131
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 445.2246193763419,
+          "cv_mean": 0.5759697533975963
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 446.9844474009018,
+          "cv_mean": 0.5782463743866776
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 2.0,
+          "cv_total": 454.949321270089,
+          "cv_mean": 0.588550221565445
+        }
+      ]
+    },
+    {
+      "delta_fraction": 0.045454545454545456,
+      "delta_label": "n/22",
+      "minimum_segment_length": 35,
+      "cv_selected_segments": 1,
+      "cv_selected_change_points": 0,
+      "cv_selected_constant": 0.15,
+      "cv_change_points": [],
+      "cv_dates": [],
+      "cv_mae": 0.5382894980391462,
+      "zero_cp_cv_mae": 0.5382894980391462,
+      "cv_improvement_vs_zero_pct": 0.0,
+      "conditional_C_elbow": {
+        "selected_segments": 3,
+        "selected_change_points": 2,
+        "selected_constant": 0.15,
+        "change_points": [
+          276,
+          511
+        ],
+        "dates": [
+          "1983-01",
+          "2002-08"
+        ],
+        "gofs": [
+          174.44075696619012,
+          155.38075737729315,
+          148.76842516427007,
+          159.0646367290464,
+          151.6688939878661
+        ],
+        "distances": [
+          -Infinity,
+          0.3895213689145807,
+          0.4163121206619477,
+          0.04961968634153319,
+          -Infinity
+        ],
+        "curve": [
+          {
+            "segments": 1,
+            "constant": 0.15,
+            "change_points": [],
+            "dates": [],
+            "gof": 174.44075696619012
+          },
+          {
+            "segments": 2,
+            "constant": 0.15,
+            "change_points": [
+              435
+            ],
+            "dates": [
+              "1996-04"
+            ],
+            "gof": 155.38075737729315
+          },
+          {
+            "segments": 3,
+            "constant": 0.15,
+            "change_points": [
+              276,
+              511
+            ],
+            "dates": [
+              "1983-01",
+              "2002-08"
+            ],
+            "gof": 148.76842516427007
+          },
+          {
+            "segments": 4,
+            "constant": 0.3,
+            "change_points": [
+              157,
+              440,
+              609
+            ],
+            "dates": [
+              "1973-02",
+              "1996-09",
+              "2010-10"
+            ],
+            "gof": 159.0646367290464
+          },
+          {
+            "segments": 5,
+            "constant": 0.3,
+            "change_points": [
+              128,
+              384,
+              441,
+              609
+            ],
+            "dates": [
+              "1970-09",
+              "1992-01",
+              "1996-10",
+              "2010-10"
+            ],
+            "gof": 151.6688939878661
+          }
+        ]
+      },
+      "fixed_C_0.3_elbow": {
+        "selected_segments": 4,
+        "selected_change_points": 3,
+        "selected_constant": 0.3,
+        "change_points": [
+          157,
+          441,
+          609
+        ],
+        "dates": [
+          "1973-02",
+          "1996-10",
+          "2010-10"
+        ],
+        "gofs": [
+          197.47285495751987,
+          181.5210845009688,
+          171.33323934576862,
+          158.52087122359683,
+          151.94976151276214
+        ],
+        "distances": [
+          -Infinity,
+          0.07100095354540156,
+          0.05247128958600228,
+          0.07470814316516798,
+          -Infinity
+        ],
+        "curve": [
+          {
+            "segments": 1,
+            "constant": 0.3,
+            "change_points": [],
+            "dates": [],
+            "gof": 197.47285495751987
+          },
+          {
+            "segments": 2,
+            "constant": 0.3,
+            "change_points": [
+              593
+            ],
+            "dates": [
+              "2009-06"
+            ],
+            "gof": 181.5210845009688
+          },
+          {
+            "segments": 3,
+            "constant": 0.3,
+            "change_points": [
+              276,
+              593
+            ],
+            "dates": [
+              "1983-01",
+              "2009-06"
+            ],
+            "gof": 171.33323934576862
+          },
+          {
+            "segments": 4,
+            "constant": 0.3,
+            "change_points": [
+              157,
+              441,
+              609
+            ],
+            "dates": [
+              "1973-02",
+              "1996-10",
+              "2010-10"
+            ],
+            "gof": 158.52087122359683
+          },
+          {
+            "segments": 5,
+            "constant": 0.3,
+            "change_points": [
+              128,
+              384,
+              441,
+              609
+            ],
+            "dates": [
+              "1970-09",
+              "1992-01",
+              "1996-10",
+              "2010-10"
+            ],
+            "gof": 151.94976151276214
+          }
+        ]
+      },
+      "candidate_scores": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 416.09778198426,
+          "cv_mean": 0.5382894980391462
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 444.8824636997416,
+          "cv_mean": 0.5755271199220461
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 453.1892096480865,
+          "cv_mean": 0.5862732336973951
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 455.84655470228984,
+          "cv_mean": 0.5897109375191331
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 455.67235153998934,
+          "cv_mean": 0.5894855776713963
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 2.0,
+          "cv_total": 455.4103247657387,
+          "cv_mean": 0.5891466038366607
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 416.5521744753531,
+          "cv_mean": 0.5388773279111942
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 418.6240196344056,
+          "cv_mean": 0.5415575933174717
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 442.46750102152794,
+          "cv_mean": 0.5724029767419507
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 450.2763422813925,
+          "cv_mean": 0.5825049706098221
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 448.96229025153514,
+          "cv_mean": 0.5808050326669277
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 2.0,
+          "cv_total": 455.0137633947647,
+          "cv_mean": 0.5886335878328133
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 430.4570506721737,
+          "cv_mean": 0.5568655248022946
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 439.5455579850696,
+          "cv_mean": 0.5686229728138028
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 430.95545727391914,
+          "cv_mean": 0.5575102940154193
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 443.4913681030132,
+          "cv_mean": 0.5737275137167053
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 448.35182969617716,
+          "cv_mean": 0.5800153036173055
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 2.0,
+          "cv_total": 453.22823300437045,
+          "cv_mean": 0.5863237166938816
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 440.721636726674,
+          "cv_mean": 0.5701444200862535
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 432.08595983561344,
+          "cv_mean": 0.5589727811586203
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 438.8373951531741,
+          "cv_mean": 0.5677068501334723
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 441.8559209588853,
+          "cv_mean": 0.571611799429347
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 450.52828005030426,
+          "cv_mean": 0.5828308926912086
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 2.0,
+          "cv_total": 453.9431670145442,
+          "cv_mean": 0.5872485989838864
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 474.76240160091163,
+          "cv_mean": 0.6141816320839737
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 421.3735022571485,
+          "cv_mean": 0.5451144919238661
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 433.72091736963034,
+          "cv_mean": 0.5610878620564429
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 444.0731042427746,
+          "cv_mean": 0.574480083108376
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 450.62434970796994,
+          "cv_mean": 0.5829551742664553
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 2.0,
+          "cv_total": 454.5501907730909,
+          "cv_mean": 0.5880338819833
+        }
+      ]
+    },
+    {
+      "delta_fraction": 0.05,
+      "delta_label": "n/20",
+      "minimum_segment_length": 38,
+      "cv_selected_segments": 1,
+      "cv_selected_change_points": 0,
+      "cv_selected_constant": 0.15,
+      "cv_change_points": [],
+      "cv_dates": [],
+      "cv_mae": 0.5382894980391462,
+      "zero_cp_cv_mae": 0.5382894980391462,
+      "cv_improvement_vs_zero_pct": 0.0,
+      "conditional_C_elbow": {
+        "selected_segments": 2,
+        "selected_change_points": 1,
+        "selected_constant": 0.15,
+        "change_points": [
+          435
+        ],
+        "dates": [
+          "1996-04"
+        ],
+        "gofs": [
+          174.44075696619012,
+          155.3821270759248,
+          171.61067238302684,
+          159.55371020996827,
+          151.85859426360815
+        ],
+        "distances": [
+          -Infinity,
+          0.41999902601150735,
+          0.2649360147270794,
+          0.06417758084387828,
+          -Infinity
+        ],
+        "curve": [
+          {
+            "segments": 1,
+            "constant": 0.15,
+            "change_points": [],
+            "dates": [],
+            "gof": 174.44075696619012
+          },
+          {
+            "segments": 2,
+            "constant": 0.15,
+            "change_points": [
+              435
+            ],
+            "dates": [
+              "1996-04"
+            ],
+            "gof": 155.3821270759248
+          },
+          {
+            "segments": 3,
+            "constant": 0.3,
+            "change_points": [
+              276,
+              593
+            ],
+            "dates": [
+              "1983-01",
+              "2009-06"
+            ],
+            "gof": 171.61067238302684
+          },
+          {
+            "segments": 4,
+            "constant": 0.3,
+            "change_points": [
+              157,
+              440,
+              609
+            ],
+            "dates": [
+              "1973-02",
+              "1996-09",
+              "2010-10"
+            ],
+            "gof": 159.55371020996827
+          },
+          {
+            "segments": 5,
+            "constant": 0.3,
+            "change_points": [
+              128,
+              384,
+              441,
+              609
+            ],
+            "dates": [
+              "1970-09",
+              "1992-01",
+              "1996-10",
+              "2010-10"
+            ],
+            "gof": 151.85859426360815
+          }
+        ]
+      },
+      "fixed_C_0.3_elbow": {
+        "selected_segments": 2,
+        "selected_change_points": 1,
+        "selected_constant": 0.3,
+        "change_points": [
+          593
+        ],
+        "dates": [
+          "2009-06"
+        ],
+        "gofs": [
+          197.47285495751987,
+          181.1620565882349,
+          171.4544048786147,
+          159.47087223801663,
+          151.62457806826185
+        ],
+        "distances": [
+          -Infinity,
+          0.07478076587787712,
+          0.04772281289842197,
+          0.055765215889916266,
+          -Infinity
+        ],
+        "curve": [
+          {
+            "segments": 1,
+            "constant": 0.3,
+            "change_points": [],
+            "dates": [],
+            "gof": 197.47285495751987
+          },
+          {
+            "segments": 2,
+            "constant": 0.3,
+            "change_points": [
+              593
+            ],
+            "dates": [
+              "2009-06"
+            ],
+            "gof": 181.1620565882349
+          },
+          {
+            "segments": 3,
+            "constant": 0.3,
+            "change_points": [
+              276,
+              593
+            ],
+            "dates": [
+              "1983-01",
+              "2009-06"
+            ],
+            "gof": 171.4544048786147
+          },
+          {
+            "segments": 4,
+            "constant": 0.3,
+            "change_points": [
+              157,
+              593,
+              647
+            ],
+            "dates": [
+              "1973-02",
+              "2009-06",
+              "2013-12"
+            ],
+            "gof": 159.47087223801663
+          },
+          {
+            "segments": 5,
+            "constant": 0.3,
+            "change_points": [
+              128,
+              384,
+              441,
+              609
+            ],
+            "dates": [
+              "1970-09",
+              "1992-01",
+              "1996-10",
+              "2010-10"
+            ],
+            "gof": 151.62457806826185
+          }
+        ]
+      },
+      "candidate_scores": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 416.09778198426,
+          "cv_mean": 0.5382894980391462
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 444.8824636997416,
+          "cv_mean": 0.5755271199220461
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 453.1892096480865,
+          "cv_mean": 0.5862732336973951
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 455.84655470228984,
+          "cv_mean": 0.5897109375191331
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 455.67235153998934,
+          "cv_mean": 0.5894855776713963
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 2.0,
+          "cv_total": 455.4103247657387,
+          "cv_mean": 0.5891466038366607
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 416.5521744753531,
+          "cv_mean": 0.5388773279111942
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 418.6240196344056,
+          "cv_mean": 0.5415575933174717
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 442.46750102152794,
+          "cv_mean": 0.5724029767419507
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 450.2763422813925,
+          "cv_mean": 0.5825049706098221
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 448.96229025153514,
+          "cv_mean": 0.5808050326669277
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 2.0,
+          "cv_total": 455.0137633947647,
+          "cv_mean": 0.5886335878328133
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 430.4570506721737,
+          "cv_mean": 0.5568655248022946
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 418.3305388858354,
+          "cv_mean": 0.5411779287009514
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 435.00323293662314,
+          "cv_mean": 0.5627467437731217
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 443.59156736770274,
+          "cv_mean": 0.5738571376037551
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 448.35182969617716,
+          "cv_mean": 0.5800153036173055
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 2.0,
+          "cv_total": 453.22823300437045,
+          "cv_mean": 0.5863237166938816
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 440.3778082572323,
+          "cv_mean": 0.5696996225837416
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 433.0834120892348,
+          "cv_mean": 0.5602631462991394
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 440.74142926952914,
+          "cv_mean": 0.5701700249282395
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 441.8559209588853,
+          "cv_mean": 0.571611799429347
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 451.83460550668076,
+          "cv_mean": 0.5845208350668574
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 2.0,
+          "cv_total": 454.30692652173036,
+          "cv_mean": 0.5877191804938297
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 469.3137380700898,
+          "cv_mean": 0.6071329082407372
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 425.6757489228533,
+          "cv_mean": 0.550680140909254
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 435.1092657585711,
+          "cv_mean": 0.5628839143060428
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 444.0731042427746,
+          "cv_mean": 0.574480083108376
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 451.1964775559045,
+          "cv_mean": 0.5836953137851287
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 2.0,
+          "cv_total": 454.634873397041,
+          "cv_mean": 0.5881434325964308
+        }
+      ]
+    }
+  ]
+}

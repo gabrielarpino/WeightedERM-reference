@@ -1,0 +1,175 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/E_PRIOR_jointconfigs_actualgap_100paired_seed20260916.pkl": "4ce74e9395e47eff4b27793c011dfc44d9f6ee15c8d3719c6df505558671ca09"
+  },
+  "figures": [
+    {
+      "name": "pooled_prior_and_marginals_compact",
+      "description": "Exact prior masses (top) and signal weights (bottom), in a compact shared-axis grid.",
+      "size_inches": [
+        5.9,
+        2.4
+      ],
+      "canvas_inches": [
+        5.9,
+        2.4
+      ],
+      "canonical_m1": false,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.12,
+            0.5627272727272727,
+            0.2574404761904762,
+            0.32727272727272727
+          ],
+          "xlabel": "",
+          "ylabel": "Prior prob.",
+          "title": "Bad",
+          "ylim": [
+            -0.00021755580779417327,
+            0.004568671963677638
+          ]
+        },
+        {
+          "bounds": [
+            0.4237797619047619,
+            0.5627272727272727,
+            0.2574404761904762,
+            0.32727272727272727
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "Neutral",
+          "ylim": [
+            -0.00021755580779417327,
+            0.004568671963677638
+          ]
+        },
+        {
+          "bounds": [
+            0.7275595238095238,
+            0.5627272727272727,
+            0.25744047619047616,
+            0.32727272727272727
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "Good",
+          "ylim": [
+            -0.00021755580779417327,
+            0.004568671963677638
+          ]
+        },
+        {
+          "bounds": [
+            0.12,
+            0.17000000000000015,
+            0.2574404761904762,
+            0.3272727272727272
+          ],
+          "xlabel": "",
+          "ylabel": "Sample weight",
+          "title": "",
+          "ylim": [
+            -0.04,
+            1.04
+          ]
+        },
+        {
+          "bounds": [
+            0.4237797619047619,
+            0.17000000000000015,
+            0.2574404761904762,
+            0.3272727272727272
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            -0.04,
+            1.04
+          ]
+        },
+        {
+          "bounds": [
+            0.7275595238095238,
+            0.17000000000000015,
+            0.25744047619047616,
+            0.3272727272727272
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            -0.04,
+            1.04
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prior_location_box_compact",
+      "description": "Saved paired Hausdorff errors, with labels sized for the compact side-by-side paper layout.",
+      "size_inches": [
+        2.9,
+        2.05
+      ],
+      "canvas_inches": [
+        2.9,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.32,
+            0.24,
+            0.6599999999999999,
+            0.73
+          ],
+          "xlabel": "",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.0097,
+            0.2037
+          ]
+        }
+      ]
+    }
+  ]
+}

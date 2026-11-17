@@ -1,5 +1,6 @@
 import WERM.gof
 import WERM.marginals
+from WERM.proximal import fit_weighted, infer_loss, infer_penalty
 import numpy as np
 import warnings
 import jax
@@ -206,7 +207,41 @@ def HVI(X, y, M, L, pi, Delta_n, gamma, L_is_upper_bound=False, brute_force=Fals
     
 ### --- Weighted ERM --- ###
 
-def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_jobs=4):
+def _fit_cv_segment(X, y, M_fitter, P_func=None):
+    """Fit one legacy-CV segment with the shared supported-objective core."""
+    loss_spec = infer_loss(M_fitter)
+    penalty_spec = infer_penalty(
+        (lambda beta: 0.0) if P_func is None else P_func, X.shape[1]
+    )
+    # The legacy refit objective was sum(loss) + P. Dividing the whole
+    # objective by segment size yields the normalized convention used by the
+    # shared solver, hence P / n here.
+    strength = penalty_spec.strength / len(y)
+    result = fit_weighted(
+        X,
+        y,
+        np.ones(len(y)),
+        loss=loss_spec.name,
+        loss_scale=loss_spec.scale,
+        penalty=penalty_spec.name,
+        penalty_strength=strength,
+        huber_delta=(
+            loss_spec.huber_delta
+            if loss_spec.name == "huber" else 1.35
+        ),
+        unpenalized_indices=tuple(
+            np.flatnonzero(~penalty_spec.penalized_mask)
+        ),
+    )
+    if not result.converged:
+        raise RuntimeError("CV segment solver did not satisfy its KKT tolerance")
+    return result.coef
+
+
+def chgpt_k_fold_cv(
+    f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_jobs=4,
+    M_fitter=None,
+):
     """
     K-fold cross-validation following the paper's structure but adapted for regression
     with empirical risk minimization.
@@ -246,13 +281,8 @@ def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_j
     if any(len(fold) == 0 for fold in folds):
         raise ValueError(f"Cannot create {k} non-empty folds with {n_samples} samples")
     
-    # JIT-compiled empirical risk function
-    @partial(jax.jit, static_argnums=(0, 1))
-    def empirical_risk(M_func, P_func, beta, X_data, y_data):
-        y_pred = X_data @ beta
-        if P_func is None:
-            return jnp.sum(M_func(y_pred.flatten(), y_data.flatten()))
-        return jnp.sum(M_func(y_pred.flatten(), y_data.flatten())) + jnp.sum(P_func(beta))
+    if M_fitter is None:
+        M_fitter = M_scorer
 
     def evaluate_single_gamma(gamma):
         """Evaluate one gamma value using k-fold CV"""
@@ -295,19 +325,11 @@ def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_j
                     X_seg_train = X[segment_train_indices]
                     y_seg_train = y[segment_train_indices]
                     
-                    # Minimize empirical risk on this training segment to get β̂
-                    objective_fn = lambda beta: empirical_risk(M_scorer, P_scorer, beta, X_seg_train, y_seg_train)
-                    
-                    options = {'disp': False, 'maxiter': 1000}  # Options for L-BFGS-B
-                    res = scipy.optimize.minimize(
-                        fun=objective_fn,
-                        x0=0.1 * jnp.ones(p, dtype=jnp.float64),
-                        jac=jax.grad(objective_fn),
-                        method='L-BFGS-B',
-                        options=options
+                    segment_betas.append(
+                        _fit_cv_segment(
+                            X_seg_train, y_seg_train, M_fitter, P_scorer
+                        )
                     )
-                    
-                    segment_betas.append(res.x)
                 else:
                     # If no training data in segment, use zero vector
                     segment_betas.append(np.zeros(p))
@@ -377,7 +399,9 @@ def chgpt_k_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_j
     
     return best_gamma, best_chgpt_est
 
-def chgpt_two_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None):
+def chgpt_two_fold_cv(
+    f, X, y, gamma_candidates, M_scorer, P_scorer=None, M_fitter=None
+):
     """
     2-fold cross-validation following the paper's structure but adapted for regression.
     """
@@ -390,13 +414,8 @@ def chgpt_two_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None):
     if len(fold_1) == 0 or len(fold_2) == 0:
         raise ValueError("Cannot create two non-empty folds")
     
-    # JIT-compiled empirical risk function
-    @partial(jax.jit, static_argnums=(0, 1))
-    def empirical_risk(M_func, P_func, beta, X_data, y_data):
-        y_pred = X_data @ beta
-        if P_func is None:
-            return jnp.sum(M_func(y_pred, y_data))
-        return jnp.sum(M_func(y_pred, y_data)) + jnp.sum(P_func(beta))
+    if M_fitter is None:
+        M_fitter = M_scorer
     
     def evaluate_single_gamma(gamma):
         cv_score = 0.0
@@ -437,16 +456,11 @@ def chgpt_two_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None):
                     X_seg_train = X[segment_train_indices]
                     y_seg_train = y[segment_train_indices]
                     
-                    objective_fn = lambda beta: empirical_risk(M_scorer, P_scorer, beta, X_seg_train, y_seg_train)
-                    
-                    res = scipy.optimize.minimize(
-                        fun=objective_fn,
-                        x0=0.1 * jnp.ones(p, dtype=jnp.float64),
-                        jac=jax.grad(objective_fn),
-                        method='L-BFGS-B'
+                    segment_betas.append(
+                        _fit_cv_segment(
+                            X_seg_train, y_seg_train, M_fitter, P_scorer
+                        )
                     )
-                    
-                    segment_betas.append(res.x)
                 else:
                     segment_betas.append(np.zeros(p))
             
@@ -505,14 +519,93 @@ def chgpt_two_fold_cv(f, X, y, gamma_candidates, M_scorer, P_scorer=None):
     
     return best_gamma, best_chgpt_est
 
-def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force=False, return_gof=False, return_B_hat=False, P_func=lambda beta : 0, partition_penalty=None, **kwargs):
+def weighted_erm(
+    X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force=False,
+    return_gof=False, return_B_hat=False, P_func=lambda beta: 0,
+    partition_penalty=None, coefficient_loss=None, coefficient_lambda=None,
+    coefficient_penalty=None,
+    huber_delta=1.35, unpenalized_feature_indices=(),
+    coefficient_solver_options=None, marginal_weights=None, **kwargs
+):
     """
     Computes the change point estimate using the Weighted ERM method for a single L.
     (This function was provided as complete and is used as a helper).
 
-    Delta_n is an int. 
+    Every coefficient fit uses the unified fast solver. Supported losses are
+    least squares, Huber, and logistic; supported penalties are none, L1, and
+    L2. The loss and legacy ``P_func`` penalty are strictly identified when
+    structured metadata is omitted. Least-squares none/L2 fits use exact
+    linear algebra; remaining fits use monotone FISTA with backtracking.
+
+    Delta_n is an int.
+
+    ``marginal_weights`` optionally supplies an L-by-n matrix of signal
+    occupancy probabilities. This permits nonuniform configuration priors;
+    each column must be a probability vector and each signal must have
+    positive total mass. When omitted, the historical default is unchanged.
     """
     n, p = X.shape
+    loss_spec = infer_loss(M)
+    if coefficient_loss is not None:
+        aliases = {
+            "least-squares": "least_squares",
+            "least_squares": "least_squares",
+            "squared": "least_squares",
+            "huber": "huber",
+            "logistic": "logistic",
+        }
+        if coefficient_loss not in aliases:
+            raise ValueError(
+                "coefficient_loss must be least_squares, huber, logistic, or None"
+            )
+        coefficient_loss = aliases[coefficient_loss]
+        if coefficient_loss != loss_spec.name:
+            raise ValueError("coefficient_loss does not match the supplied M callable")
+        if coefficient_loss == "huber" and not np.isclose(
+            float(huber_delta), float(loss_spec.huber_delta), rtol=3e-5, atol=3e-8
+        ):
+            raise ValueError("huber_delta does not match the supplied M callable")
+    else:
+        coefficient_loss = loss_spec.name
+
+    if coefficient_penalty is None and coefficient_lambda is not None:
+        # Backward compatibility for the first structured API, which was L1-only.
+        coefficient_penalty = "l1"
+    if coefficient_penalty is None:
+        penalty_spec = infer_penalty(P_func, p)
+        coefficient_penalty = penalty_spec.name
+        coefficient_lambda = penalty_spec.strength
+        inferred_unpenalized = tuple(np.flatnonzero(~penalty_spec.penalized_mask))
+        if coefficient_penalty != "none":
+            unpenalized_feature_indices = inferred_unpenalized
+    else:
+        coefficient_penalty = str(coefficient_penalty).lower()
+        if coefficient_penalty not in {"none", "l1", "l2"}:
+            raise ValueError("coefficient_penalty must be 'none', 'l1', or 'l2'")
+        if coefficient_penalty == "none":
+            if coefficient_lambda is None:
+                coefficient_lambda = 0.0
+            elif float(coefficient_lambda) != 0.0:
+                raise ValueError(
+                    "coefficient_lambda must be zero with coefficient_penalty='none'"
+                )
+        elif coefficient_lambda is None:
+            raise ValueError(
+                "coefficient_lambda is required with an L1 or L2 penalty"
+            )
+
+    coefficient_lambda = float(coefficient_lambda)
+    if not np.isfinite(coefficient_lambda) or coefficient_lambda < 0.0:
+        raise ValueError("coefficient_lambda must be finite and nonnegative")
+    coefficient_solver_options = dict(coefficient_solver_options or {})
+    controlled = {
+        "loss", "loss_scale", "penalty", "penalty_strength",
+        "huber_delta", "unpenalized_indices", "initial",
+    }
+    if controlled.intersection(coefficient_solver_options):
+        raise ValueError(
+            "coefficient_solver_options cannot override structured objective arguments"
+        )
 
 
     def pi_i_l_endpoint_bias_v2(L, l, i, n, beta_param=0.5):
@@ -530,7 +623,20 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
                 (i/n)**(l-1) * 
                 (1 - i/n)**(L-l))
 
-    if Delta_n == 1:  # No separation between change points, so use analytical binomial approximation.
+    if marginal_weights is not None:
+        pi = np.asarray(marginal_weights, dtype=float)
+        if (
+            pi.shape != (L, n)
+            or not np.all(np.isfinite(pi))
+            or np.any(pi < 0.0)
+            or not np.allclose(pi.sum(axis=0), 1.0, rtol=1e-8, atol=1e-8)
+            or np.any(pi.sum(axis=1) <= 0.0)
+        ):
+            raise ValueError(
+                "marginal_weights must be a finite, nonnegative L-by-n "
+                "probability matrix with unit column sums and positive row sums"
+            )
+    elif Delta_n == 1:  # No separation between change points, so use analytical binomial approximation.
 
 
         # Populate the pi matrix: L rows for l, n columns for i
@@ -565,34 +671,31 @@ def weighted_erm(X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force
     B_hat = np.zeros((p, L))
 
     # --- 1. Estimate signal coefficients B_hat ---
+    warm_start = None
     for l_ in range(L):
         sample_weight = pi[l_, :] / np.sum(pi[l_, :]) # Ensure weights sum to 1
-        
-        @partial(jax.jit, static_argnums=(0, 1))
-        def empirical_risk(M_func, P_func,beta, X_data, y_data, weights):
-            return jnp.multiply(M_func((X_data @ beta).flatten(), y_data.flatten()), weights).sum() + P_func(beta)
-
-        # def make_empirical_risk(P_func_):
-        #     @partial(jax.jit, static_argnums=(0, 5))  # M_func = 0, P_func = 5
-        #     def empirical_risk(M_func, beta, X_data, y_data, weights, P_func_):
-        #         loss = M_func(X_data @ beta, y_data)
-        #         risk = jnp.multiply(loss, weights).sum()
-        #         if P_func_ is not None:
-        #             risk += P_func_(beta)
-        #         return risk
-        #     return empirical_risk
-
-        # empirical_risk_fn = make_empirical_risk(P_func)
-
-        options = {'disp': False, 'maxiter': 1e3} # Useful for ensuring bounded logistic estimators 
-        res = scipy.optimize.minimize(
-            lambda beta: empirical_risk(M, P_func, beta, X, y, sample_weight),
-            0.1*np.ones(p),
-            jac=jax.grad(lambda beta: empirical_risk(M, P_func, beta, X, y, sample_weight)),
-            method='L-BFGS-B',
-            options=options
+        result = fit_weighted(
+            X,
+            y,
+            sample_weight,
+            loss=coefficient_loss,
+            loss_scale=loss_spec.scale,
+            penalty=coefficient_penalty,
+            penalty_strength=coefficient_lambda,
+            huber_delta=(
+                loss_spec.huber_delta
+                if coefficient_loss == "huber" else huber_delta
+            ),
+            unpenalized_indices=tuple(unpenalized_feature_indices),
+            initial=warm_start,
+            **coefficient_solver_options,
         )
-        B_hat[:, l_] = res.x
+        if not result.converged:
+            raise RuntimeError(
+                "weighted coefficient solver did not satisfy its KKT tolerance"
+            )
+        B_hat[:, l_] = result.coef
+        warm_start = result.coef
 
     # --- 2. Compute Change Point Estimates using Goodness-of-Fit ---
     Theta_hat = X @ B_hat
@@ -636,7 +739,8 @@ def weighted_ermCV(X, y, M, L, Delta_n, gamma_candidates=None, L_is_upper_bound 
         M_scorer=M_scorer,
         P_scorer=P_scorer,
         k=num_folds,
-        n_jobs=n_jobs
+        n_jobs=n_jobs,
+        M_fitter=M,
     )
 
     return best_gamma, best_model_output
@@ -848,7 +952,8 @@ def weighted_erm_num_chgptCV(X, y, M, Delta_n, Lmax=7, brute_force=False, return
         M_scorer=M_scorer,
         P_scorer=None,
         k=num_folds,
-        n_jobs=n_jobs
+        n_jobs=n_jobs,
+        M_fitter=M,
     )
 
     return best_L_tilde, best_chgpt_est

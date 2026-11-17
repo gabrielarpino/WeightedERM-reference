@@ -1,0 +1,1074 @@
+{
+  "criterion": "full exhaustive CV >=1 CP and elbow in {2,3} CPs",
+  "records": [
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        376
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        376
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        528
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        528
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 4,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        157,
+        441,
+        655
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        528
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 4,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        157,
+        439,
+        654
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        528
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 5,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        157,
+        391,
+        435,
+        657
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        528
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 4,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        157,
+        439,
+        654
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        528
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 4,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        166,
+        374,
+        547
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        532
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 4,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        157,
+        441,
+        657
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        528
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 5,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        120,
+        389,
+        440,
+        657
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        528
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 4,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        157,
+        439,
+        654
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        525
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 4,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        157,
+        439,
+        654
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        525
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 10.0,
+      "elbow_change_points": [
+        265,
+        548
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        522
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        546
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        546
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        546
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        435
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        522
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        522
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        522
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        522
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        346
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        346
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "none",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": null,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.0,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        384
+      ],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        305,
+        492
+      ],
+      "target_found": true
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 5,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        128,
+        384,
+        465,
+        611
+      ],
+      "elbow_selected_segments": 4,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        305,
+        404,
+        492
+      ],
+      "target_found": true
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 5,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        128,
+        384,
+        441,
+        611
+      ],
+      "elbow_selected_segments": 4,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        253,
+        435,
+        611
+      ],
+      "target_found": true
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        384
+      ],
+      "elbow_selected_segments": 4,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        276,
+        435,
+        548
+      ],
+      "target_found": true
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        384
+      ],
+      "elbow_selected_segments": 4,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        276,
+        435,
+        548
+      ],
+      "target_found": true
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        384
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        384
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 5,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        127,
+        374,
+        453,
+        611
+      ],
+      "elbow_selected_segments": 4,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        305,
+        434,
+        548
+      ],
+      "target_found": true
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 5,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        127,
+        384,
+        441,
+        611
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        384
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        384
+      ],
+      "elbow_selected_segments": 4,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        276,
+        435,
+        548
+      ],
+      "target_found": true
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 5,
+      "full_selected_constant": 0.5,
+      "full_change_points": [
+        128,
+        593,
+        613,
+        647
+      ],
+      "elbow_selected_segments": 4,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        276,
+        435,
+        548
+      ],
+      "target_found": true
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        384
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 1.0,
+      "elbow_change_points": [
+        276
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        276
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        276
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        276
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        384
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 10.0,
+      "elbow_change_points": [
+        247,
+        548
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        497
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 10.0,
+      "elbow_change_points": [
+        247,
+        548
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.5,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.5,
+      "elbow_change_points": [
+        497
+      ],
+      "target_found": false
+    }
+  ]
+}

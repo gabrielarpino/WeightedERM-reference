@@ -1,0 +1,162 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "FRED-MD data/fredmd_data.pkl": "47c6eff625f0dc277bc07eff2a76f0e2260ad252789dd7ac31eac53745db6be3"
+  },
+  "figures": [
+    {
+      "name": "FRED_response_1",
+      "description": "WERM+L1; selected dates: 1980-09, 2009-06",
+      "size_inches": [
+        5.91732295558323,
+        1.6
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        1.6
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.30000000000000004,
+            0.875,
+            0.6599999999999999
+          ],
+          "xlabel": "Year",
+          "ylabel": "Response",
+          "title": "",
+          "ylim": [
+            -8.183797487122098,
+            7.124251684078815
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FRED_response_2",
+      "description": "WERM (unpenalized CV); selected dates: none",
+      "size_inches": [
+        5.91732295558323,
+        1.6
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        1.6
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.30000000000000004,
+            0.875,
+            0.6599999999999999
+          ],
+          "xlabel": "Year",
+          "ylabel": "Response",
+          "title": "",
+          "ylim": [
+            -8.183797487122098,
+            7.124251684078815
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FRED_response_3",
+      "description": "WERM (original elbow); selected dates: 1982-01, 2008-09",
+      "size_inches": [
+        5.91732295558323,
+        1.6
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        1.6
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.30000000000000004,
+            0.875,
+            0.6599999999999999
+          ],
+          "xlabel": "Year",
+          "ylabel": "Response",
+          "title": "",
+          "ylim": [
+            -8.183797487122098,
+            7.124251684078815
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FRED_selection_comparison",
+      "description": "",
+      "size_inches": [
+        5.91732295558323,
+        2.05
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.2,
+            0.22999999999999998,
+            0.78,
+            0.74
+          ],
+          "xlabel": "Year",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            -0.6,
+            2.6
+          ]
+        }
+      ]
+    }
+  ]
+}

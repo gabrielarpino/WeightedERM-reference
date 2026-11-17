@@ -1,0 +1,120 @@
+{
+  "CV": {
+    "mean_haus": 0.00321875,
+    "mean_count_error": 0.01,
+    "empty": 0.0,
+    "true_count": 0.99,
+    "count_agreement_with_CV": 1.0
+  },
+  "gamma=11.400": {
+    "mean_haus": 0.010362500000000002,
+    "mean_count_error": 0.01,
+    "empty": 0.0,
+    "true_count": 0.99,
+    "count_agreement_with_CV": 0.98,
+    "paired_differences": {
+      "haus": {
+        "mean": 0.0071437500000000025,
+        "ci95": [
+          0.0024310937500000014,
+          0.014425468750000003
+        ]
+      },
+      "count_error": {
+        "mean": 0.0,
+        "ci95": [
+          -0.03,
+          0.03
+        ]
+      },
+      "empty": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "accuracy": {
+        "mean": 0.0,
+        "ci95": [
+          -0.030000000000000027,
+          0.030000000000000027
+        ]
+      }
+    }
+  },
+  "gamma=10": {
+    "mean_haus": 0.010362500000000002,
+    "mean_count_error": 0.01,
+    "empty": 0.0,
+    "true_count": 0.99,
+    "count_agreement_with_CV": 0.98,
+    "paired_differences": {
+      "haus": {
+        "mean": 0.0071437500000000025,
+        "ci95": [
+          0.0024310937500000014,
+          0.014425468750000003
+        ]
+      },
+      "count_error": {
+        "mean": 0.0,
+        "ci95": [
+          -0.03,
+          0.03
+        ]
+      },
+      "empty": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "accuracy": {
+        "mean": 0.0,
+        "ci95": [
+          -0.030000000000000027,
+          0.030000000000000027
+        ]
+      }
+    }
+  },
+  "gamma=11": {
+    "mean_haus": 0.010362500000000002,
+    "mean_count_error": 0.01,
+    "empty": 0.0,
+    "true_count": 0.99,
+    "count_agreement_with_CV": 0.98,
+    "paired_differences": {
+      "haus": {
+        "mean": 0.0071437500000000025,
+        "ci95": [
+          0.0024310937500000014,
+          0.014425468750000003
+        ]
+      },
+      "count_error": {
+        "mean": 0.0,
+        "ci95": [
+          -0.03,
+          0.03
+        ]
+      },
+      "empty": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "accuracy": {
+        "mean": 0.0,
+        "ci95": [
+          -0.030000000000000027,
+          0.030000000000000027
+        ]
+      }
+    }
+  }
+}

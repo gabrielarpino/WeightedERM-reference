@@ -2,6 +2,7 @@
 from pathlib import Path
 import ast
 import nbformat as nbf
+from tools.final_notebook_presentation import normalize_presentation
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGET = ROOT / 'Myocardial Infarction Experiment - rho sensitivity final.ipynb'
@@ -12,8 +13,9 @@ def build():
     cells = []
     def md(s): cells.append(nbf.v4.new_markdown_cell(s.strip()))
     def code(s):
-        ast.parse(s.strip())
-        cells.append(nbf.v4.new_code_cell(s.strip()))
+        source = normalize_presentation(s.strip())
+        ast.parse(source)
+        cells.append(nbf.v4.new_code_cell(source))
 
     md(r'''
 # Myocardial infarction: reference reproduction and consistent $\hat\rho$ sensitivity

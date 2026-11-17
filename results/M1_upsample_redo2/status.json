@@ -1,0 +1,9 @@
+{
+  "state": "complete",
+  "completed": 800,
+  "total": 800,
+  "n_jobs": 36,
+  "elapsed_seconds": 25146.717781305313,
+  "result_file": "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/results/M1_upsample_redo2/results.pkl",
+  "updated": 1788274016.5600395
+}

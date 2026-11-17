@@ -1,0 +1,1845 @@
+{
+  "criterion": "unpenalized full CV versus fold-independent elbow",
+  "records": [
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        546
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        236.55599453528473,
+        189.49052781624601,
+        151.9229275374623,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        546
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        236.55599453528473,
+        189.49052781624601,
+        151.9229275374623,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        546
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        236.55599453528473,
+        189.49052781624601,
+        151.9229275374623,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        546
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        236.55599453528473,
+        189.49052781624601,
+        151.9229275374623,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        243.41806606537563,
+        203.70937006245742,
+        175.55932158285069,
+        147.24680545680462
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        243.41806606537563,
+        203.70937006245742,
+        175.55932158285069,
+        147.24680545680462
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        243.41806606537563,
+        203.70937006245742,
+        175.55932158285069,
+        147.24680545680462
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        243.41806606537563,
+        203.70937006245742,
+        175.55932158285069,
+        147.24680545680462
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        244.9974027835436,
+        209.66990234371713,
+        184.98078069729388,
+        163.47908157390066
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        244.9974027835436,
+        209.66990234371713,
+        184.98078069729388,
+        163.47908157390066
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        244.9974027835436,
+        209.66990234371713,
+        184.98078069729388,
+        163.47908157390066
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        244.9974027835436,
+        209.66990234371713,
+        184.98078069729388,
+        163.47908157390066
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        248.17067830423386,
+        216.85838618028356,
+        200.05517400697755,
+        181.57681805234972
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        248.17067830423386,
+        216.85838618028356,
+        200.05517400697755,
+        181.57681805234972
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        248.17067830423386,
+        216.85838618028356,
+        200.05517400697755,
+        181.57681805234972
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        248.17067830423386,
+        216.85838618028356,
+        200.05517400697755,
+        181.57681805234972
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        248.16763783297034,
+        216.81514699076675,
+        200.0541031029607,
+        181.54605961046207
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        248.16763783297034,
+        216.81514699076675,
+        200.0541031029607,
+        181.54605961046207
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        248.16763783297034,
+        216.81514699076675,
+        200.0541031029607,
+        181.54605961046207
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        296.0171294757695,
+        248.16763783297034,
+        216.81514699076675,
+        200.0541031029607,
+        181.54605961046207
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        236.58548467656308,
+        189.28978977902585,
+        150.77638399721428,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        236.58548467656308,
+        189.28978977902585,
+        150.77638399721428,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        236.58548467656308,
+        189.28978977902585,
+        150.77638399721428,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        236.58548467656308,
+        189.28978977902585,
+        150.77638399721428,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        276,
+        582
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        243.33311282011155,
+        220.66173531515017,
+        174.81116808617602,
+        161.30840611002048
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        276,
+        582
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        243.33311282011155,
+        220.66173531515017,
+        174.81116808617602,
+        161.30840611002048
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        276,
+        582
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        243.33311282011155,
+        220.66173531515017,
+        174.81116808617602,
+        161.30840611002048
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        276,
+        582
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        243.33311282011155,
+        220.66173531515017,
+        174.81116808617602,
+        161.30840611002048
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        244.83993149557924,
+        209.33104205697293,
+        184.20170476493638,
+        162.82442100728667
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        244.83993149557924,
+        209.33104205697293,
+        184.20170476493638,
+        162.82442100728667
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        244.83993149557924,
+        209.33104205697293,
+        184.20170476493638,
+        162.82442100728667
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        244.83993149557924,
+        209.33104205697293,
+        184.20170476493638,
+        162.82442100728667
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        247.98736444872281,
+        216.72603092045557,
+        199.82793644042732,
+        181.2055711273872
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        247.98736444872281,
+        216.72603092045557,
+        199.82793644042732,
+        181.2055711273872
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        247.98736444872281,
+        216.72603092045557,
+        199.82793644042732,
+        181.2055711273872
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        247.98736444872281,
+        216.72603092045557,
+        199.82793644042732,
+        181.2055711273872
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        247.9938109000238,
+        216.70910966234464,
+        199.89278911815438,
+        188.42771599627594
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        247.9938109000238,
+        216.70910966234464,
+        199.89278911815438,
+        188.42771599627594
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        247.9938109000238,
+        216.70910966234464,
+        199.89278911815438,
+        188.42771599627594
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        583
+      ],
+      "elbow_gofs": [
+        295.8831795010916,
+        247.9938109000238,
+        216.70910966234464,
+        199.89278911815438,
+        188.42771599627594
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        548
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        112.07916535022804,
+        91.3970770548654,
+        73.5857481762419,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        548
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        112.07916535022804,
+        91.3970770548654,
+        73.5857481762419,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        548
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        112.07916535022804,
+        91.3970770548654,
+        73.5857481762419,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        548
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        112.07916535022804,
+        91.3970770548654,
+        73.5857481762419,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        114.72194017805322,
+        97.5607690538097,
+        84.8651777796986,
+        72.40809711708867
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        114.72194017805322,
+        97.5607690538097,
+        84.8651777796986,
+        72.40809711708867
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        114.72194017805322,
+        97.5607690538097,
+        84.8651777796986,
+        72.40809711708867
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        114.72194017805322,
+        97.5607690538097,
+        84.8651777796986,
+        72.40809711708867
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        115.64490689516438,
+        100.00250399982795,
+        89.262521173308,
+        79.48365141115579
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        115.64490689516438,
+        100.00250399982795,
+        89.262521173308,
+        79.48365141115579
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        115.64490689516438,
+        100.00250399982795,
+        89.262521173308,
+        79.48365141115579
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        115.64490689516438,
+        100.00250399982795,
+        89.262521173308,
+        79.48365141115579
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        116.5973529692232,
+        102.80008573963735,
+        95.30744737559894,
+        87.17657068798626
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        116.5973529692232,
+        102.80008573963735,
+        95.30744737559894,
+        87.17657068798626
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        116.5973529692232,
+        102.80008573963735,
+        95.30744737559894,
+        87.17657068798626
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        116.5973529692232,
+        102.80008573963735,
+        95.30744737559894,
+        87.17657068798626
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        116.58991587132205,
+        102.80499481777274,
+        95.28845744488287,
+        87.19166334230846
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        116.58991587132205,
+        102.80499481777274,
+        95.28845744488287,
+        87.19166334230846
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        116.58991587132205,
+        102.80499481777274,
+        95.28845744488287,
+        87.19166334230846
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.84154801670695,
+        116.58991587132205,
+        102.80499481777274,
+        95.28845744488287,
+        87.19166334230846
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        548
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        112.09914108701632,
+        91.36175862424778,
+        73.27505424709082,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        548
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        112.09914108701632,
+        91.36175862424778,
+        73.27505424709082,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        548
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        112.09914108701632,
+        91.36175862424778,
+        73.27505424709082,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.2,
+      "delta_label": "1/5",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        548
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        112.09914108701632,
+        91.36175862424778,
+        73.27505424709082,
+        NaN
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        276,
+        578
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        114.73775674767165,
+        105.105225992086,
+        84.61197903268018,
+        72.29010286011221
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        276,
+        578
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        114.73775674767165,
+        105.105225992086,
+        84.61197903268018,
+        72.29010286011221
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        276,
+        578
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        114.73775674767165,
+        105.105225992086,
+        84.61197903268018,
+        72.29010286011221
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        276,
+        578
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        114.73775674767165,
+        105.105225992086,
+        84.61197903268018,
+        72.29010286011221
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        115.65420141446623,
+        99.89129508016684,
+        89.00913158166182,
+        79.20891567269821
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        115.65420141446623,
+        99.89129508016684,
+        89.00913158166182,
+        79.20891567269821
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        115.65420141446623,
+        99.89129508016684,
+        89.00913158166182,
+        79.20891567269821
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        115.65420141446623,
+        99.89129508016684,
+        89.00913158166182,
+        79.20891567269821
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        116.57084785180844,
+        102.76210519024059,
+        95.22351355010451,
+        87.0132530444831
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        116.57084785180844,
+        102.76210519024059,
+        95.22351355010451,
+        87.0132530444831
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        116.57084785180844,
+        102.76210519024059,
+        95.22351355010451,
+        87.0132530444831
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        116.57084785180844,
+        102.76210519024059,
+        95.22351355010451,
+        87.0132530444831
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 2,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        116.57848733925525,
+        102.754937013412,
+        95.2198716652172,
+        87.05382486869479
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 3,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        116.57848733925525,
+        102.754937013412,
+        95.2198716652172,
+        87.05382486869479
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 4,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        116.57848733925525,
+        102.754937013412,
+        95.2198716652172,
+        87.05382486869479
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "num_folds": 5,
+      "full_selected_segments": 1,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_change_points": [
+        264,
+        584
+      ],
+      "elbow_gofs": [
+        135.83736330437486,
+        116.57848733925525,
+        102.754937013412,
+        95.2198716652172,
+        87.05382486869479
+      ],
+      "full_selected_constant": null,
+      "elbow_selected_constant": null
+    }
+  ]
+}

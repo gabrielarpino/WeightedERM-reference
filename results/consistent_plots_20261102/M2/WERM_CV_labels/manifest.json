@@ -1,0 +1,131 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/M2_upsample_final_WERM_plus_P_gamma6_fresh/comparison.pkl": "9c2e51bb33dfd6db3f02b8c4c5db8c200869e0982f0051fda3faa603683f9f8a"
+  },
+  "figures": [
+    {
+      "name": "M2_fresh_haus_line",
+      "description": "",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.0032777777777777857,
+            0.5903148148148148
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_fresh_size_line",
+      "description": "",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            0.0,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_fresh_runtime_line",
+      "description": "",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "Runtime (s)",
+          "title": "",
+          "ylim": [
+            -114.05335532706232,
+            2395.6102235635744
+          ]
+        }
+      ]
+    }
+  ]
+}

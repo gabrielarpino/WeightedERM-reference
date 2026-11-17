@@ -1,0 +1,87 @@
+{
+  "design": {
+    "n": 400,
+    "p": 200,
+    "delta": 2,
+    "Lmax": 4,
+    "coefficient_C": 0.3,
+    "true_cp": [
+      140,
+      260
+    ],
+    "alpha": 0.3,
+    "ar1": 0.4,
+    "noise": "Student-t(4) times sqrt(0.1)",
+    "loss": "Huber 1.35",
+    "folds": 2,
+    "standardize_y": true,
+    "minimum_gap": 20,
+    "calibration_seed": 20261101,
+    "assessment_seed": 20261102,
+    "calibration_trials": 20,
+    "assessment_trials": 100,
+    "penalties": [
+      "gamma log binom(n-1,K-1)"
+    ],
+    "selection": "calibration only; TV then paired count disagreement"
+  },
+  "choice": {
+    "delta": 2,
+    "gamma": 3.0
+  },
+  "methods": {
+    "CV": {
+      "haus": 0.0876689189189189,
+      "bounded_haus": 0.324875,
+      "count_error": 0.77,
+      "true_count": 0.49,
+      "empty": 0.26,
+      "count_agreement_with_CV": 1.0
+    },
+    "Log-binomial P": {
+      "haus": 0.20281818181818181,
+      "bounded_haus": 0.56155,
+      "count_error": 1.21,
+      "true_count": 0.24,
+      "empty": 0.45,
+      "count_agreement_with_CV": 0.32,
+      "paired_differences": {
+        "haus": {
+          "mean": 0.11514926289926292,
+          "ci95": [
+            0.08000603448395513,
+            0.15033076341476356
+          ]
+        },
+        "bounded_haus": {
+          "mean": 0.23667499999999997,
+          "ci95": [
+            0.13477187500000004,
+            0.3388318750000001
+          ]
+        },
+        "count_error": {
+          "mean": 0.43999999999999995,
+          "ci95": [
+            0.23999999999999988,
+            0.64
+          ]
+        },
+        "true_count": {
+          "mean": -0.25,
+          "ci95": [
+            -0.37,
+            -0.13
+          ]
+        },
+        "empty": {
+          "mean": 0.19,
+          "ci95": [
+            0.07,
+            0.31000000000000005
+          ]
+        }
+      }
+    }
+  }
+}

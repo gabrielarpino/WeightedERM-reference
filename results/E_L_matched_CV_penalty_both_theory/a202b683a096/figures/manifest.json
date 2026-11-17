@@ -1,0 +1,131 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/E_L_matched_CV_penalty_both_theory/a202b683a096/study.pkl": "f7e266cd46cea8623b4bbd2b02f2894f21bc3835cc7328566d25ecdde9e76cb0"
+  },
+  "figures": [
+    {
+      "name": "matched_both_theory_count",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.7800000000000007
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.1977752400091184,
+            0.8152504085563468,
+            0.7329090022658089
+          ],
+          "xlabel": "Upper bound $L$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            -0.20999999999999996,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "matched_both_theory_haus",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.1977752400091184,
+            0.7613314600007999,
+            0.7497247599908816
+          ],
+          "xlabel": "Upper bound $L$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.012193999999999997,
+            0.2707406666666666
+          ]
+        }
+      ]
+    },
+    {
+      "name": "matched_both_theory_cv_scores",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1722554064970121,
+            0.1977752400091184,
+            0.7857445935029879,
+            0.7497247599908816
+          ],
+          "xlabel": "Candidate segments $K$",
+          "ylabel": "Absolute prediction error",
+          "title": "",
+          "ylim": [
+            0.4429108218087445,
+            1.1201670553952
+          ]
+        }
+      ]
+    }
+  ]
+}

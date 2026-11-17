@@ -1,0 +1,1378 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_100_100_q10_seed123.pkl": "55cb04a823f6fb57be1c0caef2a5e25ab35ec00e2ebba1a0a5ea0d9681f290eb",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_80_80_q10_seed123.pkl": "15749275e2dd3cf4af164358cd1b71cdf474e7534a03bd3f2dd4c5f10a80f120",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_80_90_q10_seed123.pkl": "e82aa670295e559d15915974b560d34544f57cf1c0d464188c428a7eaa86a65f",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_80_100_q10_seed123.pkl": "3f9053a659bb16315ed3c06696cc538c81e196adc2cfa293ffdc231a6104766d",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_80_110_q10_seed123.pkl": "8bb665714cd82aad1d19ce62ab0cc46fc1aedb71ec272977d7ddededb57089c4",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_80_120_q10_seed123.pkl": "2733cf60f53b81222174b4cd0ec3f07dcb3b54d039bd377f928b5c510fce273b",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_90_80_q10_seed123.pkl": "d1356b017c8d2f5c306c1e4c3dd5d5a994b26151e6e0ba12bec72bed9c23a154",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_90_90_q10_seed123.pkl": "2bc2ced84c4e194751df595fa602bf5bade80024345ab427d344ad5049cc5a42",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_90_100_q10_seed123.pkl": "a4dab204a5cb511d815c5960e5db734906d451a1a338d517d557f13bb5805a29",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_90_110_q10_seed123.pkl": "1e62e3f075dc39b9a1518fe22432ae51596d28fed3647d1ddc9316ba500ead27",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_90_120_q10_seed123.pkl": "485a240a37777162939d41ffa844cb4f27ae7b9a16ccbbda85b528f13f8c7fcf",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_100_80_q10_seed123.pkl": "de4fefceea11ca12ee8a57d6228d04bca910b4698ef4bec237ced4f98c82ecfb",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_100_90_q10_seed123.pkl": "8d9414e1ff6f5c153a4fb229e0e78731f04a27b65c2205fd3bd9e0716675dc9c",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_100_110_q10_seed123.pkl": "96c63753f47a8e2158963a921380a9eeef5aeb2bdc7f4eac435e4c6af160ada1",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_100_120_q10_seed123.pkl": "bded1d732bd06433e9998ec8d280488cc8d0fa6f96693ade376e7b3105b5a606",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_110_80_q10_seed123.pkl": "0f0105aec803455df64eac08de89e564c44b17cee0007572384dbba10dba423d",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_110_90_q10_seed123.pkl": "b0a848900b22687b2f41d3dd0be19ffab586a5a9041928845fa5582fb36619e6",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_110_100_q10_seed123.pkl": "4c049d645c38d25f24b91299ca9965b042d3faa3f88e92d44a69e823350452f9",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_110_110_q10_seed123.pkl": "9e27fc271dd6720723703b29d09128ab2ff1f21d59f04b0221c64eb0092a02fd",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_110_120_q10_seed123.pkl": "068eafef1a0315d9963ebb6d340d03caa7d4f67201331c3ccccc4ec6691a9e88",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_120_80_q10_seed123.pkl": "05de7b67a16a3cec20bcd1e237c93e4c36c31a9e304ad44383c3745ccac7522a",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_120_90_q10_seed123.pkl": "88ad34b71a66b2ce6e9ad12404a881b090b21316cc71632f0feb57e721797793",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_120_100_q10_seed123.pkl": "942d2e6983926a629bd4f0954967507b509a3c64d03b82466a8aad5a8265deba",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_120_110_q10_seed123.pkl": "2665d80b6f9cd281cba351e492183395e6d7067a3b441c434fb7a3a9ed81dc61",
+    "results/myocardial_final_redo_e3d965cc4b9b/scenario_120_120_q10_seed123.pkl": "f32ef9470151adee61110a9cc6c35075bee427fb0acd561379ec933585a57e55",
+    "results/myocardial_final_final_v1/whole/scenario_100_100_q10_seed123.pkl": "f2b876699c30ad87b1a75d7a0ac77da4bd49f1d73a5473922897be7dacd4b77e",
+    "results/myocardial_final_final_v1/whole/scenario_80_80_q10_seed123.pkl": "216a63098ec4ad45db4fce8991a6d37b4c5a2df5c76dd7b020c0669843c04b5f",
+    "results/myocardial_final_final_v1/whole/scenario_80_90_q10_seed123.pkl": "9499086e88e4c2858d296e12b99fd7a8eba6a89e5447898e22185ce716e656cf",
+    "results/myocardial_final_final_v1/whole/scenario_80_100_q10_seed123.pkl": "acbcc252c9e99e65d3fb5e7e5a09b4d774806ba0323556ba404b1472a322d058",
+    "results/myocardial_final_final_v1/whole/scenario_80_110_q10_seed123.pkl": "653916277723f967d6c887fc720b493065e41536719796f707e2948dee9c2a16",
+    "results/myocardial_final_final_v1/whole/scenario_80_120_q10_seed123.pkl": "ba70e3e445f4774f0afc38aecf3003b6acd1f85759ab08197c27d6e651ce4fe6",
+    "results/myocardial_final_final_v1/whole/scenario_90_80_q10_seed123.pkl": "604bb838e15ae98af84b90c34fa1b7083d8985f9ee41c569056338173577e747",
+    "results/myocardial_final_final_v1/whole/scenario_90_90_q10_seed123.pkl": "08bae111c902fd96371e94e50826a01f7ee1f7a2023a7cd9c0df6445320421c8",
+    "results/myocardial_final_final_v1/whole/scenario_90_100_q10_seed123.pkl": "3828d7c7190b64acfcdecd3b0ba42115f9d4bfa1acbb4fc2075e0e8b1616c2f5",
+    "results/myocardial_final_final_v1/whole/scenario_90_110_q10_seed123.pkl": "c809bf4a89428b72a2b076745bbeb2b8a6d820fc86d31f44d34aa2c16eaedf55",
+    "results/myocardial_final_final_v1/whole/scenario_90_120_q10_seed123.pkl": "26c233c743b59aebc7f5d35c553ee98b5ce1f07a643646f485f933eddfb0cbb9",
+    "results/myocardial_final_final_v1/whole/scenario_100_80_q10_seed123.pkl": "f6920d6fe13e5a2e9fd108546069b54d898876a646e8aa65640cadcedddabbc1",
+    "results/myocardial_final_final_v1/whole/scenario_100_90_q10_seed123.pkl": "1847030d716ff800929a4b1a8a2d6438f82dcbf614eebda38fcce4971671d727",
+    "results/myocardial_final_final_v1/whole/scenario_100_110_q10_seed123.pkl": "6fa96ab39536f45aaa746bf0c5f7d051a66fff38593c513157af013d308c919f",
+    "results/myocardial_final_final_v1/whole/scenario_100_120_q10_seed123.pkl": "7cd3938cb3ae82bd77586c38336591108b45b2d0a0e8cf9f647c4514b11c8d60",
+    "results/myocardial_final_final_v1/whole/scenario_110_80_q10_seed123.pkl": "cbb85c0a6e3ac9f7da6b2d9577c148352d9be3ccbdb5eb662151db61a593168a",
+    "results/myocardial_final_final_v1/whole/scenario_110_90_q10_seed123.pkl": "61bff894b5557200a73266a827b4729baf3c2854d3b4538ebbbbe26310ada62a",
+    "results/myocardial_final_final_v1/whole/scenario_110_100_q10_seed123.pkl": "b3fba8ff11916d2e39a3cd87884ba7e3eb6a1730c69a5960fb36fefc7ad4dcfb",
+    "results/myocardial_final_final_v1/whole/scenario_110_110_q10_seed123.pkl": "de50d8a80e2cc50afd0cba082150a3da1073b4de05e3464c79658c8ce7f20435",
+    "results/myocardial_final_final_v1/whole/scenario_110_120_q10_seed123.pkl": "97bd6ba118434f080fe37daa30de584c07f69c37f647b8d3b9df642d7b25f90e",
+    "results/myocardial_final_final_v1/whole/scenario_120_80_q10_seed123.pkl": "502372efe2a89f3d9c79324acf0a34985b065064558b537f9a07ed9971994149",
+    "results/myocardial_final_final_v1/whole/scenario_120_90_q10_seed123.pkl": "8e0dea4a275d339ab00c866929d077a2c88786bdb6f676c84f74755a8441c042",
+    "results/myocardial_final_final_v1/whole/scenario_120_100_q10_seed123.pkl": "f1ed41fbd1ffe4e2cf0e58a45224408684895a6c30f0f6bfbabe05b599ed1925",
+    "results/myocardial_final_final_v1/whole/scenario_120_110_q10_seed123.pkl": "f5e1e535fde11cd98ef6a6c7b431aef76c04ebbcffac56bffc24caa2d97c5506",
+    "results/myocardial_final_final_v1/whole/scenario_120_120_q10_seed123.pkl": "998b0a51519866440206558e7b709febf7e8dbc9d47b4f6183f0ae37c702eb86",
+    "results/myocardial_final_final_v1/segmented/scenario_100_100_q10_seed123.pkl": "230641a2225b458d4d4656402001ea0de6e73205c0c0c059a4d57065f15a4784",
+    "results/myocardial_final_final_v1/segmented/scenario_80_80_q10_seed123.pkl": "58d133308b459af4a15cfc41157cea025927592e1d6f8a50348744fbd3c433fc",
+    "results/myocardial_final_final_v1/segmented/scenario_80_90_q10_seed123.pkl": "7c9b51c1b9c28bb4649fb9f8c123adf8f0f2b9ba83e0dd87524fd95548f73c3f",
+    "results/myocardial_final_final_v1/segmented/scenario_80_100_q10_seed123.pkl": "4722ee4a5bdaaf4edd26490041503ad016d306aa3162a344a45a0d183485ffb1",
+    "results/myocardial_final_final_v1/segmented/scenario_80_110_q10_seed123.pkl": "028c21353ff51af6ecec52273566a9a3242f043ece2745e415ea8f495809ef41",
+    "results/myocardial_final_final_v1/segmented/scenario_80_120_q10_seed123.pkl": "243d06cf442ec7747030cc65a745291ca932db483dcf2bf6622cc06ecda18a26",
+    "results/myocardial_final_final_v1/segmented/scenario_90_80_q10_seed123.pkl": "18a429e7ada3ee432cded57c0ecdca43d7573f154541cb6f60a2bb579810c383",
+    "results/myocardial_final_final_v1/segmented/scenario_90_90_q10_seed123.pkl": "9e763efa6391685c7d6d05f919bb011d26a4e52b9afe375ed70293db45a9d70d",
+    "results/myocardial_final_final_v1/segmented/scenario_90_100_q10_seed123.pkl": "4163fba2d75cb6d9076205d38e09db329c5565388af735363c340d178fbb3437",
+    "results/myocardial_final_final_v1/segmented/scenario_90_110_q10_seed123.pkl": "6399bf9431265656864eeab17ea5bc7cb8d188c663d285db0019bc3bd870fca6",
+    "results/myocardial_final_final_v1/segmented/scenario_90_120_q10_seed123.pkl": "7eb45c80031231ef8089d3dc2c4cb909cb54910958454658b2b11f29cc4be1ff",
+    "results/myocardial_final_final_v1/segmented/scenario_100_80_q10_seed123.pkl": "ae5293d96808ac9e0ae13265e3b297a7aeb737190aa56b781a796ee375a5b808",
+    "results/myocardial_final_final_v1/segmented/scenario_100_90_q10_seed123.pkl": "24854221517471c02818e4f0262cf7d81256b1189b613ac27799101e46336425",
+    "results/myocardial_final_final_v1/segmented/scenario_100_110_q10_seed123.pkl": "b860f8ef63c7d74feead21c60c67de0028a13a932760ee6b148728f8f29e1603",
+    "results/myocardial_final_final_v1/segmented/scenario_100_120_q10_seed123.pkl": "467a6168e1d9a1949ab2d757cb5aaddd7da28d26aebd1b06fe7dde69f6e5091c",
+    "results/myocardial_final_final_v1/segmented/scenario_110_80_q10_seed123.pkl": "6c23bb21ba429e4fa1c70afec1139194c8e888dc899a73fe9d6b3de22cd689b3",
+    "results/myocardial_final_final_v1/segmented/scenario_110_90_q10_seed123.pkl": "82f0a213536b59e3ea2b4fb7692fda7b3bd65fe23b8481079d0ba733d00418ca",
+    "results/myocardial_final_final_v1/segmented/scenario_110_100_q10_seed123.pkl": "f3a04a6e74875231b32abc44e76bfe0fb905b67e8d5d9e6f3dc05227f2ab223c",
+    "results/myocardial_final_final_v1/segmented/scenario_110_110_q10_seed123.pkl": "23742772db4e613d6bc05cfeaeb05e1dcea00ce87cca15fbbb00645d46cf2dd7",
+    "results/myocardial_final_final_v1/segmented/scenario_110_120_q10_seed123.pkl": "def96c2f9c8dd280db81fa1fe786bf981cffaae99ae173e6ecc80d8e9c85fa03",
+    "results/myocardial_final_final_v1/segmented/scenario_120_80_q10_seed123.pkl": "631eba87b8a2d0a674153fd9b3a79be905c6b2e30a12d4ab681313aeef75462e",
+    "results/myocardial_final_final_v1/segmented/scenario_120_90_q10_seed123.pkl": "372674709e8a58d1eb26c196db1a6f3e65051d4111be5557fa18e3d4da4c343b",
+    "results/myocardial_final_final_v1/segmented/scenario_120_100_q10_seed123.pkl": "7e97979d795c438ffda127ba4c3aef7c43086baadebe1926b8129651b2d44540",
+    "results/myocardial_final_final_v1/segmented/scenario_120_110_q10_seed123.pkl": "5153860f7710211908e367d79ddc37e2c2fc574e2e7b4c5d635bdc8091d9ac51",
+    "results/myocardial_final_final_v1/segmented/scenario_120_120_q10_seed123.pkl": "ce7eabfeab1309758048c8dfe224e81b8fc5e48dfa23de024fa2307e5e9a7522"
+  },
+  "figures": [
+    {
+      "name": "rank3_conditional_posterior",
+      "description": "",
+      "size_inches": [
+        5.91732295558323,
+        1.18
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        1.18
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.39,
+            0.875,
+            0.57
+          ],
+          "xlabel": "Age (years)",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            -0.006931999421734986,
+            0.1455719878564347
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rank3_sensitivity",
+      "description": "Eigenvalue perturbations; all 25 saved scenarios, 1024 integration draws.",
+      "size_inches": [
+        5.91732295558323,
+        5.9
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        5.9
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "-20\\%",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.7785401459854016,
+            0.15413533834586463,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "-10\\%",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "+0\\%",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "+10\\%",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "+20\\%",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.6089051094890512,
+            0.15413533834586463,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.43927007299270077,
+            0.15413533834586463,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.26963503649635034,
+            0.15413533834586463,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.09999999999999998,
+            0.15413533834586463,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.6207316518340916
+          ]
+        }
+      ]
+    },
+    {
+      "name": "whole_conditional_posterior",
+      "description": "",
+      "size_inches": [
+        5.91732295558323,
+        1.18
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        1.18
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.39,
+            0.875,
+            0.57
+          ],
+          "xlabel": "Age (years)",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            -0.004675401717042799,
+            0.09818343605789878
+          ]
+        }
+      ]
+    },
+    {
+      "name": "whole_sensitivity",
+      "description": "Eigenvalue perturbations; all 25 saved scenarios, 1024 integration draws.",
+      "size_inches": [
+        5.91732295558323,
+        5.9
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        5.9
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "-20\\%",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.7785401459854016,
+            0.15413533834586463,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "-10\\%",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "+0\\%",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "+10\\%",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "+20\\%",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.6089051094890512,
+            0.15413533834586463,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.43927007299270077,
+            0.15413533834586463,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.26963503649635034,
+            0.15413533834586463,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.09999999999999998,
+            0.15413533834586463,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.13228581760846914
+          ]
+        }
+      ]
+    },
+    {
+      "name": "segmented_conditional_posterior",
+      "description": "",
+      "size_inches": [
+        5.91732295558323,
+        1.18
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        1.18
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.39,
+            0.875,
+            0.57
+          ],
+          "xlabel": "Age (years)",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            -0.003989862734064704,
+            0.0837871174153588
+          ]
+        }
+      ]
+    },
+    {
+      "name": "segmented_sensitivity",
+      "description": "Eigenvalue perturbations; all 25 saved scenarios, 1024 integration draws.",
+      "size_inches": [
+        5.91732295558323,
+        5.9
+      ],
+      "canvas_inches": [
+        5.91732295558323,
+        5.9
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.11,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "-20\\%",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.7785401459854016,
+            0.15413533834586463,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "-10\\%",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "+0\\%",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "+10\\%",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.7785401459854016,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "+20\\%",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.6089051094890512,
+            0.15413533834586463,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.6089051094890512,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.43927007299270077,
+            0.15413533834586463,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.43927007299270077,
+            0.15413533834586468,
+            0.15145985401459855
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.26963503649635034,
+            0.15413533834586463,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.26963503649635034,
+            0.15413533834586468,
+            0.1514598540145986
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.11,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.2764661654135338,
+            0.09999999999999998,
+            0.15413533834586463,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.4429323308270676,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.6093984962406015,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        },
+        {
+          "bounds": [
+            0.7758646616541354,
+            0.09999999999999998,
+            0.15413533834586468,
+            0.1514598540145985
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            0.09142393250935492
+          ]
+        }
+      ]
+    }
+  ]
+}

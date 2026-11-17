@@ -1,0 +1,81 @@
+FIGURE AUDIT AND PROPOSED PLACEMENTS — 2026-11-03
+Paper: WERM-paper/JRSSB-revision-rebuttal/JRSSB_v2.tex, Overleaf commit 53346c8.
+Only the authorized E-L upper-bound, E-PRIOR, E-search genuine M3 and fresh
+four-method M2 appendix sections/assets were updated. Line numbers refer to this commit.
+JRSSB_v2_placement_map.csv inventories every active exported figure (79).
+It separates existing replacements from optional additions: not all notebook
+diagnostic plots should be put into the paper.
+FRED, myocardial cases B/C, fixed-L and M3 delta=6 are excluded from this handoff.
+Their notebook results remain intact; only myocardial case A is included here.
+
+PRIORITY EXISTING SLOTS
+M1a: fig:M1a (line 256): fixed-count location and runtime lines.
+M1b alpha .3: fig:M1b (line 919): location, count, runtime lines;
+  fig:M1b-hist: full-method histogram. Top-three variants remain supplementary.
+M2 ORIGINAL THREE-METHOD: fig:M2 (line 980): M2_original_haus_line,
+  M2_original_size_line, M2_original_runtime_line. fig:M2-hist: M2_original_hist.
+  Original boxplot alternatives are optional supplementary plots.
+M2 FRESH FOUR-METHOD: NEW M2 paragraph and figures added in
+  sec:investigating-count-selection (line 3717),
+  after the existing M3 comparison. Use M2_fresh_haus_line, M2_fresh_size_line,
+  M2_fresh_runtime_line and M2_fresh_hist. New labels:
+  fig:M2-count-selection-comparison and fig:M2-count-selection-hist.
+  This appendix update is awaiting review. Keep both M2 experiments
+  distinct; the fresh comparison is not the original three-method experiment.
+M3: fig:M3b (line 1030): location box, count line, runtime box.
+  Prose says delta=3, existing figure paths say delta6. Resolve before replacing;
+  recommended main result is delta3 to match prose. Delta6 is excluded for now.
+Myocardial: fig:myocardial_chgpts (line 1050): rank3 posterior.
+  Add rank3 sensitivity grid after tab:myocardial-rho-sensitivity.
+Dense M1: fig:dense-gaussian-comparison (line 3638):
+  Student-t/Huber location box and count line. Add Gaussian-noise/LS separately.
+Upper-bound L: fig:E-L-location (line 3707): count line + location box;
+  fig:E-L-hist: upper_L_histograms. Fixed-L results are excluded for now.
+E-search M3: fig:M3-count-selection-procedures (line 3736):
+  M3_histogram and M3_correct_count_frequency only; other panels are diagnostics.
+E-PRIOR: fig:E-PRIOR-priors: pooled prior above signal marginals;
+  fig:E-PRIOR-location: location box; fig:E-PRIOR-hist: estimated-location histogram.
+
+AUDIT FINDINGS TO ADDRESS WHEN INSERTING
+1. The FRESH FOUR-METHOD M2 experiment has all intended trial records: 1000 each for McScan, WERM, WERM+P and
+   800 attempted charcoal fits through delta=8.5. Four charcoal R errors were
+   stored as empty estimates: delta5.5 trials54/82 and delta8.5 trials41/81.
+   The new plotting cells exclude these four from metric summaries and state
+   the exclusion. Raw artifacts and old notebook plots are unchanged. Valid
+   zero-change estimates remain zero counts, with undefined location errors.
+2. The latest canonical overrides retain 5x4-inch lineplot canvases and
+   2.5-inch-per-column histogram grids with 18pt labels and tight cropping.
+   Compact boxes/diagnostics use 10.5pt labels and fixed canvases. They render
+   correctly but are NOT guaranteed identical printed sizes under arbitrary
+   includegraphics widths. The CSV gives actual exported PDF dimensions.
+   Printed label size = source label size * inserted width / exported width.
+   Current three-panel .32-textwidth rows shrink the compact panels and require
+   re-layout (prefer two panels per row) or a dedicated three-panel export.
+   Large canonical histogram grids likewise need explicit printed-size review.
+   Do not claim globally identical typography from a successful PDF compile.
+3. E-search now stacks the histogram at half text width above the full-width
+   count bar, retaining comparable printed label sizes despite their different
+   source typography. Fresh M2 uses two panels above the centered runtime panel.
+   Review these layouts and the small six-column upper-L histogram in Overleaf.
+4. M3 prose delta3 vs figure delta6 is a genuine design mismatch. The notebook
+   WERM CV uses minimum separation n/10, whereas the main prose says n/20;
+   GLMBSA uses kmax=L-2=2, whereas prose says maximum L-1=3. Clarify parameter
+   meanings and actual protocol when updating this section.
+5. FRED, myocardial cases B/C, fixed-L and M3 delta6 are excluded from this handoff.
+6. Dense 'Gaussian signals' currently has Student-t noise. A separate Gaussian
+   noise/least-squares experiment exists; substituting it silently would mislabel
+   both the noise distribution and loss.
+7. Histogram captions still mentioning 30 trials must say 100 where appropriate.
+   Explain the canonical 12-bin/KDE visualization and fixed 0-18 density limit;
+   peaks above the limit are reported by the notebook. Some older histogram
+   exports used different bins or no KDE.
+8. Error bars use mean +/- absolute distances to Q1/Q3, not confidence intervals;
+   if a mean lies outside the IQR they are not literally Q1-to-Q3 endpoints.
+9. E-search gamma=6 was selected using saved calibration trials. The updated
+   subsection restores that provenance and distinguishes the fresh M2 comparison,
+   which reuses gamma=6 without recalibration.
+
+Validation: all active new cells execute without saved error outputs; image
+counts match manifests; input hashes are unchanged; every active PDF is a single
+page with dimensions matching its manifest and no Type-3 fonts. See validation.json.
+The bundle uses active manifests, so obsolete exports on disk are not included.

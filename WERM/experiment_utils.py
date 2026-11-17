@@ -2,6 +2,7 @@ import hashlib
 
 import numpy as np
 
+from WERM.proximal import fit_weighted, infer_loss
 from WERM.performance_measures import hausdorff
 
 
@@ -32,21 +33,49 @@ def weighted_erm_joint_cv(
     num_folds=5,
     n_jobs=1,
     standardize_y=False,
+    selection_strategy="exhaustive",
+    return_diagnostics=False,
+    penalty_norm="l1",
+    segment_counts=None,
+    absolute_delta_n=None,
+    unpenalized_feature_indices=(),
+    successive_halving_min_per_segment=2,
+    coefficient_loss=None,
+    huber_delta=1.35,
+    coefficient_solver_options=None,
 ):
-    """Jointly select WERM segment count and a dimensionless L1 constant.
+    """Jointly select WERM segment count and a dimensionless L1 or L2 constant.
 
     This is an experiment-layer specialization of ``chgpt_k_fold_cv``. For a
     candidate ``(num_segments, C)``, the coefficient penalty is
-    ``C * sqrt(2 log(p) / n_train) * ||beta||_1``. The scale is recomputed for
-    every training fold and for the final full-data refit, and the same penalty
-    is used when refitting segment coefficients for validation predictions.
-    Validation scores contain prediction loss only. WERM's separate partition
-    penalty stays at zero.
+    ``C * sqrt(2 log(p) / n_train)`` times the requested coefficient norm. The
+    scale is recomputed for every training fold and for the final full-data
+    refit, and the same penalty is used when refitting segment coefficients for
+    validation predictions. Both WERM segmentation and the hard segment refits
+    always use the base loss ``M``. ``M_scorer`` is used only to score held-out
+    predictions and select hyperparameters. Validation scores contain prediction
+    loss only. WERM's separate partition penalty stays at zero.
 
     If ``standardize_y`` is true, each fold divides both its training and held-
     out responses by the training-response standard deviation. The final refit
     analogously uses the full-data standard deviation. A zero or nonfinite
     standard deviation is replaced by one.
+
+    ``unpenalized_feature_indices`` identifies design columns excluded from the
+    L1/L2 coefficient penalty in both segmentation and hard refits. This is
+    intended primarily for a leading constant intercept column.
+
+    ``selection_strategy="successive_halving"`` evaluates every candidate on
+    the first fold, retains half while preserving at least the best two
+    candidates for each segment count, repeats that screen after the second
+    fold, and evaluates the survivors on all remaining folds. The survivor
+    floor is configurable through ``successive_halving_min_per_segment``.
+
+    ``absolute_delta_n`` is an opt-in override for experiments that need a
+    fixed minimum segment length in observations. When provided, it replaces
+    the fold-local ``delta_fraction`` calculation without changing the default
+    fractional behavior. In particular, ``absolute_delta_n=1`` activates
+    WERM's analytical no-separation marginal approximation.
     """
     import jax
     import jax.numpy as jnp
@@ -65,22 +94,93 @@ def weighted_erm_joint_cv(
         raise ValueError("Lmax must be at least one segment")
     if not 0 < float(delta_fraction) < 1:
         raise ValueError("delta_fraction must lie strictly between zero and one")
+    if absolute_delta_n is not None:
+        if isinstance(absolute_delta_n, bool) or not isinstance(
+            absolute_delta_n, (int, np.integer)
+        ):
+            raise ValueError("absolute_delta_n must be a positive integer")
+        absolute_delta_n = int(absolute_delta_n)
+        if absolute_delta_n < 1:
+            raise ValueError("absolute_delta_n must be a positive integer")
     if int(num_folds) < 2:
         raise ValueError("num_folds must be at least two")
     if int(num_folds) > X.shape[0]:
         raise ValueError(
             f"Cannot create {int(num_folds)} non-empty folds with {X.shape[0]} samples"
         )
+    if (
+        isinstance(successive_halving_min_per_segment, bool)
+        or not isinstance(successive_halving_min_per_segment, (int, np.integer))
+        or int(successive_halving_min_per_segment) < 1
+    ):
+        raise ValueError("successive_halving_min_per_segment must be a positive integer")
+    if selection_strategy not in {"exhaustive", "successive_halving"}:
+        raise ValueError(
+            "selection_strategy must be 'exhaustive' or 'successive_halving'"
+        )
 
-    constants = tuple(float(C) for C in l1_constants)
-    if not constants or any(not np.isfinite(C) or C <= 0 for C in constants):
-        raise ValueError("l1_constants must contain finite positive values")
+    if penalty_norm not in {"none", "l1", "l2"}:
+        raise ValueError("penalty_norm must be 'none', 'l1', or 'l2'")
+    if coefficient_loss not in {
+        None, "least_squares", "least-squares", "squared", "huber", "logistic"
+    }:
+        raise ValueError(
+            "coefficient_loss must be least_squares, huber, logistic, or None"
+        )
+    if penalty_norm == "none":
+        constants = (0.0,)
+    else:
+        constants = tuple(float(C) for C in l1_constants)
+        if not constants or any(not np.isfinite(C) or C <= 0 for C in constants):
+            raise ValueError("l1_constants must contain finite positive values")
+
+    loss_spec = infer_loss(M)
+    aliases = {
+        "least-squares": "least_squares",
+        "least_squares": "least_squares",
+        "squared": "least_squares",
+        "huber": "huber",
+        "logistic": "logistic",
+    }
+    if coefficient_loss is None:
+        coefficient_loss = loss_spec.name
+    else:
+        coefficient_loss = aliases[coefficient_loss]
+        if coefficient_loss != loss_spec.name:
+            raise ValueError("coefficient_loss does not match the supplied M callable")
+    if coefficient_loss == "huber" and not np.isclose(
+        float(huber_delta), float(loss_spec.huber_delta), rtol=3e-5, atol=3e-8
+    ):
+        raise ValueError("huber_delta does not match the supplied M callable")
+    coefficient_solver_options = dict(coefficient_solver_options or {})
 
     n_samples = X.shape[0]
     p = X.shape[1]
+    try:
+        unpenalized_feature_indices = tuple(unpenalized_feature_indices)
+    except TypeError as error:
+        raise ValueError(
+            "unpenalized_feature_indices must be an iterable of valid column indices"
+        ) from error
+    if any(
+        isinstance(index, bool)
+        or not isinstance(index, (int, np.integer))
+        or int(index) < 0
+        or int(index) >= p
+        for index in unpenalized_feature_indices
+    ) or len(set(map(int, unpenalized_feature_indices))) != len(unpenalized_feature_indices):
+        raise ValueError("unpenalized_feature_indices must contain unique valid column indices")
+    penalty_mask = np.ones(p)
+    penalty_mask[list(map(int, unpenalized_feature_indices))] = 0.0
+    if segment_counts is None:
+        _segment_counts = range(1, int(Lmax) + 1)
+    else:
+        _segment_counts = tuple(int(value) for value in segment_counts)
+        if not _segment_counts or any(value < 1 or value > int(Lmax) for value in _segment_counts):
+            raise ValueError("segment_counts must contain valid segment counts")
     candidates = [
         (num_segments, C)
-        for num_segments in range(1, int(Lmax) + 1)
+        for num_segments in _segment_counts
         for C in constants
     ]
 
@@ -95,32 +195,56 @@ def weighted_erm_joint_cv(
         scale = float(np.std(values))
         return scale if np.isfinite(scale) and scale > 0.0 else 1.0
 
-    def l1_scale(C, n_train):
+    def coefficient_scale(C, n_train):
         return C * np.sqrt(2.0 * np.log(p) / n_train)
+
+    def coefficient_penalty(beta, coefficient_lambda):
+        if penalty_norm == "none":
+            return jnp.array(0.0)
+        penalized_beta = beta * jnp.asarray(penalty_mask)
+        if penalty_norm == "l1":
+            return coefficient_lambda * jnp.sum(jnp.abs(penalized_beta))
+        return coefficient_lambda * jnp.sum(jnp.square(penalized_beta))
 
     def fit_candidate(X_train, y_train, candidate):
         num_segments, C = candidate
         n_train = len(y_train)
-        l1_lambda = l1_scale(C, n_train)
-        P_func = lambda beta: l1_lambda * jnp.sum(jnp.abs(beta))
+        coefficient_lambda = coefficient_scale(C, n_train)
+        P_func = lambda beta: coefficient_penalty(beta, coefficient_lambda)
+        if absolute_delta_n is None:
+            minimum_segment_length = max(
+                int(np.ceil(n_train / 50.0)),
+                int(float(delta_fraction) * n_train),
+                1,
+            )
+        else:
+            minimum_segment_length = absolute_delta_n
         return WERM.estimators.weighted_erm(
             X=X_train,
             y=y_train,
             M=M,
             L=int(num_segments),
-            Delta_n=max(1, int(float(delta_fraction) * n_train)),
+            # The estimator rescales Delta to its internal n_small=50 grid;
+            # keep that rescaled spacing valid when n_train is large.
+            Delta_n=minimum_segment_length,
             gamma=0.0,
             L_is_upper_bound=False,
             return_B_hat=False,
             brute_force=False,  # production route is exact chgpt_gof_dp
             P_func=P_func,
+            coefficient_loss=coefficient_loss,
+            coefficient_lambda=coefficient_lambda,
+            coefficient_penalty=penalty_norm,
+            huber_delta=huber_delta,
+            unpenalized_feature_indices=tuple(unpenalized_feature_indices),
+            coefficient_solver_options=coefficient_solver_options,
         )
 
     if M_scorer is None:
         M_scorer = M
 
     def fit_segment_coefficients(
-        train_indices, mapped_chgpts, y_train_scaled, l1_lambda
+        train_indices, mapped_chgpts, y_train_scaled, coefficient_lambda
     ):
         all_chgpts = np.concatenate(
             ([0], np.asarray(mapped_chgpts, dtype=int), [n_samples])
@@ -140,92 +264,192 @@ def weighted_erm_joint_cv(
             segment_positions = np.searchsorted(train_indices, segment_train_indices)
             y_segment = y_train_scaled[segment_positions]
 
-            def objective(beta):
-                prediction = X_segment @ beta
-                prediction_loss = jnp.mean(
-                    M_scorer(prediction.flatten(), jnp.asarray(y_segment).flatten())
-                )
-                return prediction_loss + l1_lambda * jnp.sum(jnp.abs(beta))
-
-            result = scipy.optimize.minimize(
-                fun=objective,
-                x0=0.1 * np.ones(p),
-                jac=jax.grad(objective),
-                method="L-BFGS-B",
-                options={"disp": False, "maxiter": 1000},
+            result = fit_weighted(
+                X_segment,
+                y_segment,
+                np.ones(y_segment.size),
+                loss=coefficient_loss,
+                loss_scale=loss_spec.scale,
+                penalty=penalty_norm,
+                penalty_strength=coefficient_lambda,
+                huber_delta=(
+                    loss_spec.huber_delta
+                    if coefficient_loss == "huber" else huber_delta
+                ),
+                unpenalized_indices=tuple(unpenalized_feature_indices),
+                **coefficient_solver_options,
             )
-            segment_betas.append(np.asarray(result.x))
+            if not result.converged:
+                raise RuntimeError(
+                    "weighted segment solver did not satisfy its KKT tolerance"
+                )
+            segment_betas.append(np.asarray(result.coef))
 
         return all_chgpts, segment_betas
 
-    def evaluate_candidate(candidate):
+    def evaluate_candidate_fold(candidate, fold_number):
         _, C = candidate
         cv_score = 0.0
-
-        for fold_number, test_indices in enumerate(folds):
-            train_indices = np.sort(
-                np.concatenate(
-                    [fold for i, fold in enumerate(folds) if i != fold_number]
-                )
+        test_indices = folds[fold_number]
+        train_indices = np.sort(
+            np.concatenate(
+                [fold for i, fold in enumerate(folds) if i != fold_number]
             )
-            scale = response_scale(y[train_indices])
-            y_train_scaled = y[train_indices] / scale
+        )
+        scale = response_scale(y[train_indices])
+        y_train_scaled = y[train_indices] / scale
+        try:
             train_chgpts = np.asarray(
                 fit_candidate(X[train_indices], y_train_scaled, candidate), dtype=int
             ).reshape(-1)
+        except AssertionError:
+            # Some high-delta/high-L candidates have no valid reference-grid configuration.
+            return np.inf
 
-            # Match chgpt_k_fold_cv: a training-position boundary maps to the
-            # original index of the first training observation after it.
-            mapped_chgpts = np.asarray(
-                [
-                    train_indices[chgpt]
-                    for chgpt in train_chgpts
-                    if 0 < chgpt < len(train_indices)
-                ],
-                dtype=int,
+        # Match chgpt_k_fold_cv: a training-position boundary maps to the
+        # original index of the first training observation after it.
+        mapped_chgpts = np.asarray(
+            [
+                train_indices[chgpt]
+                for chgpt in train_chgpts
+                if 0 < chgpt < len(train_indices)
+            ],
+            dtype=int,
+        )
+        coefficient_lambda = coefficient_scale(C, len(train_indices))
+        all_chgpts, segment_betas = fit_segment_coefficients(
+            train_indices, mapped_chgpts, y_train_scaled, coefficient_lambda
+        )
+
+        y_test_scaled = y[test_indices] / scale
+        for test_position, original_index in enumerate(test_indices):
+            segment_idx = np.searchsorted(
+                all_chgpts[1:], original_index, side="right"
             )
-            l1_lambda = l1_scale(C, len(train_indices))
-            all_chgpts, segment_betas = fit_segment_coefficients(
-                train_indices, mapped_chgpts, y_train_scaled, l1_lambda
+            segment_idx = min(segment_idx, len(segment_betas) - 1)
+            prediction = (
+                X[original_index:original_index + 1]
+                @ segment_betas[segment_idx]
             )
-
-            y_test_scaled = y[test_indices] / scale
-            for test_position, original_index in enumerate(test_indices):
-                segment_idx = np.searchsorted(
-                    all_chgpts[1:], original_index, side="right"
+            loss = np.asarray(
+                M_scorer(
+                    np.asarray(prediction).reshape(-1),
+                    np.asarray(
+                        y_test_scaled[test_position:test_position + 1]
+                    ).reshape(-1),
                 )
-                segment_idx = min(segment_idx, len(segment_betas) - 1)
-                prediction = (
-                    X[original_index:original_index + 1]
-                    @ segment_betas[segment_idx]
+            )
+            if loss.shape != (1,):
+                raise ValueError(
+                    "M_scorer must return shape (1,) for one validation observation"
                 )
-                loss = np.asarray(
-                    M_scorer(
-                        prediction,
-                        y_test_scaled[test_position:test_position + 1],
-                    )
-                )
-                if loss.shape != (1,):
-                    raise ValueError(
-                        "M_scorer must return shape (1,) for one validation observation"
-                    )
-                # Deliberately exclude the coefficient penalty from validation.
-                cv_score += float(loss[0])
-
+            # Deliberately exclude the coefficient penalty from validation.
+            cv_score += float(loss[0])
         return cv_score
 
-    scores = Parallel(n_jobs=int(n_jobs))(
-        delayed(evaluate_candidate)(candidate) for candidate in candidates
-    )
-    best_pair = candidates[int(np.argmin(scores))]
+    def evaluate_candidate(candidate):
+        return sum(
+            evaluate_candidate_fold(candidate, fold_number)
+            for fold_number in range(int(num_folds))
+        )
+
+    if selection_strategy == "exhaustive":
+        scores = Parallel(n_jobs=int(n_jobs))(
+            delayed(evaluate_candidate)(candidate) for candidate in candidates
+        )
+        best_pair = candidates[int(np.argmin(scores))]
+        diagnostics = {
+            "selection_strategy": "exhaustive",
+            "survivors_by_stage": (tuple(candidates),),
+            "candidates": tuple(candidates),
+            "scores": tuple(float(score) for score in scores),
+            "candidate_fold_fits": len(candidates) * int(num_folds),
+            "exhaustive_candidate_fold_fits": len(candidates) * int(num_folds),
+        }
+    else:
+        candidate_order = {
+            candidate: index for index, candidate in enumerate(candidates)
+        }
+        cumulative_scores = {candidate: 0.0 for candidate in candidates}
+        fold_counts = {candidate: 0 for candidate in candidates}
+        active = list(candidates)
+        survivors_by_stage = [tuple(active)]
+
+        def retain_best_per_segment_count(pool, target_size):
+            segment_values = sorted({candidate[0] for candidate in pool})
+            ranked = sorted(
+                pool,
+                key=lambda candidate: (
+                    cumulative_scores[candidate], candidate_order[candidate]
+                ),
+            )
+            retained = []
+            for num_segments in segment_values:
+                group = sorted(
+                    (candidate for candidate in pool if candidate[0] == num_segments),
+                    key=lambda candidate: (
+                        cumulative_scores[candidate], candidate_order[candidate]
+                    ),
+                )
+                retained.extend(group[:int(successive_halving_min_per_segment)])
+            target_size = max(int(target_size), len(retained))
+            for candidate in ranked:
+                if candidate not in retained:
+                    retained.append(candidate)
+                if len(retained) >= target_size:
+                    break
+            return retained
+
+        screening_folds = min(2, int(num_folds) - 1)
+        for fold_number in range(int(num_folds)):
+            fold_scores = Parallel(n_jobs=int(n_jobs))(
+                delayed(evaluate_candidate_fold)(candidate, fold_number)
+                for candidate in active
+            )
+            for candidate, fold_score in zip(active, fold_scores):
+                cumulative_scores[candidate] += float(fold_score)
+                fold_counts[candidate] += 1
+
+            if fold_number < screening_folds and len(active) > int(Lmax):
+                active = retain_best_per_segment_count(
+                    active, int(np.ceil(len(active) / 2.0))
+                )
+                survivors_by_stage.append(tuple(active))
+
+        best_pair = min(
+            active,
+            key=lambda candidate: (
+                cumulative_scores[candidate], candidate_order[candidate]
+            ),
+        )
+        diagnostics = {
+            "selection_strategy": "successive_halving",
+            "survivors_by_stage": tuple(survivors_by_stage),
+            "cumulative_scores": cumulative_scores,
+            "fold_counts": fold_counts,
+            "candidate_fold_fits": int(sum(fold_counts.values())),
+            "exhaustive_candidate_fold_fits": len(candidates) * int(num_folds),
+        }
 
     full_scale = response_scale(y)
     cp = fit_candidate(X, y / full_scale, best_pair)
     best_segments, best_C = best_pair
-    return (int(best_segments), float(best_C)), np.asarray(cp, dtype=int).reshape(-1)
+    result = (
+        (int(best_segments), float(best_C)),
+        np.asarray(cp, dtype=int).reshape(-1),
+    )
+    if return_diagnostics:
+        return result + (diagnostics,)
+    return result
 
 def evaluate_changepoints(cp, true_chgpts, n):
-    """Apply the common comparison metric and three allowed result statuses."""
+    """Apply the common comparison metric and three allowed result statuses.
+
+    Location error is undefined for an empty estimated set, so empty estimates
+    retain their explicit status and size zero while their Hausdorff value is
+    NaN. Aggregations can then report conditional location accuracy alongside
+    the empty-estimate rate.
+    """
     if cp is None:
         return {
             "raw_cp": None,
@@ -239,7 +463,7 @@ def evaluate_changepoints(cp, true_chgpts, n):
         return {
             "raw_cp": raw_cp,
             "status": "empty_estimate",
-            "haus": 1.0,
+            "haus": np.nan,
             "size": 0,
         }
 
@@ -252,7 +476,7 @@ def evaluate_changepoints(cp, true_chgpts, n):
 
 
 def summarize_setting(haus, sizes, statuses):
-    """Summarize one method/setting with empty estimates penalized in haus."""
+    """Summarize conditional location error and explicit estimate statuses."""
     haus = np.asarray(haus, dtype=float)
     sizes = np.asarray(sizes, dtype=float)
     statuses = np.asarray(statuses, dtype=object)

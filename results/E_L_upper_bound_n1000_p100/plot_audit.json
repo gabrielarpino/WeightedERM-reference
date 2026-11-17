@@ -1,0 +1,329 @@
+[
+  {
+    "name": "location_asymmetric_errors",
+    "settings": {
+      "n": 1000,
+      "p": 100
+    },
+    "figsize": [
+      5.0,
+      4.0
+    ],
+    "axes": [
+      {
+        "xlabel": "$L$",
+        "ylabel": "Hausdorff dist. / $n$",
+        "title": "",
+        "xticks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "xticklabels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          -0.0131,
+          0.3191
+        ]
+      }
+    ]
+  },
+  {
+    "name": "change_points_asymmetric_errors",
+    "settings": {
+      "n": 1000,
+      "p": 100
+    },
+    "figsize": [
+      5.0,
+      4.0
+    ],
+    "axes": [
+      {
+        "xlabel": "$L$",
+        "ylabel": "No. change points",
+        "title": "",
+        "xticks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "xticklabels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          -0.3,
+          5.3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "location_boxplots",
+    "settings": {
+      "n": 1000,
+      "p": 100
+    },
+    "figsize": [
+      5.0,
+      4.0
+    ],
+    "axes": [
+      {
+        "xlabel": "$L$",
+        "ylabel": "Hausdorff dist. / $n$",
+        "title": "",
+        "xticks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "xticklabels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          -0.016200000000000003,
+          0.3402
+        ]
+      }
+    ]
+  },
+  {
+    "name": "change_points_boxplots",
+    "settings": {
+      "n": 1000,
+      "p": 100
+    },
+    "figsize": [
+      5.0,
+      4.0
+    ],
+    "axes": [
+      {
+        "xlabel": "$L$",
+        "ylabel": "No. change points",
+        "title": "",
+        "xticks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "xticklabels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          -0.3,
+          5.3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "cv_scores",
+    "settings": {
+      "n": 1000,
+      "p": 100
+    },
+    "figsize": [
+      5.0,
+      4.0
+    ],
+    "axes": [
+      {
+        "xlabel": "$L$",
+        "ylabel": "CV absolute error",
+        "title": "",
+        "xticks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "xticklabels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          0.5203268686517747,
+          1.0889421900428071
+        ]
+      }
+    ]
+  },
+  {
+    "name": "changepoint_histograms",
+    "settings": {
+      "n": 1000,
+      "p": 100
+    },
+    "figsize": [
+      7.5,
+      4.4
+    ],
+    "axes": [
+      {
+        "xlabel": "",
+        "ylabel": "",
+        "title": "$L=1$",
+        "xticks": [
+          0.2,
+          0.5,
+          0.8
+        ],
+        "xticklabels": [],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          0.0,
+          20.0
+        ]
+      },
+      {
+        "xlabel": "",
+        "ylabel": "",
+        "title": "$L=2$",
+        "xticks": [
+          0.2,
+          0.5,
+          0.8
+        ],
+        "xticklabels": [],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          0.0,
+          20.0
+        ]
+      },
+      {
+        "xlabel": "",
+        "ylabel": "",
+        "title": "$L=3$",
+        "xticks": [
+          0.2,
+          0.5,
+          0.8
+        ],
+        "xticklabels": [],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          0.0,
+          20.0
+        ]
+      },
+      {
+        "xlabel": "",
+        "ylabel": "",
+        "title": "$L=4$",
+        "xticks": [
+          0.2,
+          0.5,
+          0.8
+        ],
+        "xticklabels": [
+          "$0.2$",
+          "$0.5$",
+          "$0.8$"
+        ],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          0.0,
+          20.0
+        ]
+      },
+      {
+        "xlabel": "",
+        "ylabel": "",
+        "title": "$L=5$",
+        "xticks": [
+          0.2,
+          0.5,
+          0.8
+        ],
+        "xticklabels": [
+          "$0.2$",
+          "$0.5$",
+          "$0.8$"
+        ],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          0.0,
+          20.0
+        ]
+      },
+      {
+        "xlabel": "",
+        "ylabel": "",
+        "title": "$L=6$",
+        "xticks": [
+          0.2,
+          0.5,
+          0.8
+        ],
+        "xticklabels": [
+          "$0.2$",
+          "$0.5$",
+          "$0.8$"
+        ],
+        "xlabel_size": 18.0,
+        "ylabel_size": 18.0,
+        "ylim": [
+          0.0,
+          20.0
+        ]
+      }
+    ]
+  }
+]

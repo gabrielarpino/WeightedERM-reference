@@ -1,0 +1,913 @@
+{
+  "notebook": "FRED-MD Unpenalized Huber Joint CV.ipynb",
+  "loss_contract": {
+    "segmentation": "Huber(epsilon candidate)",
+    "hard_segment_refits": "Huber(same epsilon candidate)",
+    "heldout_scoring_only": "absolute_loss",
+    "coefficient_penalty": "none"
+  },
+  "epsilons": [
+    0.25,
+    0.5,
+    0.75,
+    1.0,
+    1.35,
+    2.0,
+    3.0,
+    5.0
+  ],
+  "segment_counts": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "records": [
+    {
+      "num_folds": 2,
+      "delta_fraction": 0.025,
+      "selected_epsilon": 1.0,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "selected_cv_mean": 0.5949647341403815,
+      "best_zero_cp_cv_mean": 0.5949647341403815,
+      "relative_improvement_vs_zero_pct": 0.0,
+      "candidate_scores": [
+        {
+          "epsilon": 0.25,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 471.08111035791353,
+          "cv_mean": 0.6094192889494353
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 606.3467101604035,
+          "cv_mean": 0.7844071282799528
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1061.2088384728715,
+          "cv_mean": 1.3728445517113474
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1322.9710390988184,
+          "cv_mean": 1.711476117850994
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1327.0023186489664,
+          "cv_mean": 1.7166912272302282
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 464.317027126749,
+          "cv_mean": 0.6006688578612536
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 603.6937490280914,
+          "cv_mean": 0.7809750957672592
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1116.3621041024762,
+          "cv_mean": 1.4441941838324401
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1590.8293403963744,
+          "cv_mean": 2.057993972052231
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1152.838794014092,
+          "cv_mean": 1.491382657198049
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 460.36282393965837,
+          "cv_mean": 0.595553459171615
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 612.2899591953428,
+          "cv_mean": 0.7920956781311033
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1055.5749301757585,
+          "cv_mean": 1.3655561839272425
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1604.418753457535,
+          "cv_mean": 2.0755740665686093
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1154.4534817073518,
+          "cv_mean": 1.4934715157921756
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 459.9077394905149,
+          "cv_mean": 0.5949647341403815
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 611.7946866369139,
+          "cv_mean": 0.7914549633077799
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 917.3574390234785,
+          "cv_mean": 1.1867495977017832
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1645.391524915242,
+          "cv_mean": 2.1285789455565873
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1247.0144880278149,
+          "cv_mean": 1.6132140854176131
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 461.8782600381047,
+          "cv_mean": 0.5975139198423088
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 631.947244361884,
+          "cv_mean": 0.8175255425121397
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1045.9463382512056,
+          "cv_mean": 1.3531000494840952
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1727.9919247526645,
+          "cv_mean": 2.2354358664329426
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1287.2595669278162,
+          "cv_mean": 1.6652775768794517
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 462.099617743111,
+          "cv_mean": 0.597800281685784
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 639.5264871783968,
+          "cv_mean": 0.8273305138142262
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1047.8731569269505,
+          "cv_mean": 1.3555926997761327
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1644.3516422533844,
+          "cv_mean": 2.127233689849139
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1407.229837954555,
+          "cv_mean": 1.8204784449606146
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 464.7839149727606,
+          "cv_mean": 0.6012728524874006
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 652.0995999950258,
+          "cv_mean": 0.8435958602781705
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1028.9059280917174,
+          "cv_mean": 1.3310555344006694
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1624.323064354537,
+          "cv_mean": 2.1013234985181595
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1285.7019365384997,
+          "cv_mean": 1.663262531097671
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 466.4593072346822,
+          "cv_mean": 0.6034402422182177
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 650.8160999533293,
+          "cv_mean": 0.8419354462526899
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1042.2260256898217,
+          "cv_mean": 1.34828722598942
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1620.3851582876555,
+          "cv_mean": 2.0962291827783384
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1246.5551760642738,
+          "cv_mean": 1.6126198914156193
+        }
+      ],
+      "elapsed_seconds": 256.818028899841
+    },
+    {
+      "num_folds": 5,
+      "delta_fraction": 0.025,
+      "selected_epsilon": 0.75,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "selected_cv_mean": 0.5421528257074811,
+      "best_zero_cp_cv_mean": 0.5421528257074811,
+      "relative_improvement_vs_zero_pct": 0.0,
+      "candidate_scores": [
+        {
+          "epsilon": 0.25,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 423.1950863390301,
+          "cv_mean": 0.5474710043195733
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 498.1161229189725,
+          "cv_mean": 0.6443934319779722
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 583.3304303793395,
+          "cv_mean": 0.7546318633626643
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 869.9502683296513,
+          "cv_mean": 1.125420786972382
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1019.3895599363551,
+          "cv_mean": 1.3187445794778203
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 419.7203223600167,
+          "cv_mean": 0.542975837464446
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 499.81249081254384,
+          "cv_mean": 0.6465879570666803
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 580.6646746639424,
+          "cv_mean": 0.7511832789960444
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 914.310720559037,
+          "cv_mean": 1.1828081766611087
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 992.085079200669,
+          "cv_mean": 1.283421835964643
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 419.0841342718829,
+          "cv_mean": 0.5421528257074811
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 502.14661042954504,
+          "cv_mean": 0.6496075167264489
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 580.1223155381043,
+          "cv_mean": 0.7504816501139772
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 907.5026794548821,
+          "cv_mean": 1.1740008789843235
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1104.0613656096837,
+          "cv_mean": 1.4282811974252052
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 423.07043423233165,
+          "cv_mean": 0.5473097467429905
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 504.6463923758359,
+          "cv_mean": 0.6528413872908614
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 602.323753818015,
+          "cv_mean": 0.7792027863104981
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 867.9033901226421,
+          "cv_mean": 1.12277282033977
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1152.3527158607865,
+          "cv_mean": 1.4907538368186113
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 427.89256515519855,
+          "cv_mean": 0.5535479497479929
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 506.3679123810067,
+          "cv_mean": 0.6550684506869427
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 592.4193262108909,
+          "cv_mean": 0.7663898139856286
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 913.140741304881,
+          "cv_mean": 1.1812946200580607
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1079.8969577860669,
+          "cv_mean": 1.3970206439664514
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 433.71001296553936,
+          "cv_mean": 0.5610737554534792
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 520.1379401179058,
+          "cv_mean": 0.6728821993763335
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 608.8229834864645,
+          "cv_mean": 0.7876105866577807
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 967.701912084682,
+          "cv_mean": 1.251878282127661
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1024.1839635221525,
+          "cv_mean": 1.324946912706536
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 434.81690264498366,
+          "cv_mean": 0.5625056955303799
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 517.4589785544221,
+          "cv_mean": 0.6694165311182692
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 634.645056739062,
+          "cv_mean": 0.8210155973338449
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 967.5718509534056,
+          "cv_mean": 1.2517100271066048
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1052.6210422556755,
+          "cv_mean": 1.3617348541470575
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 436.5511730189236,
+          "cv_mean": 0.5647492535820486
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 518.1763426940611,
+          "cv_mean": 0.6703445571721359
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 628.253108683451,
+          "cv_mean": 0.8127465830316314
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 969.5350382543907,
+          "cv_mean": 1.2542497260729504
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1073.7610663153293,
+          "cv_mean": 1.3890828800974506
+        }
+      ],
+      "elapsed_seconds": 856.0323897339404
+    },
+    {
+      "num_folds": 2,
+      "delta_fraction": 0.03333333333333333,
+      "selected_epsilon": 1.0,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "selected_cv_mean": 0.5949647341403815,
+      "best_zero_cp_cv_mean": 0.5949647341403815,
+      "relative_improvement_vs_zero_pct": 0.0,
+      "candidate_scores": [
+        {
+          "epsilon": 0.25,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 471.08111035791353,
+          "cv_mean": 0.6094192889494353
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 606.3467101604035,
+          "cv_mean": 0.7844071282799528
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1054.5510572489911,
+          "cv_mean": 1.3642316393906742
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1322.9710390988184,
+          "cv_mean": 1.711476117850994
+        },
+        {
+          "epsilon": 0.25,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1327.0023186489664,
+          "cv_mean": 1.7166912272302282
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 464.317027126749,
+          "cv_mean": 0.6006688578612536
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 603.6937490280914,
+          "cv_mean": 0.7809750957672592
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1116.3621041024762,
+          "cv_mean": 1.4441941838324401
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1517.4327333210933,
+          "cv_mean": 1.9630436394839499
+        },
+        {
+          "epsilon": 0.5,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1152.838794014092,
+          "cv_mean": 1.491382657198049
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 460.36282393965837,
+          "cv_mean": 0.595553459171615
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 612.2899591953428,
+          "cv_mean": 0.7920956781311033
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1107.1351015309956,
+          "cv_mean": 1.432257569897795
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1620.7599839636614,
+          "cv_mean": 2.096714080159976
+        },
+        {
+          "epsilon": 0.75,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1154.4534817073518,
+          "cv_mean": 1.4934715157921756
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 459.9077394905149,
+          "cv_mean": 0.5949647341403815
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 611.7946866369139,
+          "cv_mean": 0.7914549633077799
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1043.6671504766734,
+          "cv_mean": 1.3501515530099268
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1645.391524915242,
+          "cv_mean": 2.1285789455565873
+        },
+        {
+          "epsilon": 1.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1247.0144880278149,
+          "cv_mean": 1.6132140854176131
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 461.8782600381047,
+          "cv_mean": 0.5975139198423088
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 631.947244361884,
+          "cv_mean": 0.8175255425121397
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1045.9463382512056,
+          "cv_mean": 1.3531000494840952
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1727.9919247526645,
+          "cv_mean": 2.2354358664329426
+        },
+        {
+          "epsilon": 1.35,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1287.2595669278162,
+          "cv_mean": 1.6652775768794517
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 462.099617743111,
+          "cv_mean": 0.597800281685784
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 639.5264871783968,
+          "cv_mean": 0.8273305138142262
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1047.8731569269505,
+          "cv_mean": 1.3555926997761327
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1644.3516422533844,
+          "cv_mean": 2.127233689849139
+        },
+        {
+          "epsilon": 2.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1388.7914533003636,
+          "cv_mean": 1.7966254247093967
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 464.7839149727606,
+          "cv_mean": 0.6012728524874006
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 656.0831637606738,
+          "cv_mean": 0.8487492416050113
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1017.7543942035945,
+          "cv_mean": 1.3166292292413901
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1631.6994593799077,
+          "cv_mean": 2.1108660535315753
+        },
+        {
+          "epsilon": 3.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1285.7019365384997,
+          "cv_mean": 1.663262531097671
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 1,
+          "change_points": 0,
+          "cv_total": 466.4593072346822,
+          "cv_mean": 0.6034402422182177
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 2,
+          "change_points": 1,
+          "cv_total": 650.8160999533293,
+          "cv_mean": 0.8419354462526899
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 3,
+          "change_points": 2,
+          "cv_total": 1042.2260256898217,
+          "cv_mean": 1.34828722598942
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 4,
+          "change_points": 3,
+          "cv_total": 1620.3851582876555,
+          "cv_mean": 2.0962291827783384
+        },
+        {
+          "epsilon": 5.0,
+          "segments": 5,
+          "change_points": 4,
+          "cv_total": 1286.600587583187,
+          "cv_mean": 1.664425080961432
+        }
+      ],
+      "elapsed_seconds": 284.3772753654048
+    }
+  ]
+}

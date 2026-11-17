@@ -1,0 +1,50 @@
+{
+  "selection": {
+    "chosen": 2.25,
+    "fine": 2.25,
+    "natural": 10.0,
+    "whole": 2.0,
+    "tv_fine": 0.19999999999999998,
+    "tv_natural": 0.6000000000000001,
+    "tv_whole": 0.30000000000000004
+  },
+  "assessment_trials": 60,
+  "metrics": {
+    "CV": {
+      "gamma": null,
+      "true_count": 0.16666666666666666,
+      "empty": 0.0,
+      "count_mae": 0.8333333333333334,
+      "haus_conditional": 0.11142063492063493,
+      "haus_empty_one": 0.11142063492063493,
+      "count_agreement": 1.0
+    },
+    "Penalty ($\\gamma=2.25$)": {
+      "gamma": 2.25,
+      "true_count": 0.2,
+      "empty": 0.0,
+      "count_mae": 0.8,
+      "haus_conditional": 0.24626984126984128,
+      "haus_empty_one": 0.24626984126984128,
+      "count_agreement": 0.5333333333333333
+    },
+    "Penalty ($\\gamma=2$)": {
+      "gamma": 2.0,
+      "true_count": 0.1,
+      "empty": 0.0,
+      "count_mae": 0.9,
+      "haus_conditional": 0.24698412698412703,
+      "haus_empty_one": 0.24698412698412703,
+      "count_agreement": 0.5833333333333334
+    },
+    "Penalty ($\\gamma=10$)": {
+      "gamma": 10.0,
+      "true_count": 0.35,
+      "empty": 0.0,
+      "count_mae": 0.65,
+      "haus_conditional": 0.26223809523809527,
+      "haus_empty_one": 0.26223809523809527,
+      "count_agreement": 0.23333333333333334
+    }
+  }
+}

@@ -1,0 +1,402 @@
+\begin{thebibliography}{}
+
+\bibitem[Bai and Perron, 1998]{bai1998estimating}
+Bai, J. and Perron, P. (1998).
+\newblock Estimating and testing linear models with multiple structural
+  changes.
+\newblock {\em Econometrica}, 66(1):47--78.
+
+\bibitem[Bai and Safikhani, 2022]{bai2022unified}
+Bai, Y. and Safikhani, A. (2022).
+\newblock A unified framework for change point detection in high-dimensional
+  linear models.
+\newblock {\em arXiv preprint arXiv:2207.09007v1}.
+
+\bibitem[Baranowski et~al., 2019]{baranowski2019narrowest}
+Baranowski, R., Chen, Y., and Fryzlewicz, P. (2019).
+\newblock Narrowest-over-threshold detection of multiple change points and
+  change-point-like features.
+\newblock {\em Journal of the Royal Statistical Society Series B (Statistical
+  Methodology)}, 81(3):649--672.
+
+\bibitem[Barigozzi et~al., 2024]{barigozzi2024robust}
+Barigozzi, M., Cho, H., and Maeng, H. (2024).
+\newblock Tail-robust factor modelling of vector and tensor time series in high
+  dimensions.
+\newblock {\em arXiv preprint arXiv:2407.09390v1}.
+
+\bibitem[Basu and Michailidis, 2015]{basu2015regularized}
+Basu, S. and Michailidis, G. (2015).
+\newblock Regularized estimation in sparse high-dimensional time series models.
+\newblock {\em The Annals of Statistics}, 43(4):1535--1567.
+
+\bibitem[Bickel et~al., 2009]{bickel2009simultaneous}
+Bickel, P.~J., Ritov, Y., and Tsybakov, A.~B. (2009).
+\newblock {Simultaneous analysis of Lasso and Dantzig selector}.
+\newblock {\em The Annals of Statistics}, 37(1):1705--1732.
+
+\bibitem[Bradic et~al., 2022]{bradic2022testability}
+Bradic, J., Fan, J., and Zhu, Y. (2022).
+\newblock Testability of high-dimensional linear models with nonsparse
+  structures.
+\newblock {\em The Annals of Statistics}, 50(2):615--639.
+
+\bibitem[B{\"u}hlmann and {v}an~de Geer, 2011]{buhlmann2011statistics}
+B{\"u}hlmann, P. and {v}an~de Geer, S. (2011).
+\newblock {\em Statistics for High-dimensional Data: Methods, Theory and
+  Applications}.
+\newblock Springer Science \& Business Media.
+
+\bibitem[Cai and Liu, 2011]{cai2011direct}
+Cai, T. and Liu, W. (2011).
+\newblock A direct estimation approach to sparse linear discriminant analysis.
+\newblock {\em Journal of the American Statistical Association},
+  106(496):1566--1577.
+
+\bibitem[Cai et~al., 2011]{cai2011constrained}
+Cai, T., Liu, W., and Luo, X. (2011).
+\newblock A constrained $\ell_1$ minimization approach to sparse precision
+  matrix estimation.
+\newblock {\em Journal of the American Statistical Association},
+  106(494):594--607.
+
+\bibitem[Cai and Guo, 2020]{tony2020semisupervised}
+Cai, T.~T. and Guo, Z. (2020).
+\newblock Semisupervised inference for explained variance in high dimensional
+  linear regression and its applications.
+\newblock {\em Journal of the Royal Statistical Society Series B: Statistical
+  Methodology}, 82(2):391--419.
+
+\bibitem[Cai et~al., 2016]{cai2016estimating}
+Cai, T.~T., Liu, W., and Zhou, H.~H. (2016).
+\newblock Estimating sparse precision matrix: Optimal rates of convergence and
+  adaptive estimation.
+\newblock {\em The Annals of Statistics}, 44(2):455--488.
+
+\bibitem[Chen et~al., 2022]{chen2022inference}
+Chen, L., Wang, W., and Wu, W.~B. (2022).
+\newblock Inference of breakpoints in high-dimensional time series.
+\newblock {\em Journal of the American Statistical Association},
+  117(540):1951--1963.
+
+\bibitem[Chernozhukov et~al., 2017]{chernozhukov2017detailed}
+Chernozhukov, V., Chetverikov, D., and Kato, K. (2017).
+\newblock Detailed proof of {N}azarov's inequality.
+\newblock {\em arXiv preprint arXiv:1711.10696v1}.
+
+\bibitem[Chernozhukov et~al., 2023]{CCK23}
+Chernozhukov, V., Chetverikov, D., and Koike, Y. (2023).
+\newblock Nearly optimal central limit theorem and bootstrap approximations in
+  high dimensions.
+\newblock {\em The Annals of Applied Probability}, 33(3):2374--2425.
+
+\bibitem[Cho and Kirch, 2024]{cho2021data}
+Cho, H. and Kirch, C. (2024).
+\newblock Data segmentation algorithms: Univariate mean change and beyond.
+\newblock {\em Econometrics and Statistics}, 30:76--95.
+
+\bibitem[Cho and Owens, 2024]{cho2022high}
+Cho, H. and Owens, D. (2024).
+\newblock High-dimensional data segmentation in regression settings permitting
+  temporal dependence and non-{G}aussianity.
+\newblock {\em Electronic Journal of Statistics}, 18(1):2620--2664.
+
+\bibitem[Cs\"{o}rgo and Horv{\'a}th, 1997]{csorgo1997limit}
+Cs\"{o}rgo, M. and Horv{\'a}th, L. (1997).
+\newblock {\em Limit Theorems in Change-point Analysis}.
+\newblock John Wiley \& Sons Chichester.
+
+\bibitem[Devroye et~al., 2018]{devroye2018total}
+Devroye, L., Mehrabian, A., and Reddad, T. (2018).
+\newblock The total variation distance between high-dimensional gaussians with
+  the same mean.
+\newblock {\em arXiv preprint arXiv:1810.08693v7}.
+
+\bibitem[Dom, 2001]{dom2001information}
+Dom, B.~E. (2001).
+\newblock An information-theoretic external cluster-validity measure.
+\newblock {\em Technical Report RJ10219, IBM}.
+
+\bibitem[Fan et~al., 2014]{fan2014challenges}
+Fan, J., Han, F., and Liu, H. (2014).
+\newblock Challenges of big data analysis.
+\newblock {\em National Science Review}, 1(2):293--314.
+
+\bibitem[Fang and Koike, 2021]{FaKo21}
+Fang, X. and Koike, Y. (2021).
+\newblock High-dimensional central limit theorems by {S}tein's method.
+\newblock {\em The Annals of Applied Probability}, 31(4):1660--1686.
+
+\bibitem[Fryzlewicz, 2014]{fryzlewicz2014wild}
+Fryzlewicz, P. (2014).
+\newblock Wild binary segmentation for multiple change-point detection.
+\newblock {\em The Annals of Statistics}, 42(6):2243--2281.
+
+\bibitem[Gao and Wang, 2022a]{gao2022sparse}
+Gao, F. and Wang, T. (2022a).
+\newblock Sparse change detection in high-dimensional linear regression.
+\newblock {\em arXiv preprint arXiv:2208.06326v2}.
+
+\bibitem[Gao and Wang, 2022b]{gao2022two}
+Gao, F. and Wang, T. (2022b).
+\newblock Two-sample testing of high-dimensional linear regression coefficients
+  via complementary sketching.
+\newblock {\em The Annals of Statistics}, 50(5):2950--2972.
+
+\bibitem[Horv{\'a}th et~al., 2022]{horvath2022detecting}
+Horv{\'a}th, L., Liu, Z., Rice, G., and Zhao, Y. (2022).
+\newblock Detecting common breaks in the means of high dimensional
+  cross-dependent panels.
+\newblock {\em The Econometrics Journal}, 25(2):362--383.
+
+\bibitem[Hubert and Arabie, 1985]{hubert1985comparing}
+Hubert, L. and Arabie, P. (1985).
+\newblock Comparing partitions.
+\newblock {\em Journal of Classification}, 2:193--218.
+
+\bibitem[Ibragimov et~al., 2015]{ibragimov2015heavy}
+Ibragimov, M., Ibragimov, R., and Walden, J. (2015).
+\newblock {\em Heavy-tailed Distributions and Robustness in Economics and
+  Finance}, volume 214.
+\newblock Springer.
+
+\bibitem[Javanmard and Montanari, 2014]{javanmard2014confidence}
+Javanmard, A. and Montanari, A. (2014).
+\newblock Confidence intervals and hypothesis testing for high-dimensional
+  regression.
+\newblock {\em Journal of Machine Learning Research}, 15(1):2869--2909.
+
+\bibitem[Kaul et~al., 2019]{kaul2019detection}
+Kaul, A., Jandhyala, V.~K., and Fotopoulos, S.~B. (2019).
+\newblock Detection and estimation of parameters in high dimensional multiple
+  change point regression models via $\ell_1/\ell_0$ regularization and
+  discrete optimization.
+\newblock {\em arXiv preprint arXiv:1906.04396v1}.
+
+\bibitem[Kov\'{a}cs et~al., 2023]{kovacs2020seeded}
+Kov\'{a}cs, S., B\"{u}hlmann, P., Li, H., and Munk, A. (2023).
+\newblock Seeded binary segmentation: a general methodology for fast and
+  optimal changepoint detection.
+\newblock {\em Biometrika}, 110(1):249--256.
+
+\bibitem[Kov{\'a}cs et~al., 2024]{kovacs2020optimistic}
+Kov{\'a}cs, S., Li, H., Haubner, L., Munk, A., and B{\"u}hlmann, P. (2024).
+\newblock Optimistic search strategy: Change point detection for large-scale
+  data via adaptive logarithmic queries.
+\newblock {\em Journal of Machine Learning Research, to appear}.
+
+\bibitem[Kuchibhotla and Chakrabortty, 2022]{KuCh22}
+Kuchibhotla, A.~K. and Chakrabortty, A. (2022).
+\newblock Moving beyond sub-{G}aussianity in high-dimensional statistics:
+  applications in covariance estimation and linear regression.
+\newblock {\em Information and Inference. A Journal of the IMA},
+  11(4):1389--1456.
+
+\bibitem[Lee et~al., 2016]{lee2016lasso}
+Lee, S., Seo, M.~H., and Shin, Y. (2016).
+\newblock {The Lasso for high dimensional regression with a possible change
+  point}.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 78(1):193.
+
+\bibitem[Leonardi and B{\"u}hlmann, 2016]{leonardi2016computationally}
+Leonardi, F. and B{\"u}hlmann, P. (2016).
+\newblock Computationally efficient change point detection for high-dimensional
+  regression.
+\newblock {\em arXiv preprint arXiv:1601.03704v1}.
+
+\bibitem[Li et~al., 2023]{li2023divide}
+Li, W., Wang, D., and Rinaldo, A. (2023).
+\newblock Divide and conquer dynamic programming: An almost linear time change
+  point detection methodology in high dimensions.
+\newblock In {\em International Conference on Machine Learning}, pages
+  20065--20148. PMLR.
+
+\bibitem[Liu et~al., 2022]{liu2022change}
+Liu, B., Qi, Z., Zhang, X., and Liu, Y. (2022).
+\newblock Change point detection for high-dimensional linear models: A general
+  tail-adaptive approach.
+\newblock {\em arXiv preprint arXiv:2207.11532v3}.
+
+\bibitem[Liu et~al., 2026]{liu2024simultaneous}
+Liu, B., Zhang, X., and Liu, Y. (2026).
+\newblock Simultaneous change point detection and identification for high
+  dimensional linear models.
+\newblock {\em Statistica Sinica}, 36(2):1--40.
+
+\bibitem[Liu et~al., 2021]{liu2021minimax}
+Liu, H., Gao, C., and Samworth, R.~J. (2021).
+\newblock Minimax rates in sparse, high-dimensional change point detection.
+\newblock {\em The Annals of Statistics}, 49(2):1081--1112.
+
+\bibitem[Liu and Wang, 2017]{liu2017tiger}
+Liu, H. and Wang, L. (2017).
+\newblock {TIGER}: A tuning-insensitive approach for optimally estimating
+  {G}aussian graphical models.
+\newblock {\em Electronic Journal of Statistics}, 11(1):241--294.
+
+\bibitem[Loh and Wainwright, 2012]{loh2012high}
+Loh, P.-L. and Wainwright, M.~J. (2012).
+\newblock High-dimensional regression with noisy and missing data: Provable
+  guarantees with nonconvexity.
+\newblock {\em The Annals of Statistics}, 40(3):1637--1664.
+
+\bibitem[Maher, 2008]{Mah08}
+Maher, B. (2008).
+\newblock Personal genomes: {T}he case of the missing heritability.
+\newblock {\em Nature}, 456(7218):18--21.
+
+\bibitem[McCracken and Ng, 2016]{mccracken2016fred}
+McCracken, M.~W. and Ng, S. (2016).
+\newblock {FRED-MD: A} monthly database for macroeconomic research.
+\newblock {\em Journal of Business \& Economic Statistics}, 34(4):574--589.
+
+\bibitem[Meinshausen and B\"{u}hlmann, 2006]{MeBu06}
+Meinshausen, N. and B\"{u}hlmann, P. (2006).
+\newblock High-dimensional graphs and variable selection with the {L}asso.
+\newblock {\em The Annals of Statistics}, 34(3):1436--1462.
+
+\bibitem[Nazarov, 2003]{nazarov2003maximal}
+Nazarov, F. (2003).
+\newblock On the maximal perimeter of a convex set in $\mathbb{R}^{n}$ with
+  respect to a {G}aussian measure.
+\newblock In {\em Geometric Aspects of Functional Analysis: Israel Seminar
+  2001-2002}, pages 169--187. Springer.
+
+\bibitem[Qian et~al., 2023]{qian2023reliever}
+Qian, C., Wang, G., and Zou, C. (2023).
+\newblock Reliever: Relieving the burden of costly model fits for changepoint
+  detection.
+\newblock {\em arXiv preprint arXiv:2307.01150v1}.
+
+\bibitem[Rand, 1971]{rand1971objective}
+Rand, W.~M. (1971).
+\newblock Objective criteria for the evaluation of clustering methods.
+\newblock {\em Journal of the American Statistical Association},
+  66(336):846--850.
+
+\bibitem[Rinaldo et~al., 2021]{rinaldo2020localizing}
+Rinaldo, A., Wang, D., Wen, Q., Willett, R., and Yu, Y. (2021).
+\newblock Localizing changes in high-dimensional regression models.
+\newblock In {\em International Conference on Artificial Intelligence and
+  Statistics}, pages 2089--2097. PMLR.
+
+\bibitem[Rosenberg and Hirschberg, 2007]{rosenberg2007v}
+Rosenberg, A. and Hirschberg, J. (2007).
+\newblock V-measure: {A} conditional entropy-based external cluster evaluation
+  measure.
+\newblock In {\em Proceedings of the 2007 Joint Conference on EMNLP-CoNLL},
+  pages 410--420.
+
+\bibitem[Stock and Watson, 2002]{stock2002forecasting}
+Stock, J.~H. and Watson, M.~W. (2002).
+\newblock Forecasting using principal components from a large number of
+  predictors.
+\newblock {\em Journal of the American Statistical Association},
+  97(460):1167--1179.
+
+\bibitem[Tsybakov, 2009]{Tsy09}
+Tsybakov, A.~B. (2009).
+\newblock {\em Introduction to nonparametric estimation}.
+\newblock Springer Series in Statistics. Springer, New York.
+\newblock Revised and extended from the 2004 French original, Translated by
+  Vladimir Zaiats.
+
+\bibitem[{v}an~de Geer et~al., 2014]{van2014asymptotically}
+{v}an~de Geer, S., B{\"u}hlmann, P., Ritov, Y., and Dezeure, R. (2014).
+\newblock On asymptotically optimal confidence regions and tests for
+  high-dimensional models.
+\newblock {\em The Annals of Statistics}, 42(3):1166--1202.
+
+\bibitem[{v}an~{d}e Geer et~al., 2011]{van2011adaptive}
+{v}an~{d}e Geer, S., B{\"u}hlmann, P., and Zhou, S. (2011).
+\newblock The adaptive and the thresholded {L}asso for potentially misspecified
+  models.
+\newblock {\em Electronic Journal of Statistics}, 5:688--749.
+
+\bibitem[Vershynin, 2018]{Ver18}
+Vershynin, R. (2018).
+\newblock {\em High-dimensional Probability}, volume~47 of {\em Cambridge
+  Series in Statistical and Probabilistic Mathematics}.
+\newblock Cambridge University Press, Cambridge.
+
+\bibitem[Verzelen and Gassiat, 2018a]{VerGas18}
+Verzelen, N. and Gassiat, E. (2018a).
+\newblock Adaptive estimation of high-dimensional signal-to-noise ratios.
+\newblock {\em Bernoulli}, 24(4B):3683--3710.
+
+\bibitem[Verzelen and Gassiat, 2018b]{verzelen2018adaptive}
+Verzelen, N. and Gassiat, E. (2018b).
+\newblock Adaptive estimation of high-dimensional signal-to-noise ratios.
+\newblock {\em Bernoulli}, 24(4B):3683--3710.
+
+\bibitem[Wang and Zhao, 2022]{wang2022optimal}
+Wang, D. and Zhao, Z. (2022).
+\newblock Optimal change-point testing for high-dimensional linear models with
+  temporal dependence.
+\newblock {\em arXiv preprint arXiv:2205.03880v1}.
+
+\bibitem[Wang et~al., 2021]{wang2021statistically}
+Wang, D., Zhao, Z., Lin, K.~Z., and Willett, R. (2021).
+\newblock Statistically and computationally efficient change point localization
+  in regression settings.
+\newblock {\em Journal of Machine Learning Research}, 22(248):1--46.
+
+\bibitem[Wang and Samworth, 2018]{wang2018high}
+Wang, T. and Samworth, R.~J. (2018).
+\newblock High dimensional change point estimation via sparse projection.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 80(1):57--83.
+
+\bibitem[Wong et~al., 2020]{wong2020lasso}
+Wong, K.~C., Li, Z., and Tewari, A. (2020).
+\newblock {Lasso guarantees for $\beta$-mixing heavy-tailed time series}.
+\newblock {\em The Annals of Statistics}, 48(2):1124--1142.
+
+\bibitem[Wu, 2005]{Wu05}
+Wu, W.~B. (2005).
+\newblock Nonlinear system theory: another look at dependence.
+\newblock {\em Proceedings of the National Academy of Sciences of the United
+  States of America}, 102(40):14150--14154.
+
+\bibitem[Wu and Wu, 2016]{wu2016performance}
+Wu, W.-B. and Wu, Y.~N. (2016).
+\newblock Performance bounds for parameter estimates of high-dimensional linear
+  models with correlated errors.
+\newblock {\em Electronic Journal of Statistics}, 10(1):352--379.
+
+\bibitem[Xu et~al., 2024]{xu2022change}
+Xu, H., Wang, D., Zhao, Z., and Yu, Y. (2024).
+\newblock Change-point inference in high-dimensional regression models under
+  temporal dependence.
+\newblock {\em The Annals of Statistics}, 52(3):999--1026.
+
+\bibitem[Yuan et~al., 2017]{yuan2017differential}
+Yuan, H., Xi, R., Chen, C., and Deng, M. (2017).
+\newblock {Differential network analysis via Lasso penalized D-trace loss}.
+\newblock {\em Biometrika}, 104(4):755--770.
+
+\bibitem[Zhang and Zhang, 2014]{zhang2014confidence}
+Zhang, C.-H. and Zhang, S.~S. (2014).
+\newblock Confidence intervals for low dimensional parameters in high
+  dimensional linear models.
+\newblock {\em Journal of the Royal Statistical Society Series B: Statistical
+  Methodology}, 76(1):217--242.
+
+\bibitem[Zhang and Wu, 2017]{zhang2017gaussian}
+Zhang, D. and Wu, W.~B. (2017).
+\newblock Gaussian approximation for high dimensional time series.
+\newblock {\em The Annals of Statistics}, 45(5):1895--1919.
+
+\bibitem[Zhang and Wu, 2021]{zhang2021convergence}
+Zhang, D. and Wu, W.~B. (2021).
+\newblock Convergence of covariance and spectral density estimates for
+  high-dimensional locally stationary processes.
+\newblock {\em The Annals of Statistics}, 49(1):233--254.
+
+\bibitem[Zhao et~al., 2014]{zhao2014direct}
+Zhao, S.~D., Cai, T.~T., and Li, H. (2014).
+\newblock Direct estimation of differential networks.
+\newblock {\em Biometrika}, 101(2):253--268.
+
+\end{thebibliography}

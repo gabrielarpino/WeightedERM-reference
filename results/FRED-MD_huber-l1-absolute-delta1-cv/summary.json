@@ -1,0 +1,711 @@
+{
+  "notebook": "FRED-MD Huber L1 Delta1 CV.ipynb",
+  "loss_contract": {
+    "segmentation": "Huber epsilon 1.35",
+    "hard_segment_refits": "Huber epsilon 1.35",
+    "heldout_scoring_only": "absolute_loss"
+  },
+  "absolute_delta_n": 1,
+  "constants": [
+    0.15,
+    0.3,
+    0.5,
+    0.75,
+    1.0,
+    2.0
+  ],
+  "segment_counts": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "records": [
+    {
+      "loss": "Huber-eps1.35",
+      "penalty_norm": "l1",
+      "absolute_delta_n": 1,
+      "num_folds": 2,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.15,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "selected_cv_mean": 0.5384892550038032,
+      "best_zero_cp_cv_mean": 0.5384892550038032,
+      "relative_improvement_vs_zero_pct": 0.0,
+      "candidate_scores": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 416.2521941179399,
+          "cv_mean": 0.5384892550038032
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 436.65684852492154,
+          "cv_mean": 0.5648859618692388
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 453.1892135729828,
+          "cv_mean": 0.5862732387748807
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 455.869476898181,
+          "cv_mean": 0.5897405910713855
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 455.6708968876884,
+          "cv_mean": 0.5894836958443576
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 2.0,
+          "cv_total": 455.40950415735324,
+          "cv_mean": 0.5891455422475462
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 416.5534726581236,
+          "cv_mean": 0.5388790073196942
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 424.53988152942566,
+          "cv_mean": 0.5492107134921419
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 441.47028790525735,
+          "cv_mean": 0.5711129209641104
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 449.8773766262564,
+          "cv_mean": 0.5819888442771752
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 448.97842285507295,
+          "cv_mean": 0.580825902787934
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 2.0,
+          "cv_total": 452.9226856635282,
+          "cv_mean": 0.5859284419968024
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 430.6346440326975,
+          "cv_mean": 0.5570952704174612
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 417.5602679555467,
+          "cv_mean": 0.5401814591921691
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 438.56861896904456,
+          "cv_mean": 0.567359144849993
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 445.47158377468156,
+          "cv_mean": 0.5762892416231327
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 447.6848342367498,
+          "cv_mean": 0.5791524375637125
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 2.0,
+          "cv_total": 453.54534966576824,
+          "cv_mean": 0.5867339581704635
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 453.24831358288213,
+          "cv_mean": 0.5863496941563805
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 424.0301543218586,
+          "cv_mean": 0.548551299252081
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 438.28379668140326,
+          "cv_mean": 0.5669906813472229
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 440.5598094932892,
+          "cv_mean": 0.5699350704958464
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 449.09670718891044,
+          "cv_mean": 0.5809789226247224
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 2.0,
+          "cv_total": 452.863463911684,
+          "cv_mean": 0.585851829122489
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 451.03629712119675,
+          "cv_mean": 0.5834880945940449
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 421.3971820099807,
+          "cv_mean": 0.5451451254980346
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 436.1855278502187,
+          "cv_mean": 0.5642762326652248
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 441.23045463262815,
+          "cv_mean": 0.5708026579982253
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 450.8620162698902,
+          "cv_mean": 0.5832626342430662
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 2.0,
+          "cv_total": 453.68779161678276,
+          "cv_mean": 0.5869182297759156
+        }
+      ],
+      "elapsed_seconds": 37.075855791568756
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "penalty_norm": "l1",
+      "absolute_delta_n": 1,
+      "num_folds": 3,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.15,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "selected_cv_mean": 0.5418964971058721,
+      "best_zero_cp_cv_mean": 0.5418964971058721,
+      "relative_improvement_vs_zero_pct": 0.0,
+      "candidate_scores": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 418.88599226283907,
+          "cv_mean": 0.5418964971058721
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 433.1897832384645,
+          "cv_mean": 0.5604007545128906
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 449.790184347695,
+          "cv_mean": 0.5818760470215977
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 454.1028630835916,
+          "cv_mean": 0.5874551915699762
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 454.92262833394165,
+          "cv_mean": 0.5885156899533527
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 2.0,
+          "cv_total": 455.1040299551709,
+          "cv_mean": 0.5887503621671034
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 436.0317738251424,
+          "cv_mean": 0.5640773270700419
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 435.87004597892707,
+          "cv_mean": 0.5638681060529458
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 444.9986672616069,
+          "cv_mean": 0.5756774479451577
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 451.51863848265714,
+          "cv_mean": 0.5841120808313806
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 451.3101024290153,
+          "cv_mean": 0.5838423058590108
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 2.0,
+          "cv_total": 455.8256893046579,
+          "cv_mean": 0.5896839447666984
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 452.89509095331755,
+          "cv_mean": 0.5858927437947187
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 455.468439219801,
+          "cv_mean": 0.5892217842429508
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 446.76915320183446,
+          "cv_mean": 0.5779678566647276
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 449.1291851458815,
+          "cv_mean": 0.5810209380929903
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 451.9576912779657,
+          "cv_mean": 0.5846800663363075
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 2.0,
+          "cv_total": 456.01187800893786,
+          "cv_mean": 0.5899248098433866
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 463.39626172356816,
+          "cv_mean": 0.5994776995130248
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 449.0604594241571,
+          "cv_mean": 0.58093203030292
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 452.13677564028785,
+          "cv_mean": 0.5849117408024422
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 452.7127511966348,
+          "cv_mean": 0.5856568579516621
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 452.1353444918142,
+          "cv_mean": 0.5849098893813897
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 2.0,
+          "cv_total": 456.43015527510653,
+          "cv_mean": 0.5904659188552478
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 466.2557159918263,
+          "cv_mean": 0.6031768641550146
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 446.75343200311625,
+          "cv_mean": 0.5779475187621167
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 453.2387157017689,
+          "cv_mean": 0.5863372777513182
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 453.49318966018336,
+          "cv_mean": 0.5866664808023071
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 454.61077174261345,
+          "cv_mean": 0.5881122532245969
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 2.0,
+          "cv_total": 455.96214286787216,
+          "cv_mean": 0.5898604694280364
+        }
+      ],
+      "elapsed_seconds": 49.76534000504762
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "penalty_norm": "l1",
+      "absolute_delta_n": 1,
+      "num_folds": 5,
+      "selected_segments": 2,
+      "selected_change_points": 1,
+      "selected_constant": 0.15,
+      "estimated_change_points": [
+        435
+      ],
+      "estimated_dates": [
+        "1996-04"
+      ],
+      "selected_cv_mean": 0.5278472912660876,
+      "best_zero_cp_cv_mean": 0.5287148694208456,
+      "relative_improvement_vs_zero_pct": 0.1640918772926185,
+      "candidate_scores": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 408.69659406231364,
+          "cv_mean": 0.5287148694208456
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 425.06263649918924,
+          "cv_mean": 0.5498869812408658
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 449.371215901625,
+          "cv_mean": 0.5813340438572122
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 453.6224136494909,
+          "cv_mean": 0.5868336528453958
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 455.0385282456982,
+          "cv_mean": 0.5886656251561426
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 2.0,
+          "cv_total": 455.0052172934762,
+          "cv_mean": 0.5886225320743548
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 408.0259561486858,
+          "cv_mean": 0.5278472912660876
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 411.56975882958955,
+          "cv_mean": 0.5324317708015389
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 439.4236980014338,
+          "cv_mean": 0.5684653272981033
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 446.9694624135374,
+          "cv_mean": 0.5782269888920277
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 451.8388341313392,
+          "cv_mean": 0.5845263054739187
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 2.0,
+          "cv_total": 454.58933060148564,
+          "cv_mean": 0.5880845156552208
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 419.3921825530376,
+          "cv_mean": 0.542551335773658
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 419.9189548236936,
+          "cv_mean": 0.5432328005481158
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 430.4542869203848,
+          "cv_mean": 0.5568619494442235
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 441.826764571951,
+          "cv_mean": 0.5715740809468965
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 446.1726480447668,
+          "cv_mean": 0.5771961811704616
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 2.0,
+          "cv_total": 453.8178373361602,
+          "cv_mean": 0.5870864648591982
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 424.93158935173693,
+          "cv_mean": 0.5497174506490775
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 423.5444295018042,
+          "cv_mean": 0.5479229359661115
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 431.1267391716508,
+          "cv_mean": 0.5577318747369351
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 443.7472052407812,
+          "cv_mean": 0.5740584802597428
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 445.04726025461855,
+          "cv_mean": 0.5757403108080447
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 2.0,
+          "cv_total": 452.93219617377594,
+          "cv_mean": 0.5859407453735782
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 440.5414266278956,
+          "cv_mean": 0.5699112892987006
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 426.33902993108813,
+          "cv_mean": 0.5515382017219769
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 433.25920230393433,
+          "cv_mean": 0.5604905592547663
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 441.42873072348226,
+          "cv_mean": 0.5710591600562513
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 444.61837609148824,
+          "cv_mean": 0.5751854800666083
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 2.0,
+          "cv_total": 452.40619055539474,
+          "cv_mean": 0.5852602723873154
+        }
+      ],
+      "elapsed_seconds": 79.5152835296467
+    }
+  ]
+}

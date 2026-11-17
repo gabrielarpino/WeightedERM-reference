@@ -1,0 +1,44 @@
+{
+  "1": {
+    "trials": 100,
+    "correct_count": 0,
+    "empty": 100,
+    "median_haus": null,
+    "mean_haus": null
+  },
+  "2": {
+    "trials": 100,
+    "correct_count": 0,
+    "empty": 0,
+    "median_haus": 0.301,
+    "mean_haus": 0.30330999999999997
+  },
+  "3": {
+    "trials": 100,
+    "correct_count": 0,
+    "empty": 0,
+    "median_haus": 0.3,
+    "mean_haus": 0.27305
+  },
+  "4": {
+    "trials": 100,
+    "correct_count": 99,
+    "empty": 0,
+    "median_haus": 0.004,
+    "mean_haus": 0.012060000000000001
+  },
+  "5": {
+    "trials": 100,
+    "correct_count": 99,
+    "empty": 0,
+    "median_haus": 0.004,
+    "mean_haus": 0.00962
+  },
+  "6": {
+    "trials": 100,
+    "correct_count": 99,
+    "empty": 0,
+    "median_haus": 0.004,
+    "mean_haus": 0.00987
+  }
+}

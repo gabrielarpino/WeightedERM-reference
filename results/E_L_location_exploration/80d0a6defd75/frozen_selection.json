@@ -1,0 +1,15 @@
+{
+  "choices": {
+    "2": [
+      0.3,
+      0.45
+    ],
+    "3": [
+      0.15,
+      0.3,
+      0.6
+    ]
+  },
+  "selection": "Within each true count: minimum empirical mean absolute count error over L > Lstar; then maximum exact-count frequency; then minimum conditional Hausdorff error; then lexicographic locations. Pilot only.",
+  "gamma": 6.0
+}

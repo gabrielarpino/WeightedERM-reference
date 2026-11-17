@@ -1,0 +1,44 @@
+{
+  "M2": {
+    "notebook": "M2_upsample_final.ipynb",
+    "embedded_plots": 14,
+    "included_plots": 14,
+    "source_files": 2
+  },
+  "M1": {
+    "notebook": "M1_upsample_final.ipynb",
+    "embedded_plots": 37,
+    "included_plots": 37,
+    "source_files": 4
+  },
+  "M3": {
+    "notebook": "M3_upsample_final.ipynb",
+    "embedded_plots": 14,
+    "included_plots": 7,
+    "source_files": 2
+  },
+  "Myocardial": {
+    "notebook": "Myocardial Infarction Experiment - final_final.ipynb",
+    "embedded_plots": 6,
+    "included_plots": 2,
+    "source_files": 75
+  },
+  "E_L_upper_bound": {
+    "notebook": "E_L_upper_bound.ipynb",
+    "embedded_plots": 6,
+    "included_plots": 6,
+    "source_files": 1
+  },
+  "E_PRIOR": {
+    "notebook": "E_PRIOR_misspecified_prior.ipynb",
+    "embedded_plots": 7,
+    "included_plots": 7,
+    "source_files": 1
+  },
+  "E_search_penalty_M3": {
+    "notebook": "E_search_penalty.ipynb",
+    "embedded_plots": 6,
+    "included_plots": 6,
+    "source_files": 1
+  }
+}

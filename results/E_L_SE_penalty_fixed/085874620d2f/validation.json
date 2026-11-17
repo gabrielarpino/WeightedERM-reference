@@ -1,0 +1,18 @@
+{
+  "trials": 100,
+  "empirical_fits": 1100,
+  "theory_realizations": 22000,
+  "max_residuals": {
+    "b_residual": 1.7763568394002505e-15,
+    "bias_residual": 2.5166065559595396e-14,
+    "covariance_residual": 9.763949399686121e-17
+  },
+  "minimum_covariance_eigenvalue": 0.01154664377989517,
+  "source_hashes_verified": true,
+  "tests_passed": 11,
+  "original_cells_preserved": 9,
+  "notebook_errors": [],
+  "embedded_figures": 10,
+  "figure_source_hashes_verified": true,
+  "histogram_se_realizations_per_setting": 100
+}

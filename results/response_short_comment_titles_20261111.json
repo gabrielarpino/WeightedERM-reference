@@ -1,0 +1,24 @@
+{
+  "scope": [
+    {
+      "base": "/tmp/werm-linear-model-upload-vlqbplnm",
+      "removed_titles": 17,
+      "quoted_comments_unchanged": true,
+      "only_titles_numbering_and_resolved_comment_changed": true,
+      "outside_scope_sha256": "c796662393416beeb93941cee6f707218ca208e8709b25bf32275137b97e40a8"
+    },
+    {
+      "base": "/scratch/ga442/gab-code-env/papers/WERM-paper",
+      "removed_titles": 17,
+      "quoted_comments_unchanged": true,
+      "only_titles_numbering_and_resolved_comment_changed": true,
+      "outside_scope_sha256": "097242a0712415e770c1859ecb534fa9cba7109df24f770d9c60f7f935ca395e"
+    }
+  ],
+  "build_directory": "/tmp/response-short-comments-n6k7y6lt",
+  "build_success": true,
+  "preview": "/tmp/response-short-comments-n6k7y6lt/numbered_comments_preview.png",
+  "preview_page": 8,
+  "overleaf_commit": "9b969ec08abc4f08c9b3b2cfb6eb5a3cff1363b2",
+  "exact_scope_verified": true
+}

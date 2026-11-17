@@ -1,0 +1,13 @@
+{
+  "state": "complete",
+  "completed": 1700,
+  "total": 1700,
+  "completed_by_experiment": {
+    "alpha03": 900,
+    "alpha10": 800
+  },
+  "n_jobs": 36,
+  "pid": 203268,
+  "elapsed_seconds": 0.0639042854309082,
+  "updated": 1788319749.4471502
+}

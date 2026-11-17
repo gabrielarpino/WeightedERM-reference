@@ -13,7 +13,7 @@ def build():
 This is a **new raw-data analysis**, not a replot of the archived fit. The original notebook,
 gold-standard figure, and previous sensitivity results remain unchanged. The specification is
 the paragraph “Estimating the signal strength matrix” in
-`../WERM-paper/JRSSB-revision-rebuttal/JRSSB_v2.tex`, equations
+`../WERM-paper/JRSSB-revision-rebuttal/JRSSB_revision.tex`, equations
 `b-fp-implicit` through `cross-cov-fp-implicit` and `theta-deb-fp-eqn`.
 The full mathematical derivation and legacy-code audit are in
 `docs/myocardial_signal_strength_audit.md`.
@@ -74,7 +74,7 @@ np.testing.assert_allclose(prior[1:].sum(),.5)
 np.testing.assert_allclose(phi.sum(axis=0),1)
 provenance=dict(raw_sha256=hashlib.sha256(raw_path.read_bytes()).hexdigest(),
                 solver_sha256=hashlib.sha256(Path('WERM/signal_strength.py').read_bytes()).hexdigest(),
-                paper_sha256=hashlib.sha256(Path('../WERM-paper/JRSSB-revision-rebuttal/JRSSB_v2.tex').read_bytes()).hexdigest(),
+                paper_sha256=hashlib.sha256(Path('../WERM-paper/JRSSB-revision-rebuttal/JRSSB_revision.tex').read_bytes()).hexdigest(),
                 n=n,p=p,prior='half null, half uniform over 61 age splits',float_dtype='float64')
 fingerprint=hashlib.sha256(json.dumps(provenance,sort_keys=True).encode()).hexdigest()[:16]
 output=Path('results')/('myocardial_fresh_rho_audit_'+fingerprint)

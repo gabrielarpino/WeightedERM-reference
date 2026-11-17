@@ -24,6 +24,18 @@ converter = default_converter + rpy2.robjects.numpy2ri.converter
 chgpts = importr('changepoints')
 inferchange_package = importr('inferchange') # McScan is a part of inferchange: https://github.com/tobiaskley/inferchange
 moseg_package = importr('moseg') # MOSEG package. 
+_moseg_native_serial = ro.r('''local({
+    # The experiment parallelizes trials. Native moseg normally starts a
+    # one-worker socket cluster even with ncores=1. Use the identical function
+    # body with a scoped sequential foreach backend instead.
+    f <- moseg::moseg
+    e <- new.env(parent=environment(f))
+    e$makeCluster <- function(...) NULL
+    e$registerDoParallel <- function(...) foreach::registerDoSEQ()
+    e$stopCluster <- function(...) invisible(NULL)
+    environment(f) <- e
+    f
+})''')
 import WERM.DCDP_utils as DCDP_utils
 
 
@@ -191,7 +203,7 @@ def MOSEG(X_unit, Y_unit, num_chgpts=None, ms=False, debug=False):
 
             if num_chgpts is not None:
                 if not ms:
-                    return moseg_package.moseg(
+                    return _moseg_native_serial(
                         X_unit,
                         Y_unit,
                         n_cps=num_chgpts,
@@ -435,7 +447,7 @@ def run_charcoal_updated(X_unit, Y_unit, σ, η_true):
             # print(f"charcoal.not_cpreg call successful. Result type: {type(charcoal_res)}") # Commenting out
             # print(f"charcoal_res content: {charcoal_res}") # Commenting out
 
-        except rpy2.rinterface.RRuntimeError as e:
+        except rpy2.rinterface_lib.embedded.RRuntimeError as e:
             print(f"R runtime error during charcoal.not_cpreg call: {e}")
             print("This could indicate issues with input types, R function internal errors, etc.")
             return default_cp, default_haus # Return default on R runtime error
@@ -506,6 +518,8 @@ def run_charcoal_updated(X_unit, Y_unit, σ, η_true):
         return final_cp_est, haus
 
 _CHARCOAL_THRESH_CACHE = {}
+CHARCOAL_THRESHOLD = 10.0
+CHARCOAL_SEED = 42
 
 
 def _get_charcoal_threshold(n, p):
@@ -531,19 +545,30 @@ def _get_charcoal_threshold(n, p):
     return _CHARCOAL_THRESH_CACHE[key]
 
 
-def run_charcoal(X_unit, Y_unit, σ, η_true):
-    """Run charcoal with its Bonferroni-adjusted package-default threshold."""
-    del σ, η_true  # kept in the public signature for legacy call compatibility
+def run_charcoal(X_unit, Y_unit):
+    """Run charcoal without oracle inputs, using its documented fixed threshold.
+
+    The charcoal help page demonstrates ``not_cpreg(..., thresh=10)``.  This
+    avoids the very unstable GEV extrapolation used when ``alpha * permSize <
+    1`` (the previous one-shot cache produced thresholds from about 20 to 43
+    for this experiment).  Omitting ``sigma`` deliberately leaves scale
+    estimation to charcoal rather than leaking the simulation noise level.
+    A fixed interval seed makes reruns reproducible without depending on the
+    true changepoints or any other DGP parameter.
+    """
     n, p = X_unit.shape
     assert len(Y_unit) == n
     if n <= p:
         # Complementary sketching requires n > p: this is not an empty estimate.
         return None
 
-    threshold = _get_charcoal_threshold(n, p)
     with conversion.localconverter(converter):
         result = charcoal.not_cpreg(
-            X_unit, Y_unit, thresh=threshold, verbose=False
+            X_unit,
+            Y_unit,
+            thresh=CHARCOAL_THRESHOLD,
+            verbose=False,
+            seed=CHARCOAL_SEED,
         )
 
     if result is ro.NULL:

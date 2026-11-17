@@ -1,0 +1,9 @@
+{
+  "state": "complete",
+  "completed": 80,
+  "total": 80,
+  "n_jobs": 36,
+  "elapsed_seconds": 328.114408493042,
+  "result_file": "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/results/M1_upsample_redo2_fista_10trials/results.pkl",
+  "updated": 1788278091.957182
+}

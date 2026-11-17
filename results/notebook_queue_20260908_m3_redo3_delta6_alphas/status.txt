@@ -1,0 +1,1 @@
+running pid=338443 started_at=2026-09-08T02:06:56+01:00 order=alpha0.1,alpha0.3 trials=100 jobs=36

@@ -1,0 +1,648 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/E_L_SE_penalty_fixed/085874620d2f/study.pkl": "2e936857b590ac0761371e8a419d9dd1298deb9a90de51f3e81e2a5ee4c3976c"
+  },
+  "figures": [
+    {
+      "name": "penalty_haus_line",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.1977752400091184,
+            0.7613314600007999,
+            0.7497247599908816
+          ],
+          "xlabel": "Upper bound $L$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            0.0845,
+            0.3155
+          ]
+        }
+      ]
+    },
+    {
+      "name": "penalty_haus_box",
+      "description": "",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "Upper bound $L$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.018400000000000003,
+            0.4524
+          ]
+        }
+      ]
+    },
+    {
+      "name": "penalty_count_line",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.1977752400091184,
+            0.8152504085563468,
+            0.7497247599908816
+          ],
+          "xlabel": "Upper bound $L$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            -0.25,
+            5.25
+          ]
+        }
+      ]
+    },
+    {
+      "name": "penalty_count_box",
+      "description": "",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "Upper bound $L$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            -0.25,
+            5.25
+          ]
+        }
+      ]
+    },
+    {
+      "name": "penalty_histograms",
+      "description": "Change-point location histograms: canonical M1 bins, KDE, ticks and layout.",
+      "size_inches": [
+        4.99092003252585,
+        11.995851390618515
+      ],
+      "canvas_inches": [
+        5.0,
+        13.200000000000001
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.125,
+            0.7596875,
+            0.378048780487805,
+            0.12031250000000004
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{WERM}",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.7596875,
+            0.378048780487805,
+            0.12031250000000004
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{SE prediction}",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.62975,
+            0.378048780487805,
+            0.12031249999999993
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.62975,
+            0.378048780487805,
+            0.12031249999999993
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.4998125,
+            0.378048780487805,
+            0.12031250000000004
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.4998125,
+            0.378048780487805,
+            0.12031250000000004
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.36987499999999995,
+            0.378048780487805,
+            0.12031250000000004
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.36987499999999995,
+            0.378048780487805,
+            0.12031250000000004
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.23993749999999991,
+            0.378048780487805,
+            0.12031250000000004
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.23993749999999991,
+            0.378048780487805,
+            0.12031250000000004
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.10999999999999988,
+            0.378048780487805,
+            0.12031250000000004
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.10999999999999988,
+            0.378048780487805,
+            0.12031250000000004
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fixed_haus_line",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.1977752400091184,
+            0.7613314600007999,
+            0.7497247599908816
+          ],
+          "xlabel": "Assumed number of change points",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.0131,
+            0.3191
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fixed_haus_box",
+      "description": "",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "Assumed number of change points",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.0185,
+            0.3885
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fixed_count_line",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.1977752400091184,
+            0.8152504085563468,
+            0.7497247599908816
+          ],
+          "xlabel": "Assumed number of change points",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            0.0,
+            5.2
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fixed_count_box",
+      "description": "",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "Assumed number of change points",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            0.0,
+            5.2
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fixed_histograms",
+      "description": "Change-point location histograms: canonical M1 bins, KDE, ticks and layout.",
+      "size_inches": [
+        4.99092003252585,
+        10.081851390618514
+      ],
+      "canvas_inches": [
+        5.0,
+        11.0
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.125,
+            0.7352631578947368,
+            0.378048780487805,
+            0.14473684210526316
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{WERM}",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.7352631578947368,
+            0.378048780487805,
+            0.14473684210526316
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{SE prediction}",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.5789473684210527,
+            0.378048780487805,
+            0.14473684210526316
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.5789473684210527,
+            0.378048780487805,
+            0.14473684210526316
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.4226315789473684,
+            0.378048780487805,
+            0.1447368421052631
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.4226315789473684,
+            0.378048780487805,
+            0.1447368421052631
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.2663157894736842,
+            0.378048780487805,
+            0.14473684210526316
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.2663157894736842,
+            0.378048780487805,
+            0.14473684210526316
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.10999999999999999,
+            0.378048780487805,
+            0.14473684210526316
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.10999999999999999,
+            0.378048780487805,
+            0.14473684210526316
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,287 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/M2_CV_theory_convergence/p200_6961bbb9765c/results.pkl": "36cf40a584f19fa5939bc1e92ffb6de24070e9c17c42f688d300c3655cc8fffd",
+    "results/E-WERM-CV-theory/ed5fc8b279bb/results.pkl": "8ac99031d1af563a2565307af0c00529b5f4607f08e284703bb708c62cc1c2c7"
+  },
+  "figures": [
+    {
+      "name": "M2_count_match",
+      "description": "",
+      "size_inches": [
+        4.78,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.20468978128080895,
+            0.8152504085563468,
+            0.7428102187191911
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            0.0,
+            3.1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_haus_match",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.20468978128080895,
+            0.7613314600007999,
+            0.7428102187191911
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            0.013196047008547013,
+            0.3130753205128205
+          ]
+        }
+      ]
+    },
+    {
+      "name": "EL_count_match",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.7800000000000007
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.1977752400091184,
+            0.8152504085563468,
+            0.7329090022658089
+          ],
+          "xlabel": "Upper bound $L$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            -0.15000000000000002,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "EL_haus_match",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.1977752400091184,
+            0.7613314600007999,
+            0.7497247599908816
+          ],
+          "xlabel": "Upper bound $L$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.014645833333333334,
+            0.3167291666666667
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_scores_9",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1912234304598857,
+            0.1977752400091184,
+            0.7667765695401143,
+            0.6952599112074026
+          ],
+          "xlabel": "Candidate segments $k$",
+          "ylabel": "Absolute prediction error",
+          "title": "$\\delta=9$",
+          "ylim": [
+            0.3465852295329884,
+            0.47810543101656816
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_scores_11",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1912234304598857,
+            0.1977752400091184,
+            0.7667765695401143,
+            0.6952599112074026
+          ],
+          "xlabel": "Candidate segments $k$",
+          "ylabel": "Absolute prediction error",
+          "title": "$\\delta=11$",
+          "ylim": [
+            0.3201324664917466,
+            0.4421170430544085
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_scores_13",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1912234304598857,
+            0.1977752400091184,
+            0.7667765695401143,
+            0.6952599112074026
+          ],
+          "xlabel": "Candidate segments $k$",
+          "ylabel": "Absolute prediction error",
+          "title": "$\\delta=13$",
+          "ylim": [
+            0.3028520738956197,
+            0.41507892177288985
+          ]
+        }
+      ]
+    },
+    {
+      "name": "EL_scores_6",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1722554064970121,
+            0.1977752400091184,
+            0.7857445935029879,
+            0.7497247599908816
+          ],
+          "xlabel": "Candidate segments $k$",
+          "ylabel": "Absolute prediction error",
+          "title": "",
+          "ylim": [
+            0.47492597087521815,
+            1.0589622273603025
+          ]
+        }
+      ]
+    }
+  ]
+}

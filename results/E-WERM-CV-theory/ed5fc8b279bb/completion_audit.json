@@ -1,0 +1,14 @@
+{
+  "paired_trials": 400,
+  "settings": 4,
+  "trials_per_setting": 100,
+  "features": 200,
+  "min_empirical_segment_ratio": 1.2,
+  "min_theory_segment_ratio": 1.2,
+  "min_weight_positive_support_over_p": 4.5,
+  "max_se_residual": 3.59652220280077e-14,
+  "tests_passed": 21,
+  "figures": 8,
+  "notebook_errors": 0,
+  "source_hashes_verified": true
+}

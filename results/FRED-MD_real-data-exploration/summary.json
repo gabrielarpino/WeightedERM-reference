@@ -1,0 +1,6526 @@
+{
+  "created_by": "FRED-MD Real Data Exploration.ipynb",
+  "data_audit": {
+    "shape_X": [
+      773,
+      114
+    ],
+    "shape_y": [
+      773
+    ],
+    "date_start": "1960-01",
+    "date_end": "2024-05",
+    "data_hash": "0ea49ecc65b741d7217c33fce81b65f6",
+    "X_mean_range": [
+      -0.015170381327519805,
+      0.0182312819330829
+    ],
+    "X_sd_range": [
+      0.14476043306001327,
+      0.9978302666767077
+    ],
+    "y_mean": 0.006442646735010434,
+    "y_sd": 0.8802417809473347,
+    "y_min": -7.487977070249328,
+    "y_max": 6.428431267206046,
+    "reference_indices": {
+      "McScan": [
+        169,
+        604,
+        712
+      ],
+      "DPDU_different_window": [
+        581,
+        720
+      ]
+    }
+  },
+  "reference_protocol": {
+    "McScan_dates": [
+      "1974-02",
+      "2010-05",
+      "2019-05"
+    ],
+    "DPDU_dates_different_window": [
+      "2008-06",
+      "2020-01"
+    ],
+    "primary_fold_scheme": "odd/even interlaced",
+    "primary_refit_rule": "same loss as WERM fitting loss",
+    "primary_score_rule": "absolute loss only on held-out predictions"
+  },
+  "primary_results": [
+    {
+      "loss": "least-squares",
+      "refit_loss": "squared_loss",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "l1",
+      "constants": [
+        0.15,
+        0.3,
+        0.5,
+        0.75,
+        1.0,
+        2.0
+      ],
+      "delta_fraction": 0.025,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 2,
+      "selected_change_points": 1,
+      "selected_constant": 0.5,
+      "estimated_change_points": [
+        528
+      ],
+      "estimated_dates": [
+        "2004-01"
+      ],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 423.9405885759573,
+          "cv_mean": 0.5484354315342268,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 425.63802212425037,
+          "cv_mean": 0.5506313352189526,
+          "difference_from_best_1_segment": 0.0021959036847258432,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 430.0973078551832,
+          "cv_mean": 0.5564001395280507,
+          "difference_from_best_1_segment": 0.007964707993823946,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 437.5618430616779,
+          "cv_mean": 0.566056718061679,
+          "difference_from_best_1_segment": 0.01762128652745228,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 442.96259516878115,
+          "cv_mean": 0.5730434607616832,
+          "difference_from_best_1_segment": 0.024608029227456477,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 2.0,
+          "cv_total": 455.0002810296643,
+          "cv_mean": 0.5886161462220754,
+          "difference_from_best_1_segment": 0.040180714687848625,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 442.3908750953441,
+          "cv_mean": 0.5723038487649988,
+          "difference_from_best_1_segment": 0.023868417230772047,
+          "fold_change_points": [
+            [
+              385
+            ],
+            [
+              266
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 428.15692001901846,
+          "cv_mean": 0.5538899353415504,
+          "difference_from_best_1_segment": 0.005454503807323628,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              266
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 418.8827818583567,
+          "cv_mean": 0.5418923439306037,
+          "difference_from_best_1_segment": -0.006543087603623044,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              260
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 423.5337774690071,
+          "cv_mean": 0.5479091558460635,
+          "difference_from_best_1_segment": -0.0005262756881632796,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              256
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 435.3943556306398,
+          "cv_mean": 0.5632527239723671,
+          "difference_from_best_1_segment": 0.014817292438140346,
+          "fold_change_points": [
+            [
+              499
+            ],
+            [
+              112
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 2.0,
+          "cv_total": 448.8446655190372,
+          "cv_mean": 0.5806528661307079,
+          "difference_from_best_1_segment": 0.03221743459648115,
+          "fold_change_points": [
+            [
+              435
+            ],
+            [
+              220
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 469.8466978006652,
+          "cv_mean": 0.6078223774911581,
+          "difference_from_best_1_segment": 0.059386945956931315,
+          "fold_change_points": [
+            [
+              207,
+              547
+            ],
+            [
+              220,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 447.19522266747674,
+          "cv_mean": 0.5785190461416257,
+          "difference_from_best_1_segment": 0.03008361460739903,
+          "fold_change_points": [
+            [
+              209,
+              523
+            ],
+            [
+              266,
+              532
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 436.8390187983441,
+          "cv_mean": 0.5651216284584012,
+          "difference_from_best_1_segment": 0.016686196924174414,
+          "fold_change_points": [
+            [
+              271,
+              523
+            ],
+            [
+              220,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 432.8333254616052,
+          "cv_mean": 0.5599396189671477,
+          "difference_from_best_1_segment": 0.011504187432921002,
+          "fold_change_points": [
+            [
+              281,
+              493
+            ],
+            [
+              126,
+              528
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 428.5386922510205,
+          "cv_mean": 0.5543838192121869,
+          "difference_from_best_1_segment": 0.0059483876779601735,
+          "fold_change_points": [
+            [
+              287,
+              493
+            ],
+            [
+              98,
+              118
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 2.0,
+          "cv_total": 444.82527059261884,
+          "cv_mean": 0.5754531314264151,
+          "difference_from_best_1_segment": 0.027017699892188284,
+          "fold_change_points": [
+            [
+              287,
+              495
+            ],
+            [
+              244,
+              610
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 474.2460138825944,
+          "cv_mean": 0.6135136014005103,
+          "difference_from_best_1_segment": 0.06507816986628347,
+          "fold_change_points": [
+            [
+              181,
+              435,
+              665
+            ],
+            [
+              220,
+              276,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 457.68811639637363,
+          "cv_mean": 0.5920932941738339,
+          "difference_from_best_1_segment": 0.043657862639607165,
+          "fold_change_points": [
+            [
+              181,
+              497,
+              665
+            ],
+            [
+              170,
+              344,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 438.76483957229107,
+          "cv_mean": 0.56761298780374,
+          "difference_from_best_1_segment": 0.019177556269513292,
+          "fold_change_points": [
+            [
+              179,
+              499,
+              665
+            ],
+            [
+              120,
+              346,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 438.5113236196888,
+          "cv_mean": 0.5672850240875664,
+          "difference_from_best_1_segment": 0.018849592553339626,
+          "fold_change_points": [
+            [
+              129,
+              501,
+              523
+            ],
+            [
+              128,
+              522,
+              544
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 437.6337739374742,
+          "cv_mean": 0.5661497722347661,
+          "difference_from_best_1_segment": 0.017714340700539323,
+          "fold_change_points": [
+            [
+              203,
+              435,
+              493
+            ],
+            [
+              130,
+              156,
+              174
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 2.0,
+          "cv_total": 441.180749889798,
+          "cv_mean": 0.5707383569078888,
+          "difference_from_best_1_segment": 0.022302925373661967,
+          "fold_change_points": [
+            [
+              287,
+              313,
+              603
+            ],
+            [
+              130,
+              236,
+              670
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 514.4556996339678,
+          "cv_mean": 0.6655313061241498,
+          "difference_from_best_1_segment": 0.11709587458992306,
+          "fold_change_points": [
+            [
+              181,
+              385,
+              497,
+              665
+            ],
+            [
+              114,
+              276,
+              510,
+              624
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 477.7458953370183,
+          "cv_mean": 0.6180412617555218,
+          "difference_from_best_1_segment": 0.06960583022129495,
+          "fold_change_points": [
+            [
+              181,
+              417,
+              523,
+              571
+            ],
+            [
+              114,
+              276,
+              346,
+              618
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 430.2425630130884,
+          "cv_mean": 0.5565880504697133,
+          "difference_from_best_1_segment": 0.008152618935486538,
+          "fold_change_points": [
+            [
+              143,
+              467,
+              501,
+              665
+            ],
+            [
+              114,
+              364,
+              436,
+              634
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 423.8689656851799,
+          "cv_mean": 0.548342775789366,
+          "difference_from_best_1_segment": -9.265574486080886e-05,
+          "fold_change_points": [
+            [
+              143,
+              467,
+              501,
+              665
+            ],
+            [
+              128,
+              294,
+              368,
+              634
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 445.18814237079744,
+          "cv_mean": 0.5759225645159087,
+          "difference_from_best_1_segment": 0.027487132981681945,
+          "fold_change_points": [
+            [
+              143,
+              435,
+              499,
+              591
+            ],
+            [
+              100,
+              138,
+              156,
+              174
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 2.0,
+          "cv_total": 438.9264834708217,
+          "cv_mean": 0.5678221002209854,
+          "difference_from_best_1_segment": 0.019386668686758642,
+          "fold_change_points": [
+            [
+              287,
+              313,
+              457,
+              663
+            ],
+            [
+              130,
+              220,
+              244,
+              670
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 56.50603743363172
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "refit_loss": "huber",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "l1",
+      "constants": [
+        0.15,
+        0.3,
+        0.5,
+        0.75,
+        1.0,
+        2.0
+      ],
+      "delta_fraction": 0.025,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 4,
+      "selected_change_points": 3,
+      "selected_constant": 0.3,
+      "estimated_change_points": [
+        154,
+        593,
+        613
+      ],
+      "estimated_dates": [
+        "1972-11",
+        "2009-06",
+        "2011-02"
+      ],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 416.1758170080477,
+          "cv_mean": 0.5383904489107991,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 436.6594561047634,
+          "cv_mean": 0.5648893351937431,
+          "difference_from_best_1_segment": 0.02649888628294399,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 453.23324881252984,
+          "cv_mean": 0.5863302054495858,
+          "difference_from_best_1_segment": 0.0479397565387867,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 455.87813965273006,
+          "cv_mean": 0.5897517977396249,
+          "difference_from_best_1_segment": 0.051361348828825794,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 455.67339690308927,
+          "cv_mean": 0.5894869300169331,
+          "difference_from_best_1_segment": 0.05109648110613396,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 2.0,
+          "cv_total": 455.40943501522145,
+          "cv_mean": 0.5891454528010627,
+          "difference_from_best_1_segment": 0.05075500389026356,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 416.4647481622949,
+          "cv_mean": 0.5387642278943012,
+          "difference_from_best_1_segment": 0.0003737789835021552,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              266
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 417.72575090611997,
+          "cv_mean": 0.5403955380415524,
+          "difference_from_best_1_segment": 0.0020050891307532397,
+          "fold_change_points": [
+            [
+              593
+            ],
+            [
+              374
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 441.3239259437165,
+          "cv_mean": 0.5709235781936824,
+          "difference_from_best_1_segment": 0.032533129282883315,
+          "fold_change_points": [
+            [
+              499
+            ],
+            [
+              278
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 447.65486358562634,
+          "cv_mean": 0.5791136656993873,
+          "difference_from_best_1_segment": 0.04072321678858814,
+          "fold_change_points": [
+            [
+              283
+            ],
+            [
+              228
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 449.26993904474386,
+          "cv_mean": 0.5812030259311046,
+          "difference_from_best_1_segment": 0.0428125770203055,
+          "fold_change_points": [
+            [
+              283
+            ],
+            [
+              154
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 2.0,
+          "cv_total": 454.0244726731413,
+          "cv_mean": 0.5873537809484364,
+          "difference_from_best_1_segment": 0.04896333203763724,
+          "fold_change_points": [
+            [
+              7
+            ],
+            [
+              188
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 434.51712533586385,
+          "cv_mean": 0.5621178852986596,
+          "difference_from_best_1_segment": 0.02372743638786046,
+          "fold_change_points": [
+            [
+              273,
+              513
+            ],
+            [
+              220,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 421.3928866350771,
+          "cv_mean": 0.5451395687387802,
+          "difference_from_best_1_segment": 0.006749119827981098,
+          "fold_change_points": [
+            [
+              463,
+              499
+            ],
+            [
+              272,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 438.20478733898085,
+          "cv_mean": 0.5668884700374914,
+          "difference_from_best_1_segment": 0.028498021126692284,
+          "fold_change_points": [
+            [
+              287,
+              549
+            ],
+            [
+              228,
+              276
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 446.64550500866085,
+          "cv_mean": 0.5778078978119804,
+          "difference_from_best_1_segment": 0.03941744890118128,
+          "fold_change_points": [
+            [
+              287,
+              375
+            ],
+            [
+              158,
+              176
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 449.1390418947317,
+          "cv_mean": 0.5810336893851639,
+          "difference_from_best_1_segment": 0.04264324047436478,
+          "fold_change_points": [
+            [
+              283,
+              593
+            ],
+            [
+              158,
+              724
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 2.0,
+          "cv_total": 454.2222311157193,
+          "cv_mean": 0.5876096133450444,
+          "difference_from_best_1_segment": 0.049219164434245254,
+          "fold_change_points": [
+            [
+              7,
+              735
+            ],
+            [
+              188,
+              724
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 452.8047536769085,
+          "cv_mean": 0.5857758779778893,
+          "difference_from_best_1_segment": 0.047385429067090264,
+          "fold_change_points": [
+            [
+              179,
+              499,
+              661
+            ],
+            [
+              220,
+              348,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 415.3878555389789,
+          "cv_mean": 0.5373710938408524,
+          "difference_from_best_1_segment": -0.0010193550699467253,
+          "fold_change_points": [
+            [
+              167,
+              593,
+              613
+            ],
+            [
+              164,
+              424,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 438.2683585420174,
+          "cv_mean": 0.5669707096274481,
+          "difference_from_best_1_segment": 0.028580260716648986,
+          "fold_change_points": [
+            [
+              239,
+              441,
+              549
+            ],
+            [
+              230,
+              372,
+              536
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 440.670242941885,
+          "cv_mean": 0.5700779339481048,
+          "difference_from_best_1_segment": 0.0316874850373057,
+          "fold_change_points": [
+            [
+              297,
+              317,
+              703
+            ],
+            [
+              158,
+              236,
+              536
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 449.0958773670385,
+          "cv_mean": 0.5809778491164793,
+          "difference_from_best_1_segment": 0.042587400205680186,
+          "fold_change_points": [
+            [
+              289,
+              313,
+              603
+            ],
+            [
+              158,
+              236,
+              724
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 2.0,
+          "cv_total": 456.5430310188065,
+          "cv_mean": 0.5906119418095815,
+          "difference_from_best_1_segment": 0.052221492898782404,
+          "fold_change_points": [
+            [
+              3,
+              21,
+              635
+            ],
+            [
+              130,
+              154,
+              724
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 444.4158435852655,
+          "cv_mean": 0.5749234716497613,
+          "difference_from_best_1_segment": 0.03653302273896223,
+          "fold_change_points": [
+            [
+              175,
+              417,
+              501,
+              665
+            ],
+            [
+              166,
+              306,
+              438,
+              626
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 417.1268540865782,
+          "cv_mean": 0.539620768546673,
+          "difference_from_best_1_segment": 0.0012303196358738368,
+          "fold_change_points": [
+            [
+              161,
+              593,
+              613,
+              665
+            ],
+            [
+              142,
+              424,
+              442,
+              662
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 438.62770026616033,
+          "cv_mean": 0.5674355760234933,
+          "difference_from_best_1_segment": 0.029045127112694198,
+          "fold_change_points": [
+            [
+              183,
+              313,
+              501,
+              591
+            ],
+            [
+              158,
+              372,
+              442,
+              612
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 445.2287843992331,
+          "cv_mean": 0.575975141525528,
+          "difference_from_best_1_segment": 0.037584692614728854,
+          "fold_change_points": [
+            [
+              205,
+              315,
+              501,
+              603
+            ],
+            [
+              158,
+              236,
+              364,
+              540
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 448.03481390809657,
+          "cv_mean": 0.5796051926366061,
+          "difference_from_best_1_segment": 0.04121474372580705,
+          "fold_change_points": [
+            [
+              289,
+              321,
+              453,
+              703
+            ],
+            [
+              158,
+              220,
+              242,
+              678
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 2.0,
+          "cv_total": 454.7161793170931,
+          "cv_mean": 0.5882486148992149,
+          "difference_from_best_1_segment": 0.04985816598841579,
+          "fold_change_points": [
+            [
+              285,
+              303,
+              321,
+              635
+            ],
+            [
+              130,
+              154,
+              236,
+              724
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 71.91922983899713
+    }
+  ],
+  "unpenalized_results": [
+    {
+      "loss": "least-squares",
+      "refit_loss": "squared_loss",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "none",
+      "constants": [
+        0.0
+      ],
+      "delta_fraction": 0.025,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.0,
+          "cv_total": 466.4108151824956,
+          "cv_mean": 0.6033775099385453,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.0,
+          "cv_total": 647.1798074772288,
+          "cv_mean": 0.8372313162706712,
+          "difference_from_best_1_segment": 0.23385380633212577,
+          "fold_change_points": [
+            [
+              385
+            ],
+            [
+              324
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.0,
+          "cv_total": 1044.3591791224837,
+          "cv_mean": 1.3510468035219712,
+          "difference_from_best_1_segment": 0.7476692935834259,
+          "fold_change_points": [
+            [
+              287,
+              547
+            ],
+            [
+              244,
+              538
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.0,
+          "cv_total": 1644.2310732970006,
+          "cv_mean": 2.127077714485124,
+          "difference_from_best_1_segment": 1.5237002045465784,
+          "fold_change_points": [
+            [
+              193,
+              383,
+              583
+            ],
+            [
+              162,
+              324,
+              546
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.0,
+          "cv_total": 1282.9967320973487,
+          "cv_mean": 1.6597629134506453,
+          "difference_from_best_1_segment": 1.0563854035120999,
+          "fold_change_points": [
+            [
+              135,
+              291,
+              491,
+              583
+            ],
+            [
+              152,
+              316,
+              496,
+              626
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 21.674274967983365
+    },
+    {
+      "loss": "least-squares",
+      "refit_loss": "squared_loss",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "none",
+      "constants": [
+        0.0
+      ],
+      "delta_fraction": 0.025,
+      "num_folds": 5,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.0,
+          "cv_total": 436.5062064089385,
+          "cv_mean": 0.5646910820296747,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.0,
+          "cv_total": 517.4333015625866,
+          "cv_mean": 0.6693833137937731,
+          "difference_from_best_1_segment": 0.10469223176409846,
+          "fold_change_points": [
+            [
+              368
+            ],
+            [
+              490
+            ],
+            [
+              265
+            ],
+            [
+              346
+            ],
+            [
+              546
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.0,
+          "cv_total": 605.5251753401799,
+          "cv_mean": 0.7833443406729365,
+          "difference_from_best_1_segment": 0.2186532586432618,
+          "fold_change_points": [
+            [
+              257,
+              546
+            ],
+            [
+              283,
+              583
+            ],
+            [
+              264,
+              583
+            ],
+            [
+              261,
+              589
+            ],
+            [
+              276,
+              545
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.0,
+          "cv_total": 970.5884097513326,
+          "cv_mean": 1.255612431761103,
+          "difference_from_best_1_segment": 0.6909213497314284,
+          "fold_change_points": [
+            [
+              179,
+              346,
+              646
+            ],
+            [
+              130,
+              334,
+              583
+            ],
+            [
+              154,
+              376,
+              583
+            ],
+            [
+              130,
+              276,
+              645
+            ],
+            [
+              105,
+              330,
+              655
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.0,
+          "cv_total": 1080.1547849703331,
+          "cv_mean": 1.3973541849551527,
+          "difference_from_best_1_segment": 0.8326631029254782,
+          "fold_change_points": [
+            [
+              156,
+              281,
+              491,
+              646
+            ],
+            [
+              110,
+              279,
+              490,
+              593
+            ],
+            [
+              76,
+              265,
+              523,
+              645
+            ],
+            [
+              105,
+              260,
+              491,
+              657
+            ],
+            [
+              105,
+              280,
+              491,
+              658
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 68.31295881606638
+    },
+    {
+      "loss": "least-squares",
+      "refit_loss": "squared_loss",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "none",
+      "constants": [
+        0.0
+      ],
+      "delta_fraction": 0.03333333333333333,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.0,
+          "cv_total": 466.4108151824956,
+          "cv_mean": 0.6033775099385453,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.0,
+          "cv_total": 647.1798074772288,
+          "cv_mean": 0.8372313162706712,
+          "difference_from_best_1_segment": 0.23385380633212577,
+          "fold_change_points": [
+            [
+              385
+            ],
+            [
+              324
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.0,
+          "cv_total": 1044.3591791224837,
+          "cv_mean": 1.3510468035219712,
+          "difference_from_best_1_segment": 0.7476692935834259,
+          "fold_change_points": [
+            [
+              287,
+              547
+            ],
+            [
+              244,
+              538
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.0,
+          "cv_total": 1632.0927142876058,
+          "cv_mean": 2.111374792092634,
+          "difference_from_best_1_segment": 1.5079972821540883,
+          "fold_change_points": [
+            [
+              193,
+              383,
+              583
+            ],
+            [
+              162,
+              324,
+              544
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.0,
+          "cv_total": 1282.9967320973487,
+          "cv_mean": 1.6597629134506453,
+          "difference_from_best_1_segment": 1.0563854035120999,
+          "fold_change_points": [
+            [
+              135,
+              291,
+              491,
+              583
+            ],
+            [
+              152,
+              316,
+              496,
+              626
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 22.410379366017878
+    },
+    {
+      "loss": "least-squares",
+      "refit_loss": "squared_loss",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "none",
+      "constants": [
+        0.0
+      ],
+      "delta_fraction": 0.05,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.0,
+          "cv_total": 466.4108151824956,
+          "cv_mean": 0.6033775099385453,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.0,
+          "cv_total": 647.1798074772288,
+          "cv_mean": 0.8372313162706712,
+          "difference_from_best_1_segment": 0.23385380633212577,
+          "fold_change_points": [
+            [
+              385
+            ],
+            [
+              324
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.0,
+          "cv_total": 1044.3591791224837,
+          "cv_mean": 1.3510468035219712,
+          "difference_from_best_1_segment": 0.7476692935834259,
+          "fold_change_points": [
+            [
+              287,
+              547
+            ],
+            [
+              244,
+              538
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.0,
+          "cv_total": 1600.7787401584853,
+          "cv_mean": 2.070865123102827,
+          "difference_from_best_1_segment": 1.4674876131642818,
+          "fold_change_points": [
+            [
+              179,
+              383,
+              581
+            ],
+            [
+              162,
+              324,
+              582
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.0,
+          "cv_total": 1383.783169500118,
+          "cv_mean": 1.7901464029755731,
+          "difference_from_best_1_segment": 1.1867688930370277,
+          "fold_change_points": [
+            [
+              135,
+              291,
+              491,
+              579
+            ],
+            [
+              116,
+              294,
+              496,
+              626
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 21.914332731626928
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "refit_loss": "huber",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "none",
+      "constants": [
+        0.0
+      ],
+      "delta_fraction": 0.025,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.0,
+          "cv_total": 461.8782600381048,
+          "cv_mean": 0.597513919842309,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.0,
+          "cv_total": 632.1432126470618,
+          "cv_mean": 0.8177790590518264,
+          "difference_from_best_1_segment": 0.2202651392095174,
+          "fold_change_points": [
+            [
+              373
+            ],
+            [
+              324
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.0,
+          "cv_total": 1045.9463382512054,
+          "cv_mean": 1.353100049484095,
+          "difference_from_best_1_segment": 0.755586129641786,
+          "fold_change_points": [
+            [
+              287,
+              547
+            ],
+            [
+              244,
+              538
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.0,
+          "cv_total": 1728.0009558004022,
+          "cv_mean": 2.235447549547739,
+          "difference_from_best_1_segment": 1.6379336297054299,
+          "fold_change_points": [
+            [
+              181,
+              383,
+              583
+            ],
+            [
+              180,
+              324,
+              544
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.0,
+          "cv_total": 1287.3418521155236,
+          "cv_mean": 1.6653840260226696,
+          "difference_from_best_1_segment": 1.0678701061803606,
+          "fold_change_points": [
+            [
+              135,
+              291,
+              491,
+              583
+            ],
+            [
+              152,
+              316,
+              496,
+              626
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 29.871691254898906
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "refit_loss": "huber",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "none",
+      "constants": [
+        0.0
+      ],
+      "delta_fraction": 0.025,
+      "num_folds": 5,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.0,
+          "cv_total": 427.8919113913309,
+          "cv_mean": 0.5535471039991344,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.0,
+          "cv_total": 506.368824281918,
+          "cv_mean": 0.655069630377643,
+          "difference_from_best_1_segment": 0.10152252637850857,
+          "fold_change_points": [
+            [
+              346
+            ],
+            [
+              490
+            ],
+            [
+              265
+            ],
+            [
+              345
+            ],
+            [
+              276
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.0,
+          "cv_total": 592.4304918169273,
+          "cv_mean": 0.7664042584953782,
+          "difference_from_best_1_segment": 0.21285715449624376,
+          "fold_change_points": [
+            [
+              256,
+              546
+            ],
+            [
+              279,
+              560
+            ],
+            [
+              264,
+              524
+            ],
+            [
+              256,
+              589
+            ],
+            [
+              265,
+              590
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.0,
+          "cv_total": 913.15053262384,
+          "cv_mean": 1.181307286706132,
+          "difference_from_best_1_segment": 0.6277601827069976,
+          "fold_change_points": [
+            [
+              179,
+              341,
+              546
+            ],
+            [
+              129,
+              334,
+              584
+            ],
+            [
+              190,
+              324,
+              583
+            ],
+            [
+              127,
+              276,
+              646
+            ],
+            [
+              105,
+              330,
+              655
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.0,
+          "cv_total": 1079.7812394222426,
+          "cv_mean": 1.396870943625152,
+          "difference_from_best_1_segment": 0.8433238396260176,
+          "fold_change_points": [
+            [
+              156,
+              281,
+              491,
+              646
+            ],
+            [
+              110,
+              280,
+              490,
+              647
+            ],
+            [
+              113,
+              265,
+              374,
+              645
+            ],
+            [
+              105,
+              260,
+              491,
+              656
+            ],
+            [
+              105,
+              280,
+              491,
+              658
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 104.20338697731495
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "refit_loss": "huber",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "none",
+      "constants": [
+        0.0
+      ],
+      "delta_fraction": 0.03333333333333333,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.0,
+          "cv_total": 461.8782600381048,
+          "cv_mean": 0.597513919842309,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.0,
+          "cv_total": 632.1432126470618,
+          "cv_mean": 0.8177790590518264,
+          "difference_from_best_1_segment": 0.2202651392095174,
+          "fold_change_points": [
+            [
+              373
+            ],
+            [
+              324
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.0,
+          "cv_total": 1045.9463382512054,
+          "cv_mean": 1.353100049484095,
+          "difference_from_best_1_segment": 0.755586129641786,
+          "fold_change_points": [
+            [
+              287,
+              547
+            ],
+            [
+              244,
+              538
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.0,
+          "cv_total": 1728.0009558004022,
+          "cv_mean": 2.235447549547739,
+          "difference_from_best_1_segment": 1.6379336297054299,
+          "fold_change_points": [
+            [
+              181,
+              383,
+              583
+            ],
+            [
+              180,
+              324,
+              544
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.0,
+          "cv_total": 1287.3418521155236,
+          "cv_mean": 1.6653840260226696,
+          "difference_from_best_1_segment": 1.0678701061803606,
+          "fold_change_points": [
+            [
+              135,
+              291,
+              491,
+              583
+            ],
+            [
+              152,
+              316,
+              496,
+              626
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 29.460337818600237
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "refit_loss": "huber",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "none",
+      "constants": [
+        0.0
+      ],
+      "delta_fraction": 0.05,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.0,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.0,
+          "cv_total": 461.8782600381048,
+          "cv_mean": 0.597513919842309,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.0,
+          "cv_total": 640.992243770065,
+          "cv_mean": 0.8292267060414812,
+          "difference_from_best_1_segment": 0.23171278619917227,
+          "fold_change_points": [
+            [
+              381
+            ],
+            [
+              324
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.0,
+          "cv_total": 1105.1354636848705,
+          "cv_mean": 1.4296707162805569,
+          "difference_from_best_1_segment": 0.8321567964382479,
+          "fold_change_points": [
+            [
+              199,
+              547
+            ],
+            [
+              244,
+              538
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.0,
+          "cv_total": 1264.0953044328853,
+          "cv_mean": 1.6353108724875618,
+          "difference_from_best_1_segment": 1.0377969526452528,
+          "fold_change_points": [
+            [
+              179,
+              329,
+              583
+            ],
+            [
+              162,
+              324,
+              544
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.0,
+          "cv_total": 1243.5682759359445,
+          "cv_mean": 1.608755855027095,
+          "difference_from_best_1_segment": 1.0112419351847861,
+          "fold_change_points": [
+            [
+              135,
+              291,
+              537,
+              579
+            ],
+            [
+              116,
+              316,
+              496,
+              624
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 28.51169312465936
+    }
+  ],
+  "robustness_results": [
+    {
+      "loss": "least-squares",
+      "refit_loss": "squared_loss",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "l1",
+      "constants": [
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "delta_fraction": 0.025,
+      "num_folds": 5,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.25,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.25,
+          "cv_total": 414.6233612886792,
+          "cv_mean": 0.5363820973980326,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 415.7338700018473,
+          "cv_mean": 0.5378187192779396,
+          "difference_from_best_1_segment": 0.0014366218799070432,
+          "fold_change_points": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 423.739463837839,
+          "cv_mean": 0.5481752442921591,
+          "difference_from_best_1_segment": 0.011793146894126583,
+          "fold_change_points": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 433.7280552642532,
+          "cv_mean": 0.5610970960727726,
+          "difference_from_best_1_segment": 0.024714998674740023,
+          "fold_change_points": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.25,
+          "cv_total": 424.1201140336248,
+          "cv_mean": 0.5486676766282339,
+          "difference_from_best_1_segment": 0.012285579230201344,
+          "fold_change_points": [
+            [
+              438
+            ],
+            [
+              547
+            ],
+            [
+              523
+            ],
+            [
+              362
+            ],
+            [
+              532
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 416.4083357800663,
+          "cv_mean": 0.538691249392065,
+          "difference_from_best_1_segment": 0.0023091519940324936,
+          "fold_change_points": [
+            [
+              528
+            ],
+            [
+              548
+            ],
+            [
+              541
+            ],
+            [
+              366
+            ],
+            [
+              532
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 425.2195403030231,
+          "cv_mean": 0.5500899615821774,
+          "difference_from_best_1_segment": 0.013707864184144802,
+          "fold_change_points": [
+            [
+              528
+            ],
+            [
+              584
+            ],
+            [
+              694
+            ],
+            [
+              255
+            ],
+            [
+              497
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 432.0981734104723,
+          "cv_mean": 0.5589885813848283,
+          "difference_from_best_1_segment": 0.022606483986795795,
+          "fold_change_points": [
+            [
+              548
+            ],
+            [
+              243
+            ],
+            [
+              541
+            ],
+            [
+              81
+            ],
+            [
+              497
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.25,
+          "cv_total": 438.6547697988247,
+          "cv_mean": 0.5674705948238353,
+          "difference_from_best_1_segment": 0.03108849742580275,
+          "fold_change_points": [
+            [
+              243,
+              547
+            ],
+            [
+              283,
+              582
+            ],
+            [
+              276,
+              546
+            ],
+            [
+              206,
+              584
+            ],
+            [
+              230,
+              593
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 428.6573381527951,
+          "cv_mean": 0.5545373067953364,
+          "difference_from_best_1_segment": 0.0181552093973039,
+          "fold_change_points": [
+            [
+              276,
+              547
+            ],
+            [
+              277,
+              548
+            ],
+            [
+              276,
+              610
+            ],
+            [
+              255,
+              571
+            ],
+            [
+              220,
+              593
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 432.3325500931822,
+          "cv_mean": 0.5592917853728101,
+          "difference_from_best_1_segment": 0.02290968797477751,
+          "fold_change_points": [
+            [
+              276,
+              548
+            ],
+            [
+              372,
+              584
+            ],
+            [
+              276,
+              669
+            ],
+            [
+              305,
+              572
+            ],
+            [
+              361,
+              585
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 429.66922215128653,
+          "cv_mean": 0.5558463417222336,
+          "difference_from_best_1_segment": 0.019464244324200977,
+          "fold_change_points": [
+            [
+              308,
+              548
+            ],
+            [
+              303,
+              548
+            ],
+            [
+              298,
+              695
+            ],
+            [
+              206,
+              234
+            ],
+            [
+              361,
+              585
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.25,
+          "cv_total": 438.6222634031175,
+          "cv_mean": 0.5674285425654818,
+          "difference_from_best_1_segment": 0.031046445167449283,
+          "fold_change_points": [
+            [
+              242,
+              438,
+              657
+            ],
+            [
+              202,
+              383,
+              654
+            ],
+            [
+              203,
+              419,
+              663
+            ],
+            [
+              204,
+              362,
+              657
+            ],
+            [
+              158,
+              346,
+              610
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 425.31258520980646,
+          "cv_mean": 0.550210330154989,
+          "difference_from_best_1_segment": 0.013828232756956377,
+          "fold_change_points": [
+            [
+              247,
+              439,
+              669
+            ],
+            [
+              203,
+              435,
+              669
+            ],
+            [
+              158,
+              523,
+              610
+            ],
+            [
+              206,
+              366,
+              655
+            ],
+            [
+              157,
+              435,
+              610
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 429.5647314032352,
+          "cv_mean": 0.5557111661102655,
+          "difference_from_best_1_segment": 0.019329068712232906,
+          "fold_change_points": [
+            [
+              251,
+              439,
+              669
+            ],
+            [
+              128,
+              584,
+              669
+            ],
+            [
+              120,
+              584,
+              669
+            ],
+            [
+              206,
+              366,
+              572
+            ],
+            [
+              153,
+              501,
+              610
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 429.12796151234716,
+          "cv_mean": 0.5551461339098929,
+          "difference_from_best_1_segment": 0.018764036511860257,
+          "fold_change_points": [
+            [
+              256,
+              501,
+              548
+            ],
+            [
+              128,
+              593,
+              670
+            ],
+            [
+              160,
+              593,
+              670
+            ],
+            [
+              256,
+              366,
+              572
+            ],
+            [
+              140,
+              593,
+              613
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.25,
+          "cv_total": 461.6678711854314,
+          "cv_mean": 0.5972417479759785,
+          "difference_from_best_1_segment": 0.06085965057794596,
+          "fold_change_points": [
+            [
+              156,
+              303,
+              514,
+              712
+            ],
+            [
+              107,
+              347,
+              502,
+              654
+            ],
+            [
+              105,
+              314,
+              523,
+              664
+            ],
+            [
+              100,
+              300,
+              435,
+              657
+            ],
+            [
+              158,
+              346,
+              440,
+              661
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 428.74348546372335,
+          "cv_mean": 0.5546487522169772,
+          "difference_from_best_1_segment": 0.01826665481894459,
+          "fold_change_points": [
+            [
+              166,
+              414,
+              438,
+              669
+            ],
+            [
+              120,
+              384,
+              435,
+              669
+            ],
+            [
+              120,
+              374,
+              541,
+              664
+            ],
+            [
+              206,
+              304,
+              366,
+              657
+            ],
+            [
+              157,
+              346,
+              440,
+              610
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 424.5623951966329,
+          "cv_mean": 0.5492398385467437,
+          "difference_from_best_1_segment": 0.012857741148711162,
+          "fold_change_points": [
+            [
+              128,
+              423,
+              462,
+              647
+            ],
+            [
+              128,
+              384,
+              435,
+              669
+            ],
+            [
+              120,
+              419,
+              584,
+              669
+            ],
+            [
+              157,
+              335,
+              366,
+              655
+            ],
+            [
+              142,
+              361,
+              593,
+              613
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 427.337439702468,
+          "cv_mean": 0.5528298055659353,
+          "difference_from_best_1_segment": 0.016447708167902714,
+          "fold_change_points": [
+            [
+              94,
+              462,
+              487,
+              669
+            ],
+            [
+              128,
+              593,
+              613,
+              669
+            ],
+            [
+              128,
+              374,
+              420,
+              669
+            ],
+            [
+              160,
+              372,
+              434,
+              572
+            ],
+            [
+              140,
+              593,
+              613,
+              647
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 97.4830733826384,
+      "sensitivity_label": "least-squares; folds=5; delta=0.025; score=absolute; design=reference"
+    },
+    {
+      "loss": "least-squares",
+      "refit_loss": "squared_loss",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "l1",
+      "constants": [
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "delta_fraction": 0.03333333333333333,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 2,
+      "selected_change_points": 1,
+      "selected_constant": 0.5,
+      "estimated_change_points": [
+        528
+      ],
+      "estimated_dates": [
+        "2004-01"
+      ],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.25,
+          "cv_total": 425.0949976888314,
+          "cv_mean": 0.5499288456517871,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 430.0973078551832,
+          "cv_mean": 0.5564001395280507,
+          "difference_from_best_1_segment": 0.006471293876263618,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 437.5618430616779,
+          "cv_mean": 0.566056718061679,
+          "difference_from_best_1_segment": 0.01612787240989195,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 442.96259516878115,
+          "cv_mean": 0.5730434607616832,
+          "difference_from_best_1_segment": 0.02311461510989615,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.25,
+          "cv_total": 432.5225931449337,
+          "cv_mean": 0.559537636668737,
+          "difference_from_best_1_segment": 0.009608791016949893,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              266
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 418.8827818583567,
+          "cv_mean": 0.5418923439306037,
+          "difference_from_best_1_segment": -0.008036501721183373,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              260
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 429.78394004493356,
+          "cv_mean": 0.555994747794222,
+          "difference_from_best_1_segment": 0.006065902142434841,
+          "fold_change_points": [
+            [
+              499
+            ],
+            [
+              112
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 435.3943556306398,
+          "cv_mean": 0.5632527239723671,
+          "difference_from_best_1_segment": 0.013323878320580016,
+          "fold_change_points": [
+            [
+              499
+            ],
+            [
+              112
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.25,
+          "cv_total": 448.4708571194363,
+          "cv_mean": 0.5801692847599434,
+          "difference_from_best_1_segment": 0.030240439108156356,
+          "fold_change_points": [
+            [
+              209,
+              547
+            ],
+            [
+              220,
+              546
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 436.8390187983441,
+          "cv_mean": 0.5651216284584012,
+          "difference_from_best_1_segment": 0.015192782806614085,
+          "fold_change_points": [
+            [
+              271,
+              523
+            ],
+            [
+              220,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 432.6803211135989,
+          "cv_mean": 0.5597416831999986,
+          "difference_from_best_1_segment": 0.00981283754821147,
+          "fold_change_points": [
+            [
+              449,
+              493
+            ],
+            [
+              154,
+              178
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 429.5151675170915,
+          "cv_mean": 0.5556470472407393,
+          "difference_from_best_1_segment": 0.005718201588952264,
+          "fold_change_points": [
+            [
+              287,
+              493
+            ],
+            [
+              130,
+              154
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.25,
+          "cv_total": 478.29753255302796,
+          "cv_mean": 0.6187548933415628,
+          "difference_from_best_1_segment": 0.0688260476897756,
+          "fold_change_points": [
+            [
+              181,
+              497,
+              665
+            ],
+            [
+              172,
+              276,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 438.76483957229107,
+          "cv_mean": 0.56761298780374,
+          "difference_from_best_1_segment": 0.01768414215195296,
+          "fold_change_points": [
+            [
+              179,
+              499,
+              665
+            ],
+            [
+              120,
+              346,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 432.866355596331,
+          "cv_mean": 0.5599823487662755,
+          "difference_from_best_1_segment": 0.010053503114488457,
+          "fold_change_points": [
+            [
+              129,
+              499,
+              523
+            ],
+            [
+              128,
+              520,
+              544
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 439.84799979073046,
+          "cv_mean": 0.569014230000945,
+          "difference_from_best_1_segment": 0.019085384349157863,
+          "fold_change_points": [
+            [
+              205,
+              453,
+              493
+            ],
+            [
+              130,
+              154,
+              178
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.25,
+          "cv_total": 478.6745597755933,
+          "cv_mean": 0.6192426387782578,
+          "difference_from_best_1_segment": 0.06931379312647074,
+          "fold_change_points": [
+            [
+              175,
+              217,
+              501,
+              665
+            ],
+            [
+              114,
+              276,
+              436,
+              618
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 429.6942170011866,
+          "cv_mean": 0.5558786765862699,
+          "difference_from_best_1_segment": 0.005949830934482743,
+          "fold_change_points": [
+            [
+              161,
+              467,
+              501,
+              665
+            ],
+            [
+              120,
+              364,
+              436,
+              634
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 424.23290783636867,
+          "cv_mean": 0.5488135935787434,
+          "difference_from_best_1_segment": -0.0011152520730436728,
+          "fold_change_points": [
+            [
+              143,
+              463,
+              501,
+              665
+            ],
+            [
+              128,
+              294,
+              368,
+              634
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 435.53375433895025,
+          "cv_mean": 0.5634330586532345,
+          "difference_from_best_1_segment": 0.013504213001447373,
+          "fold_change_points": [
+            [
+              143,
+              435,
+              499,
+              591
+            ],
+            [
+              158,
+              372,
+              528,
+              656
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 42.33141023479402,
+      "sensitivity_label": "least-squares; folds=2; delta=0.0333333; score=absolute; design=reference"
+    },
+    {
+      "loss": "least-squares",
+      "refit_loss": "squared_loss",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "l1",
+      "constants": [
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "delta_fraction": 0.05,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 2,
+      "selected_change_points": 1,
+      "selected_constant": 0.5,
+      "estimated_change_points": [
+        528
+      ],
+      "estimated_dates": [
+        "2004-01"
+      ],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.25,
+          "cv_total": 425.0949976888314,
+          "cv_mean": 0.5499288456517871,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 430.0973078551832,
+          "cv_mean": 0.5564001395280507,
+          "difference_from_best_1_segment": 0.006471293876263618,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 437.5618430616779,
+          "cv_mean": 0.566056718061679,
+          "difference_from_best_1_segment": 0.01612787240989195,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 442.96259516878115,
+          "cv_mean": 0.5730434607616832,
+          "difference_from_best_1_segment": 0.02311461510989615,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.25,
+          "cv_total": 432.5225931449337,
+          "cv_mean": 0.559537636668737,
+          "difference_from_best_1_segment": 0.009608791016949893,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              266
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 418.8827818583567,
+          "cv_mean": 0.5418923439306037,
+          "difference_from_best_1_segment": -0.008036501721183373,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              260
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 429.3650084522133,
+          "cv_mean": 0.55545279230558,
+          "difference_from_best_1_segment": 0.005523946653792872,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              126
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 435.3943556306398,
+          "cv_mean": 0.5632527239723671,
+          "difference_from_best_1_segment": 0.013323878320580016,
+          "fold_change_points": [
+            [
+              499
+            ],
+            [
+              112
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.25,
+          "cv_total": 450.7406358730488,
+          "cv_mean": 0.5831056091501278,
+          "difference_from_best_1_segment": 0.03317676349834072,
+          "fold_change_points": [
+            [
+              209,
+              537
+            ],
+            [
+              220,
+              546
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 441.1225209791104,
+          "cv_mean": 0.5706630284335192,
+          "difference_from_best_1_segment": 0.020734182781732165,
+          "fold_change_points": [
+            [
+              209,
+              523
+            ],
+            [
+              224,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 438.59608530884555,
+          "cv_mean": 0.5673946769842763,
+          "difference_from_best_1_segment": 0.017465831332489155,
+          "fold_change_points": [
+            [
+              217,
+              501
+            ],
+            [
+              130,
+              174
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 431.87647528556164,
+          "cv_mean": 0.5587017791533786,
+          "difference_from_best_1_segment": 0.008772933501591479,
+          "fold_change_points": [
+            [
+              287,
+              493
+            ],
+            [
+              130,
+              174
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.25,
+          "cv_total": 455.82627035515253,
+          "cv_mean": 0.5896846964490977,
+          "difference_from_best_1_segment": 0.039755850797310616,
+          "fold_change_points": [
+            [
+              181,
+              435,
+              665
+            ],
+            [
+              172,
+              342,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 437.2934524767335,
+          "cv_mean": 0.5657095116128505,
+          "difference_from_best_1_segment": 0.015780665961063454,
+          "fold_change_points": [
+            [
+              179,
+              501,
+              665
+            ],
+            [
+              116,
+              372,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 446.0018359453344,
+          "cv_mean": 0.5769752082087121,
+          "difference_from_best_1_segment": 0.027046362556924924,
+          "fold_change_points": [
+            [
+              183,
+              499,
+              561
+            ],
+            [
+              128,
+              510,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 446.7890805586443,
+          "cv_mean": 0.5779936359102772,
+          "difference_from_best_1_segment": 0.028064790258490117,
+          "fold_change_points": [
+            [
+              183,
+              443,
+              493
+            ],
+            [
+              96,
+              134,
+              174
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.25,
+          "cv_total": 489.0815665856177,
+          "cv_mean": 0.6327057782478883,
+          "difference_from_best_1_segment": 0.08277693259610124,
+          "fold_change_points": [
+            [
+              175,
+              247,
+              527,
+              665
+            ],
+            [
+              116,
+              276,
+              440,
+              612
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 433.0190100729231,
+          "cv_mean": 0.5601798319183998,
+          "difference_from_best_1_segment": 0.010250986266612767,
+          "fold_change_points": [
+            [
+              151,
+              467,
+              529,
+              665
+            ],
+            [
+              114,
+              348,
+              438,
+              566
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 422.32094830050005,
+          "cv_mean": 0.546340165977361,
+          "difference_from_best_1_segment": -0.0035886796744261026,
+          "fold_change_points": [
+            [
+              109,
+              463,
+              501,
+              665
+            ],
+            [
+              128,
+              372,
+              516,
+              648
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 433.64873680324826,
+          "cv_mean": 0.5609944848683678,
+          "difference_from_best_1_segment": 0.011065639216580632,
+          "fold_change_points": [
+            [
+              143,
+              441,
+              501,
+              591
+            ],
+            [
+              128,
+              372,
+              518,
+              670
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 40.449702836573124,
+      "sensitivity_label": "least-squares; folds=2; delta=0.05; score=absolute; design=reference"
+    },
+    {
+      "loss": "least-squares",
+      "refit_loss": "squared_loss",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "l1",
+      "constants": [
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "delta_fraction": 0.025,
+      "num_folds": 2,
+      "design_mode": "fold-zscore",
+      "standardize_y": false,
+      "selected_segments": 2,
+      "selected_change_points": 1,
+      "selected_constant": 1.0,
+      "estimated_change_points": [
+        525
+      ],
+      "estimated_dates": [
+        "2003-10"
+      ],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.25,
+          "cv_total": 419.9723045213604,
+          "cv_mean": 0.543301816974593,
+          "difference_from_best_1_segment": 0.0039167916718690025,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.5,
+          "cv_total": 417.9057799614593,
+          "cv_mean": 0.5406284346202578,
+          "difference_from_best_1_segment": 0.0012434093175338185,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.75,
+          "cv_total": 416.94462455900566,
+          "cv_mean": 0.539385025302724,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 1.0,
+          "cv_total": 418.36723996570976,
+          "cv_mean": 0.5412254074588742,
+          "difference_from_best_1_segment": 0.0018403821561501896,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.25,
+          "cv_total": 431.5426648363333,
+          "cv_mean": 0.558269941573523,
+          "difference_from_best_1_segment": 0.018884916270799017,
+          "fold_change_points": [
+            [
+              385
+            ],
+            [
+              274
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.5,
+          "cv_total": 423.64807599608,
+          "cv_mean": 0.5480570193998447,
+          "difference_from_best_1_segment": 0.00867199409712078,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              246
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.75,
+          "cv_total": 416.3465091549782,
+          "cv_mean": 0.5386112666946677,
+          "difference_from_best_1_segment": -0.0007737586080562137,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              244
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 1.0,
+          "cv_total": 413.1302349075406,
+          "cv_mean": 0.5344504979398973,
+          "difference_from_best_1_segment": -0.004934527362826695,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              244
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.25,
+          "cv_total": 460.05046389592724,
+          "cv_mean": 0.5951493711460896,
+          "difference_from_best_1_segment": 0.05576434584336556,
+          "fold_change_points": [
+            [
+              207,
+              547
+            ],
+            [
+              276,
+              536
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.5,
+          "cv_total": 430.51420488167423,
+          "cv_mean": 0.5569394629775863,
+          "difference_from_best_1_segment": 0.017554437674862318,
+          "fold_change_points": [
+            [
+              207,
+              527
+            ],
+            [
+              266,
+              528
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.75,
+          "cv_total": 423.29212473882137,
+          "cv_mean": 0.5475965391187857,
+          "difference_from_best_1_segment": 0.008211513816061722,
+          "fold_change_points": [
+            [
+              209,
+              527
+            ],
+            [
+              266,
+              528
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 1.0,
+          "cv_total": 417.0108972657851,
+          "cv_mean": 0.5394707597228785,
+          "difference_from_best_1_segment": 8.573442015451944e-05,
+          "fold_change_points": [
+            [
+              209,
+              523
+            ],
+            [
+              266,
+              356
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.25,
+          "cv_total": 464.7638669256419,
+          "cv_mean": 0.6012469171094978,
+          "difference_from_best_1_segment": 0.06186189180677389,
+          "fold_change_points": [
+            [
+              181,
+              385,
+              665
+            ],
+            [
+              220,
+              276,
+              544
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.5,
+          "cv_total": 429.0085900039885,
+          "cv_mean": 0.5549917076377601,
+          "difference_from_best_1_segment": 0.015606682335036016,
+          "fold_change_points": [
+            [
+              181,
+              435,
+              665
+            ],
+            [
+              220,
+              346,
+              546
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.75,
+          "cv_total": 422.479606001851,
+          "cv_mean": 0.546545415267595,
+          "difference_from_best_1_segment": 0.00716038996487105,
+          "fold_change_points": [
+            [
+              179,
+              501,
+              665
+            ],
+            [
+              226,
+              348,
+              546
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 1.0,
+          "cv_total": 420.543917742115,
+          "cv_mean": 0.5440412907401229,
+          "difference_from_best_1_segment": 0.004656265437398904,
+          "fold_change_points": [
+            [
+              183,
+              499,
+              671
+            ],
+            [
+              266,
+              348,
+              528
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.25,
+          "cv_total": 490.5682878065205,
+          "cv_mean": 0.6346290915996384,
+          "difference_from_best_1_segment": 0.09524406629691443,
+          "fold_change_points": [
+            [
+              181,
+              385,
+              527,
+              665
+            ],
+            [
+              114,
+              276,
+              436,
+              624
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.5,
+          "cv_total": 453.3838127650548,
+          "cv_mean": 0.5865249841721278,
+          "difference_from_best_1_segment": 0.04713995886940382,
+          "fold_change_points": [
+            [
+              181,
+              243,
+              501,
+              665
+            ],
+            [
+              116,
+              276,
+              436,
+              618
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.75,
+          "cv_total": 432.7358807713649,
+          "cv_mean": 0.559813558565802,
+          "difference_from_best_1_segment": 0.020428533263077954,
+          "fold_change_points": [
+            [
+              175,
+              443,
+              501,
+              665
+            ],
+            [
+              112,
+              276,
+              350,
+              618
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 1.0,
+          "cv_total": 425.4063309472164,
+          "cv_mean": 0.5503316053650924,
+          "difference_from_best_1_segment": 0.010946580062368379,
+          "fold_change_points": [
+            [
+              179,
+              441,
+              525,
+              665
+            ],
+            [
+              120,
+              276,
+              350,
+              620
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 40.47783466614783,
+      "sensitivity_label": "least-squares; folds=2; delta=0.025; score=absolute; design=fold-zscore"
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "refit_loss": "huber",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "l1",
+      "constants": [
+        0.15,
+        0.3,
+        0.44999999999999996,
+        0.6
+      ],
+      "delta_fraction": 0.025,
+      "num_folds": 5,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 1,
+      "selected_change_points": 0,
+      "selected_constant": 0.15,
+      "estimated_change_points": [],
+      "estimated_dates": [],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 408.2779495895851,
+          "cv_mean": 0.5281732853681567,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 424.5778041198006,
+          "cv_mean": 0.5492597724706346,
+          "difference_from_best_1_segment": 0.021086487102478006,
+          "fold_change_points": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.44999999999999996,
+          "cv_total": 447.06219559395544,
+          "cv_mean": 0.5783469541965788,
+          "difference_from_best_1_segment": 0.05017366882842218,
+          "fold_change_points": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.6,
+          "cv_total": 451.5194364292023,
+          "cv_mean": 0.5841131131037546,
+          "difference_from_best_1_segment": 0.05593982773559794,
+          "fold_change_points": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 408.95413945380704,
+          "cv_mean": 0.5290480458652096,
+          "difference_from_best_1_segment": 0.00087476049705298,
+          "fold_change_points": [
+            [
+              497
+            ],
+            [
+              522
+            ],
+            [
+              523
+            ],
+            [
+              366
+            ],
+            [
+              390
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 409.82719616248335,
+          "cv_mean": 0.5301774853330962,
+          "difference_from_best_1_segment": 0.002004199964939528,
+          "fold_change_points": [
+            [
+              523
+            ],
+            [
+              593
+            ],
+            [
+              593
+            ],
+            [
+              366
+            ],
+            [
+              593
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.44999999999999996,
+          "cv_total": 431.3859597428159,
+          "cv_mean": 0.5580672182960102,
+          "difference_from_best_1_segment": 0.02989393292785355,
+          "fold_change_points": [
+            [
+              439
+            ],
+            [
+              435
+            ],
+            [
+              395
+            ],
+            [
+              305
+            ],
+            [
+              391
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.6,
+          "cv_total": 444.1574869360877,
+          "cv_mean": 0.5745892457129207,
+          "difference_from_best_1_segment": 0.04641596034476406,
+          "fold_change_points": [
+            [
+              354
+            ],
+            [
+              435
+            ],
+            [
+              720
+            ],
+            [
+              305
+            ],
+            [
+              436
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 418.62183201207915,
+          "cv_mean": 0.5415547632756522,
+          "difference_from_best_1_segment": 0.013381477907495552,
+          "fold_change_points": [
+            [
+              276,
+              514
+            ],
+            [
+              283,
+              547
+            ],
+            [
+              276,
+              610
+            ],
+            [
+              276,
+              571
+            ],
+            [
+              187,
+              593
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 420.07098969665844,
+          "cv_mean": 0.5434294821431546,
+          "difference_from_best_1_segment": 0.01525619677499787,
+          "fold_change_points": [
+            [
+              276,
+              588
+            ],
+            [
+              374,
+              610
+            ],
+            [
+              305,
+              610
+            ],
+            [
+              265,
+              549
+            ],
+            [
+              276,
+              593
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.44999999999999996,
+          "cv_total": 430.5811831654157,
+          "cv_mean": 0.557026110175182,
+          "difference_from_best_1_segment": 0.028852824807025397,
+          "fold_change_points": [
+            [
+              303,
+              523
+            ],
+            [
+              374,
+              548
+            ],
+            [
+              305,
+              548
+            ],
+            [
+              305,
+              549
+            ],
+            [
+              276,
+              510
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.6,
+          "cv_total": 438.82906805796154,
+          "cv_mean": 0.5676960776946463,
+          "difference_from_best_1_segment": 0.03952279232648958,
+          "fold_change_points": [
+            [
+              303,
+              523
+            ],
+            [
+              305,
+              490
+            ],
+            [
+              305,
+              663
+            ],
+            [
+              305,
+              529
+            ],
+            [
+              360,
+              440
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 422.5452875156906,
+          "cv_mean": 0.5466303848844639,
+          "difference_from_best_1_segment": 0.018457099516307224,
+          "fold_change_points": [
+            [
+              187,
+              439,
+              669
+            ],
+            [
+              203,
+              372,
+              669
+            ],
+            [
+              203,
+              419,
+              609
+            ],
+            [
+              206,
+              366,
+              571
+            ],
+            [
+              158,
+              435,
+              610
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 419.59351364871316,
+          "cv_mean": 0.542811789972462,
+          "difference_from_best_1_segment": 0.014638504604305387,
+          "fold_change_points": [
+            [
+              157,
+              462,
+              613
+            ],
+            [
+              128,
+              593,
+              669
+            ],
+            [
+              158,
+              593,
+              663
+            ],
+            [
+              206,
+              426,
+              562
+            ],
+            [
+              157,
+              593,
+              613
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.44999999999999996,
+          "cv_total": 431.8161915682389,
+          "cv_mean": 0.5586237924556777,
+          "difference_from_best_1_segment": 0.03045050708752107,
+          "fold_change_points": [
+            [
+              301,
+              439,
+              548
+            ],
+            [
+              128,
+              440,
+              548
+            ],
+            [
+              298,
+              410,
+              611
+            ],
+            [
+              254,
+              434,
+              549
+            ],
+            [
+              276,
+              435,
+              521
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.6,
+          "cv_total": 439.73924899129366,
+          "cv_mean": 0.5688735433263825,
+          "difference_from_best_1_segment": 0.040700257958225836,
+          "fold_change_points": [
+            [
+              266,
+              462,
+              548
+            ],
+            [
+              305,
+              442,
+              548
+            ],
+            [
+              305,
+              410,
+              663
+            ],
+            [
+              254,
+              435,
+              549
+            ],
+            [
+              157,
+              435,
+              515
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 445.26968076782936,
+          "cv_mean": 0.5760280475651092,
+          "difference_from_best_1_segment": 0.04785476219695248,
+          "fold_change_points": [
+            [
+              166,
+              354,
+              439,
+              669
+            ],
+            [
+              102,
+              384,
+              445,
+              669
+            ],
+            [
+              111,
+              314,
+              509,
+              664
+            ],
+            [
+              102,
+              299,
+              434,
+              655
+            ],
+            [
+              158,
+              300,
+              440,
+              610
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 423.8590300606087,
+          "cv_mean": 0.5483299224587435,
+          "difference_from_best_1_segment": 0.0201566370905868,
+          "fold_change_points": [
+            [
+              128,
+              354,
+              462,
+              647
+            ],
+            [
+              128,
+              384,
+              440,
+              669
+            ],
+            [
+              120,
+              419,
+              440,
+              663
+            ],
+            [
+              157,
+              384,
+              434,
+              561
+            ],
+            [
+              142,
+              503,
+              593,
+              613
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.44999999999999996,
+          "cv_total": 429.09671618103533,
+          "cv_mean": 0.5551057130414428,
+          "difference_from_best_1_segment": 0.026932427673286213,
+          "fold_change_points": [
+            [
+              128,
+              462,
+              488,
+              588
+            ],
+            [
+              128,
+              457,
+              488,
+              548
+            ],
+            [
+              160,
+              374,
+              441,
+              669
+            ],
+            [
+              160,
+              359,
+              441,
+              549
+            ],
+            [
+              127,
+              593,
+              613,
+              642
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.6,
+          "cv_total": 435.2474971464419,
+          "cv_mean": 0.5630627388699119,
+          "difference_from_best_1_segment": 0.03488945350175525,
+          "fold_change_points": [
+            [
+              128,
+              434,
+              458,
+              588
+            ],
+            [
+              128,
+              403,
+              442,
+              612
+            ],
+            [
+              160,
+              410,
+              439,
+              669
+            ],
+            [
+              160,
+              359,
+              434,
+              587
+            ],
+            [
+              157,
+              391,
+              441,
+              548
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 121.17679081298411,
+      "sensitivity_label": "Huber-eps1.35; folds=5; delta=0.025; score=absolute; design=reference"
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "refit_loss": "huber",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "l1",
+      "constants": [
+        0.15,
+        0.3,
+        0.44999999999999996,
+        0.6
+      ],
+      "delta_fraction": 0.03333333333333333,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 4,
+      "selected_change_points": 3,
+      "selected_constant": 0.3,
+      "estimated_change_points": [
+        154,
+        593,
+        618
+      ],
+      "estimated_dates": [
+        "1972-11",
+        "2009-06",
+        "2011-07"
+      ],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 416.1758170080477,
+          "cv_mean": 0.5383904489107991,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 436.6594561047634,
+          "cv_mean": 0.5648893351937431,
+          "difference_from_best_1_segment": 0.02649888628294399,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.44999999999999996,
+          "cv_total": 451.8571697708441,
+          "cv_mean": 0.5845500255767712,
+          "difference_from_best_1_segment": 0.04615957666597205,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.6,
+          "cv_total": 454.9170283722174,
+          "cv_mean": 0.5885084455009281,
+          "difference_from_best_1_segment": 0.05011799659012892,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 416.4647481622949,
+          "cv_mean": 0.5387642278943012,
+          "difference_from_best_1_segment": 0.0003737789835021552,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              266
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 417.72575090611997,
+          "cv_mean": 0.5403955380415524,
+          "difference_from_best_1_segment": 0.0020050891307532397,
+          "fold_change_points": [
+            [
+              593
+            ],
+            [
+              374
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.44999999999999996,
+          "cv_total": 441.0343216284589,
+          "cv_mean": 0.5705489283679934,
+          "difference_from_best_1_segment": 0.032158479457194265,
+          "fold_change_points": [
+            [
+              499
+            ],
+            [
+              376
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.6,
+          "cv_total": 445.6342257101837,
+          "cv_mean": 0.5764996451619453,
+          "difference_from_best_1_segment": 0.0381091962511462,
+          "fold_change_points": [
+            [
+              571
+            ],
+            [
+              306
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 436.7043814539446,
+          "cv_mean": 0.5649474533686217,
+          "difference_from_best_1_segment": 0.026557004457822646,
+          "fold_change_points": [
+            [
+              209,
+              523
+            ],
+            [
+              220,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 426.4505378975993,
+          "cv_mean": 0.5516824552362216,
+          "difference_from_best_1_segment": 0.013292006325422495,
+          "fold_change_points": [
+            [
+              207,
+              501
+            ],
+            [
+              306,
+              536
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.44999999999999996,
+          "cv_total": 425.3957624531123,
+          "cv_mean": 0.5503179333157986,
+          "difference_from_best_1_segment": 0.01192748440499946,
+          "fold_change_points": [
+            [
+              301,
+              499
+            ],
+            [
+              306,
+              536
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.6,
+          "cv_total": 439.6002736262375,
+          "cv_mean": 0.5686937563081985,
+          "difference_from_best_1_segment": 0.030303307397399438,
+          "fold_change_points": [
+            [
+              287,
+              603
+            ],
+            [
+              246,
+              538
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 448.15331361296853,
+          "cv_mean": 0.5797584910905156,
+          "difference_from_best_1_segment": 0.04136804217971645,
+          "fold_change_points": [
+            [
+              181,
+              499,
+              523
+            ],
+            [
+              220,
+              348,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 415.50864061963,
+          "cv_mean": 0.5375273487964165,
+          "difference_from_best_1_segment": -0.0008631001143825554,
+          "fold_change_points": [
+            [
+              167,
+              593,
+              665
+            ],
+            [
+              164,
+              424,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.44999999999999996,
+          "cv_total": 437.7546758354537,
+          "cv_mean": 0.5663061783123593,
+          "difference_from_best_1_segment": 0.027915729401560167,
+          "fold_change_points": [
+            [
+              207,
+              441,
+              493
+            ],
+            [
+              230,
+              442,
+              536
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.6,
+          "cv_total": 436.5077231964944,
+          "cv_mean": 0.5646930442386732,
+          "difference_from_best_1_segment": 0.0263025953278741,
+          "fold_change_points": [
+            [
+              287,
+              313,
+              591
+            ],
+            [
+              158,
+              364,
+              536
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 442.7758296819467,
+          "cv_mean": 0.5728018495238637,
+          "difference_from_best_1_segment": 0.03441140061306463,
+          "fold_change_points": [
+            [
+              175,
+              443,
+              501,
+              665
+            ],
+            [
+              166,
+              308,
+              438,
+              626
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 426.2728523632909,
+          "cv_mean": 0.551452590379419,
+          "difference_from_best_1_segment": 0.013062141468619896,
+          "fold_change_points": [
+            [
+              167,
+              457,
+              501,
+              591
+            ],
+            [
+              142,
+              424,
+              516,
+              670
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.44999999999999996,
+          "cv_total": 434.8621622994886,
+          "cv_mean": 0.5625642461830382,
+          "difference_from_best_1_segment": 0.02417379727223918,
+          "fold_change_points": [
+            [
+              183,
+              435,
+              501,
+              591
+            ],
+            [
+              158,
+              372,
+              442,
+              648
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.6,
+          "cv_total": 436.7135237433025,
+          "cv_mean": 0.5649592803923706,
+          "difference_from_best_1_segment": 0.02656883148157154,
+          "fold_change_points": [
+            [
+              181,
+              309,
+              457,
+              605
+            ],
+            [
+              158,
+              276,
+              368,
+              548
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 60.588862617500126,
+      "sensitivity_label": "Huber-eps1.35; folds=2; delta=0.0333333; score=absolute; design=reference"
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "refit_loss": "huber",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "l1",
+      "constants": [
+        0.15,
+        0.3,
+        0.44999999999999996,
+        0.6
+      ],
+      "delta_fraction": 0.05,
+      "num_folds": 2,
+      "design_mode": "reference",
+      "standardize_y": false,
+      "selected_segments": 4,
+      "selected_change_points": 3,
+      "selected_constant": 0.3,
+      "estimated_change_points": [
+        157,
+        593,
+        647
+      ],
+      "estimated_dates": [
+        "1973-02",
+        "2009-06",
+        "2013-12"
+      ],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 416.1758170080477,
+          "cv_mean": 0.5383904489107991,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 436.6594561047634,
+          "cv_mean": 0.5648893351937431,
+          "difference_from_best_1_segment": 0.02649888628294399,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.44999999999999996,
+          "cv_total": 451.8571697708441,
+          "cv_mean": 0.5845500255767712,
+          "difference_from_best_1_segment": 0.04615957666597205,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.6,
+          "cv_total": 454.9170283722174,
+          "cv_mean": 0.5885084455009281,
+          "difference_from_best_1_segment": 0.05011799659012892,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 416.4647481622949,
+          "cv_mean": 0.5387642278943012,
+          "difference_from_best_1_segment": 0.0003737789835021552,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              266
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 418.92265154042354,
+          "cv_mean": 0.5419439217858002,
+          "difference_from_best_1_segment": 0.003553472875001072,
+          "fold_change_points": [
+            [
+              593
+            ],
+            [
+              378
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.44999999999999996,
+          "cv_total": 438.3410442128909,
+          "cv_mean": 0.5670647402495355,
+          "difference_from_best_1_segment": 0.02867429133873632,
+          "fold_change_points": [
+            [
+              499
+            ],
+            [
+              278
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.6,
+          "cv_total": 445.84981729432553,
+          "cv_mean": 0.5767785475993862,
+          "difference_from_best_1_segment": 0.038388098688587086,
+          "fold_change_points": [
+            [
+              499
+            ],
+            [
+              308
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 430.62381800024536,
+          "cv_mean": 0.5570812652008349,
+          "difference_from_best_1_segment": 0.01869081629003577,
+          "fold_change_points": [
+            [
+              209,
+              593
+            ],
+            [
+              220,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 424.88312568877086,
+          "cv_mean": 0.5496547550954345,
+          "difference_from_best_1_segment": 0.011264306184635375,
+          "fold_change_points": [
+            [
+              209,
+              501
+            ],
+            [
+              306,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.44999999999999996,
+          "cv_total": 427.0548537736596,
+          "cv_mean": 0.5524642351535053,
+          "difference_from_best_1_segment": 0.014073786242706192,
+          "fold_change_points": [
+            [
+              305,
+              493
+            ],
+            [
+              306,
+              528
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.6,
+          "cv_total": 438.8117664719364,
+          "cv_mean": 0.5676736953065153,
+          "difference_from_best_1_segment": 0.029283246395716254,
+          "fold_change_points": [
+            [
+              305,
+              493
+            ],
+            [
+              306,
+              372
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 440.62589640252384,
+          "cv_mean": 0.5700205645569519,
+          "difference_from_best_1_segment": 0.031630115646152805,
+          "fold_change_points": [
+            [
+              181,
+              439,
+              665
+            ],
+            [
+              166,
+              348,
+              572
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 414.247088533301,
+          "cv_mean": 0.5358953279861591,
+          "difference_from_best_1_segment": -0.0024951209246399995,
+          "fold_change_points": [
+            [
+              167,
+              593,
+              699
+            ],
+            [
+              164,
+              440,
+              612
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.44999999999999996,
+          "cv_total": 437.1878278085607,
+          "cv_mean": 0.5655728690925753,
+          "difference_from_best_1_segment": 0.027182420181776194,
+          "fold_change_points": [
+            [
+              183,
+              441,
+              549
+            ],
+            [
+              228,
+              372,
+              548
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.6,
+          "cv_total": 440.27111194699444,
+          "cv_mean": 0.5695615937218557,
+          "difference_from_best_1_segment": 0.03117114481105656,
+          "fold_change_points": [
+            [
+              203,
+              441,
+              493
+            ],
+            [
+              158,
+              442,
+              536
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 462.8367598072597,
+          "cv_mean": 0.5987538936704524,
+          "difference_from_best_1_segment": 0.06036344475965325,
+          "fold_change_points": [
+            [
+              175,
+              269,
+              501,
+              665
+            ],
+            [
+              116,
+              304,
+              440,
+              626
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 419.72710664857993,
+          "cv_mean": 0.5429846140343855,
+          "difference_from_best_1_segment": 0.00459416512358631,
+          "fold_change_points": [
+            [
+              143,
+              463,
+              501,
+              665
+            ],
+            [
+              128,
+              374,
+              442,
+              612
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.44999999999999996,
+          "cv_total": 426.6527813500547,
+          "cv_mean": 0.5519440897154653,
+          "difference_from_best_1_segment": 0.01355364080466619,
+          "fold_change_points": [
+            [
+              143,
+              381,
+              501,
+              591
+            ],
+            [
+              164,
+              372,
+              442,
+              670
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.6,
+          "cv_total": 440.7381251501327,
+          "cv_mean": 0.5701657505176361,
+          "difference_from_best_1_segment": 0.03177530160683698,
+          "fold_change_points": [
+            [
+              143,
+              381,
+              453,
+              591
+            ],
+            [
+              158,
+              372,
+              424,
+              616
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 56.014594873413444,
+      "sensitivity_label": "Huber-eps1.35; folds=2; delta=0.05; score=absolute; design=reference"
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "refit_loss": "huber",
+      "score_loss": "absolute_loss",
+      "penalty_norm": "l1",
+      "constants": [
+        0.15,
+        0.3,
+        0.44999999999999996,
+        0.6
+      ],
+      "delta_fraction": 0.025,
+      "num_folds": 2,
+      "design_mode": "fold-zscore",
+      "standardize_y": false,
+      "selected_segments": 2,
+      "selected_change_points": 1,
+      "selected_constant": 0.44999999999999996,
+      "estimated_change_points": [
+        374
+      ],
+      "estimated_dates": [
+        "1991-03"
+      ],
+      "score_curve": [
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.15,
+          "cv_total": 413.60261750274185,
+          "cv_mean": 0.5350616009091098,
+          "difference_from_best_1_segment": 0.0015496934839527609,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.3,
+          "cv_total": 412.40470443964637,
+          "cv_mean": 0.533511907425157,
+          "difference_from_best_1_segment": 0.0,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.44999999999999996,
+          "cv_total": 416.67256951214796,
+          "cv_mean": 0.5390330782822095,
+          "difference_from_best_1_segment": 0.005521170857052513,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 1,
+          "change_points": 0,
+          "constant": 0.6,
+          "cv_total": 425.138231368796,
+          "cv_mean": 0.5499847753800725,
+          "difference_from_best_1_segment": 0.016472867954915475,
+          "fold_change_points": [
+            [],
+            []
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.15,
+          "cv_total": 420.7732771616057,
+          "cv_mean": 0.5443380040900462,
+          "difference_from_best_1_segment": 0.010826096664889148,
+          "fold_change_points": [
+            [
+              497
+            ],
+            [
+              236
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.3,
+          "cv_total": 408.77899490038715,
+          "cv_mean": 0.5288214681764387,
+          "difference_from_best_1_segment": -0.004690439248718265,
+          "fold_change_points": [
+            [
+              501
+            ],
+            [
+              266
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.44999999999999996,
+          "cv_total": 398.36667576858633,
+          "cv_mean": 0.5153514563629836,
+          "difference_from_best_1_segment": -0.018160451062173393,
+          "fold_change_points": [
+            [
+              593
+            ],
+            [
+              276
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 2,
+          "change_points": 1,
+          "constant": 0.6,
+          "cv_total": 406.4810940336264,
+          "cv_mean": 0.525848763303527,
+          "difference_from_best_1_segment": -0.007663144121629981,
+          "fold_change_points": [
+            [
+              593
+            ],
+            [
+              424
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.15,
+          "cv_total": 435.7866913833449,
+          "cv_mean": 0.5637602734584022,
+          "difference_from_best_1_segment": 0.03024836603324516,
+          "fold_change_points": [
+            [
+              207,
+              527
+            ],
+            [
+              266,
+              546
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.3,
+          "cv_total": 419.3564177715431,
+          "cv_mean": 0.5425050682684904,
+          "difference_from_best_1_segment": 0.008993160843333393,
+          "fold_change_points": [
+            [
+              209,
+              527
+            ],
+            [
+              266,
+              528
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.44999999999999996,
+          "cv_total": 404.53975143191155,
+          "cv_mean": 0.5233373239740123,
+          "difference_from_best_1_segment": -0.010174583451144647,
+          "fold_change_points": [
+            [
+              455,
+              523
+            ],
+            [
+              288,
+              350
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 3,
+          "change_points": 2,
+          "constant": 0.6,
+          "cv_total": 406.5346952366484,
+          "cv_mean": 0.5259181050926888,
+          "difference_from_best_1_segment": -0.007593802332468239,
+          "fold_change_points": [
+            [
+              313,
+              593
+            ],
+            [
+              292,
+              350
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.15,
+          "cv_total": 440.1464340274184,
+          "cv_mean": 0.5694003027521584,
+          "difference_from_best_1_segment": 0.03588839532700137,
+          "fold_change_points": [
+            [
+              181,
+              441,
+              665
+            ],
+            [
+              220,
+              342,
+              544
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.3,
+          "cv_total": 422.64929583673006,
+          "cv_mean": 0.546764936399392,
+          "difference_from_best_1_segment": 0.013253028974235052,
+          "fold_change_points": [
+            [
+              207,
+              501,
+              699
+            ],
+            [
+              220,
+              352,
+              546
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.44999999999999996,
+          "cv_total": 416.16978509786156,
+          "cv_mean": 0.538382645663469,
+          "difference_from_best_1_segment": 0.0048707382383120276,
+          "fold_change_points": [
+            [
+              209,
+              501,
+              699
+            ],
+            [
+              266,
+              354,
+              514
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 4,
+          "change_points": 3,
+          "constant": 0.6,
+          "cv_total": 414.6146317300544,
+          "cv_mean": 0.5363708043079617,
+          "difference_from_best_1_segment": 0.0028588968828046806,
+          "fold_change_points": [
+            [
+              209,
+              525,
+              695
+            ],
+            [
+              288,
+              420,
+              514
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.15,
+          "cv_total": 467.64448916352245,
+          "cv_mean": 0.6049734659295245,
+          "difference_from_best_1_segment": 0.07146155850436751,
+          "fold_change_points": [
+            [
+              181,
+              243,
+              501,
+              665
+            ],
+            [
+              116,
+              276,
+              346,
+              626
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.3,
+          "cv_total": 429.9123237581916,
+          "cv_mean": 0.556160832804905,
+          "difference_from_best_1_segment": 0.022648925379748008,
+          "fold_change_points": [
+            [
+              179,
+              441,
+              523,
+              541
+            ],
+            [
+              102,
+              286,
+              440,
+              620
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.44999999999999996,
+          "cv_total": 418.97514951152243,
+          "cv_mean": 0.542011836366782,
+          "difference_from_best_1_segment": 0.008499928941624922,
+          "fold_change_points": [
+            [
+              167,
+              503,
+              525,
+              699
+            ],
+            [
+              100,
+              308,
+              430,
+              612
+            ]
+          ],
+          "error": null
+        },
+        {
+          "segments": 5,
+          "change_points": 4,
+          "constant": 0.6,
+          "cv_total": 414.57274915068746,
+          "cv_mean": 0.5363166224459087,
+          "difference_from_best_1_segment": 0.0028047150207517347,
+          "fold_change_points": [
+            [
+              183,
+              503,
+              525,
+              699
+            ],
+            [
+              166,
+              420,
+              440,
+              612
+            ]
+          ],
+          "error": null
+        }
+      ],
+      "elapsed_seconds": 55.415922744199634,
+      "sensitivity_label": "Huber-eps1.35; folds=2; delta=0.025; score=absolute; design=fold-zscore"
+    }
+  ],
+  "recommended": {
+    "loss": "Huber-eps1.35",
+    "refit_loss": "huber",
+    "score_loss": "absolute_loss",
+    "penalty_norm": "l1",
+    "constants": [
+      0.15,
+      0.3,
+      0.5,
+      0.75,
+      1.0,
+      2.0
+    ],
+    "delta_fraction": 0.025,
+    "num_folds": 2,
+    "design_mode": "reference",
+    "standardize_y": false,
+    "selected_segments": 4,
+    "selected_change_points": 3,
+    "selected_constant": 0.3,
+    "estimated_change_points": [
+      154,
+      593,
+      613
+    ],
+    "estimated_dates": [
+      "1972-11",
+      "2009-06",
+      "2011-02"
+    ],
+    "score_curve": [
+      {
+        "segments": 1,
+        "change_points": 0,
+        "constant": 0.15,
+        "cv_total": 416.1758170080477,
+        "cv_mean": 0.5383904489107991,
+        "difference_from_best_1_segment": 0.0,
+        "fold_change_points": [
+          [],
+          []
+        ],
+        "error": null
+      },
+      {
+        "segments": 1,
+        "change_points": 0,
+        "constant": 0.3,
+        "cv_total": 436.6594561047634,
+        "cv_mean": 0.5648893351937431,
+        "difference_from_best_1_segment": 0.02649888628294399,
+        "fold_change_points": [
+          [],
+          []
+        ],
+        "error": null
+      },
+      {
+        "segments": 1,
+        "change_points": 0,
+        "constant": 0.5,
+        "cv_total": 453.23324881252984,
+        "cv_mean": 0.5863302054495858,
+        "difference_from_best_1_segment": 0.0479397565387867,
+        "fold_change_points": [
+          [],
+          []
+        ],
+        "error": null
+      },
+      {
+        "segments": 1,
+        "change_points": 0,
+        "constant": 0.75,
+        "cv_total": 455.87813965273006,
+        "cv_mean": 0.5897517977396249,
+        "difference_from_best_1_segment": 0.051361348828825794,
+        "fold_change_points": [
+          [],
+          []
+        ],
+        "error": null
+      },
+      {
+        "segments": 1,
+        "change_points": 0,
+        "constant": 1.0,
+        "cv_total": 455.67339690308927,
+        "cv_mean": 0.5894869300169331,
+        "difference_from_best_1_segment": 0.05109648110613396,
+        "fold_change_points": [
+          [],
+          []
+        ],
+        "error": null
+      },
+      {
+        "segments": 1,
+        "change_points": 0,
+        "constant": 2.0,
+        "cv_total": 455.40943501522145,
+        "cv_mean": 0.5891454528010627,
+        "difference_from_best_1_segment": 0.05075500389026356,
+        "fold_change_points": [
+          [],
+          []
+        ],
+        "error": null
+      },
+      {
+        "segments": 2,
+        "change_points": 1,
+        "constant": 0.15,
+        "cv_total": 416.4647481622949,
+        "cv_mean": 0.5387642278943012,
+        "difference_from_best_1_segment": 0.0003737789835021552,
+        "fold_change_points": [
+          [
+            501
+          ],
+          [
+            266
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 2,
+        "change_points": 1,
+        "constant": 0.3,
+        "cv_total": 417.72575090611997,
+        "cv_mean": 0.5403955380415524,
+        "difference_from_best_1_segment": 0.0020050891307532397,
+        "fold_change_points": [
+          [
+            593
+          ],
+          [
+            374
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 2,
+        "change_points": 1,
+        "constant": 0.5,
+        "cv_total": 441.3239259437165,
+        "cv_mean": 0.5709235781936824,
+        "difference_from_best_1_segment": 0.032533129282883315,
+        "fold_change_points": [
+          [
+            499
+          ],
+          [
+            278
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 2,
+        "change_points": 1,
+        "constant": 0.75,
+        "cv_total": 447.65486358562634,
+        "cv_mean": 0.5791136656993873,
+        "difference_from_best_1_segment": 0.04072321678858814,
+        "fold_change_points": [
+          [
+            283
+          ],
+          [
+            228
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 2,
+        "change_points": 1,
+        "constant": 1.0,
+        "cv_total": 449.26993904474386,
+        "cv_mean": 0.5812030259311046,
+        "difference_from_best_1_segment": 0.0428125770203055,
+        "fold_change_points": [
+          [
+            283
+          ],
+          [
+            154
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 2,
+        "change_points": 1,
+        "constant": 2.0,
+        "cv_total": 454.0244726731413,
+        "cv_mean": 0.5873537809484364,
+        "difference_from_best_1_segment": 0.04896333203763724,
+        "fold_change_points": [
+          [
+            7
+          ],
+          [
+            188
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 3,
+        "change_points": 2,
+        "constant": 0.15,
+        "cv_total": 434.51712533586385,
+        "cv_mean": 0.5621178852986596,
+        "difference_from_best_1_segment": 0.02372743638786046,
+        "fold_change_points": [
+          [
+            273,
+            513
+          ],
+          [
+            220,
+            548
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 3,
+        "change_points": 2,
+        "constant": 0.3,
+        "cv_total": 421.3928866350771,
+        "cv_mean": 0.5451395687387802,
+        "difference_from_best_1_segment": 0.006749119827981098,
+        "fold_change_points": [
+          [
+            463,
+            499
+          ],
+          [
+            272,
+            548
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 3,
+        "change_points": 2,
+        "constant": 0.5,
+        "cv_total": 438.20478733898085,
+        "cv_mean": 0.5668884700374914,
+        "difference_from_best_1_segment": 0.028498021126692284,
+        "fold_change_points": [
+          [
+            287,
+            549
+          ],
+          [
+            228,
+            276
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 3,
+        "change_points": 2,
+        "constant": 0.75,
+        "cv_total": 446.64550500866085,
+        "cv_mean": 0.5778078978119804,
+        "difference_from_best_1_segment": 0.03941744890118128,
+        "fold_change_points": [
+          [
+            287,
+            375
+          ],
+          [
+            158,
+            176
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 3,
+        "change_points": 2,
+        "constant": 1.0,
+        "cv_total": 449.1390418947317,
+        "cv_mean": 0.5810336893851639,
+        "difference_from_best_1_segment": 0.04264324047436478,
+        "fold_change_points": [
+          [
+            283,
+            593
+          ],
+          [
+            158,
+            724
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 3,
+        "change_points": 2,
+        "constant": 2.0,
+        "cv_total": 454.2222311157193,
+        "cv_mean": 0.5876096133450444,
+        "difference_from_best_1_segment": 0.049219164434245254,
+        "fold_change_points": [
+          [
+            7,
+            735
+          ],
+          [
+            188,
+            724
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 4,
+        "change_points": 3,
+        "constant": 0.15,
+        "cv_total": 452.8047536769085,
+        "cv_mean": 0.5857758779778893,
+        "difference_from_best_1_segment": 0.047385429067090264,
+        "fold_change_points": [
+          [
+            179,
+            499,
+            661
+          ],
+          [
+            220,
+            348,
+            548
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 4,
+        "change_points": 3,
+        "constant": 0.3,
+        "cv_total": 415.3878555389789,
+        "cv_mean": 0.5373710938408524,
+        "difference_from_best_1_segment": -0.0010193550699467253,
+        "fold_change_points": [
+          [
+            167,
+            593,
+            613
+          ],
+          [
+            164,
+            424,
+            548
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 4,
+        "change_points": 3,
+        "constant": 0.5,
+        "cv_total": 438.2683585420174,
+        "cv_mean": 0.5669707096274481,
+        "difference_from_best_1_segment": 0.028580260716648986,
+        "fold_change_points": [
+          [
+            239,
+            441,
+            549
+          ],
+          [
+            230,
+            372,
+            536
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 4,
+        "change_points": 3,
+        "constant": 0.75,
+        "cv_total": 440.670242941885,
+        "cv_mean": 0.5700779339481048,
+        "difference_from_best_1_segment": 0.0316874850373057,
+        "fold_change_points": [
+          [
+            297,
+            317,
+            703
+          ],
+          [
+            158,
+            236,
+            536
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 4,
+        "change_points": 3,
+        "constant": 1.0,
+        "cv_total": 449.0958773670385,
+        "cv_mean": 0.5809778491164793,
+        "difference_from_best_1_segment": 0.042587400205680186,
+        "fold_change_points": [
+          [
+            289,
+            313,
+            603
+          ],
+          [
+            158,
+            236,
+            724
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 4,
+        "change_points": 3,
+        "constant": 2.0,
+        "cv_total": 456.5430310188065,
+        "cv_mean": 0.5906119418095815,
+        "difference_from_best_1_segment": 0.052221492898782404,
+        "fold_change_points": [
+          [
+            3,
+            21,
+            635
+          ],
+          [
+            130,
+            154,
+            724
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 5,
+        "change_points": 4,
+        "constant": 0.15,
+        "cv_total": 444.4158435852655,
+        "cv_mean": 0.5749234716497613,
+        "difference_from_best_1_segment": 0.03653302273896223,
+        "fold_change_points": [
+          [
+            175,
+            417,
+            501,
+            665
+          ],
+          [
+            166,
+            306,
+            438,
+            626
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 5,
+        "change_points": 4,
+        "constant": 0.3,
+        "cv_total": 417.1268540865782,
+        "cv_mean": 0.539620768546673,
+        "difference_from_best_1_segment": 0.0012303196358738368,
+        "fold_change_points": [
+          [
+            161,
+            593,
+            613,
+            665
+          ],
+          [
+            142,
+            424,
+            442,
+            662
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 5,
+        "change_points": 4,
+        "constant": 0.5,
+        "cv_total": 438.62770026616033,
+        "cv_mean": 0.5674355760234933,
+        "difference_from_best_1_segment": 0.029045127112694198,
+        "fold_change_points": [
+          [
+            183,
+            313,
+            501,
+            591
+          ],
+          [
+            158,
+            372,
+            442,
+            612
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 5,
+        "change_points": 4,
+        "constant": 0.75,
+        "cv_total": 445.2287843992331,
+        "cv_mean": 0.575975141525528,
+        "difference_from_best_1_segment": 0.037584692614728854,
+        "fold_change_points": [
+          [
+            205,
+            315,
+            501,
+            603
+          ],
+          [
+            158,
+            236,
+            364,
+            540
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 5,
+        "change_points": 4,
+        "constant": 1.0,
+        "cv_total": 448.03481390809657,
+        "cv_mean": 0.5796051926366061,
+        "difference_from_best_1_segment": 0.04121474372580705,
+        "fold_change_points": [
+          [
+            289,
+            321,
+            453,
+            703
+          ],
+          [
+            158,
+            220,
+            242,
+            678
+          ]
+        ],
+        "error": null
+      },
+      {
+        "segments": 5,
+        "change_points": 4,
+        "constant": 2.0,
+        "cv_total": 454.7161793170931,
+        "cv_mean": 0.5882486148992149,
+        "difference_from_best_1_segment": 0.04985816598841579,
+        "fold_change_points": [
+          [
+            285,
+            303,
+            321,
+            635
+          ],
+          [
+            130,
+            154,
+            236,
+            724
+          ]
+        ],
+        "error": null
+      }
+    ],
+    "elapsed_seconds": 71.91922983899713
+  },
+  "diagnosis": [
+    "Unpenalized segment refits are high variance when p=114 and fold/segment sample sizes are small.",
+    "The previous helper used M_scorer for coefficient refits, so MAE scoring silently changed LS/Huber validation estimation to absolute-loss regression.",
+    "Changing num_folds alone cannot repair the missing coefficient regularization or loss mismatch.",
+    "McScan and DPDU published dates come from materially different selection rules; agreement should be approximate, not forced."
+  ]
+}

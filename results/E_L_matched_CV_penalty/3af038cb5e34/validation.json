@@ -1,0 +1,35 @@
+{
+  "trials": 100,
+  "upper_bounds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "n": 1000,
+  "p": 100,
+  "true_fractions": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "gamma": 6,
+  "paired_data": true,
+  "prior_cells_unchanged": 25,
+  "new_cells": 8,
+  "embedded_figures": 7,
+  "pdfs": [
+    "matched_upper_L_count_box.pdf",
+    "matched_upper_L_count_line.pdf",
+    "matched_upper_L_haus_box.pdf",
+    "matched_upper_L_haus_line.pdf",
+    "matched_upper_L_histograms.pdf",
+    "matched_upper_L_penalty_theory_count.pdf",
+    "matched_upper_L_penalty_theory_haus.pdf"
+  ],
+  "source_hashes_unchanged": true,
+  "native_equivalence_tests": "2 passed: actual-design CV scores/partitions and gamma6 penalty search",
+  "max_se_residual": 3.03381153868899e-15
+}

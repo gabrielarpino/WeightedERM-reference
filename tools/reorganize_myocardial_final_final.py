@@ -1,6 +1,7 @@
 """Keep each final analysis together and state achieved moment residuals explicitly."""
 from pathlib import Path
 import nbformat as nb
+from tools.final_notebook_presentation import normalize_presentation
 
 PATH=Path('Myocardial Infarction Experiment - final_final.ipynb')
 
@@ -24,7 +25,7 @@ residual_assets.mkdir(parents=True,exist_ok=True)
 residual_table.to_csv(residual_assets/'case_{case}_moment_residual.csv',index=False)
 residual_table.to_latex(residual_assets/'case_{case}_moment_residual.tex',index=False,float_format='%.9g')
 """
-    return nb.v4.new_code_cell(source)
+    return nb.v4.new_code_cell(normalize_presentation(source))
 
 def main():
     n=nb.read(PATH,4)

@@ -1,0 +1,69 @@
+{
+  "reference": "M1_upsample_final.ipynb: Canonical M1 tighter-layout plots (alpha = 0.3)",
+  "original_cells_preserved": true,
+  "M2_unchanged": true,
+  "rendered_figures": 83,
+  "histogram_grids": [
+    {
+      "name": "M3_delta3_hist",
+      "rows": 7,
+      "columns": 2
+    },
+    {
+      "name": "M3_delta6_hist",
+      "rows": 7,
+      "columns": 2
+    },
+    {
+      "name": "prior_estimated_locations",
+      "rows": 1,
+      "columns": 3
+    },
+    {
+      "name": "prior_ordered_estimates",
+      "rows": 2,
+      "columns": 3
+    },
+    {
+      "name": "upper_L_histograms",
+      "rows": 1,
+      "columns": 6
+    },
+    {
+      "name": "M1b_alpha03_hist",
+      "rows": 3,
+      "columns": 5
+    },
+    {
+      "name": "M1b_alpha03_top3_hist",
+      "rows": 3,
+      "columns": 3
+    },
+    {
+      "name": "M1b_dense_student_hist",
+      "rows": 3,
+      "columns": 2
+    },
+    {
+      "name": "M1a_fixed_count_hist",
+      "rows": 2,
+      "columns": 3
+    },
+    {
+      "name": "M1b_dense_gaussian_ls_hist",
+      "rows": 3,
+      "columns": 2
+    },
+    {
+      "name": "fixed_L_histograms",
+      "rows": 1,
+      "columns": 6
+    },
+    {
+      "name": "M3_histogram",
+      "rows": 1,
+      "columns": 2
+    }
+  ],
+  "runtime_only_legends": true
+}

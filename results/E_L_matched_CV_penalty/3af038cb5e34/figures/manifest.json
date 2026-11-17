@@ -1,0 +1,238 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/E_L_matched_CV_penalty/3af038cb5e34/study.pkl": "cb0bccb67fdafb8b4041982181c910cc5c3152d5922925f73c9a4f699a45db92"
+  },
+  "figures": [
+    {
+      "name": "matched_upper_L_count_line",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.7799999999999994
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.1977752400091184,
+            0.8152504085563468,
+            0.7329090022658087
+          ],
+          "xlabel": "$L$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            -0.2,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "matched_upper_L_count_box",
+      "description": "",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$L$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            -0.2,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "matched_upper_L_haus_line",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.1977752400091184,
+            0.7613314600007999,
+            0.7497247599908816
+          ],
+          "xlabel": "$L$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.011779225,
+            0.269363725
+          ]
+        }
+      ]
+    },
+    {
+      "name": "matched_upper_L_haus_box",
+      "description": "",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$L$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.016,
+            0.336
+          ]
+        }
+      ]
+    },
+    {
+      "name": "matched_upper_L_histograms_L3_L6",
+      "description": "Change-point location histograms: canonical M1 bins, KDE, ticks and layout.",
+      "size_inches": [
+        4.99092003252585,
+        3.991851390618514
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.125,
+            0.5338461538461539,
+            0.378048780487805,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{WERM+CV}",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.5338461538461539,
+            0.378048780487805,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{WERM+P}",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.16000000000000003,
+            0.378048780487805,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.16000000000000003,
+            0.378048780487805,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        }
+      ]
+    }
+  ]
+}

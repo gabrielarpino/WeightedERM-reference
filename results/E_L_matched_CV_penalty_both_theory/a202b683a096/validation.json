@@ -1,0 +1,27 @@
+{
+  "n": 1500,
+  "p": 100,
+  "trials": 100,
+  "true_fractions": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "gamma": 6,
+  "min_empirical_segment_ratio": 1.35,
+  "min_theory_segment_ratio": 1.35,
+  "cv_theory_count_selections_per_bound": 100,
+  "localization_draws_per_bound": 2000,
+  "max_se_residual": 7.258247972422166e-14,
+  "native_theory_checks": "12 passed",
+  "all_candidates_and_trials_retained": true,
+  "original_25_notebook_cells_unchanged": true,
+  "source_hashes_unchanged": true,
+  "original_study_sha256": "cb0bccb67fdafb8b4041982181c910cc5c3152d5922925f73c9a4f699a45db92",
+  "companion_study_sha256": "f7e266cd46cea8623b4bbd2b02f2894f21bc3835cc7328566d25ecdde9e76cb0",
+  "figures": [
+    "matched_both_theory_count.pdf",
+    "matched_both_theory_cv_scores.pdf",
+    "matched_both_theory_haus.pdf"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "specification": {
+    "settings": [
+      {
+        "experiment": "M2",
+        "n": 1800,
+        "p": 200,
+        "max_segments": 4,
+        "delta_fraction": 0.025,
+        "noise_variance": 0.1,
+        "locations": [
+          0.2,
+          0.5
+        ],
+        "delta": 9.0,
+        "minimum_segment_fraction": 0.14814814814814814
+      },
+      {
+        "experiment": "M2",
+        "n": 2200,
+        "p": 200,
+        "max_segments": 4,
+        "delta_fraction": 0.025,
+        "noise_variance": 0.1,
+        "locations": [
+          0.2,
+          0.5
+        ],
+        "delta": 11.0,
+        "minimum_segment_fraction": 0.12121212121212122
+      },
+      {
+        "experiment": "M2",
+        "n": 2600,
+        "p": 200,
+        "max_segments": 4,
+        "delta_fraction": 0.025,
+        "noise_variance": 0.1,
+        "locations": [
+          0.2,
+          0.5
+        ],
+        "delta": 13.0,
+        "minimum_segment_fraction": 0.10256410256410256
+      },
+      {
+        "experiment": "EL",
+        "n": 2400,
+        "p": 200,
+        "max_segments": 6,
+        "delta_fraction": 0.1,
+        "noise_variance": 0.25,
+        "locations": [
+          0.2,
+          0.5,
+          0.8
+        ],
+        "delta": 12.0,
+        "minimum_segment_fraction": 0.1111111111111111
+      }
+    ],
+    "trials_by_experiment": {
+      "M2": 300,
+      "EL": 100
+    },
+    "theory_draws": 20
+  },
+  "input_hashes": {
+    "results/M2_CV_theory_convergence/p200_6961bbb9765c/results.pkl": "36cf40a584f19fa5939bc1e92ffb6de24070e9c17c42f688d300c3655cc8fffd",
+    "results/E-WERM-CV-theory/ed5fc8b279bb/results.pkl": "8ac99031d1af563a2565307af0c00529b5f4607f08e284703bb708c62cc1c2c7"
+  },
+  "selection": "M2 selected after comparison of saved runs; all trials and ratios retained"
+}

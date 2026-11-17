@@ -1,0 +1,374 @@
+\begin{thebibliography}{}
+
+\bibitem[Aue et~al., 2009]{aue2009estimation}
+Aue, A., Gabrys, R., Horv{\'a}th, L., and Kokoszka, P. (2009).
+\newblock Estimation of a change-point in the mean function of functional data.
+\newblock {\em Journal of Multivariate Analysis}, 100(10):2254--2269.
+
+\bibitem[Aue and Horv{\'a}th, 2013]{aue:13}
+Aue, A. and Horv{\'a}th, L. (2013).
+\newblock Structural breaks in time series.
+\newblock {\em Journal of Time Series Analysis}, 34(1):1--16.
+
+\bibitem[Aue et~al., 2018]{aue2018detecting}
+Aue, A., Rice, G., and S{\"o}nmez, O. (2018).
+\newblock Detecting and dating structural breaks in functional data without
+  dimension reduction.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 80(3):509--529.
+
+\bibitem[Bai, 1994]{bai1994}
+Bai, J. (1994).
+\newblock Least squares estimation of a shift in linear processes.
+\newblock {\em Journal of Time Series Analysis}, 15(5):453--472.
+
+\bibitem[Bai, 2010]{bai2010common}
+Bai, J. (2010).
+\newblock Common breaks in means and variances for panel data.
+\newblock {\em Journal of Econometrics}, 157(1):78--92.
+
+\bibitem[Basu and Michailidis, 2015]{basu2015regularized}
+Basu, S. and Michailidis, G. (2015).
+\newblock Regularized estimation in sparse high-dimensional time series models.
+\newblock {\em The Annals of Statistics}, 43(4):1535--1567.
+
+\bibitem[Berkes et~al., 2009a]{berkes2009detecting}
+Berkes, I., Gabrys, R., Horv{\'a}th, L., and Kokoszka, P. (2009a).
+\newblock Detecting changes in the mean of functional observations.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 71(5):927--946.
+
+\bibitem[Berkes et~al., 2009b]{berkes2009asymptotic}
+Berkes, I., H{\"o}rmann, S., and Schauer, J. (2009b).
+\newblock Asymptotic results for the empirical process of stationary sequences.
+\newblock {\em Stochastic processes and their applications}, 119(4):1298--1324.
+
+\bibitem[Bhattacharjee et~al., 2018]{bhattacharjee2018change}
+Bhattacharjee, M., Banerjee, M., and Michailidis, G. (2018).
+\newblock Change point estimation in a dynamic stochastic block model.
+\newblock {\em arXiv preprint arXiv:1812.03090}.
+
+\bibitem[Brodsky and Darkhovsky, 2013]{brodsky2013nonparametric}
+Brodsky, E. and Darkhovsky, B.~S. (2013).
+\newblock {\em {Nonparametric Methods in Change Point Problems}}.
+\newblock Springer Netherlands.
+
+\bibitem[B{\"u}hlmann and van~de Geer, 2011]{buhlmann2011statistics}
+B{\"u}hlmann, P. and van~de Geer, S. (2011).
+\newblock {\em Statistics for high-dimensional data: methods, theory and
+  applications}.
+\newblock Springer Science \& Business Media.
+
+\bibitem[Burkholder, 1988]{burkholder1988sharp}
+Burkholder, D.~L. (1988).
+\newblock Sharp inequalities for martingales and stochastic integrals.
+\newblock {\em Ast{\'e}risque}, 157(158):75--94.
+
+\bibitem[Cao and Wu, 2015]{cao2015changepoint}
+Cao, H. and Wu, W.~B. (2015).
+\newblock Changepoint estimation: another look at multiple testing problems.
+\newblock {\em Biometrika}, 102(4):974--980.
+
+\bibitem[Casini and Perron, 2019]{Casini2019structural}
+Casini, A. and Perron, P. (2019).
+\newblock Structural breaks in time series.
+\newblock In {\em Oxford Research Encyclopedia of Economics and Finance
+  (forthcoming)}. Oxford University Press.
+
+\bibitem[Chen et~al., 2021]{chen2021inference}
+Chen, L., Wang, W., and Wu, W.~B. (2021).
+\newblock Inference of breakpoints in high-dimensional time series.
+\newblock {\em Journal of the American Statistical Association}, pages 1--13.
+
+\bibitem[Chen et~al., 2022]{fbi}
+Chen, Y.~B., Ng, S., and Bai, J. (2022).
+\newblock {\em fbi: Factor-Based Imputation and FRED-MD/QD Data Set}.
+\newblock R package version 0.6.0.
+
+\bibitem[Chu, 2016]{data-set}
+Chu, N. (2016).
+\newblock Air quality in northern taiwan.
+\newblock
+  \url{https://www.kaggle.com/datasets/nelsonchu/air-quality-in-northern-taiwan}
+  [Accessed: April 16, 2023].
+
+\bibitem[Csörgő and Horváth, 1997]{Csoergoe1997}
+Csörgő, M. and Horváth, L. (1997).
+\newblock {\em Limit Theorems in Change-Point Analysis}.
+\newblock Wiley Series in Probability and Statistics. Wiley.
+
+\bibitem[Dahlhaus et~al., 2019]{dahlhaus2019towards}
+Dahlhaus, R., Richter, S., and Wu, W.~B. (2019).
+\newblock Towards a general theory for nonlinear locally stationary processes.
+
+\bibitem[Dedecker and Prieur, 2004]{dedecker2004coupling}
+Dedecker, J. and Prieur, C. (2004).
+\newblock Coupling for $\tau$-dependent sequences and applications.
+\newblock {\em Journal of Theoretical Probability}, 17(4):861--885.
+
+\bibitem[Efron et~al., 2004]{efron2004least}
+Efron, B., Hastie, T., Johnstone, I., and Tibshirani, R. (2004).
+\newblock Least angle regression.
+\newblock {\em The Annals of statistics}, 32(2):407--499.
+
+\bibitem[Friedrich et~al., 2008]{friedrich2008complexity}
+Friedrich, F., Kempe, A., Liebscher, V., and Winkler, G. (2008).
+\newblock Complexity penalized m-estimation: fast computation.
+\newblock {\em Journal of Computational and Graphical Statistics},
+  17(1):201--224.
+
+\bibitem[Han and Tsay, 2020]{han2020high}
+Han, Y. and Tsay, R.~S. (2020).
+\newblock High-dimensional linear regression for dependent data with
+  applications to nowcasting.
+\newblock {\em Statistica Sinica}, 30(4):1797--1827.
+
+\bibitem[Kaul et~al., 2021]{kaul2021}
+Kaul, A., Fotopoulos, S.~B., Jandhyala, V.~K., and Safikhani, A. (2021).
+\newblock Inference on the change point under a high dimensional sparse mean
+  shift.
+\newblock {\em Electronic Journal of Statistics}, 15(1):71--134.
+
+\bibitem[Kaul et~al., 2019]{kaul2019efficient}
+Kaul, A., Jandhyala, V.~K., and Fotopoulos, S.~B. (2019).
+\newblock An efficient two step algorithm for high dimensional change point
+  regression models without grid search.
+\newblock {\em J. Mach. Learn. Res.}, 20:111--1.
+
+\bibitem[Kaul and Michailidis, 2021]{kaul2021inference}
+Kaul, A. and Michailidis, G. (2021).
+\newblock Inference for change points in high dimensional mean shift models.
+\newblock {\em arXiv preprint arXiv:2107.09150}.
+
+\bibitem[Killick et~al., 2012]{killick2012optimal}
+Killick, R., Fearnhead, P., and Eckley, I.~A. (2012).
+\newblock Optimal detection of changepoints with a linear computational cost.
+\newblock {\em Journal of the American Statistical Association},
+  107(500):1590--1598.
+
+\bibitem[Kuchibhotla et~al., 2021]{kuchibhotla2021uniform}
+Kuchibhotla, A.~K., Brown, L.~D., Buja, A., George, E.~I., and Zhao, L. (2021).
+\newblock Uniform-in-submodel bounds for linear regression in a model-free
+  framework.
+\newblock {\em Econometric Theory}, pages 1--47.
+
+\bibitem[Lee et~al., 2016]{lee2016lasso}
+Lee, S., Seo, M.~H., and Shin, Y. (2016).
+\newblock The lasso for high dimensional regression with a possible change
+  point.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 78(1):193--210.
+
+\bibitem[Leonardi and B{\"u}hlmann, 2016]{leonardi2016computationally}
+Leonardi, F. and B{\"u}hlmann, P. (2016).
+\newblock Computationally efficient change point detection for high-dimensional
+  regression.
+\newblock {\em arXiv preprint arXiv:1601.03704}.
+
+\bibitem[Liu et~al., 2013]{liu2013probability}
+Liu, W., Xiao, H., and Wu, W.~B. (2013).
+\newblock Probability and moment inequalities under dependence.
+\newblock {\em Statistica Sinica}, pages 1257--1272.
+
+\bibitem[Loh and Wainwright, 2012]{loh2012high}
+Loh, P.-L. and Wainwright, M.~J. (2012).
+\newblock Hign-dimensional regression with noisy and missing data: provable
+  guarantees with nonconvexity.
+\newblock {\em The Annals of Statistics}, pages 1637--1664.
+
+\bibitem[Madrid~Padilla et~al., 2022]{misael2022change}
+Madrid~Padilla, C.~M., Wang, D., Zhao, Z., and Yu, Y. (2022).
+\newblock Change-point detection for sparse and dense functional data in
+  general dimensions.
+\newblock {\em arXiv e-prints}, pages arXiv--2205.
+
+\bibitem[McCracken and Ng, 2016]{mccracken2016fred}
+McCracken, M.~W. and Ng, S. (2016).
+\newblock Fred-md: A monthly database for macroeconomic research.
+\newblock {\em Journal of Business \& Economic Statistics}, 34(4):574--589.
+
+\bibitem[Merlev{\`e}de et~al., 2011]{merlevede2011bernstein}
+Merlev{\`e}de, F., Peligrad, M., and Rio, E. (2011).
+\newblock A bernstein type inequality and moderate deviations for weakly
+  dependent sequences.
+\newblock {\em Probability Theory and Related Fields}, 151(3):435--474.
+
+\bibitem[Mukherjee et~al., 2022]{mukherjee2022robust}
+Mukherjee, D., Banerjee, M., and Ritov, Y. (2022).
+\newblock On robust learning in the canonical change point problem under heavy
+  tailed errors in finite and growing dimensions.
+\newblock {\em Electronic Journal of Statistics}, 16(1):1153--1252.
+
+\bibitem[{National Research Council}, 2013]{Council2013}
+{National Research Council} (2013).
+\newblock {\em Frontiers in Massive Data Analysis}.
+\newblock The National Academies Press, Washington, DC.
+
+\bibitem[Pilliat et~al., 2020]{pilliat2020optimal}
+Pilliat, E., Carpentier, A., and Verzelen, N. (2020).
+\newblock Optimal multiple change-point detection for high-dimensional data.
+\newblock {\em arXiv preprint arXiv:2011.07818}.
+
+\bibitem[Richter et~al., 2023]{wang2021testing}
+Richter, S., Wang, W., and Wu, W.~B. (2023).
+\newblock Testing for parameter change epochs in garch time series.
+\newblock {\em The Econometrics Journal}, page utad006.
+
+\bibitem[Rinaldo et~al., 2021]{rinaldo2021localizing}
+Rinaldo, A., Wang, D., Wen, Q., Willett, R., and Yu, Y. (2021).
+\newblock Localizing changes in high-dimensional regression models.
+\newblock In {\em International Conference on Artificial Intelligence and
+  Statistics}, pages 2089--2097. PMLR.
+
+\bibitem[Rio, 2009]{rio2009moment}
+Rio, E. (2009).
+\newblock Moment inequalities for sums of dependent random variables under
+  projective conditions.
+\newblock {\em Journal of Theoretical Probability}, 22(1):146--163.
+
+\bibitem[Shao and Zhang, 2010]{shao2010testing}
+Shao, X. and Zhang, X. (2010).
+\newblock Testing for change points in time series.
+\newblock {\em Journal of the American Statistical Association},
+  105(491):1228--1240.
+
+\bibitem[van~de Geer, 2018]{van2018tight}
+van~de Geer, S. (2018).
+\newblock On tight bounds for the lasso.
+\newblock {\em Journal of Machine Learning Research}, 19:46.
+
+\bibitem[van~der Vaart and Wellner, 1996]{Vaart1996weak}
+van~der Vaart, A. and Wellner, J. (1996).
+\newblock {\em Weak convergence and empirical processes: with applications to
+  statistics}.
+\newblock Springer.
+
+\bibitem[Vershynin, 2018]{vershynin2018high}
+Vershynin, R. (2018).
+\newblock {\em High-dimensional probability: An introduction with applications
+  in data science}, volume~47.
+\newblock Cambridge university press.
+
+\bibitem[Verzelen et~al., 2020]{verzelen2020optimal}
+Verzelen, N., Fromont, M., Lerasle, M., and Reynaud-Bouret, P. (2020).
+\newblock Optimal change-point detection and localization.
+\newblock {\em arXiv preprint arXiv:2010.11470}.
+
+\bibitem[Wang et~al., 2020]{wang2020univariate}
+Wang, D., Yu, Y., and Rinaldo, A. (2020).
+\newblock Univariate mean change point detection: Penalization, cusum and
+  optimality.
+\newblock {\em Electronic Journal of Statistics}, 14(1):1917--1961.
+
+\bibitem[Wang et~al., 2021a]{wang2021optimal}
+Wang, D., Yu, Y., and Rinaldo, A. (2021a).
+\newblock Optimal change point detection and localization in sparse dynamic
+  networks.
+\newblock {\em The Annals of Statistics}, 49(1):203--232.
+
+\bibitem[Wang and Zhao, 2022]{wang2022optimal}
+Wang, D. and Zhao, Z. (2022).
+\newblock Optimal change-point testing for high-dimensional linear models with
+  temporal dependence.
+\newblock {\em arXiv preprint arXiv:2205.03880}.
+
+\bibitem[Wang et~al., 2021b]{wang2021statistically}
+Wang, D., Zhao, Z., Lin, K.~Z., and Willett, R. (2021b).
+\newblock Statistically and computationally efficient change point localization
+  in regression settings.
+\newblock {\em Journal of Machine Learning Research}, 22(248):1--46.
+
+\bibitem[Wang and Shao, 2020]{wangshao2020}
+Wang, R. and Shao, X. (2020).
+\newblock Dating the break in high-dimensional data.
+\newblock {\em arXiv preprint arXiv:2002.04115}.
+
+\bibitem[Wang et~al., 2022]{wangzhushaovolgushev2021AoS}
+Wang, R., Zhu, C., Volgushev, S., and Shao, X. (2022).
+\newblock Inference for change points in high-dimensional data via
+  selfnormalization.
+\newblock {\em The Annals of Statistics}, 50(2):781--806.
+
+\bibitem[Wong et~al., 2020]{wong2020lasso}
+Wong, K.~C., Li, Z., and Tewari, A. (2020).
+\newblock Lasso guarantees for beta-mixing heavy-tailed time series.
+\newblock {\em The Annals of Statistics}, 48(2):1124--1142.
+
+\bibitem[Wu, 2005]{wu2005nonlinear}
+Wu, W.~B. (2005).
+\newblock Nonlinear system theory: Another look at dependence.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  102(40):14150--14154.
+
+\bibitem[Wu, 2011]{wu2011asymptotic}
+Wu, W.~B. (2011).
+\newblock Asymptotic theory for stationary processes.
+\newblock {\em Statistics and its Interface}, 4(2):207--226.
+
+\bibitem[Wu and Min, 2005]{wu2005linear}
+Wu, W.~B. and Min, W. (2005).
+\newblock On linear processes with dependent innovations.
+\newblock {\em Stochastic Processes and Their Applications}, 115(6):939--958.
+
+\bibitem[Wu and Shao, 2004]{wu2004limit}
+Wu, W.~B. and Shao, X. (2004).
+\newblock Limit theorems for iterated random functions.
+\newblock {\em Journal of Applied Probability}, 41(2):425--436.
+
+\bibitem[Wu and Wu, 2016]{wu2016performance}
+Wu, W.-B. and Wu, Y.~N. (2016).
+\newblock Performance bounds for parameter estimates of high-dimensional linear
+  models with correlated errors.
+\newblock {\em Electronic Journal of Statistics}, 10(1):352--379.
+
+\bibitem[Xu et~al., 2022]{changepoints_R}
+Xu, H., Padilla, O., Wang, D., and Li, M. (2022).
+\newblock {\em changepoints: A Collection of Change-Point Detection Methods}.
+\newblock R package version 1.1.0.
+
+\bibitem[Yao, 1987]{yao1987approximating}
+Yao, Y.-C. (1987).
+\newblock Approximating the distribution of the maximum likelihood estimate of
+  the change-point in a sequence of independent random variables.
+\newblock {\em The Annals of Statistics}, pages 1321--1328.
+
+\bibitem[Yao, 1988]{yao1988estimating}
+Yao, Y.-C. (1988).
+\newblock Estimating the number of change-points via schwarz'criterion.
+\newblock {\em Statistics \& Probability Letters}, 6(3):181--189.
+
+\bibitem[Yao and Au, 1989]{yao1989least}
+Yao, Y.-C. and Au, S.-T. (1989).
+\newblock Least-squares estimation of a step function.
+\newblock {\em Sankhy{\=a}: The Indian Journal of Statistics, Series A}, pages
+  370--381.
+
+\bibitem[Yu and Chen, 2021]{yuchen2021}
+Yu, M. and Chen, X. (2021).
+\newblock Finite sample change point inference and identification for
+  high-dimensional mean vectors.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 83(2):247--270.
+
+\bibitem[Yu et~al., 2022]{yu2022localising}
+Yu, Y., Chatterjee, S., and Xu, H. (2022).
+\newblock Localising change points in piecewise polynomials of general degrees.
+\newblock {\em Electronic Journal of Statistics}, 16(1):1855--1890.
+
+\bibitem[Zhang et~al., 2015]{zhang2015multiple}
+Zhang, B., Geng, J., and Lai, L. (2015).
+\newblock Multiple change-points estimation in linear regression models via
+  sparse group lasso.
+\newblock {\em IEEE Transactions on Signal Processing}, 63(9):2209--2224.
+
+\bibitem[Zhang and Wu, 2017]{zhang2017gaussian}
+Zhang, D. and Wu, W.~B. (2017).
+\newblock Gaussian approximation for high dimensional time series.
+\newblock {\em The Annals of Statistics}, 45(5):1895--1919.
+
+\bibitem[Zhang et~al., 2021]{zhang2021adaptive}
+Zhang, Y., Wang, R., and Shao, X. (2021).
+\newblock Adaptive inference for change points in high-dimensional data.
+\newblock {\em Journal of the American Statistical Association}, pages 1--12.
+
+\end{thebibliography}

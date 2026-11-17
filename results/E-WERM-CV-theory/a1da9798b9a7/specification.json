@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "settings": [
+    {
+      "experiment": "M2",
+      "n": 1800,
+      "p": 200,
+      "max_segments": 4,
+      "delta_fraction": 0.025,
+      "noise_variance": 0.1,
+      "locations": [
+        0.2,
+        0.5
+      ],
+      "delta": 9.0,
+      "minimum_segment_fraction": 0.14814814814814814
+    },
+    {
+      "experiment": "M2",
+      "n": 2200,
+      "p": 200,
+      "max_segments": 4,
+      "delta_fraction": 0.025,
+      "noise_variance": 0.1,
+      "locations": [
+        0.2,
+        0.5
+      ],
+      "delta": 11.0,
+      "minimum_segment_fraction": 0.12121212121212122
+    },
+    {
+      "experiment": "M2",
+      "n": 2600,
+      "p": 200,
+      "max_segments": 4,
+      "delta_fraction": 0.025,
+      "noise_variance": 0.1,
+      "locations": [
+        0.2,
+        0.5
+      ],
+      "delta": 13.0,
+      "minimum_segment_fraction": 0.10256410256410256
+    },
+    {
+      "experiment": "EL",
+      "n": 2400,
+      "p": 200,
+      "max_segments": 6,
+      "delta_fraction": 0.1,
+      "noise_variance": 0.25,
+      "locations": [
+        0.2,
+        0.5,
+        0.8
+      ],
+      "delta": 12.0,
+      "minimum_segment_fraction": 0.1111111111111111
+    }
+  ],
+  "trials": 2,
+  "theory_draws": 3,
+  "folds": 10,
+  "min_training_segment_rows": 240,
+  "coefficient_penalty": "none",
+  "partition_penalty": 0,
+  "scorer": "absolute error",
+  "fitter": "squared error",
+  "prior": "exact uniform integer compositions with every segment >= minimum",
+  "theory": "deterministic expected-loss partition; uniform-refit SE; absolute risk; CV argmin; full SE",
+  "sources": {
+    "tools/werm_cv_theory_experiment.py": "d022348aecdac07ca9c32c1495194e025461412fc68d0da2ce966ea0173057f9",
+    "tools/werm_cv_theory.py": "5d8410bb017ebbfd6c984a7ec80835571327757058ee59203e19912c1e6b4b42",
+    "tools/werm_cv_empirical.py": "af2acb7dfeb25dcdf323e009fefed89d5315222938149f7060959fa39e077374",
+    "tools/werm_cv_partition.py": "dde4f1173a1725d61b4aa41a258f556f51d5d03b6fdb2524c5b8bdf845444dff",
+    "tools/el_state_evolution.py": "c23dbf5747ad874cbf49f1a2f24b59a4c1a7d4512c74c4955ff4cc8ba3ae3f19",
+    "WERM/proximal.py": "89593d82e32db5e9380df2c05945cec4485b8ad49281e016ff13f81e24297632",
+    "WERM/signal_strength.py": "2f784c6ed43b9102bcdab22efe918ea8b93076e08adf85aefb76464487767e67",
+    "WERM/signal_priors.py": "430aa700f418600f21acd1a061827553126ea02a12a8604a448f2a6f16c327a5",
+    "WERM/experiment_utils.py": "8f84960d5813f14b32e0a618add8454f4ce5941df2ae293c79beb1e110a85a94"
+  }
+}

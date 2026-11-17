@@ -1,0 +1,2 @@
+stage,loss,intercept,penalty_norm,folds,delta_fraction,delta_label,minimum_segment_length,selected_constant,selected_change_points,change_point_indices,change_point_dates,cv_mae,zero_cp_cv_mae,improvement_vs_zero_pct,mean_distance_to_1982_2008_months,nearest_distance_to_2020_months,elapsed_seconds,key
+penalized_higher_delta,least-squares,False,l1,2,0.2,n/5,154,0.75,2,"[276,548]","[""1983-01"",""2005-09""]",0.5417147820962969,0.5484142718802792,1.2216111300336308,24.0,172.0,29.73685596883297,penalized_higher_delta|least-squares|intercept=0|l1|folds=2|delta=0.2

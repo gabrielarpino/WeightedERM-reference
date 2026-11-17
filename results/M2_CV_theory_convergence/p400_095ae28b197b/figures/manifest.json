@@ -1,0 +1,320 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/E-WERM-CV-theory/ed5fc8b279bb/results.pkl": "8ac99031d1af563a2565307af0c00529b5f4607f08e284703bb708c62cc1c2c7",
+    "results/M2_CV_theory_convergence/p200_6961bbb9765c/results.pkl": "36cf40a584f19fa5939bc1e92ffb6de24070e9c17c42f688d300c3655cc8fffd",
+    "results/M2_CV_theory_convergence/p220_1b81123e021c/results.pkl": "5b4343ce4c2e5475eaecb4825a38d2d13d01d958c567e4293a7933ca74f0bb8c",
+    "results/M2_CV_theory_convergence/p400_095ae28b197b/results.pkl": "e1fc91ed24006fe0088fda85860635d46afe40353c76fafc89eeb0b3babb6a4f"
+  },
+  "figures": [
+    {
+      "name": "M2_p200_count_convergence",
+      "description": "",
+      "size_inches": [
+        4.78,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.20468978128080895,
+            0.8152504085563468,
+            0.688345369935712
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "No. change points",
+          "title": "$p=200$, 300 trials",
+          "ylim": [
+            0.0,
+            3.1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_p200_haus_convergence",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.20468978128080895,
+            0.7613314600007999,
+            0.688345369935712
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "$p=200$, 300 trials",
+          "ylim": [
+            0.013196047008547013,
+            0.3130753205128205
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_p220_count_convergence",
+      "description": "",
+      "size_inches": [
+        4.78,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.20468978128080895,
+            0.8152504085563468,
+            0.688345369935712
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "No. change points",
+          "title": "$p=220$, 300 trials",
+          "ylim": [
+            0.0,
+            3.1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_p220_haus_convergence",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.20468978128080895,
+            0.7613314600007999,
+            0.688345369935712
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "$p=220$, 300 trials",
+          "ylim": [
+            0.039152318640955,
+            0.31189221763085395
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_p400_count_convergence",
+      "description": "",
+      "size_inches": [
+        4.78,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.20468978128080895,
+            0.8152504085563468,
+            0.688345369935712
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "No. change points",
+          "title": "$p=400$, 300 trials",
+          "ylim": [
+            0.0,
+            3.1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_p400_haus_convergence",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.20468978128080895,
+            0.7613314600007999,
+            0.688345369935712
+          ],
+          "xlabel": "$\\delta=n/p$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "$p=400$, 300 trials",
+          "ylim": [
+            0.02213114316239316,
+            0.31264983974358973
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_p400_scores_9_convergence",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1912234304598857,
+            0.1977752400091184,
+            0.7667765695401143,
+            0.6952599112074026
+          ],
+          "xlabel": "Candidate segments $k$",
+          "ylabel": "Absolute prediction error",
+          "title": "$p=400,\\ \\delta=9$",
+          "ylim": [
+            0.34871617884242645,
+            0.4731395963006142
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_p400_scores_11_convergence",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1912234304598857,
+            0.1977752400091184,
+            0.7667765695401143,
+            0.6952599112074026
+          ],
+          "xlabel": "Candidate segments $k$",
+          "ylabel": "Absolute prediction error",
+          "title": "$p=400,\\ \\delta=11$",
+          "ylim": [
+            0.32075409765301366,
+            0.4400730764734382
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M2_p400_scores_13_convergence",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.1912234304598857,
+            0.1977752400091184,
+            0.7667765695401143,
+            0.6952599112074026
+          ],
+          "xlabel": "Candidate segments $k$",
+          "ylabel": "Absolute prediction error",
+          "title": "$p=400,\\ \\delta=13$",
+          "ylim": [
+            0.3051264154687548,
+            0.4139533470077003
+          ]
+        }
+      ]
+    }
+  ]
+}

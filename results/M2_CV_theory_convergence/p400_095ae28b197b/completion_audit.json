@@ -1,0 +1,17 @@
+{
+  "paired_trials": 900,
+  "trials_per_ratio": 300,
+  "p": 400,
+  "n": [
+    3600,
+    4400,
+    5200
+  ],
+  "min_empirical_ratio": 1.2,
+  "min_theory_ratio": 1.2,
+  "max_se_residual": 7.930813309746022e-15,
+  "figures": 9,
+  "original_notebook_cells_preserved": true,
+  "source_hashes_verified": true,
+  "notebook_errors": 0
+}

@@ -1,0 +1,863 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/M3_usample_final_delta3_alpha01_GLMBSA_WERM-L1_fullCV2_seed42_100trials.pkl": "c253105eff4b52a531e2c9e3323ab0d77acf50d01505528ac21fafe40e6277e5",
+    "results/M3_usample_final_delta6_alpha01_GLMBSA_WERM-L1_fullCV2_seed42_100trials.pkl": "6664a9b08d10169da9d15c368e0ce02bd0a44fb73ac59940a121ac65fc8ad162"
+  },
+  "figures": [
+    {
+      "name": "M3_delta3_haus_line",
+      "description": "M3_delta3: Hausdorff dist. / $n$; mean and absolute distances to quartiles",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.17770051603632647,
+            0.1977752400091184,
+            0.7802994839636734,
+            0.7497247599908816
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.015083333333333334,
+            0.35341666666666666
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta3_haus_box",
+      "description": "M3_delta3: Hausdorff dist. / $n$; boxplots with faint trial jitter",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.018333333333333333,
+            0.38499999999999995
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta3_size_line",
+      "description": "M3_delta3: No. change points; mean and absolute distances to quartiles",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.1977752400091184,
+            0.8152504085563468,
+            0.7329090022658087
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta3_size_box",
+      "description": "M3_delta3: No. change points; boxplots with faint trial jitter",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta3_runtime_line",
+      "description": "M3_delta3: Runtime (s); mean and absolute distances to quartiles",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.16716272494584114,
+            0.1977752400091184,
+            0.7908372750541588,
+            0.7497247599908816
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "Runtime (s)",
+          "title": "",
+          "ylim": [
+            0.0,
+            27.804699060320853
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta3_runtime_box",
+      "description": "M3_delta3: Runtime (s); boxplots with faint trial jitter",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "Runtime (s)",
+          "title": "",
+          "ylim": [
+            0.0,
+            34.02231323719025
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta3_hist",
+      "description": "Change-point location histograms: canonical M1 bins, KDE, ticks and layout.",
+      "size_inches": [
+        4.6847669388212525,
+        13.909851390618515
+      ],
+      "canvas_inches": [
+        5.0,
+        15.400000000000002
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.125,
+            0.7770588235294118,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{WERM+L1}",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.7770588235294118,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "GLMBSA",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.6658823529411765,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.6658823529411765,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.5547058823529412,
+            0.378048780487805,
+            0.10294117647058831
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.5547058823529412,
+            0.378048780487805,
+            0.10294117647058831
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.44352941176470584,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.44352941176470584,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.3323529411764705,
+            0.378048780487805,
+            0.10294117647058826
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.3323529411764705,
+            0.378048780487805,
+            0.10294117647058826
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.2211764705882353,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.2211764705882353,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.1100000000000001,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.1100000000000001,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta6_haus_line",
+      "description": "M3_delta6: Hausdorff dist. / $n$; mean and absolute distances to quartiles",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.1977752400091184,
+            0.7613314600007999,
+            0.7497247599908816
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.0124375,
+            0.27952083333333333
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta6_haus_box",
+      "description": "M3_delta6: Hausdorff dist. / $n$; boxplots with faint trial jitter",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.026625,
+            0.559125
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta6_size_line",
+      "description": "M3_delta6: No. change points; mean and absolute distances to quartiles",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.1977752400091184,
+            0.8152504085563468,
+            0.7329090022658087
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta6_size_box",
+      "description": "M3_delta6: No. change points; boxplots with faint trial jitter",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta6_runtime_line",
+      "description": "M3_delta6: Runtime (s); mean and absolute distances to quartiles",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.16716272494584114,
+            0.1977752400091184,
+            0.7908372750541588,
+            0.7497247599908816
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "Runtime (s)",
+          "title": "",
+          "ylim": [
+            0.0,
+            90.97737402915955
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta6_runtime_box",
+      "description": "M3_delta6: Runtime (s); boxplots with faint trial jitter",
+      "size_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canvas_inches": [
+        2.8994882482357824,
+        2.05
+      ],
+      "canonical_m1": false,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.19,
+            0.22999999999999998,
+            0.79,
+            0.74
+          ],
+          "xlabel": "$\\kappa^2$",
+          "ylabel": "Runtime (s)",
+          "title": "",
+          "ylim": [
+            0.0,
+            106.70178234577179
+          ]
+        }
+      ]
+    },
+    {
+      "name": "M3_delta6_hist",
+      "description": "Change-point location histograms: canonical M1 bins, KDE, ticks and layout.",
+      "size_inches": [
+        4.6847669388212525,
+        13.909851390618515
+      ],
+      "canvas_inches": [
+        5.0,
+        15.400000000000002
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.125,
+            0.7770588235294118,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{WERM+L1}",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.7770588235294118,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "GLMBSA",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.6658823529411765,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.6658823529411765,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.5547058823529412,
+            0.378048780487805,
+            0.10294117647058831
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.5547058823529412,
+            0.378048780487805,
+            0.10294117647058831
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.44352941176470584,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.44352941176470584,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.3323529411764705,
+            0.378048780487805,
+            0.10294117647058826
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.3323529411764705,
+            0.378048780487805,
+            0.10294117647058826
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.2211764705882353,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.2211764705882353,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.1100000000000001,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.1100000000000001,
+            0.378048780487805,
+            0.1029411764705882
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            18.0
+          ]
+        }
+      ]
+    }
+  ]
+}

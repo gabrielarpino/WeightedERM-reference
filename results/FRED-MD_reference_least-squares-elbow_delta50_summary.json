@@ -1,0 +1,89 @@
+{
+  "description": "Preserved historical least-squares FRED-MD elbow reference before delta40 standardization",
+  "source_artifact": "/scratch/ga442/gab-code-env/papers/WeightedERM-reference/results/FRED-MD_elbow-six-methods_penalty-constant-CV.pkl",
+  "parameters": {
+    "n": 773,
+    "p_without_bias": 114,
+    "p_with_bias": 115,
+    "delta_fraction_for_penalty_CV": 0.02,
+    "full_refit_Delta_n": 16,
+    "L_values": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "penalty_constants": [
+      0.00375,
+      0.075,
+      0.15,
+      0.3,
+      0.6,
+      1.2,
+      2.4
+    ],
+    "num_folds": 5,
+    "n_jobs_used": 16,
+    "fit_loss": "least squares",
+    "CV_score_loss": "absolute",
+    "elbow_rule": "maximum distance to endpoint line"
+  },
+  "summary": {
+    "WERM-unpenalized": {
+      "selected_segments": 3,
+      "num_change_points": 2,
+      "change_points": [
+        264,
+        583
+      ],
+      "selected_constant": null
+    },
+    "WERM-unpenalized-bias": {
+      "selected_segments": 3,
+      "num_change_points": 2,
+      "change_points": [
+        264,
+        583
+      ],
+      "selected_constant": null
+    },
+    "WERM-L1-CV": {
+      "selected_segments": 4,
+      "num_change_points": 3,
+      "change_points": [
+        203,
+        435,
+        654
+      ],
+      "selected_constant": 0.3
+    },
+    "WERM-L1-CV-bias": {
+      "selected_segments": 4,
+      "num_change_points": 3,
+      "change_points": [
+        203,
+        435,
+        654
+      ],
+      "selected_constant": 0.3
+    },
+    "WERM-L2-CV": {
+      "selected_segments": 2,
+      "num_change_points": 1,
+      "change_points": [
+        524
+      ],
+      "selected_constant": 0.15
+    },
+    "WERM-L2-CV-bias": {
+      "selected_segments": 3,
+      "num_change_points": 2,
+      "change_points": [
+        266,
+        654
+      ],
+      "selected_constant": 2.4
+    }
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "design": {
+    "n": 1600,
+    "p": 200,
+    "delta": 8.0,
+    "Lmax": 4,
+    "coefficient_C": 0.3,
+    "true_cp": [
+      560,
+      1040
+    ],
+    "alpha": 0.3,
+    "ar1": 0.4,
+    "noise": "Student-t(4) times sqrt(0.1)",
+    "loss": "Huber 1.35",
+    "folds": 2,
+    "standardize_y": true,
+    "minimum_gap": 80,
+    "calibration_seed": 20261021,
+    "assessment_seed": 20261022,
+    "calibration_trials": 30,
+    "assessment_trials": 100,
+    "penalties": [
+      "gamma log binom(n-1,K-1)",
+      "gamma (K-1)^2"
+    ],
+    "selection": "minimum count-distribution TV; midpoint of widest minimum grid plateau"
+  },
+  "selected_family": "quadratic",
+  "methods": {
+    "CV": {
+      "count_error": {
+        "mean": 0.01,
+        "ci95": [
+          0.0,
+          0.03
+        ]
+      },
+      "count_accuracy": {
+        "mean": 0.99,
+        "ci95": [
+          0.97,
+          1.0
+        ]
+      },
+      "empty": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "conditional_haus": {
+        "mean": 0.00321875,
+        "ci95": [
+          0.00231875,
+          0.004506406250000001
+        ]
+      },
+      "bounded_haus": {
+        "mean": 0.00321875,
+        "ci95": [
+          0.00231875,
+          0.004506406250000001
+        ]
+      }
+    },
+    "log_binomial": {
+      "count_error": {
+        "mean": 0.3,
+        "ci95": [
+          0.21,
+          0.4
+        ]
+      },
+      "count_accuracy": {
+        "mean": 0.72,
+        "ci95": [
+          0.63,
+          0.81
+        ]
+      },
+      "empty": {
+        "mean": 0.02,
+        "ci95": [
+          0.0,
+          0.05
+        ]
+      },
+      "conditional_haus": {
+        "mean": 0.05085459183673469,
+        "ci95": [
+          0.032015675868149754,
+          0.0712857142857143
+        ]
+      },
+      "bounded_haus": {
+        "mean": 0.0698375,
+        "ci95": [
+          0.04071234374999999,
+          0.10449109375000003
+        ]
+      },
+      "gamma": 6.74,
+      "count_agreement": 0.71,
+      "count_distribution_TV": 0.27,
+      "paired_difference": {
+        "count_error": {
+          "mean": 0.29,
+          "ci95": [
+            0.19,
+            0.39
+          ]
+        },
+        "count_accuracy": {
+          "mean": -0.27,
+          "ci95": [
+            -0.36,
+            -0.17999999999999994
+          ]
+        },
+        "empty": {
+          "mean": 0.02,
+          "ci95": [
+            0.0,
+            0.05
+          ]
+        },
+        "conditional_haus": {
+          "mean": 0.047635841836734694,
+          "ci95": [
+            0.028609699312714777,
+            0.06826571670145333
+          ]
+        },
+        "bounded_haus": {
+          "mean": 0.06661874999999999,
+          "ci95": [
+            0.03751484375,
+            0.10133125
+          ]
+        }
+      }
+    },
+    "quadratic": {
+      "count_error": {
+        "mean": 0.01,
+        "ci95": [
+          0.0,
+          0.03
+        ]
+      },
+      "count_accuracy": {
+        "mean": 0.99,
+        "ci95": [
+          0.97,
+          1.0
+        ]
+      },
+      "empty": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "conditional_haus": {
+        "mean": 0.010362500000000002,
+        "ci95": [
+          0.0059375,
+          0.017656718750000005
+        ]
+      },
+      "bounded_haus": {
+        "mean": 0.010362500000000002,
+        "ci95": [
+          0.0059375,
+          0.017656718750000005
+        ]
+      },
+      "gamma": 11.4,
+      "count_agreement": 0.98,
+      "count_distribution_TV": 0.01,
+      "paired_difference": {
+        "count_error": {
+          "mean": 0.0,
+          "ci95": [
+            -0.03,
+            0.03
+          ]
+        },
+        "count_accuracy": {
+          "mean": 0.0,
+          "ci95": [
+            -0.030000000000000027,
+            0.030000000000000027
+          ]
+        },
+        "empty": {
+          "mean": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "conditional_haus": {
+          "mean": 0.0071437500000000025,
+          "ci95": [
+            0.002431250000000001,
+            0.014589062500000005
+          ]
+        },
+        "bounded_haus": {
+          "mean": 0.0071437500000000025,
+          "ci95": [
+            0.002431250000000001,
+            0.014589062500000005
+          ]
+        }
+      }
+    }
+  }
+}

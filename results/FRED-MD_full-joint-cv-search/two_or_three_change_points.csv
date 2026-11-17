@@ -1,0 +1,6 @@
+loss,penalty,folds,delta,selected CPs,C,dates,CV improvement vs zero (%),reference,mean reference distance (months),max reference distance (months)
+Huber-eps1.35,l1,2,0.04,3,0.3,1972-11;2009-06;2015-03,0.13022245661494677,McScan,25.333333333333332,50.0
+Huber-eps1.35,l1,2,0.02,3,0.3,1972-11;2009-06;2010-10,0.22184158393146178,McScan,43.0,103.0
+Huber-eps1.35,l1,2,0.03333333333333333,2,0.3,1983-01;2009-06,0.40530626325724817,McScan_best_2_of_3,59.0,107.0
+Huber-eps1.35,l1,2,0.05,2,0.3,1983-01;2009-06,0.30962912674105364,McScan_best_2_of_3,59.0,107.0
+Huber-eps1.35,l1,2,0.025,2,0.3,1983-01;2009-06,0.2338554377317246,McScan_best_2_of_3,59.0,107.0

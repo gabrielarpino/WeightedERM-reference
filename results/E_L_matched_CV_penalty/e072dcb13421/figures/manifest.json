@@ -1,0 +1,282 @@
+{
+  "style": {
+    "text.usetex": true,
+    "font.family": "serif",
+    "font.serif": [
+      "Computer Modern Roman"
+    ],
+    "font.size": 8.5,
+    "axes.labelsize": 10.5,
+    "axes.titlesize": 10.5,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
+    "legend.fontsize": 8,
+    "axes.linewidth": 0.85,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.grid": false,
+    "xtick.major.width": 0.85,
+    "ytick.major.width": 0.85,
+    "xtick.major.size": 3.5,
+    "ytick.major.size": 3.5,
+    "savefig.bbox": null,
+    "figure.dpi": 120,
+    "savefig.dpi": 180,
+    "figure.autolayout": false,
+    "figure.constrained_layout.use": false,
+    "legend.frameon": false,
+    "axes.formatter.useoffset": false,
+    "text.latex.preamble": "",
+    "figure.facecolor": "white",
+    "axes.facecolor": "white"
+  },
+  "sources": {
+    "results/E_L_matched_CV_penalty/e072dcb13421/study.pkl": "ce166bfb4141cc8bd23c99d869bbe718adf5cce19147c318447247b1b13391bc"
+  },
+  "figures": [
+    {
+      "name": "gapb_upper_L_haus_line",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.78
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.1966685399992001,
+            0.1977752400091184,
+            0.7613314600007999,
+            0.7497247599908816
+          ],
+          "xlabel": "$L$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.004200000000000001,
+            0.2642
+          ]
+        }
+      ]
+    },
+    {
+      "name": "gapb_upper_L_count_line",
+      "description": "",
+      "size_inches": [
+        4.779999999999999,
+        3.7799999999999994
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.14274959144365315,
+            0.1977752400091184,
+            0.8152504085563468,
+            0.7329090022658087
+          ],
+          "xlabel": "$L$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            -0.21200000000000002,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "gapb_upper_L_histograms_L3_L6",
+      "description": "Change-point location histograms: canonical M1 bins, KDE, ticks and layout.",
+      "size_inches": [
+        4.99092003252585,
+        3.991851390618514
+      ],
+      "canvas_inches": [
+        5.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 0,
+      "axes": [
+        {
+          "bounds": [
+            0.125,
+            0.5338461538461539,
+            0.378048780487805,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{WERM+CV}",
+          "ylim": [
+            0.0,
+            20.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.5338461538461539,
+            0.378048780487805,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{WERM+P}",
+          "ylim": [
+            0.0,
+            20.0
+          ]
+        },
+        {
+          "bounds": [
+            0.125,
+            0.16000000000000003,
+            0.378048780487805,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            20.0
+          ]
+        },
+        {
+          "bounds": [
+            0.5219512195121951,
+            0.16000000000000003,
+            0.378048780487805,
+            0.34615384615384615
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            20.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "gapb_upper_L_overview",
+      "description": "True locations 0.35,0.6,0.75; separation n/20: Hausdorff, count, and L=3/6 location histograms.",
+      "size_inches": [
+        14.897121045673758,
+        3.7041249151402718
+      ],
+      "canvas_inches": [
+        15.0,
+        4.0
+      ],
+      "canonical_m1": true,
+      "legends": 1,
+      "axes": [
+        {
+          "bounds": [
+            0.055,
+            0.20000000000000007,
+            0.25,
+            0.6599999999999999
+          ],
+          "xlabel": "$L$",
+          "ylabel": "Hausdorff dist. / $n$",
+          "title": "",
+          "ylim": [
+            -0.004200000000000001,
+            0.2642
+          ]
+        },
+        {
+          "bounds": [
+            0.38499999999999995,
+            0.20000000000000007,
+            0.25000000000000006,
+            0.6599999999999999
+          ],
+          "xlabel": "$L$",
+          "ylabel": "No. change points",
+          "title": "",
+          "ylim": [
+            -0.21200000000000002,
+            5.0
+          ]
+        },
+        {
+          "bounds": [
+            0.715,
+            0.5486792452830189,
+            0.11904761904761907,
+            0.31132075471698106
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{WERM+CV}",
+          "ylim": [
+            0.0,
+            20.0
+          ]
+        },
+        {
+          "bounds": [
+            0.8459523809523809,
+            0.5486792452830189,
+            0.11904761904761907,
+            0.31132075471698106
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "\\textbf{WERM+P}",
+          "ylim": [
+            0.0,
+            20.0
+          ]
+        },
+        {
+          "bounds": [
+            0.715,
+            0.20000000000000007,
+            0.11904761904761907,
+            0.31132075471698106
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            20.0
+          ]
+        },
+        {
+          "bounds": [
+            0.8459523809523809,
+            0.20000000000000007,
+            0.11904761904761907,
+            0.31132075471698106
+          ],
+          "xlabel": "",
+          "ylabel": "",
+          "title": "",
+          "ylim": [
+            0.0,
+            20.0
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -220,7 +220,7 @@ class ExactCurveFitter:
                     alpha=1e-10,  # Very low noise
                     optimizer='fmin_l_bfgs_b',
                     n_restarts_optimizer=10,
-                    normalize_y=True
+                    normalize_y=True,
                 )
                 
                 gp.fit(x.reshape(-1, 1), y)

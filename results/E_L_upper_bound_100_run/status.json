@@ -1,0 +1,8 @@
+{
+  "stage": "complete",
+  "time": "2026-11-03 18:39:57",
+  "commit": "53346c8706c474087009f900b53e8727fce823de",
+  "trials": 100,
+  "overleaf_text_unchanged": true,
+  "review_note": "Manuscript text intentionally retains 20-trial descriptions and old numerical summaries; see summary_100.json."
+}

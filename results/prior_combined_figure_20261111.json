@@ -1,0 +1,36 @@
+{
+  "scope": [
+    {
+      "base": "/tmp/werm-linear-model-upload-vlqbplnm",
+      "outside_subsection_sha256": "42d49b85d19a514072a189c0675f29cf87134638d6d7d193bafd967795bb2443",
+      "only_three_prose_replacements": true
+    },
+    {
+      "base": "/scratch/ga442/gab-code-env/papers/WERM-paper",
+      "outside_subsection_sha256": "4343d988fff6e3e3b61254655e26c892412b0b8ad6b071ef1b6873c67582dbc2",
+      "only_three_prose_replacements": true
+    }
+  ],
+  "caption": "Sensitivity to the change point prior in Section \\ref{sec:sensitivity-change-point-prior}. Top: pooled prior probabilities. Middle: sample weights $\\pi_i^{(\\ell)}$. Bottom: normalized Hausdorff error (left) and estimated fractional locations (right), over $100$ paired trials. Dashed lines mark the true locations $0.30$ and $0.55$; gray curves show Gaussian kernel density estimates, with densities clipped at $18$.",
+  "build_directory": "/tmp/jrssb-prior-combined-tlzpwg0z",
+  "build_success": true,
+  "labels": {
+    "fig:E-PRIOR-priors": {
+      "figure": "16",
+      "page": "69"
+    },
+    "fig:E-PRIOR-location": {
+      "figure": "16",
+      "page": "69"
+    },
+    "fig:E-PRIOR-hist": {
+      "figure": "16",
+      "page": "69"
+    }
+  },
+  "preview": "/tmp/jrssb-prior-combined-tlzpwg0z/combined_figure_preview.png",
+  "physical_page": 103,
+  "overleaf_commit": "827d3d23f9986e84b9559e5cb91e25f603b5ae57",
+  "outside_subsection_unchanged": true,
+  "figure_assets_unchanged": true
+}

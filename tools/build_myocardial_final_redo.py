@@ -1,6 +1,7 @@
 """Create a visible rank-3 reproduction using the original final plot style."""
 from pathlib import Path
 import nbformat as nb
+from tools.final_notebook_presentation import normalize_presentation
 
 PATH=Path('Myocardial Infarction Experiment - final redo.ipynb')
 original=nb.read('Myocardial Infarction Experiment - rho sensitivity final.ipynb',4)
@@ -103,6 +104,9 @@ from tools.myocardial_final_redo_1024 import only_1024
 cells=only_1024(cells)
 from tools.myocardial_final_redo_plot_spacing import match_original_spacing
 cells=match_original_spacing(cells)
+for cell in cells:
+    if cell.cell_type == 'code':
+        cell.source = normalize_presentation(cell.source)
 notebook=nb.v4.new_notebook(cells=cells)
 notebook.metadata['kernelspec']=dict(name='python3',language='python',display_name='Python 3')
 nb.validate(notebook)

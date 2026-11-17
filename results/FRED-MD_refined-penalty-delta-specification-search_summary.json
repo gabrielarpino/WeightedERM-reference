@@ -1,0 +1,542 @@
+{
+  "criterion": "full exhaustive joint CV >=1 CP and fixed-L penalty-CV elbow in {2,3} CPs",
+  "records": [
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.3,
+      "full_change_points": [
+        593
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.3,
+      "elbow_change_points": [
+        593
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.3,
+      "full_change_points": [
+        593
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.3,
+      "elbow_change_points": [
+        593
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.375,
+      "full_change_points": [
+        593
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.375,
+      "elbow_change_points": [
+        593
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.375,
+      "full_change_points": [
+        593
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.375,
+      "elbow_change_points": [
+        593
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.3,
+      "full_change_points": [
+        593
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.3,
+      "elbow_change_points": [
+        593
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.075,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.375,
+      "elbow_change_points": [
+        593
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.075,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.375,
+      "elbow_change_points": [
+        593
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 2,
+      "full_selected_constant": 0.375,
+      "full_change_points": [
+        593
+      ],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.375,
+      "elbow_change_points": [
+        593
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.2,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.45,
+      "elbow_change_points": [
+        276
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.2,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.45,
+      "elbow_change_points": [
+        276
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.2,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 2.7,
+      "elbow_change_points": [
+        247,
+        609
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.2,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 2.1,
+      "elbow_change_points": [
+        247,
+        609
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.15,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.15,
+      "elbow_change_points": [
+        509
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.15,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.15,
+      "elbow_change_points": [
+        509
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.15,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.15,
+      "elbow_change_points": [
+        375
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "Huber-eps1.35",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.15,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.2,
+      "elbow_change_points": [
+        366
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.09,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.225,
+      "elbow_change_points": [
+        276,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.09,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.225,
+      "elbow_change_points": [
+        276,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.09,
+      "full_change_points": [],
+      "elbow_selected_segments": 4,
+      "elbow_selected_constant": 0.3,
+      "elbow_change_points": [
+        157,
+        434,
+        655
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.09,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.225,
+      "elbow_change_points": [
+        208,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.075,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.225,
+      "elbow_change_points": [
+        208,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.075,
+      "full_change_points": [],
+      "elbow_selected_segments": 4,
+      "elbow_selected_constant": 0.2625,
+      "elbow_change_points": [
+        203,
+        435,
+        654
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.075,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.225,
+      "elbow_change_points": [
+        208,
+        584
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l1",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.075,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 0.2625,
+      "elbow_change_points": [
+        206,
+        548
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.2,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.2,
+      "elbow_change_points": [
+        524
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.2,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.2,
+      "elbow_change_points": [
+        524
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.2,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.15,
+      "elbow_change_points": [
+        523
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "no-bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.2,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.2,
+      "elbow_change_points": [
+        523
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.025,
+      "delta_label": "1/40",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.15,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.45,
+      "elbow_change_points": [
+        522
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.03333333333333333,
+      "delta_label": "1/30",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.15,
+      "full_change_points": [],
+      "elbow_selected_segments": 3,
+      "elbow_selected_constant": 3.0,
+      "elbow_change_points": [
+        265,
+        654
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.05,
+      "delta_label": "1/20",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.15,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.1,
+      "elbow_change_points": [
+        523
+      ],
+      "target_found": false
+    },
+    {
+      "loss": "least-squares",
+      "bias": "bias",
+      "penalty_norm": "l2",
+      "delta_fraction": 0.1,
+      "delta_label": "1/10",
+      "full_selected_segments": 1,
+      "full_selected_constant": 0.15,
+      "full_change_points": [],
+      "elbow_selected_segments": 2,
+      "elbow_selected_constant": 0.125,
+      "elbow_change_points": [
+        523
+      ],
+      "target_found": false
+    }
+  ]
+}

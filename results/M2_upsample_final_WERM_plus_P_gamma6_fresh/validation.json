@@ -1,0 +1,63 @@
+{
+  "gamma": 6,
+  "methods": [
+    "McScan",
+    "charcoal",
+    "WERM",
+    "WERM+P"
+  ],
+  "trial_records": 1100,
+  "full_comparison_trials": 1000,
+  "extra_charcoal_trials": 100,
+  "conditional_location_audit": {
+    "same_count": 322,
+    "identical_locations": 322
+  },
+  "charcoal_R_errors": [
+    {
+      "delta": 5.5,
+      "trial": 54,
+      "message": "Error in colSums(A[, -n] * as.vector(Z)) : \n  'x' must be an array of at least two dimensions\n"
+    },
+    {
+      "delta": 5.5,
+      "trial": 82,
+      "message": "Error in colSums(A[, -n] * as.vector(Z)) : \n  'x' must be an array of at least two dimensions\n"
+    },
+    {
+      "delta": 8.5,
+      "trial": 41,
+      "message": "Error: from glmnet C++ code (error code 7777); All used predictors have zero variance\n"
+    },
+    {
+      "delta": 8.5,
+      "trial": 81,
+      "message": "Error in ret_final$cps[i] <- tmp$cp + before.idx : \n  replacement has length zero\n"
+    }
+  ],
+  "data_hashes_match_original": true,
+  "original_M2_cells_unchanged": true,
+  "notebook_schema_valid": true,
+  "embedded_figures": 4,
+  "figure_exports": 12,
+  "pytest": "tests/test_m2_upsample_final.py: 6 passed",
+  "protected_file_checks": {
+    "M3_upsample_final.ipynb": {
+      "initial_sha256": "d545685a3d52620e97161695ff24cbddda4ecf8b7d34355a255ddbb8e8d6df05",
+      "final_sha256": "541bed7156d0ec25cb661a1e87fd3833d99a74e5965c0b7c83cde3f65dbb6108"
+    },
+    "E_search_penalty.ipynb": {
+      "initial_sha256": "bd2f534067d452729a889012639cc6c4ecc7d7bd39be663b5b9cb008629a7499",
+      "final_sha256": "d27fa3d610ebd9bbc70516ca197a222376355fa6b373eb98ff881da3bfe2290f"
+    },
+    "results/M2_upsample_final_alpha03_seed42_100trials.pkl": {
+      "initial_sha256": "022aaf03ca82691d529a61679fde3abf3871bd4ca00955e5dbff164e79c156c7",
+      "final_sha256": "022aaf03ca82691d529a61679fde3abf3871bd4ca00955e5dbff164e79c156c7"
+    },
+    "results/M2_upsample_final_search_penalty_fixed_count_gamma2to18_step2/comparison.pkl": {
+      "initial_sha256": "4dc010c434bdea91c0af35087438bc58e6cb823a1ca5232cab9f56a113d3cab5",
+      "final_sha256": "4dc010c434bdea91c0af35087438bc58e6cb823a1ca5232cab9f56a113d3cab5"
+    }
+  },
+  "note": "M3_upsample_final.ipynb and E_search_penalty.ipynb changed during execution outside this M2 experiment; those changes were left untouched."
+}
