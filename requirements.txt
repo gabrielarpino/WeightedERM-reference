@@ -1,0 +1,16 @@
+numpy==2.2.5
+scipy==1.15.3
+pandas==2.3.1
+matplotlib==3.10.3
+jax==0.4.35
+jaxlib==0.4.35
+jaxopt==0.8.5
+torch==2.8.0
+scikit-learn==1.7.0
+joblib==1.5.1
+tqdm==4.67.1
+ipython==8.30.0
+ipykernel==6.29.5
+jupyterlab==4.3.4
+nbformat==5.10.4
+nbclient==0.10.2

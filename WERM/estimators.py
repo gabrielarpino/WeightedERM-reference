@@ -1,0 +1,959 @@
+import WERM.gof
+import WERM.marginals
+from WERM.proximal import fit_weighted, infer_loss, infer_penalty
+import numpy as np
+import warnings
+import jax
+import jax
+import jax.numpy as jnp
+import scipy.optimize
+import scipy.special
+from jax.scipy.special import logsumexp
+from jaxopt import LBFGS
+from functools import partial
+from tqdm.auto import tqdm
+from tqdm import trange
+from joblib import Parallel, delayed
+
+def _exact_partition_search(
+    M,
+    Theta_hat,
+    y,
+    n,
+    L,
+    Delta_n,
+    gamma,
+    L_is_upper_bound,
+    brute_force,
+    partition_penalty,
+):
+    """Route production partition selection through the accepted exact DP."""
+    gamma_array = np.asarray(gamma)
+    if gamma_array.ndim != 0:
+        raise ValueError("gamma must be a finite scalar")
+    gamma = float(gamma_array)
+    if not np.isfinite(gamma):
+        raise ValueError("gamma must be finite")
+
+    if brute_force:
+        warnings.warn(
+            "brute_force is retained for API compatibility; production "
+            "estimators now use exact DP. Call chgpt_gof_bf_mem_eff directly "
+            "when a brute-force audit oracle is required.",
+            FutureWarning,
+            stacklevel=3,
+        )
+
+    if partition_penalty is None:
+        partition_penalty = WERM.gof.legacy_gamma_k_penalty(
+            n, L, Delta_n, gamma
+        )
+    elif gamma != 0.0:
+        raise ValueError(
+            "gamma and partition_penalty are alternative K-only penalties; "
+            "set gamma=0 when supplying partition_penalty"
+        )
+
+    result = WERM.gof.chgpt_gof_dp(
+        M,
+        Theta_hat,
+        y,
+        n,
+        L,
+        Delta_n,
+        L_is_upper_bound=L_is_upper_bound,
+        penalty=partition_penalty,
+    )
+    return result["changepoints"], result["total_objective"]
+
+
+### --- HVI --- ###
+
+def HVI(X, y, M, L, pi, Delta_n, gamma, L_is_upper_bound=False, brute_force=False, return_gof=False, return_B_hat=False, num_EM_iters = 3, P_func=lambda beta : 0, inv_temp = 1.0, partition_penalty=None, **kwargs):
+    """
+    Heterogeneous Variational Inference
+    """
+    n, p = X.shape
+
+    B_hat = jnp.zeros((p, L))
+
+    # --- 1. Estimate signal coefficients B_hat ---
+    sample_weights = pi # (L, n)
+
+    # Plot the initial weights
+    # import matplotlib.pyplot as plt
+    # plt.figure(figsize=(10, 6), dpi=40)
+    # for l_ in range(L):
+    #     plt.plot(sample_weights[l_, :], label=f'Signal {l_+1}')
+    # plt.title('Initial Sample Weights')
+    # plt.xlabel('Data Point Index')
+    # plt.ylabel('Weight')
+    # plt.legend()
+    # plt.grid()
+    # plt.show()
+
+    def empirical_risk(beta, X_data, y_data, weights):
+        # Ensure M and P_func return JAX arrays and are pure
+        losses = M((X_data @ beta).flatten(), y_data.flatten())
+        return jnp.sum(losses * weights) + P_func(beta)
+    solver = LBFGS(fun=empirical_risk, value_and_grad=False, maxiter=1000, tol=1e-6)
+
+    for EM_iter in range(num_EM_iters):
+
+        # - M-step: Estimate B given current weights using JAXopt for efficiency - #
+            # pip install jaxopt (if available in your env)
+
+
+        # grad_empirical_risk = jax.grad(empirical_risk)
+        for l_ in range(L):
+            weights = sample_weights[l_, :] / jnp.sum(sample_weights[l_, :])
+            init = 0.1 * jnp.ones(p)
+            res = solver.run(init_params=init, X_data=X, y_data=y, weights=weights)
+            B_hat = B_hat.at[:, l_].set(res.params)
+
+        
+        # ## Step 1: Estimate B given current weights
+        # for l_ in range(L):
+        #     # sample_weight = pi[l_, :] / np.sum(pi[l_, :]) # Ensure weights sum to 1
+        #     sample_weight = sample_weights[l_, :] / np.sum(sample_weights[l_, :]) # Ensure weights sum to 1
+
+        #     @partial(jax.jit, static_argnums=(0, 1))
+        #     def empirical_risk(M_func, P_func,beta, X_data, y_data, weights):
+        #         return jnp.multiply(M_func((X_data @ beta).flatten(), y_data.flatten()), weights).sum() + P_func(beta)
+
+        #     options = {'disp': False, 'maxiter': 1e3} # Useful for ensuring bounded logistic estimators 
+        #     res = scipy.optimize.minimize(
+        #         lambda beta: empirical_risk(M, P_func, beta, X, y, sample_weight),
+        #         0.1*np.ones(p),
+        #         jac=jax.grad(lambda beta: empirical_risk(M, P_func, beta, X, y, sample_weight)),
+        #         method='L-BFGS-B',
+        #         options=options
+        #     )
+        #     B_hat[:, l_] = res.x
+
+        # ## Step 2: Update weights given current B_hat
+        # Theta_hat = X @ B_hat
+        # M_eval = jnp.array([M(Theta_hat[:, l], y) for l in range(L)]) # (L, n)
+        # assert M_eval.shape == (L, n), f"Expected M_eval shape {(L, n)}, got {M_eval.shape}"
+        # assert np.all(M_eval >= 0), "Loss values must be non-negative"
+        # assert pi.shape == (L, n), f"Expected pi shape {(L, n)}, got {pi.shape}"
+        # exp_M = np.exp(- inv_temp * M_eval) # (n, L)
+        # new_sample_weights = np.multiply(pi, exp_M) # (L, n) 
+        # new_sample_weights = new_sample_weights / np.sum(new_sample_weights, axis=0, keepdims=True) # Normalize columns to sum to 1
+        # print(f"EM Iter {EM_iter+1}/{num_EM_iters}: max weight change {np.max(np.abs(new_sample_weights - sample_weights)):.6f}")
+        # sample_weights = new_sample_weights
+
+
+        # Step 2 Improved: Update weights given current B_hat
+        eps = 1e-12
+        eta = 0.75  # EM damping in (0,1]
+        Theta_hat = X @ B_hat  # (n, L) if B_hat is (p, L)
+        # If your M expects 1D predictions: compute per l
+        M_eval = jnp.stack([M(Theta_hat[:, l], y) for l in range(L)], axis=0)  # (L, n)
+        assert M_eval.shape == (L, n), f"Expected M_eval shape {(L, n)}, got {M_eval.shape}"
+
+        # Guard assumptions (can keep your asserts if helpful)
+        # assert jnp.all(M_eval >= 0)
+
+        # LOG-SPACE update:
+        log_pi = jnp.log(jnp.clip(pi, eps, 1.0))          # (L, n)
+        assert log_pi.shape == (L, n), f"Expected log_pi shape {(L, n)}, got {log_pi.shape}"
+        logw   = log_pi - inv_temp * M_eval               # (L, n)
+        logZ   = logsumexp(logw, axis=0, keepdims=True)   # (1, n)
+        new_sample_weights = jnp.exp(logw - logZ)         # (L, n), columns sum to 1 by construction
+
+        # Optional: also enforce a min floor then renormalize to avoid exact zeros:
+        new_sample_weights = jnp.maximum(new_sample_weights, eps)
+        new_sample_weights = new_sample_weights / new_sample_weights.sum(axis=0, keepdims=True)
+
+        # Damped update for stability:
+        delta = jnp.max(jnp.abs(new_sample_weights - sample_weights))
+        if EM_iter % 10 == 0:
+            print(f"EM Iter {EM_iter+1}/{num_EM_iters}: max weight change {float(delta):.6f}")
+        sample_weights = (1.0 - eta) * sample_weights + eta * new_sample_weights
+
+        # Plot the final weights
+        # import matplotlib.pyplot as plt
+        # plt.figure(figsize=(10, 6), dpi=40)
+        # for l_ in range(L):
+        #     plt.plot(sample_weights[l_, :], label=f'Signal {l_+1}')
+        # plt.title('Final Sample Weights after HVI')
+        # plt.xlabel('Data Point Index')
+        # plt.ylabel('Weight')
+        # plt.legend()
+        # plt.grid()
+        # plt.show()
+
+    # --- 2. Compute Change Point Estimates using Goodness-of-Fit ---
+    Theta_hat = X @ B_hat
+
+    opt_chgpts, opt_gof = _exact_partition_search(
+        M,
+        Theta_hat,
+        y,
+        n,
+        L,
+        Delta_n,
+        gamma,
+        L_is_upper_bound,
+        brute_force,
+        partition_penalty,
+    )
+        
+
+    if return_gof:
+        return (opt_chgpts, opt_gof, B_hat) if return_B_hat else (opt_chgpts, opt_gof)
+    return (opt_chgpts, B_hat) if return_B_hat else opt_chgpts 
+    
+### --- Weighted ERM --- ###
+
+def _fit_cv_segment(X, y, M_fitter, P_func=None):
+    """Fit one legacy-CV segment with the shared supported-objective core."""
+    loss_spec = infer_loss(M_fitter)
+    penalty_spec = infer_penalty(
+        (lambda beta: 0.0) if P_func is None else P_func, X.shape[1]
+    )
+    # The legacy refit objective was sum(loss) + P. Dividing the whole
+    # objective by segment size yields the normalized convention used by the
+    # shared solver, hence P / n here.
+    strength = penalty_spec.strength / len(y)
+    result = fit_weighted(
+        X,
+        y,
+        np.ones(len(y)),
+        loss=loss_spec.name,
+        loss_scale=loss_spec.scale,
+        penalty=penalty_spec.name,
+        penalty_strength=strength,
+        huber_delta=(
+            loss_spec.huber_delta
+            if loss_spec.name == "huber" else 1.35
+        ),
+        unpenalized_indices=tuple(
+            np.flatnonzero(~penalty_spec.penalized_mask)
+        ),
+    )
+    if not result.converged:
+        raise RuntimeError("CV segment solver did not satisfy its KKT tolerance")
+    return result.coef
+
+
+def chgpt_k_fold_cv(
+    f, X, y, gamma_candidates, M_scorer, P_scorer=None, k=5, n_jobs=4,
+    M_fitter=None,
+):
+    """
+    K-fold cross-validation following the paper's structure but adapted for regression
+    with empirical risk minimization.
+    
+    Args:
+        f (callable): A function f(X, y, gamma) that returns changepoint indices
+        X (np.ndarray): Feature data (n_samples, n_features)
+        y (np.ndarray): Target data (n_samples,)
+        gamma_candidates (list): Hyperparameter values to test
+        M_scorer (callable): Loss function M(y_pred, y_true)
+        P_scorer (callable): Penalty function P(beta), optional
+        k (int): Number of folds (V in the paper)
+        n_jobs (int): Number of parallel jobs
+    
+    Returns:
+        tuple: (best_gamma, best_chgpt_est)
+
+    P_scorer implementation is not tested!
+    """
+    n_samples, p = X.shape
+    
+    # Create folds following paper's definition: F_v = {v + i·V : v + i·V ≤ n}
+    # Adapted to 0-based indexing
+    folds = []
+    for v in range(k):
+        fold_indices = []
+        i = 0
+        while True:
+            idx = v + i * k
+            if idx >= n_samples:
+                break
+            fold_indices.append(idx)
+            i += 1
+        folds.append(np.array(fold_indices))
+    
+    # Ensure no empty folds
+    if any(len(fold) == 0 for fold in folds):
+        raise ValueError(f"Cannot create {k} non-empty folds with {n_samples} samples")
+    
+    if M_fitter is None:
+        M_fitter = M_scorer
+
+    def evaluate_single_gamma(gamma):
+        """Evaluate one gamma value using k-fold CV"""
+        cv_score = 0.0
+        
+        for v in range(k):
+            # Get test fold F_v
+            test_indices = folds[v]
+            
+            # Get training indices F_v^c (complement of F_v)
+            train_indices = np.concatenate([folds[i] for i in range(k) if i != v])
+            train_indices = np.sort(train_indices)  # Maintain temporal order
+            # assert np.all(train_indices == train_indices_ordered), "Training indices must be in temporal order"
+            
+            # Step 1: Apply changepoint detection on training data F_v^c
+            train_chgpts = f(X[train_indices], y[train_indices], gamma)
+            
+            # Step 2: Map changepoints back to original dataset indices
+            mapped_chgpts = []
+            for chgpt in train_chgpts:
+                if 0 < chgpt < len(train_indices):  # Exclude boundaries
+                    mapped_chgpts.append(train_indices[chgpt])
+            mapped_chgpts = np.array(mapped_chgpts)
+            
+            # Step 3: Estimate β̂^{-F_v}_{ψ,k} for each segment using training data F_v^c
+            # Add boundaries: 0 and n_samples
+            all_chgpts = np.concatenate([[0], mapped_chgpts, [n_samples]])
+            segment_betas = []
+            
+            for k_seg in range(len(all_chgpts) - 1):
+                start_idx = all_chgpts[k_seg]
+                end_idx = all_chgpts[k_seg + 1]
+                
+                # Find training indices in this segment
+                segment_train_mask = (train_indices >= start_idx) & (train_indices < end_idx)
+                segment_train_indices = train_indices[segment_train_mask]
+                
+                if len(segment_train_indices) > 0:
+                    # Get training data for this segment
+                    X_seg_train = X[segment_train_indices]
+                    y_seg_train = y[segment_train_indices]
+                    
+                    segment_betas.append(
+                        _fit_cv_segment(
+                            X_seg_train, y_seg_train, M_fitter, P_scorer
+                        )
+                    )
+                else:
+                    # If no training data in segment, use zero vector
+                    segment_betas.append(np.zeros(p))
+            
+            # Step 4: Evaluate test data F_v using pre-computed changepoints and β̂ values
+            fold_score = 0.0
+            for i in test_indices:
+                # Find which segment this test point belongs to
+                segment_idx = np.searchsorted(all_chgpts[1:], i, side='right')
+                segment_idx = min(segment_idx, len(segment_betas) - 1)
+                
+                # Get the β̂ for this segment (estimated from training data)
+                beta_seg = segment_betas[segment_idx]
+                
+                # Compute prediction and add to empirical risk
+                y_pred = X[i:i+1] @ beta_seg  # Single prediction
+                assert M_scorer(y_pred, y[i:i+1]).shape == (1, )
+                fold_score += float(M_scorer(y_pred, y[i:i+1])[0])  # Ensure M_scorer returns a scalar
+                
+                # Add penalty if provided
+                # if P_scorer is not None:
+                #     fold_score += float(P_scorer(beta_seg))
+
+            # # Step 4: Evaluate test data F_v using pre-computed changepoints and β̂ values - vectorized - untested. 
+            # segment_indices = np.searchsorted(all_chgpts[1:], test_indices, side='right')
+            # segment_indices = np.minimum(segment_indices, len(segment_betas) - 1)
+
+            # B_hat = np.array(segment_betas).reshape((p, len(segment_indices))) # (p, len(segment_indices))
+            # assert B_hat.shape == (p, len(test_indices)), f"Expected B_hat shape {(p, len(test_indices))}, got {B_hat.shape}"
+
+            # theta_pred = X[test_indices] @ B_hat  # (n_test, p)
+            # assert theta_pred.shape == (len(test_indices), p), f"Expected theta_pred shape {(len(test_indices), p)}, got {theta_pred.shape}"
+
+            # # Compute the loss for all test points
+            # m_scores = [M_scorer(theta_pred[:, l], y[test_indices]).sum() for l in range(B_hat.shape[1])]
+            # fold_score = jnp.sum(jnp.array(m_scores))  # Sum over all segments
+
+            # # Add penalty if provided -- do not add penalty to goodness of fit score
+            # # if P_scorer is not None:
+            # #     fold_score += np.sum([P_scorer(beta_seg) for beta_seg in segment_betas])
+            
+            cv_score += fold_score
+        
+        return cv_score
+    
+    print(f"Running {k}-fold CV for {len(gamma_candidates)} gamma candidates using {n_jobs} cores...")
+    
+    # Parallel evaluation
+    scores = Parallel(n_jobs=n_jobs, verbose=1)(
+        delayed(evaluate_single_gamma)(gamma) 
+        for gamma in tqdm(gamma_candidates, desc="CV Progress")
+    )
+    
+    # Find best gamma
+    best_idx = np.argmin(scores)
+    best_gamma = gamma_candidates[best_idx]
+    
+    δ = n_samples/p
+
+    fmt = lambda g: "(" + ", ".join(f"{x:.4f}" for x in g) + ")" if isinstance(g, tuple) else f"{g:.4f}"
+    print(f"CV finished for delta: {δ:.4f}. Best gamma: {fmt(best_gamma)} (score: {scores[best_idx]:.4f})\nCandidates: {[fmt(g) for g in gamma_candidates]} (Scores: {[f'{s:.4f}' for s in scores]})")
+    # print(f"CV finished for delta: {δ:.4f}. Best gamma: {best_gamma:.4f} (score: {scores[best_idx]:.4f})")
+    print(f"Candidate gammas: {gamma_candidates}, Scores: {scores}")
+    
+    # Fit final model on full dataset
+    best_chgpt_est = f(X, y, best_gamma)
+    
+    return best_gamma, best_chgpt_est
+
+def chgpt_two_fold_cv(
+    f, X, y, gamma_candidates, M_scorer, P_scorer=None, M_fitter=None
+):
+    """
+    2-fold cross-validation following the paper's structure but adapted for regression.
+    """
+    n_samples, p = X.shape
+    
+    # Create folds following paper's definition (adapted to 0-based indexing)
+    fold_1 = np.arange(0, n_samples, 2)  # Even indices: 0, 2, 4, ...
+    fold_2 = np.arange(1, n_samples, 2)  # Odd indices: 1, 3, 5, ...
+    
+    if len(fold_1) == 0 or len(fold_2) == 0:
+        raise ValueError("Cannot create two non-empty folds")
+    
+    if M_fitter is None:
+        M_fitter = M_scorer
+    
+    def evaluate_single_gamma(gamma):
+        cv_score = 0.0
+        
+        # Process both folds
+        for fold_idx, (train_indices, test_indices) in enumerate([(fold_2, fold_1), (fold_1, fold_2)]):
+            
+            # Step 1: Get changepoints on training data
+            train_chgpts = f(X[train_indices], y[train_indices], gamma)
+            
+            # Ensure changepoints are integers and convert to numpy array if needed
+            if isinstance(train_chgpts, (list, tuple)):
+                train_chgpts = np.array(train_chgpts, dtype=int)
+            elif hasattr(train_chgpts, 'numpy'):  # JAX array
+                train_chgpts = np.array(train_chgpts, dtype=int)
+            else:
+                train_chgpts = np.asarray(train_chgpts, dtype=int)
+            
+            # Step 2: Map to original indices
+            mapped_chgpts = []
+            for chgpt in train_chgpts:
+                if 0 < chgpt < len(train_indices):
+                    mapped_chgpts.append(train_indices[chgpt])
+            mapped_chgpts = np.array(mapped_chgpts, dtype=int)
+            
+            # Step 3: Estimate β̂ for each segment using training data
+            all_chgpts = np.concatenate([[0], mapped_chgpts, [n_samples]]).astype(int)
+            segment_betas = []
+            
+            for k_seg in range(len(all_chgpts) - 1):
+                start_idx = all_chgpts[k_seg]
+                end_idx = all_chgpts[k_seg + 1]
+                
+                segment_train_mask = (train_indices >= start_idx) & (train_indices < end_idx)
+                segment_train_indices = train_indices[segment_train_mask]
+                
+                if len(segment_train_indices) > 0:
+                    X_seg_train = X[segment_train_indices]
+                    y_seg_train = y[segment_train_indices]
+                    
+                    segment_betas.append(
+                        _fit_cv_segment(
+                            X_seg_train, y_seg_train, M_fitter, P_scorer
+                        )
+                    )
+                else:
+                    segment_betas.append(np.zeros(p))
+            
+            # Step 4: Evaluate on test data
+            fold_score = 0.0
+            for i in test_indices:
+                segment_idx = np.searchsorted(all_chgpts[1:], i, side='right')
+                segment_idx = min(segment_idx, len(segment_betas) - 1)
+                
+                beta_seg = segment_betas[segment_idx]
+                y_pred = X[i:i+1] @ beta_seg
+                
+                # Compute M_scorer - for your case this is jnp.abs(u - v)
+                m_score = M_scorer(y_pred, y[i:i+1])
+                # Validate that M_scorer returns expected shape and convert to scalar
+                if jnp.isscalar(m_score):
+                    fold_score += float(m_score)
+                elif m_score.shape == ():  # 0-dimensional array (scalar)
+                    fold_score += float(m_score)
+                elif m_score.shape == (1,):  # 1-element array
+                    fold_score += float(m_score.item())
+                else:
+                    raise ValueError(f"M_scorer returned unexpected shape {m_score.shape}. "
+                                   f"Expected scalar or (1,) array for single data point.")
+                
+                if P_scorer is not None:
+                    p_score = P_scorer(beta_seg)
+                    if jnp.isscalar(p_score):
+                        fold_score += float(p_score)
+                    elif p_score.shape == ():  # 0-dimensional array (scalar)
+                        fold_score += float(p_score)
+                    elif p_score.shape == (1,):  # 1-element array
+                        fold_score += float(p_score.item())
+                    else:
+                        raise ValueError(f"P_scorer returned unexpected shape {p_score.shape}. "
+                                       f"Expected scalar for single parameter vector.")
+            
+            cv_score += fold_score
+        
+        return cv_score
+    
+    print(f"Running 2-fold CV for {len(gamma_candidates)} gamma candidates...")
+    
+    scores = []
+    for gamma in tqdm(gamma_candidates, desc="CV Progress"):
+        scores.append(evaluate_single_gamma(gamma))
+    
+    # Find best gamma
+    best_idx = np.argmin(scores)
+    best_gamma = gamma_candidates[best_idx]
+    
+    print(f"CV finished. Best gamma: {best_gamma:.4f} (score: {scores[best_idx]:.4f})")
+    
+    # Fit final model
+    best_chgpt_est = f(X, y, best_gamma)
+    
+    return best_gamma, best_chgpt_est
+
+def weighted_erm(
+    X, y, M, L, Delta_n, gamma, L_is_upper_bound=False, brute_force=False,
+    return_gof=False, return_B_hat=False, P_func=lambda beta: 0,
+    partition_penalty=None, coefficient_loss=None, coefficient_lambda=None,
+    coefficient_penalty=None,
+    huber_delta=1.35, unpenalized_feature_indices=(),
+    coefficient_solver_options=None, marginal_weights=None, **kwargs
+):
+    """
+    Computes the change point estimate using the Weighted ERM method for a single L.
+    (This function was provided as complete and is used as a helper).
+
+    Every coefficient fit uses the unified fast solver. Supported losses are
+    least squares, Huber, and logistic; supported penalties are none, L1, and
+    L2. The loss and legacy ``P_func`` penalty are strictly identified when
+    structured metadata is omitted. Least-squares none/L2 fits use exact
+    linear algebra; remaining fits use monotone FISTA with backtracking.
+
+    Delta_n is an int.
+
+    ``marginal_weights`` optionally supplies an L-by-n matrix of signal
+    occupancy probabilities. This permits nonuniform configuration priors;
+    each column must be a probability vector and each signal must have
+    positive total mass. When omitted, the historical default is unchanged.
+    """
+    n, p = X.shape
+    loss_spec = infer_loss(M)
+    if coefficient_loss is not None:
+        aliases = {
+            "least-squares": "least_squares",
+            "least_squares": "least_squares",
+            "squared": "least_squares",
+            "huber": "huber",
+            "logistic": "logistic",
+        }
+        if coefficient_loss not in aliases:
+            raise ValueError(
+                "coefficient_loss must be least_squares, huber, logistic, or None"
+            )
+        coefficient_loss = aliases[coefficient_loss]
+        if coefficient_loss != loss_spec.name:
+            raise ValueError("coefficient_loss does not match the supplied M callable")
+        if coefficient_loss == "huber" and not np.isclose(
+            float(huber_delta), float(loss_spec.huber_delta), rtol=3e-5, atol=3e-8
+        ):
+            raise ValueError("huber_delta does not match the supplied M callable")
+    else:
+        coefficient_loss = loss_spec.name
+
+    if coefficient_penalty is None and coefficient_lambda is not None:
+        # Backward compatibility for the first structured API, which was L1-only.
+        coefficient_penalty = "l1"
+    if coefficient_penalty is None:
+        penalty_spec = infer_penalty(P_func, p)
+        coefficient_penalty = penalty_spec.name
+        coefficient_lambda = penalty_spec.strength
+        inferred_unpenalized = tuple(np.flatnonzero(~penalty_spec.penalized_mask))
+        if coefficient_penalty != "none":
+            unpenalized_feature_indices = inferred_unpenalized
+    else:
+        coefficient_penalty = str(coefficient_penalty).lower()
+        if coefficient_penalty not in {"none", "l1", "l2"}:
+            raise ValueError("coefficient_penalty must be 'none', 'l1', or 'l2'")
+        if coefficient_penalty == "none":
+            if coefficient_lambda is None:
+                coefficient_lambda = 0.0
+            elif float(coefficient_lambda) != 0.0:
+                raise ValueError(
+                    "coefficient_lambda must be zero with coefficient_penalty='none'"
+                )
+        elif coefficient_lambda is None:
+            raise ValueError(
+                "coefficient_lambda is required with an L1 or L2 penalty"
+            )
+
+    coefficient_lambda = float(coefficient_lambda)
+    if not np.isfinite(coefficient_lambda) or coefficient_lambda < 0.0:
+        raise ValueError("coefficient_lambda must be finite and nonnegative")
+    coefficient_solver_options = dict(coefficient_solver_options or {})
+    controlled = {
+        "loss", "loss_scale", "penalty", "penalty_strength",
+        "huber_delta", "unpenalized_indices", "initial",
+    }
+    if controlled.intersection(coefficient_solver_options):
+        raise ValueError(
+            "coefficient_solver_options cannot override structured objective arguments"
+        )
+
+
+    def pi_i_l_endpoint_bias_v2(L, l, i, n, beta_param=0.5):
+        """
+        Version 2: Direct Beta distribution modification
+        
+        Parameters:
+        - beta_param: Beta distribution parameters (both set to this value)
+        - beta_param < 1 creates U-shape favoring endpoints
+        - beta_param = 0.5 gives moderate endpoint bias
+        """
+        return (scipy.special.comb(L-1, l-1, exact=False) * 
+                scipy.special.beta(i/n + beta_param, (n-i)/n + beta_param) /
+                scipy.special.beta(beta_param, beta_param) *
+                (i/n)**(l-1) * 
+                (1 - i/n)**(L-l))
+
+    if marginal_weights is not None:
+        pi = np.asarray(marginal_weights, dtype=float)
+        if (
+            pi.shape != (L, n)
+            or not np.all(np.isfinite(pi))
+            or np.any(pi < 0.0)
+            or not np.allclose(pi.sum(axis=0), 1.0, rtol=1e-8, atol=1e-8)
+            or np.any(pi.sum(axis=1) <= 0.0)
+        ):
+            raise ValueError(
+                "marginal_weights must be a finite, nonnegative L-by-n "
+                "probability matrix with unit column sums and positive row sums"
+            )
+    elif Delta_n == 1:  # No separation between change points, so use analytical binomial approximation.
+
+
+        # Populate the pi matrix: L rows for l, n columns for i
+        # pi = np.zeros((L, n))
+        # for l in range(L):
+        #     for i in range(n):
+        #         pi[l, i] = pi_i_l_endpoint_bias_v2(L, l + 1, i + 1, n, beta_param=0.5)
+
+        if L_is_upper_bound:
+            pi_i_l = lambda L, l, i : 1/(L - l + 1) * np.sum([scipy.special.comb(k - 1, l- 1, exact=False) * (i/n)**(l-1) * (1 - i/n)**(k-l) for k in range(l, L+1)])
+        else: 
+            pi_i_l = lambda L,l , i: scipy.special.comb(L-1, l-1, exact=False) * (i/n)**(l-1) * (1 - i/n)**(L-l)
+        # Populate the pi L times n matrix
+        pi = np.zeros((L, n))
+        for l in range(L):
+            for i in range(n):
+                pi[l, i] = pi_i_l(L, l + 1, i + 1)
+    else: 
+        n_small = 50
+        Delta_n_small = int(Delta_n * n_small/n)
+        if L_is_upper_bound: 
+            p_l = 1/L * np.ones(L) # puts equal weight on all number of signals, set None otherwise. Best for estimating size. 
+            Lmin = 1
+            Lmax = L
+        else:
+            p_l = None
+            Lmin = L
+            Lmax = L
+        pi = WERM.config.extrapolated_marginals(Lmin, Lmax, Delta_n_small, n_small = n_small, n_large = n, p_l = p_l, verbose = False)
+    # pi = pi / np.sum(pi, axis=1, keepdims=True) # Normalize rows to sum to 1
+
+    B_hat = np.zeros((p, L))
+
+    # --- 1. Estimate signal coefficients B_hat ---
+    warm_start = None
+    for l_ in range(L):
+        sample_weight = pi[l_, :] / np.sum(pi[l_, :]) # Ensure weights sum to 1
+        result = fit_weighted(
+            X,
+            y,
+            sample_weight,
+            loss=coefficient_loss,
+            loss_scale=loss_spec.scale,
+            penalty=coefficient_penalty,
+            penalty_strength=coefficient_lambda,
+            huber_delta=(
+                loss_spec.huber_delta
+                if coefficient_loss == "huber" else huber_delta
+            ),
+            unpenalized_indices=tuple(unpenalized_feature_indices),
+            initial=warm_start,
+            **coefficient_solver_options,
+        )
+        if not result.converged:
+            raise RuntimeError(
+                "weighted coefficient solver did not satisfy its KKT tolerance"
+            )
+        B_hat[:, l_] = result.coef
+        warm_start = result.coef
+
+    # --- 2. Compute Change Point Estimates using Goodness-of-Fit ---
+    Theta_hat = X @ B_hat
+
+    opt_chgpts, opt_gof = _exact_partition_search(
+        M,
+        Theta_hat,
+        y,
+        n,
+        L,
+        Delta_n,
+        gamma,
+        L_is_upper_bound,
+        brute_force,
+        partition_penalty,
+    )
+        
+
+    if return_gof:
+        return (opt_chgpts, opt_gof, B_hat) if return_B_hat else (opt_chgpts, opt_gof)
+    return (opt_chgpts, B_hat) if return_B_hat else opt_chgpts
+
+def weighted_ermCV(X, y, M, L, Delta_n, gamma_candidates=None, L_is_upper_bound = False, brute_force=False, M_scorer = None, P_scorer = None, num_folds = 5, n_jobs = 4, **kwargs):
+    """
+    Run cross-validation to select the best gamma for WERM, and return
+    the best change point configuration.
+    """
+    
+    f = lambda X_train, y_train, gamma: weighted_erm(
+        X_train, y_train, M, L=L, Delta_n=Delta_n, gamma=gamma,
+        L_is_upper_bound=L_is_upper_bound, brute_force=brute_force, return_gof=False, return_B_hat=False, **kwargs
+    )
+    if M_scorer is None:
+        M_scorer = M
+
+    best_gamma, best_model_output = chgpt_k_fold_cv(
+        f=f,
+        X=X,
+        y=y,
+        gamma_candidates=gamma_candidates if gamma_candidates is not None else np.logspace(-1, 1, 10),
+        M_scorer=M_scorer,
+        P_scorer=P_scorer,
+        k=num_folds,
+        n_jobs=n_jobs,
+        M_fitter=M,
+    )
+
+    return best_gamma, best_model_output
+
+def weighted_erm_extended(X, y, M, L, Delta_n, gamma, brute_force=False, P_func=lambda beta: 0, **kwargs):
+    """
+    Computes the optimal change point configuration by searching over L_tilde <= L
+    and selecting the best based on a penalized goodness-of-fit score.
+    """
+
+    n, p = X.shape
+    candidate_chgpts = []
+    candidate_scores = []
+    fit_scores = []
+    penalty_scores = []
+
+    # Iterate from L_tilde = 1 up to the max L provided
+    for L_tilde in tqdm(range(1, L + 1), desc="Penalized Search over L"):
+        # Get the unpenalized GOF score by setting gamma=0 for the search
+        chgpts, fit_score = weighted_erm(
+            X, y, M, L=L_tilde, Delta_n=Delta_n, gamma=0.0,
+            L_is_upper_bound=False, brute_force=brute_force, return_gof=True, P_func=P_func,**kwargs
+        )
+
+        if fit_score is None: continue
+
+        # Calculate the penalty for this configuration
+        s = len(chgpts[chgpts != -1])
+        assert s == (L_tilde-1) , f"Expected {L_tilde-1} change points, got {s}."
+        
+        # Penalty term: gamma * log(C(n-1, s))
+        if s >= n:
+            log_penalty_term = np.inf
+        else:
+            # log_penalty_term = np.log(L * scipy.special.comb(n - 1, s, exact=False) + 1e-9) # Correct
+            log_penalty_term = (p * L + L) * np.log(n) # BIC, based on the number of parameters and data points
+
+        # Print the scale of the penalty term vs. the GOF score
+        if fit_score > 0:
+            print(f"fit score: {fit_score:.4f}, gamma * log-penalty term: {gamma * log_penalty_term:.4f} (gamma={gamma})")
+            print(f"Change points: {chgpts}, Number of change points: {s}, L_tilde: {L_tilde}, n: {n}")
+        penalized_score = fit_score + gamma * log_penalty_term
+        
+        candidate_chgpts.append(chgpts)
+        candidate_scores.append(penalized_score)
+        fit_scores.append(fit_score)
+        penalty_scores.append(log_penalty_term)
+
+    # Return the change point configuration with the minimum penalized score
+    if not candidate_scores:
+        return np.array([], dtype=int)
+    print(f"Candidate scores: {candidate_scores}")
+    print(f"Fit scores: {fit_scores}")
+    print(f"Penalty scores: {penalty_scores}")
+    
+    return candidate_chgpts, fit_scores, penalty_scores
+
+def weighted_erm_extended_penalized(X, y, M, L, Delta_n, gamma, brute_force=False, gof_output = False, P_func=lambda beta: 0, **kwargs):
+    """
+    Computes the optimal change point configuration by searching over L_tilde <= L
+    and selecting the best based on a penalized goodness-of-fit score.
+    """
+
+    candidate_chgpts, fit_scores, penalty_scores = weighted_erm_extended(
+        X, y, M, L=L, Delta_n=Delta_n, gamma=gamma, brute_force=brute_force, P_func=P_func,**kwargs
+    )
+    candidate_scores = np.array(fit_scores) + gamma * np.array(penalty_scores)
+    best_idx = np.argmin(candidate_scores)
+
+    if gof_output:
+        return candidate_chgpts[best_idx], candidate_scores
+    return candidate_chgpts[best_idx]
+
+def weighted_erm_extended_penalizedCV(X, y, M, L, Delta_n, gamma_candidates=None, brute_force=False, M_scorer = None, P_scorer = None, num_folds = 5, n_jobs = 4, **kwargs):
+    """
+    Run cross-validation to select the best gamma for penalized WERM,
+    and return the best change point configuration.
+    """
+    f = lambda X_train, y_train, gamma: weighted_erm_extended_penalized(
+        X_train, y_train, M, L=L, Delta_n=Delta_n, gamma=gamma, brute_force=brute_force, **kwargs
+    )
+
+    best_gamma, best_chgpt_est = chgpt_k_fold_cv(
+        f=f,
+        X=X,
+        y=y,
+        gamma_candidates=gamma_candidates if gamma_candidates is not None else np.logspace(-1, 1, 10),
+        M_scorer=M_scorer,
+        P_scorer=P_scorer,
+        k=num_folds,
+        n_jobs=n_jobs
+    )
+
+    print(f"Best gamma found: {best_gamma:.4f}")
+    return best_gamma, best_chgpt_est
+
+def weighted_erm_extended_elbow(X, y, M, Delta_n, Lmax = 7, brute_force=False, **kwargs):
+    
+    candidate_chgpts, fit_scores, penalty_scores = weighted_erm_extended(
+        X, y, M, L=Lmax, Delta_n=Delta_n, gamma=0, brute_force=brute_force, **kwargs
+    )
+    candidate_scores = np.array(fit_scores)
+
+    # To complete: find the elbow point in the candidate_scores
+        # Sort solutions by number of change points (ascending order)
+    num_chgpts = [len(chgpts[chgpts != -1]) for chgpts in candidate_chgpts]
+    sorted_indices = np.argsort(num_chgpts)
+    
+    sorted_scores = candidate_scores[sorted_indices]
+    sorted_chgpts = [candidate_chgpts[i] for i in sorted_indices]
+    sorted_num_chgpts = [num_chgpts[i] for i in sorted_indices]
+    
+    # Need at least 3 points to compute elbow
+    if len(sorted_scores) < 3:
+        return sorted_chgpts[0] if len(sorted_chgpts) > 0 else np.array([], dtype=int)
+    
+    # Compute average slopes at each point
+    average_slopes = []
+    
+    for i in range(1, len(sorted_scores) - 1):
+        # Left slope: from point i-1 to point i
+        left_slope = (sorted_scores[i] - sorted_scores[i-1]) / max(1, sorted_num_chgpts[i] - sorted_num_chgpts[i-1])
+        
+        # Right slope: from point i to point i+1
+        right_slope = (sorted_scores[i+1] - sorted_scores[i]) / max(1, sorted_num_chgpts[i+1] - sorted_num_chgpts[i])
+        
+        # Average of the two slopes
+        avg_slope = (left_slope + right_slope) / 2.0
+        average_slopes.append(abs(avg_slope))
+    
+    # Find elbow point: where average slope starts to decrease for the first time
+    elbow_idx = 1  # Default to second point if no clear elbow is found
+    
+    for i in range(1, len(average_slopes)):
+        if average_slopes[i] < average_slopes[i-1]:
+            elbow_idx = i + 1  # +1 because average_slopes is offset by 1 from sorted_scores
+            break
+    
+    return sorted_chgpts[elbow_idx]
+
+def weighted_erm_extended_elbow_kneedle(X, y, M, Delta_n, L_max=7, brute_force=False, sensitivity=1.0, **kwargs):
+    """
+    Kneedle algorithm implementation - most widely used in practice.
+    Based on "Finding a Kneedle in a Haystack" by Satopa et al.
+    """
+    candidate_chgpts, fit_scores, penalty_scores = weighted_erm_extended(
+        X, y, M, L=L_max, Delta_n=Delta_n, gamma=0.0, brute_force=brute_force, **kwargs
+    )
+    candidate_scores = np.array(fit_scores)
+    
+    # Sort by number of change points
+    num_chgpts = [len(chgpts[chgpts != -1]) for chgpts in candidate_chgpts]
+    sorted_indices = np.argsort(num_chgpts)
+    sorted_scores = candidate_scores[sorted_indices]
+    sorted_chgpts = [candidate_chgpts[i] for i in sorted_indices]
+    sorted_num_chgpts = [num_chgpts[i] for i in sorted_indices]
+    
+    if len(sorted_scores) < 3:
+        return sorted_chgpts[0] if len(sorted_chgpts) > 0 else np.array([], dtype=int)
+    
+    # Normalize data to [0,1] range
+    x_norm = np.array(sorted_num_chgpts, dtype=float)
+    y_norm = np.array(sorted_scores, dtype=float)
+    x_norm = (x_norm - x_norm.min()) / (x_norm.max() - x_norm.min()) if x_norm.max() > x_norm.min() else x_norm
+    y_norm = (y_norm - y_norm.min()) / (y_norm.max() - y_norm.min()) if y_norm.max() > y_norm.min() else y_norm
+    
+    # Compute distances from line connecting first and last points
+    distances = []
+    for i in range(len(x_norm)):
+        # Distance from point to line using cross product formula
+        x1, y1 = x_norm[0], y_norm[0]
+        x2, y2 = x_norm[-1], y_norm[-1]
+        x0, y0 = x_norm[i], y_norm[i]
+        
+        # Line equation: (y2-y1)x - (x2-x1)y + x2*y1 - y2*x1 = 0
+        distance = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1) / np.sqrt((y2-y1)**2 + (x2-x1)**2)
+        distances.append(distance)
+    
+    # Apply sensitivity threshold - only consider points above mean + sensitivity*std
+    distances = np.array(distances)
+    threshold = np.mean(distances) + sensitivity * np.std(distances)
+    candidates = np.where(distances >= threshold)[0]
+    
+    if len(candidates) == 0:
+        knee_idx = np.argmax(distances)
+    else:
+        knee_idx = candidates[np.argmax(distances[candidates])]
+    
+    return sorted_chgpts[knee_idx]
+
+def weighted_erm_num_chgptCV(X, y, M, Delta_n, Lmax=7, brute_force=False, return_gof=False, P_func=lambda beta: 0, M_scorer=None, num_folds=5, n_jobs=4, **kwargs):
+    """
+    Cross-validation to select the best number of change points L_tilde.
+    Returns the best L_tilde and the corresponding change point configuration.
+    """
+    f = lambda X_train, y_train, L_tilde: weighted_erm(
+        X_train, y_train, M, L=L_tilde, Delta_n=Delta_n, gamma=0.0,
+        brute_force=brute_force, P_func=P_func, return_gof=return_gof, **kwargs
+    )
+
+    if M_scorer is None:
+        M_scorer = M
+
+    best_L_tilde, best_chgpt_est = chgpt_k_fold_cv(
+        f=f,
+        X=X,
+        y=y,
+        gamma_candidates=np.arange(1, Lmax + 1),
+        M_scorer=M_scorer,
+        P_scorer=None,
+        k=num_folds,
+        n_jobs=n_jobs,
+        M_fitter=M,
+    )
+
+    return best_L_tilde, best_chgpt_est

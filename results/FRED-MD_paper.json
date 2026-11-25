@@ -1,0 +1,61 @@
+{
+  "unpenalized": {
+    "loss": "Huber-eps1.35",
+    "bias": "no-bias",
+    "delta_fraction": 0.05,
+    "delta_label": "1/20",
+    "num_folds": 10,
+    "selected_segments": 1,
+    "selected_change_points": 0,
+    "estimated_change_points": [],
+    "score_curve": [
+      {
+        "segments": 1,
+        "change_points": 0,
+        "cv_total_absolute_error": 420.5998823791807,
+        "cv_mean_absolute_error": 0.5441136900118767,
+        "mae_difference_from_zero_cp": 0.0
+      },
+      {
+        "segments": 2,
+        "change_points": 1,
+        "cv_total_absolute_error": 464.73151238307855,
+        "cv_mean_absolute_error": 0.6012050612976436,
+        "mae_difference_from_zero_cp": 0.05709137128576691
+      },
+      {
+        "segments": 3,
+        "change_points": 2,
+        "cv_total_absolute_error": 535.083027397522,
+        "cv_mean_absolute_error": 0.6922160768402613,
+        "mae_difference_from_zero_cp": 0.1481023868283846
+      },
+      {
+        "segments": 4,
+        "change_points": 3,
+        "cv_total_absolute_error": 603.4193887658655,
+        "cv_mean_absolute_error": 0.7806201665793862,
+        "mae_difference_from_zero_cp": 0.23650647656750945
+      },
+      {
+        "segments": 5,
+        "change_points": 4,
+        "cv_total_absolute_error": 615.8968089315047,
+        "cv_mean_absolute_error": 0.79676171918694,
+        "mae_difference_from_zero_cp": 0.25264802917506335
+      }
+    ],
+    "n": 773,
+    "p": 114
+  },
+  "penalized": {
+    "num_folds": 2,
+    "penalty_norm": "l1",
+    "C": 0.3,
+    "selected_change_points": 2,
+    "change_point_dates": [
+      "1980-09",
+      "2009-06"
+    ]
+  }
+}
